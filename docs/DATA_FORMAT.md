@@ -2,7 +2,7 @@
 
 Todos os dados ficam em `data/` (fora do git por padrão). Exemplos completos em
 [`examples/`](../examples). Você pode editar os arquivos à mão ou usar os scripts —
-`scripts/finances.py` e `scripts/cashflow.py` escrevem exatamente este formato.
+`scripts/finances.py` escreve exatamente este formato.
 
 Datas usam `YYYY-MM-DD`. Valores monetários estão em reais (BRL), exceto campos com
 sufixo `USD`.
@@ -120,32 +120,3 @@ Lista de snapshots, um por data de save. O `finances.py` adiciona/atualiza autom
 ```
 
 `totalInvested` e `assets` são opcionais (usados nos gráficos por corretora).
-
-## `data/cashflow.json`
-
-```jsonc
-{
-  "lastUpdated": "2026-10-01",
-  "ownNames": ["MARIA S OLIVEIRA"],   // seu nome como aparece nos extratos
-  "familySurnames": ["OLIVEIRA"],     // movimentações com parentes
-  "merchantRules": {                  // aprendidas ao categorizar; têm prioridade
-    "SUPERMERCADO EXEMPLO": "MERCADO"
-  },
-  "transactions": [
-    {
-      "id": "…",                      // gerado na importação (evita duplicados)
-      "date": "2026-09-05",
-      "description": "PROVENTOS EMPRESA EXEMPLO LTDA",
-      "amount": 9500.0,               // positivo = entrada, negativo = saída
-      "account": "conta",             // "conta" ou "cartao"
-      "category": "SALARIO",
-      "installment": null,            // ou {"current": 2, "total": 6}
-      "source": "extrato.ofx"
-    }
-  ]
-}
-```
-
-Categorias disponíveis: veja `CATEGORIES` em `scripts/cashflow.py`. As do tipo `neutral`
-(transferência própria, família, pagamento de fatura, ajuste de cartão) não entram nos totais
-de entradas e saídas.

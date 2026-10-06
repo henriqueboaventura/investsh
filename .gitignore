@@ -6,7 +6,7 @@ data/
 assets/status.png
 analise_prompt.txt
 
-# Planilhas e extratos bancários
+# Planilhas e extratos
 *.xlsx
 *.xls
 *.ofx
