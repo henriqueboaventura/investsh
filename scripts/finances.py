@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""cashsh — carteira de investimentos. Uso: python3 scripts/finances.py [--menu]"""
+"""investsh — carteira de investimentos. Uso: python3 scripts/finances.py [--menu]"""
 import json, os, sys, io, contextlib, urllib.request
 from datetime import datetime
 
@@ -1826,7 +1826,7 @@ def run_tui(data, crypto_prices=None):
 
             # top bar
             total    = sum(i['balance'] for i in data['investments'])
-            hdr_text = f' cashsh   {brl_fmt(total)}   {data["lastUpdated"]}   USD {data["dollarRate"]:.4f} '
+            hdr_text = f' investsh   {brl_fmt(total)}   {data["lastUpdated"]}   USD {data["dollarRate"]:.4f} '
             stdscr.addstr(0, 0, ' ' * (w - 1), HBAR)
             try: stdscr.addstr(0, 0, hdr_text[:w], HBAR | BOLD)
             except curses.error: pass
@@ -2174,7 +2174,7 @@ def generate_status_image(data):
     ax0.axis('off')
 
     pad = 0.035
-    ax0.text(pad, 0.90, 'cashsh', color=textc, fontsize=17,
+    ax0.text(pad, 0.90, 'investsh', color=textc, fontsize=17,
              fontweight='bold', va='top')
     ax0.text(1 - pad, 0.90, date, color=dim, fontsize=10.5, va='top', ha='right')
     ax0.axhline(0.76, xmin=0.02, xmax=0.98, color=dim, linewidth=0.4, alpha=0.4)
@@ -2563,7 +2563,7 @@ def empty_portfolio():
 
 def first_run():
     """Cria data/investments.json na primeira execução."""
-    print(f'\n{BLD}{G}Bem-vindo ao cashsh!{RST}')
+    print(f'\n{BLD}{G}Bem-vindo ao investsh!{RST}')
     print(f'{DIM}Não encontrei {DATA}.{RST}\n')
     print(f'  {C}[1]{RST} Começar com carteira vazia {DIM}(recomendado){RST}')
     print(f'  {C}[2]{RST} Copiar dados de exemplo {DIM}(para explorar o app){RST}')
@@ -2595,7 +2595,7 @@ if '--menu' in sys.argv:
     pre_balances = {i['name']: i['balance'] for i in data['investments']}
 
     print(f'\n{BLD}{G}╔══════════════════════════════════════╗')
-    print(f'║     cashsh — Atualização Mensal      ║')
+    print(f'║    investsh — Atualização Mensal     ║')
     print(f'╚══════════════════════════════════════╝{RST}')
     print(f'\n{DIM}Arquivo: {DATA}{RST}')
     print(f'Última atualização: {W}{data["lastUpdated"]}{RST}')

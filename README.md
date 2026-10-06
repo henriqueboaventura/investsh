@@ -1,4 +1,4 @@
-# cashsh
+# investsh
 
 Controle pessoal de investimentos no terminal, feito para o investidor
 brasileiro. **100% local**, em Python puro: sem servidor, sem conta, sem dependências
@@ -22,8 +22,8 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
 Requisito: **Python 3.9+** (macOS ou Linux; no Windows, use o WSL).
 
 ```bash
-git clone https://github.com/henriqueboaventura/cashsh.git
-cd cashsh
+git clone https://github.com/henriqueboaventura/investsh.git
+cd investsh
 python3 scripts/finances.py
 ```
 
