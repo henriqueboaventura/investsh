@@ -1,0 +1,21 @@
+# ── Seus dados financeiros ───────────────────────────────────────────────────
+# Ficam fora do git por padrão para que nada seja publicado por acidente.
+# Se você usa um repositório PRIVADO e quer versionar sua carteira (inclusive
+# com FINANCES_AUTO_GIT=1), remova as linhas abaixo.
+data/
+assets/status.png
+analise_prompt.txt
+
+# Planilhas e extratos bancários
+*.xlsx
+*.xls
+*.ofx
+*.zip
+
+# Dev
+.DS_Store
+.env
+.claude/
+node_modules/
+__pycache__/
+*.pyc
