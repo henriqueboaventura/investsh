@@ -204,17 +204,8 @@ def test_remove_assets(demo):
 
 
 def test_remove_multiple_assets(demo):
-    # A ordem das mensagens "✗ Removido" vem de um set (varia entre versões do Python):
-    # aqui só o resultado é verificado.
-    names = [i['name'] for i in demo.read('investments.json')['investments']]
     a, b = index_of(demo, '6', 'Tesouro Selic 2029'), index_of(demo, '6', 'Bitcoin')
-    proc = demo.menu(['6', f'{a},{b}', '0', 's'])
-    out = strip_ansi(proc.stdout)
-    assert out.count('✗ Removido:') == 2
-    assert '✗ Removido: Tesouro Selic 2029' in out and '✗ Removido: Bitcoin' in out
-    left = [i['name'] for i in demo.read('investments.json')['investments']]
-    assert left == [n for n in names if n not in ('Tesouro Selic 2029', 'Bitcoin')]
-
+    golden_run(demo, 'remove_multiple', ['6', f'{b},{a},{b}', '0', 's'])
 
 def test_params(demo):
     answers = ['20000', '0,9', '', '7',            # FGTS, rendimento, aporte (mantém), FGTS a.a.

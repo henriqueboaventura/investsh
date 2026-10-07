@@ -69,6 +69,6 @@ ao corrigir um deles, regrave os goldens afetados e revise o diff.
 | 2 | TUI | Corrigido: o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
 | 3 | TUI | Corrigido: texto com acento digitado (campos e busca) virava mojibake (`Debênture` → `DebÃªnture`) | `tui/accented_input.txt`, `tui/new_assets.txt` |
 | 4 | TUI | Corrigido: "atualizar todos" (`u`) mudava a quantidade de cripto sem recalcular o saldo em R$ | `tui/update_all.txt` |
-| 5 | Menu | Ao remover vários ativos, a ordem das mensagens "✗ Removido" é aleatória (itera um `set`) | `test_remove_multiple_assets` |
+| 5 | Menu | Corrigido: ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | `menu/remove_multiple.txt` |
 | 6 | TUI | `g` abre a aba Gráficos, então o atalho "g = topo" nunca executa | — |
 | 7 | TUI | Avisos do matplotlib (stderr) aparecem desenhados por cima da tela durante o save | silenciado no `harness.py` |

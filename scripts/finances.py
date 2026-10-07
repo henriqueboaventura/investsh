@@ -599,13 +599,13 @@ def do_remove(data):
         print(f'  {DIM}[{i:2d}]{RST} {inv.get("broker",""):<8} {inv["name"][:40]:<40} {fmt(inv["balance"])}')
     raw = input(f'\n  {C}Números separados por vírgula (Enter = cancelar){RST}: ').strip()
     if raw:
-        to_remove = set()
+        to_remove = []  # lista (sem repetição) para as mensagens saírem na ordem digitada
         for x in raw.split(','):
             x = x.strip()
             if x.isdigit():
                 idx = int(x)
-                if idx < len(sorted_invs):
-                    to_remove.add(sorted_invs[idx]['name'])
+                if idx < len(sorted_invs) and sorted_invs[idx]['name'] not in to_remove:
+                    to_remove.append(sorted_invs[idx]['name'])
         data['investments'] = [inv for inv in invs if inv['name'] not in to_remove]
         for n in to_remove:
             print(f'  {R}✗ Removido: {n}{RST}')
