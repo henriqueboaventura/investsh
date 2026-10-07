@@ -1863,7 +1863,7 @@
   ──────────────────────────────────────────────────────────────────────────────────────────
   CDB Liquidez Diária Banco Exemplo         CDB                        R$ 8.420,15    +5.3%       +R$ 75,78
   CDB Novo                                  CDB                        R$ 5.100,00    +2.0%               —
-  DebÃªnture X                              CDB                        R$ 1.000,00    +0.0%               —
+  Debênture X                               CDB                        R$ 1.000,00    +0.0%               —
   Tesouro IPCA+ 2045                        Tesouro Direto            R$ 10.512,80    +5.1%       +R$ 94,62
 
   ── Nomad  R$ 17.967,76 (8.4%) ──
@@ -1909,7 +1909,7 @@
   ..........................................................................................
   ... ........ ...... ..... .......         ...                        .. ........    ggggg       ggg ggggg
   ... ....                                  ...                        .. ........    ggggg               .
-  .......... .                              ...                        .. ........    ggggg               .
+  ......... .                               ...                        .. ........    ggggg               .
   ....... ..... ....                        ....... ......            .. .........    ggggg       ggg ggggg
 
   MM MMMMM  MM MMMMMMMMM MMMMMM MM
@@ -2325,7 +2325,7 @@
       "indexer": "IPCA+DEB",
       "invested": 1000.0,
       "maturity": "2031-05-15",
-      "name": "DebÃªnture X",
+      "name": "Debênture X",
       "purpose": "MEU_OBJETIVO",
       "type": "IPCA"
     }
@@ -4602,7 +4602,7 @@
         "broker": "Nubank",
         "category": "CDB",
         "maturity": "2031-05-15",
-        "name": "DebÃªnture X",
+        "name": "Debênture X",
         "type": "IPCA"
       }
     ],

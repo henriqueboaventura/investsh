@@ -339,3 +339,16 @@ def test_zero_balances(demo, tui_factory):
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'zero_balances')
+
+
+def test_accented_input(demo, tui_factory):
+    t = tui_factory()
+    t.press('d', '/').type('previdência').snap('busca com acento')
+    t.press('bs').snap('backspace apaga o caractere inteiro')
+    t.press('a', 'enter').snap('busca confirmada')
+    t.press('n').type('Ação Ê ç').snap('nome com acentos')
+    t.press('left', 'bs').type('Ç').snap('edição no meio do texto acentuado')
+    t.press('esc')
+    t.press('q')
+    assert t.wait_exit() == 0
+    finish(demo, t, 'accented_input', with_data=False)

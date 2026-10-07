@@ -869,6 +869,14 @@ def run_tui(data, crypto_prices=None):
 
     # ── helpers ───────────────────────────────────────────────────────────────
 
+    def read_key(win):
+        """Lê uma tecla como (código, caractere). get_wch() decodifica UTF-8, então
+        letras acentuadas chegam inteiras; teclas especiais vêm só com o código."""
+        ch = win.get_wch()
+        if isinstance(ch, str):
+            return ord(ch), ch
+        return ch, None
+
     def curs_input(stdscr, prompt, default='', numeric=False):
         """Bottom-bar text input. Enter → value ('' if empty). Esc → None."""
         h, w = stdscr.getmaxyx()
@@ -885,7 +893,7 @@ def run_tui(data, crypto_prices=None):
             except curses.error:
                 pass
             stdscr.refresh()
-            ch = stdscr.getch()
+            ch, char = read_key(stdscr)
             if ch in (10, 13, curses.KEY_ENTER):
                 curses.curs_set(0)
                 val = ''.join(buf).strip()
@@ -907,10 +915,9 @@ def run_tui(data, crypto_prices=None):
                 pos = max(0, pos - 1)
             elif ch == curses.KEY_RIGHT:
                 pos = min(len(buf), pos + 1)
-            elif 32 <= ch < 256:
-                c = chr(ch)
-                if not numeric or c in '0123456789.,':
-                    buf.insert(pos, c); pos += 1
+            elif char is not None and char.isprintable():
+                if not numeric or char in '0123456789.,':
+                    buf.insert(pos, char); pos += 1
 
     def popup_menu(stdscr, title, options):
         """Centered popup em janela própria. Returns key or None (Esc)."""
@@ -1869,7 +1876,7 @@ def run_tui(data, crypto_prices=None):
             except curses.error: pass
 
             stdscr.refresh()
-            key = stdscr.getch()
+            key, kchar = read_key(stdscr)
 
             # ── search mode ───────────────────────────────────────────────────
             if srch_act[0]:
@@ -1881,8 +1888,8 @@ def run_tui(data, crypto_prices=None):
                     search[0] = search[0][:-1]
                     out, sel = build_detail(search[0])
                     lines[0] = out; selectbl[0] = sel; det_sel[0] = 0; scrolls['d'] = 0
-                elif 32 <= key < 256:
-                    search[0] += chr(key)
+                elif kchar is not None and kchar.isprintable():
+                    search[0] += kchar
                     out, sel = build_detail(search[0])
                     lines[0] = out; selectbl[0] = sel; det_sel[0] = 0; scrolls['d'] = 0
                 continue
@@ -2272,7 +2279,7 @@ def generate_status_image(data):
     for sp in ax2.spines.values():
         sp.set_visible(False)
 
-    max_val = max(bvals) if bvals else 1
+    max_val = max(bvals) if bvals and max(bvals) > 0 else 1
     for bar, val in zip(bars, bvals):
         pct = val / total * 100 if total else 0
         ax2.text(max_val * 0.01, bar.get_y() + bar.get_height() / 2,
