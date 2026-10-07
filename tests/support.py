@@ -200,17 +200,65 @@ class App:
 KEY = {
     # Setas no modo "application cursor" (SS3), que o curses ativa com keypad(True)
     'enter': '\r', 'esc': '\x1b', 'bs': '\x7f', 'up': '\x1bOA', 'down': '\x1bOB',
-    'right': '\x1bOC', 'left': '\x1bOD', 'pgdn': '\x1b[6~', 'pgup': '\x1b[5~',
+    'right': '\x1bOC', 'left': '\x1bOD', 'home': '\x1bOH', 'end': '\x1bOF',
+    'pgdn': '\x1b[6~', 'pgup': '\x1b[5~',
 }
+
+
+class Screen(pyte.Screen):
+    """pyte.Screen com o que falta no pyte 0.8 para emular fielmente o curses.
+
+    O curses rola regiões da tela com CSI S/T (SU/SD), que o pyte ignora: sem
+    isso a tela emulada fica com linhas sobrepostas que um terminal real não mostra.
+    Qualquer outro comando não suportado é registrado em `unsupported` e faz o
+    teste falhar, em vez de gravar uma tela errada no golden.
+    """
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.unsupported = []
+
+    def _margins(self):
+        m = self.margins
+        return (m.top, m.bottom) if m else (0, self.lines - 1)
+
+    def scroll_up(self, count=None, *args, **kwargs):
+        top, bottom = self._margins()
+        for _ in range(count or 1):
+            for y in range(top, bottom):
+                self.buffer[y] = self.buffer[y + 1]
+            self.buffer.pop(bottom, None)
+        self.dirty.update(range(self.lines))
+
+    def scroll_down(self, count=None, *args, **kwargs):
+        top, bottom = self._margins()
+        for _ in range(count or 1):
+            for y in range(bottom, top, -1):
+                self.buffer[y] = self.buffer[y - 1]
+            self.buffer.pop(top, None)
+        self.dirty.update(range(self.lines))
+
+    def debug(self, *args, **kwargs):
+        # O parser do pyte chama debug() sem dizer o comando: pega do frame dele
+        import sys
+        f = sys._getframe(1).f_locals
+        if f.get('char') in ('=', '>'):
+            return  # ESC = / ESC >: modo do teclado numérico, não afeta a tela
+        self.unsupported.append({k: f.get(k) for k in ('char', 'code', 'params', 'private') if k in f})
+
+
+class Stream(pyte.ByteStream):
+    csi = {**pyte.ByteStream.csi, 'S': 'scroll_up', 'T': 'scroll_down'}
 
 
 class TUI:
     def __init__(self, app, cols, rows, env):
         self.app = app
-        self.screen = pyte.Screen(cols, rows)
-        self.stream = pyte.ByteStream(self.screen)
+        self.screen = Screen(cols, rows)
+        self.stream = Stream(self.screen)
         self.frames = []
-        full_env = app.env(TERM='xterm-256color', ESCDELAY='25', LINES=rows, COLUMNS=cols, **env)
+        term = os.environ.get('INVESTSH_TEST_TERM', 'xterm-256color')
+        full_env = app.env(TERM=term, ESCDELAY='25', LINES=rows, COLUMNS=cols, **env)
         pid, fd = pty.fork()
         if pid == 0:  # filho
             os.chdir(app.root)
@@ -333,6 +381,7 @@ class TUI:
         return self
 
     def golden(self):
+        assert not self.screen.unsupported, f'sequências não emuladas: {self.screen.unsupported[:5]}'
         return ''.join(self.frames)
 
     def wait_exit(self, timeout=20):

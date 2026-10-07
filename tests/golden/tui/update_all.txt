@@ -467,9 +467,9 @@
     Quantidade atual:   0.0045
 
     ── próximos ──
-
-    Binance   Bitcoin
     Binance   Ethereum
+
+
 
 
 
@@ -513,9 +513,9 @@
     .......... ......   ......
 
     .. ........ ..
-
-    .......   .......
     .......   ........
+
+
 
 
 
@@ -560,8 +560,8 @@
 
 
 
-    Binance   Bitcoin
-    Binance   Ethereum
+
+
 
 
 
@@ -606,8 +606,8 @@
 
 
 
-    .......   .......
-    .......   ........
+
+
 
 
 
@@ -653,7 +653,7 @@
   Total aportado R$ 185.166,67
   Valorização    R$ 16.444,22  (+8.9%)
   Variação mês   R$ -1.316,69  (-0.6%)
-    Binance   Ethereum
+
   FGTS:    R$ 18.500,00
   Ativos:  19
   USD/BRL: 5.4321
@@ -699,7 +699,7 @@
   ccccc cccccccc .. ..........
   ccccccccccc    GG GGGGGGGGG  ggggggg
   cccccccc ccc   RR RRRRRRRRR  rrrrrrr
-    .......   ........
+
   .....    .. .........
   .......  ..
   ........ ......
@@ -745,7 +745,7 @@
   Total aportado R$ 185.166,67
   Valorização    R$ 16.444,22  (+8.9%)
   Variação mês   R$ -1.316,69  (-0.6%)
-    Binance   Ethereum
+
   FGTS:    R$ 18.500,00
   Ativos:  19
   USD/BRL: 5.4321
@@ -791,7 +791,7 @@
   ccccc cccccccc .. ..........
   ccccccccccc    GG GGGGGGGGG  ggggggg
   cccccccc ccc   RR RRRRRRRRR  rrrrrrr
-    .......   ........
+
   .....    .. .........
   .......  ..
   ........ ......
@@ -837,7 +837,7 @@
   Total aportado R$ 185.166,67
   Valorização    R$ 16.444,22  (+8.9%)
   Variação mês   R$ -1.316,69  (-0.6%)
-    Binance   Ethereum
+
   FGTS:    R$ 18.500,00
   Ativos:  19
   USD/BRL: 5.4321
@@ -883,7 +883,7 @@
   ccccc cccccccc .. ..........
   ccccccccccc    GG GGGGGGGGG  ggggggg
   cccccccc ccc   RR RRRRRRRRR  rrrrrrr
-    .......   ........
+
   .....    .. .........
   .......  ..
   ........ ......
