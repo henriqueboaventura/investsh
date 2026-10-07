@@ -146,6 +146,20 @@ logging.getLogger('matplotlib.font_manager').setLevel(logging.ERROR)
 if os.environ.get('INVESTSH_TEST_NO_MPL'):
     sys.modules['matplotlib'] = None  # simula matplotlib não instalado
 
+if os.environ.get('INVESTSH_TEST_STDERR_NOISE'):
+    # Simula avisos que o matplotlib escreve em stderr durante a geração da imagem
+    import warnings
+    import matplotlib
+    matplotlib.use('Agg')
+    import matplotlib.figure
+    _orig_savefig = matplotlib.figure.Figure.savefig
+
+    def _noisy_savefig(self, *args, **kwargs):
+        print('RUIDO-STDERR', file=sys.stderr)
+        warnings.warn('RUIDO-WARNING')
+        return _orig_savefig(self, *args, **kwargs)
+    matplotlib.figure.Figure.savefig = _noisy_savefig
+
 if os.environ.get('INVESTSH_TEST_PLOTLOG'):
     _install_plot_logger(os.environ['INVESTSH_TEST_PLOTLOG'])
 

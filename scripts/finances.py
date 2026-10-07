@@ -2438,7 +2438,8 @@ def do_save_tui(data, total_before, pre_balances):
     with open(hist_path, 'w', encoding='utf-8') as f:
         json.dump(history, f, ensure_ascii=False, indent=2)
 
-    with contextlib.redirect_stdout(_io.StringIO()):
+    # stdout e stderr desviados: avisos do matplotlib sairiam desenhados sobre a TUI
+    with contextlib.redirect_stdout(_io.StringIO()), contextlib.redirect_stderr(_io.StringIO()):
         try:
             generate_status_image(data)
         except Exception:

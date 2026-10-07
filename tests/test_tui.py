@@ -355,3 +355,11 @@ def test_accented_input(demo, tui_factory):
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'accented_input', with_data=False)
+
+
+def test_save_keeps_stderr_off_screen(demo, tui_factory):
+    t = tui_factory(INVESTSH_TEST_STDERR_NOISE='1')
+    t.press('w', 's', until='✓ Salvo')
+    assert 'RUIDO' not in t.text()
+    t.press('q')
+    assert t.wait_exit() == 0

@@ -71,4 +71,4 @@ ao corrigir um deles, regrave os goldens afetados e revise o diff.
 | 4 | TUI | Corrigido: "atualizar todos" (`u`) mudava a quantidade de cripto sem recalcular o saldo em R$ | `tui/update_all.txt` |
 | 5 | Menu | Corrigido: ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | `menu/remove_multiple.txt` |
 | 6 | TUI | Corrigido: o atalho "g = topo" nunca executava (`g` é a aba Gráficos); agora é Home (e End = fim, além de G) | `tui/tabs.txt`, `tui/detail_search.txt` |
-| 7 | TUI | Avisos do matplotlib (stderr) aparecem desenhados por cima da tela durante o save | silenciado no `harness.py` |
+| 7 | TUI | Corrigido: avisos do matplotlib (stderr) apareciam desenhados por cima da tela durante o save | `test_save_keeps_stderr_off_screen` |
