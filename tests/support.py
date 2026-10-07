@@ -244,6 +244,8 @@ class Screen(pyte.Screen):
         f = sys._getframe(1).f_locals
         if f.get('char') in ('=', '>'):
             return  # ESC = / ESC >: modo do teclado numérico, não afeta a tela
+        if f.get('char') == 't':
+            return  # CSI 22/23 t (XTWINOPS): guarda/restaura o título da janela
         self.unsupported.append({k: f.get(k) for k in ('char', 'code', 'params', 'private') if k in f})
 
 

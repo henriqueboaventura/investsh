@@ -58,17 +58,17 @@ Os pontos de entrada estão centralizados em `tests/support.py`
 `INVESTSH_TEST_SRC=/outro/diretorio pytest` roda a suíte contra outra cópia do
 código, útil para comparar versões.
 
-## Bugs conhecidos
+## Bugs encontrados pela suíte
 
-Encontrados ao escrever a suíte. Os goldens registram o comportamento **atual**;
-ao corrigir um deles, regrave os goldens afetados e revise o diff.
+Todos corrigidos, um commit por bug, com o diff dos goldens limitado ao efeito
+da correção. A coluna da direita aponta o teste que protege contra a volta do bug.
 
-| # | Onde | Bug | Teste que registra |
+| # | Onde | Bug | Teste |
 |---|---|---|---|
-| 1 | Imagem, menu, TUI | Corrigido: carteira vazia ou com saldos zerados quebrava a imagem (`pie` sem fatias) e as telas (divisão por zero) | `test_save_empty_portfolio_with_matplotlib`, `view_zero_balances`, `tui/zero_balances` |
-| 2 | TUI | Corrigido: o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
-| 3 | TUI | Corrigido: texto com acento digitado (campos e busca) virava mojibake (`Debênture` → `DebÃªnture`) | `tui/accented_input.txt`, `tui/new_assets.txt` |
-| 4 | TUI | Corrigido: "atualizar todos" (`u`) mudava a quantidade de cripto sem recalcular o saldo em R$ | `tui/update_all.txt` |
-| 5 | Menu | Corrigido: ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | `menu/remove_multiple.txt` |
-| 6 | TUI | Corrigido: o atalho "g = topo" nunca executava (`g` é a aba Gráficos); agora é Home (e End = fim, além de G) | `tui/tabs.txt`, `tui/detail_search.txt` |
-| 7 | TUI | Corrigido: avisos do matplotlib (stderr) apareciam desenhados por cima da tela durante o save | `test_save_keeps_stderr_off_screen` |
+| 1 | Imagem, menu, TUI | carteira vazia ou com saldos zerados quebrava a imagem (`pie` sem fatias) e as telas (divisão por zero) | `test_save_empty_portfolio_with_matplotlib`, `view_zero_balances`, `tui/zero_balances` |
+| 2 | TUI | o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
+| 3 | TUI | texto com acento digitado (campos e busca) virava mojibake (`Debênture` → `DebÃªnture`) | `tui/accented_input.txt`, `tui/new_assets.txt` |
+| 4 | TUI | "atualizar todos" (`u`) mudava a quantidade de cripto sem recalcular o saldo em R$ | `tui/update_all.txt` |
+| 5 | Menu | ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | `menu/remove_multiple.txt` |
+| 6 | TUI | o atalho "g = topo" nunca executava (`g` é a aba Gráficos); agora é Home (e End = fim, além de G) | `tui/tabs.txt`, `tui/detail_search.txt` |
+| 7 | TUI | avisos do matplotlib (stderr) apareciam desenhados por cima da tela durante o save | `test_save_keeps_stderr_off_screen` |
