@@ -19,6 +19,8 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 | `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
 | `test_status_image.py` | Imagem `assets/status.png` | Chamadas de desenho do matplotlib (pixels variam por máquina) |
 | `test_analyze.py` | Prompt de análise, clipboard e fallback para arquivo | Prompt completo |
+| `test_config_file.py` | `investsh.toml`: commit/push automático, validação, variável de ambiente por cima | Repositório git real com remoto |
+| `test_cli.py` | `--dir`, `$INVESTSH_DIR`, `--version`, subcomandos | Asserções |
 
 ## Determinismo
 

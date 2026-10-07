@@ -1,7 +1,6 @@
-# ── Seus dados financeiros ───────────────────────────────────────────────────
-# Ficam fora do git por padrão para que nada seja publicado por acidente.
-# Se você usa um repositório PRIVADO e quer versionar sua carteira (inclusive
-# com FINANCES_AUTO_GIT=1), remova as linhas abaixo.
+# ── Dados financeiros ────────────────────────────────────────────────────────
+# Este repositório é só código. Mantenha sua pasta de dados fora dele (ou aqui,
+# ignorada) para nada ser publicado por acidente.
 data/
 assets/status.png
 analise_prompt.txt

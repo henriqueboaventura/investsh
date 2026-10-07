@@ -24,5 +24,8 @@ def main(argv=None):
         analyze.main(os.path.abspath(args.dir))
     else:
         from . import app, config
-        config.configure(args.dir)
+        try:
+            config.configure(args.dir)
+        except config.ConfigError as e:
+            parser.exit(2, f'investsh: {e}\n')
         app.run(menu=args.menu)

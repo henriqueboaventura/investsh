@@ -10,7 +10,7 @@ readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [{name = "Henrique Boaventura"}]
-dependencies = []
+dependencies = ["tomli>=1.1; python_version < '3.11'"]   # leitura de investsh.toml
 
 [project.optional-dependencies]
 image = ["matplotlib>=3.7"]          # resumo em imagem (assets/status.png)

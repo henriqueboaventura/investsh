@@ -61,8 +61,11 @@ def do_save_tui(data, total_before, pre_balances):
                            check=True, capture_output=True)
             subprocess.run(['git', '-C', config.ROOT, 'commit', '-m', f'update {month}'],
                            capture_output=True)
-            push = subprocess.run(['git', '-C', config.ROOT, 'push'], capture_output=True, text=True)
-            git_msg = '  ↑ push ok' if push.returncode == 0 else '  ⚠ push falhou'
+            if config.GIT_PUSH:
+                push = subprocess.run(['git', '-C', config.ROOT, 'push'], capture_output=True, text=True)
+                git_msg = '  ↑ push ok' if push.returncode == 0 else '  ⚠ push falhou'
+            else:
+                git_msg = '  ✓ commit (sem push)'
         except Exception:
             git_msg = '  ⚠ git falhou'
 
@@ -132,7 +135,7 @@ def do_save(data, total_before, pre_balances):
 
     generate_status_image(data)
 
-    # Auto-commit (opcional — ver FINANCES_AUTO_GIT no README)
+    # Auto-commit (opcional — ver investsh.toml no README)
     if config.AUTO_GIT:
         import subprocess
         month = datetime.now().strftime('%Y-%m')
@@ -149,9 +152,10 @@ def do_save(data, total_before, pre_balances):
             else:
                 # Nada para commitar (sem mudanças nos arquivos)
                 print(f'{DIM}  Git: {result.stdout.strip() or result.stderr.strip()}{RST}')
-            # Push sempre — também envia commits locais pendentes de saves anteriores
-            subprocess.run(['git', '-C', config.ROOT, 'push'], check=True)
-            print(f'{G}✓ Push concluído{RST}')
+            # Push mesmo sem commit novo: envia commits pendentes de saves anteriores
+            if config.GIT_PUSH:
+                subprocess.run(['git', '-C', config.ROOT, 'push'], check=True)
+                print(f'{G}✓ Push concluído{RST}')
         except FileNotFoundError:
             print(f'{Y}  git não encontrado, commit pulado.{RST}')
         except subprocess.CalledProcessError as e:

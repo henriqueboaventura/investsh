@@ -105,19 +105,25 @@ isso envia os dados da sua carteira para o serviço escolhido.
 
 ## Privacidade
 
-- Os scripts só leem e escrevem arquivos locais. As únicas chamadas de rede são as cotações
+- O investsh só lê e escreve arquivos locais. As únicas chamadas de rede são as cotações
   (AwesomeAPI e CoinGecko), que não recebem nenhum dado seu.
-- `data/`, `assets/status.png` e planilhas estão no `.gitignore`: seus
-  dados **não** vão para o git por padrão.
+- Seus dados ficam na pasta que você escolher, separados do código. Nada vai para o git
+  a menos que você ligue o commit automático (abaixo).
 
-### Versionar seus dados num repositório privado
+### Versionar seus dados com git
 
-Para ter histórico no git ou sincronizar entre computadores:
+Para ter histórico ou sincronizar entre computadores, faça da sua pasta de dados um
+repositório git **privado** e crie nela um arquivo `investsh.toml`:
 
-1. Use um repositório **privado** (nunca um fork público).
-2. Remova `data/` e `assets/status.png` do `.gitignore`.
-3. Opcional: `export FINANCES_AUTO_GIT=1` para que todo save no `investsh` faça
-   `git commit` + `git push` automaticamente.
+```toml
+[git]
+auto_commit = true   # commit "update AAAA-MM" a cada save
+push = true          # e envia para o remoto (false = só commit local)
+```
+
+A configuração vale só para essa pasta: rodar o `investsh` em outro lugar não commita nada.
+Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligado.
+Para ligar ou desligar temporariamente, por cima do arquivo: `FINANCES_AUTO_GIT=1` ou `0`.
 
 ---
 
@@ -126,6 +132,7 @@ Para ter histórico no git ou sincronizar entre computadores:
 | O quê | Onde |
 |---|---|
 | Alocação ideal, reserva, FGTS, projeção | Tecla `p` no `investsh`, ou `data/investments.json` |
+| Commit automático dos dados | `investsh.toml` na pasta de dados (ver [Privacidade](#versionar-seus-dados-com-git)) |
 | Grupos de alocação | `GROUP_META` em `src/investsh/core.py` |
 | Corretoras e ordem | `_BROKERS` e `BROKER_ORDER` em `src/investsh/core.py`; cores em `BR_C` (`image.py`) |
 | Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `src/investsh/core.py` |
@@ -157,6 +164,7 @@ convertidos pela cotação do dia.
 Na pasta de dados (a atual, ou `--dir`):
 
 ```
+├── investsh.toml         # opcional: configuração (commit automático)
 ├── data/
 │   ├── investments.json  # carteira atual
 │   └── history.json      # snapshots a cada save
