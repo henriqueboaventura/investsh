@@ -63,7 +63,7 @@ Campos comuns:
 | `previousBalance` | não | Saldo no save anterior — preenchido pelo `investsh` |
 | `allocationGroup` | recomendado | Classe de alocação, ver tabela abaixo |
 | `indexer` | não | `CDI`, `SELIC`, `FIXED_RATE`, `IPCA`, `SP_500`, `FTSE_GLOBAL_ALL_CAP`, `LBMA_GOLD_PRICE`, `ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX`, `IAFD` ou `null` |
-| `purpose` | não | Objetivo financeiro, ex. `RESERVA_EMERGENCIA`, `PROTECAO_INFLACAO_LONGO_PRAZO`, `APOSENTADORIA_E_LONGO_PRAZO` (lista completa em `_PURPOSES` no `finances.py`; outros textos são aceitos) |
+| `purpose` | não | Objetivo financeiro, ex. `RESERVA_EMERGENCIA`, `PROTECAO_INFLACAO_LONGO_PRAZO`, `APOSENTADORIA_E_LONGO_PRAZO` (lista completa em `_PURPOSES` no `src/investsh/core.py`; outros textos são aceitos) |
 | `rate` | não | `{"kind": "PERCENT_CDI" \| "ANNUAL_FIXED" \| "IPCA_PLUS", "value": 110.0}` |
 | `liquidity` | não | `IMMEDIATE`, `DAILY`, `DAILY_MARKET_PRICE`, `AT_MATURITY` |
 | `taxExempt`, `fgcEligible` | não | Booleanos |
@@ -100,7 +100,7 @@ O `balance` em BRL é recalculado com a cotação do dia.
 **Cripto** — use `quantity` (em unidades da moeda) e, opcionalmente, `averagePrice` (preço médio
 em BRL). O `name` precisa ser uma chave de `CRYPTO_IDS` (`Bitcoin`, `Ethereum`, `Dogecoin`,
 `XRP`) para a cotação automática funcionar — adicione outras moedas nesse mapa no
-`scripts/finances.py`, com o ID do CoinGecko.
+`src/investsh/core.py`, com o ID do CoinGecko.
 
 ```json
 { "name": "Bitcoin", "category": "Crypto", "broker": "Binance", "quantity": 0.0045,

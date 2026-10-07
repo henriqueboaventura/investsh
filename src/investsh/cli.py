@@ -23,6 +23,6 @@ def main(argv=None):
         from . import analyze
         analyze.main(os.path.abspath(args.dir))
     else:
-        from . import app
-        app.configure(args.dir)
+        from . import app, config
+        config.configure(args.dir)
         app.run(menu=args.menu)

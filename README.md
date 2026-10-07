@@ -126,9 +126,9 @@ Para ter histórico no git ou sincronizar entre computadores:
 | O quê | Onde |
 |---|---|
 | Alocação ideal, reserva, FGTS, projeção | Tecla `p` no `investsh`, ou `data/investments.json` |
-| Grupos de alocação | `GROUP_META` em `scripts/finances.py` |
-| Corretoras, ordem e cores | `_BROKERS`, `BROKER_ORDER` e `BR_C` em `scripts/finances.py` |
-| Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `scripts/finances.py` |
+| Grupos de alocação | `GROUP_META` em `src/investsh/core.py` |
+| Corretoras e ordem | `_BROKERS` e `BROKER_ORDER` em `src/investsh/core.py`; cores em `BR_C` (`image.py`) |
+| Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `src/investsh/core.py` |
 
 Ativos com `investedUSD` (ex.: corretora Nomad) são tratados como investimentos em dólar e
 convertidos pela cotação do dia.
@@ -138,16 +138,29 @@ convertidos pela cotação do dia.
 ## Estrutura
 
 ```
-├── scripts/
-│   ├── finances.py       # Carteira: TUI (padrão) e menu texto (--menu)
-│   └── analyze.py        # Gera prompt de análise para IA
-├── examples/             # Dados fictícios (ponto de partida)
-├── data/                 # Seus dados — criado na 1ª execução, fora do git
-│   ├── investments.json  #   carteira atual
-│   └── history.json      #   snapshots a cada save
+├── src/investsh/
+│   ├── cli.py            # Comando `investsh` (opções --menu, --dir, analyze)
+│   ├── app.py            # Carrega a carteira e abre o menu ou a TUI
+│   ├── core.py           # Regras: classificação, custo base, reserva, histórico, R$
+│   ├── quotes.py         # Cotações (dólar e cripto)
+│   ├── menu.py           # Modo texto (--menu)
+│   ├── tui.py            # Tela interativa (curses)
+│   ├── image.py          # Imagem de resumo (matplotlib)
+│   ├── storage.py        # Primeira execução, salvar, histórico, commit automático
+│   ├── analyze.py        # Prompt de análise para IA
+│   └── examples/         # Dados fictícios (ponto de partida)
 ├── tests/                # Testes de regressão (ver tests/README.md)
 └── docs/
     └── DATA_FORMAT.md    # Formato dos arquivos JSON
+```
+
+Na pasta de dados (a atual, ou `--dir`):
+
+```
+├── data/
+│   ├── investments.json  # carteira atual
+│   └── history.json      # snapshots a cada save
+└── assets/status.png     # resumo em imagem (com matplotlib)
 ```
 
 ---

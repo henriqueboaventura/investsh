@@ -52,12 +52,16 @@ def load_finances(root=None):
     `root`: diretório de trabalho (com data/) para as funções que leem o histórico.
     """
     import importlib
+    import types
     if str(PKG_SRC) not in sys.path:
         sys.path.insert(0, str(PKG_SRC))
-    mod = importlib.import_module('investsh.app')
+    config = importlib.import_module('investsh.config')
     if root is not None:
-        mod.configure(root)
-    return mod
+        config.configure(root)
+    ns = {}
+    for name in ('investsh.term', 'investsh.core'):
+        ns.update(vars(importlib.import_module(name)))
+    return types.SimpleNamespace(**ns)
 
 
 
