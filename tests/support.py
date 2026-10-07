@@ -35,7 +35,7 @@ SRC = Path(os.environ.get('INVESTSH_TEST_SRC', REPO))
 TESTS = REPO / 'tests'
 GOLDEN = TESTS / 'golden'
 FIXTURES = TESTS / 'fixtures'
-HARNESS = TESTS / 'harness.py'
+SITE = TESTS / 'site'   # sitecustomize.py: ambiente determinístico em todo processo Python
 
 # ── Pontos de entrada (únicos lugares a ajustar numa reestruturação) ─────────
 PKG_SRC = SRC / 'src'                       # vai para o PYTHONPATH dos processos testados
@@ -161,7 +161,7 @@ class App:
         env.update({
             'INVESTSH_TEST_NOW': FROZEN_NOW,
             'INVESTSH_TEST_RATES': 'ok',
-            'PYTHONPATH': str(PKG_SRC),
+            'PYTHONPATH': os.pathsep.join([str(SITE), str(PKG_SRC)]),
             'PYTHONIOENCODING': 'utf-8',
             'PYTHONDONTWRITEBYTECODE': '1',
             # do_remove itera um set: sem semente fixa a ordem das mensagens varia
@@ -182,7 +182,7 @@ class App:
 
     def run(self, cmd, args=(), stdin='', **env):
         proc = subprocess.run(
-            [sys.executable, str(HARNESS), *cmd, *args],
+            [sys.executable, *cmd, *args],
             input=stdin, capture_output=True, text=True, cwd=self.root,
             env=self.env(**env), timeout=60,
         )
@@ -267,7 +267,7 @@ class TUI:
         pid, fd = pty.fork()
         if pid == 0:  # filho
             os.chdir(app.root)
-            os.execve(sys.executable, [sys.executable, str(HARNESS), *FINANCES_CMD], full_env)
+            os.execve(sys.executable, [sys.executable, *FINANCES_CMD], full_env)
         self.pid, self.fd = pid, fd
         fcntl.ioctl(fd, termios.TIOCSWINSZ, struct.pack('HHHH', rows, cols, 0, 0))
         self.exit_status = None

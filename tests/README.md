@@ -24,8 +24,9 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 
 ## Determinismo
 
-Cada teste roda numa cópia do projeto em `/tmp/ish-XXXXXXXX/app`, via
-`tests/harness.py`, que:
+Cada teste roda numa pasta temporária `/tmp/ish-XXXXXXXX/app`, com `tests/site` no
+`PYTHONPATH`. O `tests/site/sitecustomize.py` é carregado pelo Python em **todo**
+processo iniciado pelos testes (inclusive os de segundo plano do investsh) e:
 
 - congela data/hora em `2026-10-06 12:00` (`INVESTSH_TEST_NOW`);
 - troca as APIs de cotação por valores fixos (USD 5,4321, BTC R$ 600.000…);
