@@ -272,7 +272,7 @@ def test_save_auto_git_status(demo, tmp_path, tui_factory):
     run('config', 'user.name', 'T')
 
     t = tui_factory(FINANCES_AUTO_GIT='1')
-    t.press('w', 's', until='✓ Salvo').snap('salvo com push')
+    t.press('w', 's', until='push ok').snap('salvo com push')
     t.press('q')
     assert t.wait_exit() == 0
     log = subprocess.run(['git', 'log', '-1', '--format=%s', 'main'], cwd=remote, capture_output=True, text=True)
@@ -282,7 +282,7 @@ def test_save_auto_git_status(demo, tmp_path, tui_factory):
 
 def test_save_auto_git_failure_status(demo, tui_factory):
     t = tui_factory(FINANCES_AUTO_GIT='1')   # fora de repositório git
-    t.press('w', 's', until='✓ Salvo').snap('salvo, git falhou')
+    t.press('w', 's', until='git falhou').snap('salvo, git falhou')
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'auto_git_fail', with_data=False)

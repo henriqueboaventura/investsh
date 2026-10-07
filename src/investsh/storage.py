@@ -2,15 +2,22 @@
 import json, os, sys
 from datetime import datetime
 
-from . import config
+from . import config, sync
 from .term import G, R, Y, C, W, DIM, RST, BLD, fmt, ask_yes, print_header
 from .core import brl_fmt, history_snapshot
 from .image import generate_status_image
 
 
+def write_json(path, obj):
+    """Grava de forma atômica: quem lê (ex.: o git em segundo plano) nunca vê arquivo pela metade."""
+    tmp = f'{path}.tmp'
+    with open(tmp, 'w', encoding='utf-8') as f:
+        json.dump(obj, f, ensure_ascii=False, indent=2)
+    os.replace(tmp, path)
+
+
 def do_save_tui(data, total_before, pre_balances):
-    """Silent save for TUI mode — no prints, no prompts. Returns (ok, msg)."""
-    import contextlib, io as _io
+    """Save da TUI: sem prints nem perguntas. Retorna (ok, msg, job do segundo plano ou None)."""
     invs        = data['investments']
     total_after = sum(i['balance'] for i in invs)
 
@@ -23,8 +30,7 @@ def do_save_tui(data, total_before, pre_balances):
         elif round(inv['balance'], 4) != round(prev, 4):
             inv['previousBalance'] = prev
 
-    with open(config.DATA, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    write_json(config.DATA, data)
 
     hist_path = os.path.join(config.ROOT, 'data', 'history.json')
     try:
@@ -41,37 +47,14 @@ def do_save_tui(data, total_before, pre_balances):
     else:
         history[existing] = {**history[existing], **snapshot}
 
-    with open(hist_path, 'w', encoding='utf-8') as f:
-        json.dump(history, f, ensure_ascii=False, indent=2)
+    write_json(hist_path, history)
 
-    # stdout e stderr desviados: avisos do matplotlib sairiam desenhados sobre a TUI
-    with contextlib.redirect_stdout(_io.StringIO()), contextlib.redirect_stderr(_io.StringIO()):
-        try:
-            generate_status_image(data)
-        except Exception:
-            pass
-
-    git_msg = ''
-    if config.AUTO_GIT:
-        import subprocess
-        month = datetime.now().strftime('%Y-%m')
-        try:
-            subprocess.run(['git', '-C', config.ROOT, 'add',
-                            'data/investments.json', 'data/history.json', 'assets/'],
-                           check=True, capture_output=True)
-            subprocess.run(['git', '-C', config.ROOT, 'commit', '-m', f'update {month}'],
-                           capture_output=True)
-            if config.GIT_PUSH:
-                push = subprocess.run(['git', '-C', config.ROOT, 'push'], capture_output=True, text=True)
-                git_msg = '  ↑ push ok' if push.returncode == 0 else '  ⚠ push falhou'
-            else:
-                git_msg = '  ✓ commit (sem push)'
-        except Exception:
-            git_msg = '  ⚠ git falhou'
+    # Imagem e commit/push vão para o segundo plano: a TUI não trava (ver sync.py)
+    job = sync.start() if sync.needed() else None
 
     delta = total_after - total_before
     sign  = '+' if delta >= 0 else ''
-    return True, f'✓ Salvo  ({sign}{brl_fmt(delta)}){git_msg}'
+    return True, f'✓ Salvo  ({sign}{brl_fmt(delta)})', job
 
 
 def do_save(data, total_before, pre_balances):
@@ -107,8 +90,7 @@ def do_save(data, total_before, pre_balances):
             inv['previousBalance'] = prev
         # else: inalterado → mantém previousBalance existente
 
-    with open(config.DATA, 'w', encoding='utf-8') as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+    write_json(config.DATA, data)
     print(f'\n{G}{BLD}✓ Salvo em {config.DATA}{RST}')
 
     hist_path = os.path.join(config.ROOT, 'data', 'history.json')
@@ -128,8 +110,7 @@ def do_save(data, total_before, pre_balances):
         history[existing] = {**history[existing], **snapshot}
         msg = f'{G}✓ Histórico atualizado para hoje ({today}){RST}'
 
-    with open(hist_path, 'w', encoding='utf-8') as f:
-        json.dump(history, f, ensure_ascii=False, indent=2)
+    write_json(hist_path, history)
     print(msg)
 
 
@@ -192,8 +173,7 @@ def first_run():
     else:
         sys.exit(0)
     os.makedirs(os.path.dirname(config.DATA), exist_ok=True)
-    with open(config.DATA, 'w', encoding='utf-8') as f:
-        json.dump(d, f, ensure_ascii=False, indent=2)
+    write_json(config.DATA, d)
     print(f'{G}✓ Criado {config.DATA}{RST}')
     print(f'{DIM}  Ajuste alocação ideal, reserva e projeção em "Parâmetros".{RST}\n')
     return d

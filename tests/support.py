@@ -142,8 +142,28 @@ class App:
         fn(d)
         self.write(name, d)
 
+    def sync_paths(self):
+        """Lock e arquivo de estado do trabalho em segundo plano desta pasta."""
+        from investsh import sync
+        return sync.state_paths(self.root)
+
+    def wait_sync(self, timeout=30):
+        """Espera o commit/push/imagem em segundo plano (se houver) terminar."""
+        _, path = self.sync_paths()
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            try:
+                state = json.loads(Path(path).read_text(encoding='utf-8'))
+            except (FileNotFoundError, ValueError):
+                return None
+            if state.get('state') == 'done':
+                return state
+            time.sleep(0.1)
+        raise AssertionError(f'segundo plano não terminou em {timeout}s: {state}')
+
     def data_snapshot(self):
         """Estado de data/ e assets/ para golden: JSONs completos + existência do PNG."""
+        self.wait_sync()
         out = []
         for name in ('investments.json', 'history.json'):
             p = self.data_dir / name

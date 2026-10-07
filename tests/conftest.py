@@ -22,7 +22,11 @@ def app():
     base = Path(tempfile.mkdtemp(prefix='ish-', dir='/tmp'))
     root = base / 'app'
     root.mkdir()
-    yield App(root).setup()
+    app = App(root).setup()
+    yield app
+    app.wait_sync()
+    for path in app.sync_paths():
+        Path(path).unlink(missing_ok=True)
     shutil.rmtree(base, ignore_errors=True)
 
 

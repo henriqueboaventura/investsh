@@ -1,7 +1,7 @@
 """Tela interativa (curses)."""
 import json, os
 
-from . import config
+from . import config, sync
 from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
@@ -19,6 +19,14 @@ def run_tui(data, crypto_prices=None):
     total_before = [sum(pre_balances.values())]
     status_msg   = ['']  # shown in bottom bar after save
     dirty        = [False]  # True quando há alterações não salvas
+    pending_sync = [None]   # {'job', 'msg'}: commit/push rodando em segundo plano
+
+    # Commits de saves anteriores que não chegaram ao remoto (ex.: sem rede)
+    if not sync.busy():
+        n_unpushed = sync.unpushed()
+        if n_unpushed:
+            status_msg[0] = (f'⚠ {n_unpushed} commit(s) não enviado(s) ao remoto — '
+                             f'rode: investsh sync')
 
     # Migrate Nomad assets: add balanceUSD if missing
     dol = data.get('dollarRate', 1)
@@ -971,6 +979,16 @@ def run_tui(data, crypto_prices=None):
 
         # ── draw / event loop ─────────────────────────────────────────────────
         while True:
+            # Resultado do commit/push em segundo plano, quando terminar
+            if pending_sync[0]:
+                st = sync.read_state()
+                if st and st.get('job') == pending_sync[0]['job'] and st.get('state') == 'done':
+                    status_msg[0] = f"{pending_sync[0]['msg']}  {st.get('message', '')}".rstrip()
+                    pending_sync[0] = None
+                elif not status_msg[0]:
+                    status_msg[0] = pending_sync[0]['msg'] + (
+                        '  ↻ enviando…' if config.GIT_PUSH else '  ↻ commit…')
+
             h, w = stdscr.getmaxyx()
             stdscr.erase()
             t = tab[0]
@@ -1032,7 +1050,13 @@ def run_tui(data, crypto_prices=None):
             except curses.error: pass
 
             stdscr.refresh()
-            key, kchar = read_key(stdscr)
+            # Com envio pendente, acorda a cada 250 ms para atualizar a barra
+            stdscr.timeout(250 if pending_sync[0] else -1)
+            try:
+                key, kchar = read_key(stdscr)
+            except curses.error:   # timeout sem tecla
+                continue
+            stdscr.timeout(-1)
 
             # ── search mode ───────────────────────────────────────────────────
             if srch_act[0]:
@@ -1052,12 +1076,15 @@ def run_tui(data, crypto_prices=None):
 
             # ── normal mode ───────────────────────────────────────────────────
             def save_inplace():
-                ok, msg = do_save_tui(data, total_before[0], pre_balances)
+                ok, msg, job = do_save_tui(data, total_before[0], pre_balances)
                 pre_balances.clear()
                 pre_balances.update({i['name']: i['balance'] for i in data['investments']})
                 total_before[0] = sum(pre_balances.values())
                 dirty[0] = False
-                status_msg[0] = msg
+                if job and config.AUTO_GIT:
+                    pending_sync[0] = {'job': job, 'msg': msg}   # barra mostra o andamento
+                else:
+                    status_msg[0] = msg
                 refresh()
 
             if key == ord('q'):

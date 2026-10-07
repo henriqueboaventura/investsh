@@ -83,7 +83,18 @@ Ao salvar:
 
 - `data/investments.json` é gravado e um snapshot vai para `data/history.json`
   (alimenta os gráficos de evolução);
-- com `matplotlib` instalado, o resumo visual é gerado em `assets/status.png`.
+- com `matplotlib` instalado, o resumo visual é gerado em `assets/status.png`;
+- com o [commit automático](#versionar-seus-dados-com-git) ligado, os dados são commitados
+  e enviados ao remoto.
+
+Na tela interativa, a imagem e o commit/push rodam **em segundo plano**: a tela não trava
+e você pode sair na hora, que o envio continua sozinho. A barra mostra `↻ enviando…` e
+depois o resultado (`↑ push ok` ou `⚠ push falhou`). Se um envio falhar (ex.: sem
+internet), o investsh avisa na próxima vez que abrir; para reenviar:
+
+```bash
+investsh sync     # gera a imagem e faz commit/push agora, mostrando o resultado
+```
 
 Sem terminal interativo, ou para scripts: `investsh --menu` abre um menu
 numerado com as mesmas funções (opção `V` mostra a carteira completa).
@@ -122,6 +133,8 @@ push = true          # e envia para o remoto (false = só commit local)
 ```
 
 A configuração vale só para essa pasta: rodar o `investsh` em outro lugar não commita nada.
+Commits que não chegarem ao remoto (ex.: sem internet) são avisados ao abrir o investsh e
+reenviados no próximo save ou com `investsh sync`.
 Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligado.
 Para ligar ou desligar temporariamente, por cima do arquivo: `FINANCES_AUTO_GIT=1` ou `0`.
 
@@ -153,7 +166,8 @@ convertidos pela cotação do dia.
 │   ├── menu.py           # Modo texto (--menu)
 │   ├── tui.py            # Tela interativa (curses)
 │   ├── image.py          # Imagem de resumo (matplotlib)
-│   ├── storage.py        # Primeira execução, salvar, histórico, commit automático
+│   ├── storage.py        # Primeira execução, salvar, histórico
+│   ├── sync.py           # Imagem + commit/push (em segundo plano na TUI; `investsh sync`)
 │   ├── analyze.py        # Prompt de análise para IA
 │   └── examples/         # Dados fictícios (ponto de partida)
 ├── tests/                # Testes de regressão (ver tests/README.md)

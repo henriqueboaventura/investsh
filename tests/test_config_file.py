@@ -147,7 +147,7 @@ def test_tui_commit_without_push_status(repo, tui_factory):
     before = remote_head(repo)
     write_config(repo, '[git]\nauto_commit = true\npush = false\n')
     t = tui_factory()
-    t.press('d', 'enter', 'u').fill('1').press('w', 's', until='✓ Salvo')
+    t.press('d', 'enter', 'u').fill('1').press('w', 's', until='✓ commit (sem push)')
     assert '✓ commit (sem push)' in t.text()
     t.press('q')
     assert t.wait_exit() == 0

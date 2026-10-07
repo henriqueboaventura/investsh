@@ -20,6 +20,7 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 | `test_status_image.py` | Imagem `assets/status.png` | Chamadas de desenho do matplotlib (pixels variam por máquina) |
 | `test_analyze.py` | Prompt de análise, clipboard e fallback para arquivo | Prompt completo |
 | `test_config_file.py` | `investsh.toml`: commit/push automático, validação, variável de ambiente por cima | Repositório git real com remoto |
+| `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
 | `test_cli.py` | `--dir`, `$INVESTSH_DIR`, `--version`, subcomandos | Asserções |
 
 ## Determinismo
