@@ -221,7 +221,8 @@ O projeto tem uma suíte de regressão que cobre o menu, a TUI, a imagem e os c�
 ```bash
 git clone https://github.com/henriqueboaventura/investsh.git && cd investsh
 python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
-.venv/bin/pytest
+.venv/bin/pytest          # rápidos (~10s)
+.venv/bin/pytest --all    # inclui a tela interativa (~1 min); é o que o CI roda
 ```
 
 Detalhes em [tests/README.md](tests/README.md).

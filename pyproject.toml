@@ -14,7 +14,7 @@ dependencies = ["tomli>=1.1; python_version < '3.11'"]   # leitura de investsh.t
 
 [project.optional-dependencies]
 image = ["matplotlib>=3.7"]          # resumo em imagem (assets/status.png)
-dev = ["matplotlib>=3.7", "pytest>=8", "pyte>=0.8"]
+dev = ["matplotlib>=3.7", "pytest>=8", "pytest-xdist>=3", "pyte>=0.8"]
 
 [project.scripts]
 investsh = "investsh.cli:main"

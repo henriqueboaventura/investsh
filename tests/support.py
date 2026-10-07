@@ -305,7 +305,21 @@ class TUI:
         fcntl.ioctl(fd, termios.TIOCSWINSZ, struct.pack('HHHH', rows, cols, 0, 0))
         self.exit_status = None
         self.raw = b''
-        self.settle(min_wait=1.0)
+        self.wait_ready()
+
+    # Textos que indicam que o investsh já está esperando teclas: a barra de abas
+    # da TUI, ou a pergunta de primeira execução (antes do curses assumir o terminal).
+    READY = ('Sumário   Alocação', 'Escolha [1]:')
+
+    def wait_ready(self, timeout=60):
+        """Espera a tela inicial. Teclas enviadas antes disso passam pelo modo de
+        linha do terminal (antes do curses) e se perdem; sob carga, o início demora."""
+        start = time.time()
+        while not any(r in self.text() for r in self.READY):
+            if self.exit_status is not None or time.time() - start > timeout:
+                raise AssertionError(f'investsh não ficou pronto:\n{self.text()}')
+            self._read(0.05)
+        self.settle()
 
     def _read(self, timeout):
         r, _, _ = select.select([self.fd], [], [], timeout)

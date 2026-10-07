@@ -6,9 +6,14 @@ Servem de rede de segurança para refatorações.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
-.venv/bin/pytest            # suíte completa (~3 min, a maior parte na TUI)
-.venv/bin/pytest -k menu    # só um grupo
+.venv/bin/pytest            # rápidos: cálculos, menu, CLI, configuração (~10s)
+.venv/bin/pytest --all      # tudo, inclusive a tela interativa (~1 min); o CI usa este
+.venv/bin/pytest -n0 -k menu --all   # um grupo, sem paralelismo (melhor para depurar)
 ```
+
+Os testes rodam em paralelo (`pytest-xdist`, `-n auto` no `pytest.ini`): cada um usa
+uma pasta isolada. Todo teste que dirige a tela interativa (fixture `tui_factory`) é
+marcado como `slow` automaticamente e só roda com `--all`.
 
 ## O que é coberto
 

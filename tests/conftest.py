@@ -1,16 +1,51 @@
+import os
 import shutil
+import subprocess
+import sys
 import tempfile
 from pathlib import Path
 
 import pytest
 
-import sys
-
-from support import PKG_SRC, App
+from support import MPL_CACHE, PKG_SRC, App
 
 # Testes unitários importam o pacote testado (não um investsh instalado)
 sys.path.insert(0, str(PKG_SRC))
 
+
+# ── Testes lentos ────────────────────────────────────────────────────────────
+# Todo teste que dirige a tela interativa (fixture tui_factory) é "slow": cada
+# tecla espera a tela assentar. `pytest` roda só os rápidos; `pytest --all`, tudo.
+
+def pytest_addoption(parser):
+    parser.addoption('--all', action='store_true',
+                     help='inclui os testes lentos (tela interativa); o CI usa esta opção')
+
+
+def pytest_configure(config):
+    config.addinivalue_line('markers', 'slow: teste lento (tela interativa); rode com --all')
+    # Com xdist, monta o cache de fontes do matplotlib uma vez antes dos workers,
+    # em vez de vários processos montarem o mesmo cache ao mesmo tempo.
+    if not hasattr(config, 'workerinput'):
+        MPL_CACHE.mkdir(parents=True, exist_ok=True)
+        subprocess.run([sys.executable, '-c', 'import matplotlib.font_manager'],
+                       env={**os.environ, 'MPLCONFIGDIR': str(MPL_CACHE), 'MPLBACKEND': 'Agg'},
+                       capture_output=True)
+
+
+def pytest_collection_modifyitems(config, items):
+    for item in items:
+        if 'tui_factory' in getattr(item, 'fixturenames', ()):
+            item.add_marker(pytest.mark.slow)
+    if config.getoption('--all'):
+        return
+    skip = pytest.mark.skip(reason='lento: rode com --all')
+    for item in items:
+        if 'slow' in item.keywords:
+            item.add_marker(skip)
+
+
+# ── Fixtures ─────────────────────────────────────────────────────────────────
 
 @pytest.fixture
 def app():

@@ -241,7 +241,10 @@ def test_first_run_then_tui(app, tui_factory):
     t = tui_factory()
     # Só texto: o caminho absoluto impresso tem tamanho diferente em macOS (/private/tmp) e Linux
     t.snap('pergunta de primeira execução', styles=False)
-    t.press('2', 'enter').snap('TUI com dados de exemplo')
+    t.press('2', 'enter')
+    t.READY = ('Sumário   Alocação',)
+    t.wait_ready()
+    t.snap('TUI com dados de exemplo')
     t.press('q')
     assert t.wait_exit() == 0
     finish(app, t, 'first_run', with_data=False)
@@ -251,6 +254,8 @@ def test_empty_portfolio(app, tui_factory):
     # Sem matplotlib: com ele, o resultado depende da versão (bug da imagem com carteira vazia)
     t = tui_factory(INVESTSH_TEST_NO_MPL='1')
     t.press('1', 'enter')
+    t.READY = ('Sumário   Alocação',)
+    t.wait_ready()
     for key, label in (('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
