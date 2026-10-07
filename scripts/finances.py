@@ -746,7 +746,7 @@ def do_view(data):
         if cls not in groups:
             continue
         cls_total = sum(groups[cls].values())
-        cls_pct   = cls_total / alloc_total * 100
+        cls_pct   = cls_total / alloc_total * 100 if alloc_total else 0
         cls_ideal = ideal.get(cls_ideal_key.get(cls, ''), 0)
         diff      = cls_pct - cls_ideal
         dcol      = (G if abs(diff) < 2 else R) if cls_ideal else DIM
@@ -757,7 +757,7 @@ def do_view(data):
         print(f'  {col}{BLD}{cls:<30}{RST}  {W}{brl_fmt(cls_total):>14}{RST}  {cls_pct:>5.1f}%  {DIM}{ideal_s:>6}{RST}  {dcol}{diff_s:>6}{RST}')
 
         for sub, sub_bal in sorted(groups[cls].items(), key=lambda x: -x[1]):
-            sub_pct   = sub_bal / alloc_total * 100
+            sub_pct   = sub_bal / alloc_total * 100 if alloc_total else 0
             sub_ideal = ideal.get(sub_ideal_key.get(sub, ''), 0)
             diff_sub  = sub_pct - sub_ideal
             dcol_sub  = (G if abs(diff_sub) < 2 else R) if sub_ideal else DIM
@@ -823,7 +823,7 @@ def do_view(data):
         if broker != current_broker:
             current_broker = broker
             broker_total = sum(i['balance'] for i in invs if i.get('broker') == broker)
-            print(f'\n  {M}{BLD}── {broker}  {brl_fmt(broker_total)} ({broker_total/total*100:.1f}%) ──{RST}')
+            print(f'\n  {M}{BLD}── {broker}  {brl_fmt(broker_total)} ({broker_total/total*100 if total else 0:.1f}%) ──{RST}')
             print(f'  {DIM}{"Nome":<40}  {"Categoria":<22}  {"Saldo":>14}  Ganho%  Δ Mês{RST}')
             print_sep(width=95)
 
@@ -1480,7 +1480,7 @@ def run_tui(data, crypto_prices=None):
             for cls in ['Renda Fixa', 'Renda Variável', 'Multiativo Global', 'Previdência', 'Outros']:
                 if cls not in groups: continue
                 ct   = sum(groups[cls].values())
-                cp   = ct / total * 100
+                cp   = ct / total * 100 if total else 0
                 ci   = ideal.get(cls_ik.get(cls, ''), 0)
                 diff = cp - ci
                 dc   = GRN if abs(diff) < 2 else RED
@@ -1493,7 +1493,7 @@ def run_tui(data, crypto_prices=None):
                     seg(f'  {f"{diff:+.1f}%" if ci else "—":>6}', dc),
                 ]))
                 for sub, sb in sorted(groups[cls].items(), key=lambda x: -x[1]):
-                    sp  = sb / total * 100
+                    sp  = sb / total * 100 if total else 0
                     si  = ideal.get(sub_ik.get(sub, ''), 0)
                     ds  = sp - si
                     dcs = GRN if abs(ds) < 2 else RED
@@ -1535,7 +1535,7 @@ def run_tui(data, crypto_prices=None):
                     curb = broker
                     bt   = sum(i['balance'] for i in invs if i.get('broker') == broker)
                     out += [row([]),
-                            row([seg(f'  ── {broker}  {brl_fmt(bt)} ({bt/tot*100:.1f}%) ──', MAG | BOLD)]),
+                            row([seg(f'  ── {broker}  {brl_fmt(bt)} ({bt/tot*100 if tot else 0:.1f}%) ──', MAG | BOLD)]),
                             row([seg(f'  {"Nome":<{nw}}  {"Categoria":<22}  {"Saldo":>14}  {"G%":>7}  {"Δ Mês":>14}', DIM)]),
                             row([seg('  ' + '─' * sepw, DIM)])]
                 bal  = inv['balance']
@@ -1569,7 +1569,7 @@ def run_tui(data, crypto_prices=None):
             out.append(row([seg(f"  {'Broker':<12}  {'Saldo':>14}  {'%':>6}  Barra", DIM)]))
             out.append(row([seg('  ' + '─' * 50, DIM)]))
             for b, bal in sorted(agg.items(), key=lambda x: -x[1]):
-                pct = bal / tot * 100
+                pct = bal / tot * 100 if tot else 0
                 out.append(row([seg(f'  {b:<12}', CYN), seg(f'  {brl_fmt(bal):>14}', 0),
                                 seg(f'  {pct:>5.1f}%  ', 0), seg('█' * int(pct / 2), GRN)]))
             out.append(row([seg('  ' + '─' * 50, DIM)]))
@@ -1764,8 +1764,8 @@ def run_tui(data, crypto_prices=None):
             max_bal = max(groups.values()) if groups else 1
             bar_max = 30
             for sub, bal in sorted(groups.items(), key=lambda x: -x[1]):
-                pct     = bal / total * 100
-                n_bars  = int(bal / max_bal * bar_max)
+                pct     = bal / total * 100 if total else 0
+                n_bars  = int(bal / max_bal * bar_max) if max_bal else 0
                 si      = ideal.get(sub_ik.get(sub, ''), 0)
                 diff    = pct - si if si else 0
                 bc      = GRN if not si or abs(diff) < 2 else YLW
@@ -2220,10 +2220,17 @@ def generate_status_image(data):
     colors1 = [ALLOC_C.get(l, '#888') for l in labels]
 
     cy, radius = 0.40, 0.70
-    wedges, _ = ax1.pie(sizes, colors=colors1, startangle=90, radius=radius,
-                        center=(0, cy),
-                        wedgeprops=dict(width=0.52, edgecolor=bg, linewidth=2.5))
-    ax1.set_aspect('equal')
+    if alloc_total <= 0:
+        # Carteira vazia (ou só saldos zerados): pie() não aceita fatias zeradas
+        ax1.axis('off')
+        ax1.text(0.5, 0.5, 'Sem saldo para mostrar a alocação',
+                 color=dim, fontsize=10, ha='center', va='center')
+        wedges, sizes, main_alloc = [], [], {}
+    else:
+        wedges, _ = ax1.pie(sizes, colors=colors1, startangle=90, radius=radius,
+                            center=(0, cy),
+                            wedgeprops=dict(width=0.52, edgecolor=bg, linewidth=2.5))
+        ax1.set_aspect('equal')
 
     for wedge, val in zip(wedges, sizes):
         pct = val / alloc_total * 100
@@ -2243,8 +2250,9 @@ def generate_status_image(data):
         ax1.text(-0.86, y, f'{lbl}    {val/alloc_total*100:.1f}%', color=colors1[i],
                  fontsize=10, va='center', ha='left', fontweight='bold')
 
-    ax1.set_xlim(-1.1, 1.1)
-    ax1.set_ylim(legend_top - n_leg * 0.24 - 0.05, cy + radius + 0.15)
+    if alloc_total > 0:
+        ax1.set_xlim(-1.1, 1.1)
+        ax1.set_ylim(legend_top - n_leg * 0.24 - 0.05, cy + radius + 0.15)
     ax1.set_title('Alocação', color=dim, fontsize=10.5, pad=4, loc='left')
 
     # ── Panel 4: Broker bars ──────────────────────────────────────────────────
@@ -2263,7 +2271,7 @@ def generate_status_image(data):
 
     max_val = max(bvals) if bvals else 1
     for bar, val in zip(bars, bvals):
-        pct = val / total * 100
+        pct = val / total * 100 if total else 0
         ax2.text(max_val * 0.01, bar.get_y() + bar.get_height() / 2,
                  f'  {pct:.1f}%   {brl_fmt(val)}',
                  va='center', ha='left', color=textc, fontsize=10)
@@ -2325,7 +2333,7 @@ def generate_status_image(data):
         if row[0] == 'header':
             _, broker, btotal = row
             bcol = BR_C.get(broker, '#888')
-            pct  = btotal / total * 100
+            pct  = btotal / total * 100 if total else 0
             ax3.text(COL['name'], y,
                      f'── {broker}   {brl_fmt(btotal)}  ({pct:.1f}%)',
                      color=bcol, fontsize=font_sz, va='center',

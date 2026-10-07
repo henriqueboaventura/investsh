@@ -1,0 +1,33 @@
+{"args": [], "call": "pyplot.figure", "kwargs": {"dpi": 130, "facecolor": "#080d1a", "figsize": [9.0, 7.665]}}
+{"args": [0, 1], "call": "Axes.set_xlim", "kwargs": {}}
+{"args": [0, 1], "call": "Axes.set_ylim", "kwargs": {}}
+{"args": [0.035, 0.9, "investsh"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 17, "fontweight": "bold", "va": "top"}}
+{"args": [0.965, 0.9, "2026-10-06"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "ha": "right", "va": "top"}}
+{"args": [0.76], "call": "Axes.axhline", "kwargs": {"alpha": 0.4, "color": "#4d6a8a", "linewidth": 0.4, "xmax": 0.98, "xmin": 0.02}}
+{"args": [0.035, 0.66, "Patrimônio"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "top"}}
+{"args": [0.035, 0.56, "R$ 0,00"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 23, "fontweight": "bold", "va": "top"}}
+{"args": [0.035, 0.28, "+R$ 0,00  (+0.00%)"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 12, "va": "top"}}
+{"args": [0.035, 0.16, "vs última atualização"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9, "va": "top"}}
+{"args": [0.58, 0.66, "c/ FGTS"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "top"}}
+{"args": [0.58, 0.56, "R$ 0,00"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 15, "fontweight": "600", "va": "top"}}
+{"args": [0.58, 0.28, "0 ativos"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 11, "va": "top"}}
+{"args": [0.58, 0.16, "FGTS: R$ 0,00"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 11, "va": "top"}}
+{"args": [0.5, 0.5, "Histórico insuficiente para gráfico de evolução"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10, "ha": "center", "va": "center"}}
+{"args": ["Evolução Patrimonial"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 6}}
+{"args": [0.5, 0.5, "Sem saldo para mostrar a alocação"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10, "ha": "center", "va": "center"}}
+{"args": ["Alocação"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 4}}
+{"args": [[], []], "call": "Axes.barh", "kwargs": {"color": [], "edgecolor": "none", "height": 0.5}}
+{"args": [0, 1.02], "call": "Axes.set_xlim", "kwargs": {}}
+{"args": ["Por Corretora"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 4}}
+{"args": [0.5, 0.5, "Histórico insuficiente para evolução por corretora"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10, "ha": "center", "va": "center"}}
+{"args": ["Evolução por Corretora"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 6}}
+{"args": [0, 1], "call": "Axes.set_xlim", "kwargs": {}}
+{"args": [0.01, 0.5, "Ativo"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
+{"args": [0.36, 0.5, "Categoria"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
+{"args": [0.56, 0.5, "Saldo"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
+{"args": [0.72, 0.5, "Ganho%"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
+{"args": [0.84, 0.5, "Δ Mês"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
+{"args": [0.0], "call": "Axes.axhline", "kwargs": {"alpha": 0.5, "color": "#4d6a8a", "linewidth": 0.4}}
+{"args": [0, 1], "call": "Axes.set_ylim", "kwargs": {}}
+{"args": ["Ativos"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 4}}
+{"args": ["status.png"], "call": "Figure.savefig", "kwargs": {"bbox_inches": "tight", "dpi": 130, "edgecolor": "none", "facecolor": "#080d1a"}}

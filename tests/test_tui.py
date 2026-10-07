@@ -328,3 +328,15 @@ def test_save_without_matplotlib(demo, tui_factory):
     assert t.wait_exit() == 0
     assert not (demo.root / 'assets' / 'status.png').exists()
     finish(demo, t, 'save_no_matplotlib')
+
+
+def test_zero_balances(demo, tui_factory):
+    demo.edit(lambda d: [i.update(balance=0.0, previousBalance=0.0) for i in d['investments']])
+    t = tui_factory(INVESTSH_TEST_RATES='fail')
+    for key, label in (('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+                       ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
+        t.press(key).snap(label)
+    t.press('w', 's', until='✓ Salvo').snap('salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    finish(demo, t, 'zero_balances')

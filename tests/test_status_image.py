@@ -52,3 +52,9 @@ def test_image_after_losses(demo, tmp_path):
     proc, calls = render(demo, tmp_path, ['1', *answers, '0', 's'])
     assert proc.returncode == 0
     golden('losses', calls)
+
+
+def test_image_empty_portfolio(app, tmp_path):
+    proc, calls = render(app, tmp_path, ['1', '0', 's'])
+    assert proc.returncode == 0
+    golden('empty', calls)

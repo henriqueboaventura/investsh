@@ -93,11 +93,15 @@ def test_first_run_empty_portfolio(app):
     golden_run(app, 'first_run_empty', ['1', 'V', '0', 's'], INVESTSH_TEST_NO_MPL='1')
 
 
-@pytest.mark.xfail(reason='BUG conhecido: com matplotlib recente (ex.: 3.11), salvar carteira vazia quebra '
-                          'em generate_status_image (pie sem fatias) depois de gravar data/',
-                   strict=False)
 def test_save_empty_portfolio_with_matplotlib(app):
     proc = app.menu(['1', '0', 's'])
+    assert proc.returncode == 0, proc.stderr
+    assert (app.root / 'assets' / 'status.png').read_bytes()[:4] == b'\x89PNG'
+
+
+def test_save_zero_balances_with_matplotlib(demo):
+    demo.edit(lambda d: [i.update(balance=0.0) for i in d['investments']])
+    proc = demo.menu(['0', 's'], INVESTSH_TEST_RATES='fail')
     assert proc.returncode == 0, proc.stderr
 
 
@@ -327,3 +331,8 @@ def test_save_auto_git_without_git_installed(demo, tmp_path):
     proc = demo.menu(['0', 's'], FINANCES_AUTO_GIT='1', PATH=empty)
     assert proc.returncode == 0
     assert 'git não encontrado, commit pulado.' in strip_ansi(proc.stdout)
+
+
+def test_view_zero_balances(demo):
+    demo.edit(lambda d: [i.update(balance=0.0, previousBalance=0.0) for i in d['investments']])
+    golden_run(demo, 'view_zero_balances', ['V', 'x'], with_data=False, INVESTSH_TEST_RATES='fail')

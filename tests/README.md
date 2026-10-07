@@ -65,7 +65,7 @@ ao corrigir um deles, regrave os goldens afetados e revise o diff.
 
 | # | Onde | Bug | Teste que registra |
 |---|---|---|---|
-| 1 | Imagem | Com matplotlib recente (ex.: 3.11; a versão do Python 3.9 não quebra), salvar carteira vazia quebra (`pie` sem fatias) depois de gravar `data/`; no `--menu` o programa sai com erro | `test_save_empty_portfolio_with_matplotlib` (xfail) |
+| 1 | Imagem, menu, TUI | Corrigido: carteira vazia ou com saldos zerados quebrava a imagem (`pie` sem fatias) e as telas (divisão por zero) | `test_save_empty_portfolio_with_matplotlib`, `view_zero_balances`, `tui/zero_balances` |
 | 2 | TUI | Corrigido: o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
 | 3 | TUI | Texto com acento digitado vira mojibake (`Debênture` → `DebÃªnture`): `curs_input` trata bytes UTF-8 como caracteres | `tui/new_assets.txt` |
 | 4 | TUI | "Atualizar todos" (`u`) muda a quantidade de cripto mas não recalcula o saldo em R$ | `tui/update_all.txt` |
