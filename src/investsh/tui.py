@@ -4,8 +4,8 @@ import json, os
 from . import config
 from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
-    reserva_status, IX_LABEL, PURPOSE_LABEL, _INDEXERS, _ALLOCATION_GROUPS, _PURPOSES,
-    IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
+    reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
+    _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
 )
 from .storage import do_save_tui
 
@@ -223,13 +223,10 @@ def run_tui(data, crypto_prices=None):
             return True
         return False
 
-    CATEGORIES = [
-        'CDB', 'LCA', 'LCI', 'Tesouro Direto', 'ETF',
-        'Fundo Imobiliário', 'Fundos de Investimento',
-        'Previdência Privada', 'Crypto',
-    ]
-    TYPES = ['POS', 'PRE', 'IPCA', 'Ouro', '(nenhum)']
-    BROKERS = ['XP', 'Nubank', 'Nomad', 'Binance']
+    # Mesmas listas do --menu (core.py): um só lugar para incluir corretoras etc.
+    CATEGORIES = _CATEGORIES
+    TYPES = _TYPES
+    BROKERS = _BROKERS
     INDEXERS = _INDEXERS + ['(nenhum)', 'Outro (digitar)']
     ALLOCATION_GROUPS = _ALLOCATION_GROUPS + ['Outro (digitar)']
     PURPOSES = _PURPOSES + ['Outro (digitar)']
