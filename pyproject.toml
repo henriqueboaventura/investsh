@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "investsh"
+dynamic = ["version"]
+description = "Controle de investimentos no terminal, para o investidor brasileiro. 100% local."
+readme = "README.md"
+requires-python = ">=3.9"
+license = {text = "MIT"}
+authors = [{name = "Henrique Boaventura"}]
+dependencies = []
+
+[project.optional-dependencies]
+image = ["matplotlib>=3.7"]          # resumo em imagem (assets/status.png)
+dev = ["matplotlib>=3.7", "pytest>=8", "pyte>=0.8"]
+
+[project.scripts]
+investsh = "investsh.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/henriqueboaventura/investsh"
+
+[tool.setuptools.dynamic]
+version = {attr = "investsh.__version__"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+investsh = ["examples/*.json"]

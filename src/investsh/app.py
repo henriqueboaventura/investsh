@@ -1,11 +1,18 @@
-#!/usr/bin/env python3
-"""investsh — carteira de investimentos. Uso: python3 scripts/finances.py [--menu]"""
+"""investsh — carteira de investimentos: menu texto e TUI curses."""
 import json, os, sys, io, contextlib, urllib.request
 from datetime import datetime
 
-ROOT = os.path.join(os.path.dirname(os.path.abspath(__file__)), '..')
+# Diretório de trabalho: contém data/ (seus dados) e assets/ (imagem de resumo).
+# Padrão: diretório atual; o comando `investsh --dir` muda via configure().
+ROOT = os.getcwd()
 DATA = os.path.join(ROOT, 'data', 'investments.json')
-EXAMPLE = os.path.join(ROOT, 'examples', 'investments.json')
+EXAMPLE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'examples', 'investments.json')
+
+
+def configure(base_dir):
+    global ROOT, DATA
+    ROOT = os.path.abspath(base_dir)
+    DATA = os.path.join(ROOT, 'data', 'investments.json')
 
 # Commit + push automático em data/ a cada save. Desligado por padrão para não
 # publicar dados financeiros por acidente. Ative com FINANCES_AUTO_GIT=1.
@@ -2587,65 +2594,66 @@ def first_run():
     print(f'{DIM}  Ajuste alocação ideal, reserva e projeção em "Parâmetros".{RST}\n')
     return d
 
-if os.path.isfile(DATA):
-    with open(DATA, encoding='utf-8') as f:
-        data = json.load(f)
-else:
-    data = first_run()
+def run(menu=False):
+    if os.path.isfile(DATA):
+        with open(DATA, encoding='utf-8') as f:
+            data = json.load(f)
+    else:
+        data = first_run()
 
-if '--menu' in sys.argv:
-    # Modo texto clássico (útil em ambientes sem TTY ou para scripting)
-    total_before = sum(i['balance'] for i in data['investments'])
-    pre_balances = {i['name']: i['balance'] for i in data['investments']}
+    if menu:
+        # Modo texto clássico (útil em ambientes sem TTY ou para scripting)
+        total_before = sum(i['balance'] for i in data['investments'])
+        pre_balances = {i['name']: i['balance'] for i in data['investments']}
 
-    print(f'\n{BLD}{G}╔══════════════════════════════════════╗')
-    print(f'║    investsh — Atualização Mensal     ║')
-    print(f'╚══════════════════════════════════════╝{RST}')
-    print(f'\n{DIM}Arquivo: {DATA}{RST}')
-    print(f'Última atualização: {W}{data["lastUpdated"]}{RST}')
-    print(f'Total atual:        {W}{fmt(sum(i["balance"] for i in data["investments"]))}{RST}')
-    print(f'FGTS:               {W}{fmt(data["fgts"])}{RST}')
+        print(f'\n{BLD}{G}╔══════════════════════════════════════╗')
+        print(f'║    investsh — Atualização Mensal     ║')
+        print(f'╚══════════════════════════════════════╝{RST}')
+        print(f'\n{DIM}Arquivo: {DATA}{RST}')
+        print(f'Última atualização: {W}{data["lastUpdated"]}{RST}')
+        print(f'Total atual:        {W}{fmt(sum(i["balance"] for i in data["investments"]))}{RST}')
+        print(f'FGTS:               {W}{fmt(data["fgts"])}{RST}')
 
-    dolar, crypto_prices = fetch_rates(data)
-
-    MENU = {
-        '1': ('Atualizar saldos (todos)',   lambda: do_update(data, dolar, crypto_prices)),
-        '2': ('Atualizar ativo específico', lambda: do_update_single(data, dolar, crypto_prices)),
-        '3': ('Registrar aporte',           lambda: do_aporte(data)),
-        '4': ('Registrar saque',            lambda: do_saque(data)),
-        '5': ('Adicionar novo ativo',       lambda: do_add(data, dolar)),
-        '6': ('Remover ativo',              lambda: do_remove(data)),
-        '7': ('Parâmetros',                 lambda: do_params(data)),
-        'V': ('Visualizar (terminal)',      lambda: do_view(data)),
-    }
-
-    while True:
-        print(f'\n{BLD}{W}O que deseja fazer?{RST}')
-        for k, (label, _) in MENU.items():
-            print(f'  {C}[{k}]{RST} {label}')
-        print(f'  {C}[0]{RST} Salvar e sair')
-        print(f'  {C}[x]{RST} Sair sem salvar')
-
-        choice = input(f'\n{C}Escolha{RST}: ').strip()
-
-        if choice == '0':
-            do_save(data, total_before, pre_balances)
-            break
-        elif choice.lower() == 'x':
-            print(f'\n{Y}Saindo sem salvar.{RST}\n')
-            break
-        elif choice in MENU:
-            MENU[choice][1]()
-        else:
-            print(f'{Y}  Opção inválida.{RST}')
-
-else:
-    # Modo padrão: TUI curses
-    with contextlib.redirect_stdout(io.StringIO()):
         dolar, crypto_prices = fetch_rates(data)
-    for inv in data['investments']:
-        if inv.get('category') == 'Crypto':
-            price = crypto_prices.get(inv['name'])
-            if price and inv.get('quantity') is not None:
-                inv['balance'] = round(inv['quantity'] * price, 4)
-    run_tui(data, crypto_prices)
+
+        MENU = {
+            '1': ('Atualizar saldos (todos)',   lambda: do_update(data, dolar, crypto_prices)),
+            '2': ('Atualizar ativo específico', lambda: do_update_single(data, dolar, crypto_prices)),
+            '3': ('Registrar aporte',           lambda: do_aporte(data)),
+            '4': ('Registrar saque',            lambda: do_saque(data)),
+            '5': ('Adicionar novo ativo',       lambda: do_add(data, dolar)),
+            '6': ('Remover ativo',              lambda: do_remove(data)),
+            '7': ('Parâmetros',                 lambda: do_params(data)),
+            'V': ('Visualizar (terminal)',      lambda: do_view(data)),
+        }
+
+        while True:
+            print(f'\n{BLD}{W}O que deseja fazer?{RST}')
+            for k, (label, _) in MENU.items():
+                print(f'  {C}[{k}]{RST} {label}')
+            print(f'  {C}[0]{RST} Salvar e sair')
+            print(f'  {C}[x]{RST} Sair sem salvar')
+
+            choice = input(f'\n{C}Escolha{RST}: ').strip()
+
+            if choice == '0':
+                do_save(data, total_before, pre_balances)
+                break
+            elif choice.lower() == 'x':
+                print(f'\n{Y}Saindo sem salvar.{RST}\n')
+                break
+            elif choice in MENU:
+                MENU[choice][1]()
+            else:
+                print(f'{Y}  Opção inválida.{RST}')
+
+    else:
+        # Modo padrão: TUI curses
+        with contextlib.redirect_stdout(io.StringIO()):
+            dolar, crypto_prices = fetch_rates(data)
+        for inv in data['investments']:
+            if inv.get('category') == 'Crypto':
+                price = crypto_prices.get(inv['name'])
+                if price and inv.get('quantity') is not None:
+                    inv['balance'] = round(inv['quantity'] * price, 4)
+        run_tui(data, crypto_prices)

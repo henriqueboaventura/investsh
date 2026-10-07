@@ -3,13 +3,13 @@
 # stdout:
 
 {BLD}{G}Bem-vindo ao investsh!{RST}
-{DIM}Não encontrei <APP>/scripts/../data/investments.json.{RST}
+{DIM}Não encontrei <APP>/data/investments.json.{RST}
 
   {C}[1]{RST} Começar com carteira vazia {DIM}(recomendado){RST}
   {C}[2]{RST} Copiar dados de exemplo {DIM}(para explorar o app){RST}
   {C}[x]{RST} Sair
 
-{C}Escolha{RST} [1]: {G}✓ Criado <APP>/scripts/../data/investments.json{RST}
+{C}Escolha{RST} [1]: {G}✓ Criado <APP>/data/investments.json{RST}
 {DIM}  Ajuste alocação ideal, reserva e projeção em "Parâmetros".{RST}
 
 
@@ -17,7 +17,7 @@
 ║    investsh — Atualização Mensal     ║
 ╚══════════════════════════════════════╝{RST}
 
-{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+{DIM}Arquivo: <APP>/data/investments.json{RST}
 Última atualização: {W}2026-10-06{RST}
 Total atual:        {W}R$         0.00{RST}
 FGTS:               {W}R$         0.00{RST}

@@ -150,10 +150,7 @@ def test_history_snapshot(f):
 
 
 def test_broker_monthly_series(tmp_path):
-    (tmp_path / 'scripts').mkdir()
     (tmp_path / 'data').mkdir()
-    from support import SRC, FINANCES_CMD
-    (tmp_path / FINANCES_CMD[0]).write_text((SRC / FINANCES_CMD[0]).read_text(encoding='utf-8'), encoding='utf-8')
     hist = [
         {'date': '2026-01-01', 'total': 0, 'assets': [{'broker': 'XP', 'balance': 10}, {'broker': 'XP', 'balance': 5}]},
         {'date': '2026-02-01', 'total': 0},

@@ -38,24 +38,25 @@ FIXTURES = TESTS / 'fixtures'
 HARNESS = TESTS / 'harness.py'
 
 # ── Pontos de entrada (únicos lugares a ajustar numa reestruturação) ─────────
-FINANCES_CMD = ['scripts/finances.py']
-ANALYZE_CMD = ['scripts/analyze.py']
+PKG_SRC = SRC / 'src'                       # vai para o PYTHONPATH dos processos testados
+EXAMPLES = PKG_SRC / 'investsh' / 'examples'
+FINANCES_CMD = ['-m', 'investsh']
+ANALYZE_CMD = ['-m', 'investsh', 'analyze']
 
 FROZEN_NOW = '2026-10-06T12:00:00'
 
 
 def load_finances(root=None):
-    """Funções do finances.py sem executar o programa (para testes unitários).
+    """Módulo com as funções da carteira (para testes unitários).
 
-    Hoje executa o arquivo até o marcador '# ── Main ──'. Numa reestruturação,
-    trocar por imports do pacote novo e manter os mesmos nomes.
+    `root`: diretório de trabalho (com data/) para as funções que leem o histórico.
     """
-    import types
-    path = Path(root or SRC) / FINANCES_CMD[0]
-    src = path.read_text(encoding='utf-8').split('# ── Main ──')[0]
-    mod = types.ModuleType('finances_core')
-    mod.__file__ = str(path)
-    exec(compile(src, str(path), 'exec'), mod.__dict__)
+    import importlib
+    if str(PKG_SRC) not in sys.path:
+        sys.path.insert(0, str(PKG_SRC))
+    mod = importlib.import_module('investsh.app')
+    if root is not None:
+        mod.configure(root)
     return mod
 
 
@@ -110,9 +111,6 @@ class App:
 
     # ── preparação ──────────────────────────────────────────────────────────
     def setup(self):
-        shutil.copytree(SRC / 'scripts', self.root / 'scripts',
-                        ignore=shutil.ignore_patterns('__pycache__'))
-        shutil.copytree(SRC / 'examples', self.root / 'examples')
         (self.root / 'data').mkdir()
         return self
 
@@ -122,7 +120,7 @@ class App:
 
     def seed(self, dataset='examples', history=True):
         """Copia um conjunto de dados para data/ (examples ou tests/fixtures/<nome>)."""
-        src = REPO / 'examples' if dataset == 'examples' else FIXTURES / dataset
+        src = EXAMPLES if dataset == 'examples' else FIXTURES / dataset
         shutil.copy(src / 'investments.json', self.data_dir / 'investments.json')
         if history and (src / 'history.json').exists():
             shutil.copy(src / 'history.json', self.data_dir / 'history.json')
@@ -159,6 +157,7 @@ class App:
         env.update({
             'INVESTSH_TEST_NOW': FROZEN_NOW,
             'INVESTSH_TEST_RATES': 'ok',
+            'PYTHONPATH': str(PKG_SRC),
             'PYTHONIOENCODING': 'utf-8',
             'PYTHONDONTWRITEBYTECODE': '1',
             # do_remove itera um set: sem semente fixa a ordem das mensagens varia

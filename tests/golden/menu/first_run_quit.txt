@@ -3,7 +3,7 @@
 # stdout:
 
 {BLD}{G}Bem-vindo ao investsh!{RST}
-{DIM}Não encontrei <APP>/scripts/../data/investments.json.{RST}
+{DIM}Não encontrei <APP>/data/investments.json.{RST}
 
   {C}[1]{RST} Começar com carteira vazia {DIM}(recomendado){RST}
   {C}[2]{RST} Copiar dados de exemplo {DIM}(para explorar o app){RST}

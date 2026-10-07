@@ -1,6 +1,7 @@
 """Roda um script do investsh num ambiente determinístico.
 
 Uso: python tests/harness.py <script.py> [args...]
+     python tests/harness.py -m <módulo> [args...]
 
 Antes de executar o script, este wrapper:
 - congela data/hora em INVESTSH_TEST_NOW (ISO 8601);
@@ -18,6 +19,7 @@ import os
 import runpy
 import sys
 import urllib.request
+import importlib.util
 
 NOW = _dt.datetime.fromisoformat(os.environ.get('INVESTSH_TEST_NOW', '2026-10-06T12:00:00'))
 
@@ -73,6 +75,14 @@ def fake_urlopen(url, *args, **kwargs):
 urllib.request.urlopen = fake_urlopen
 
 
+def _target_dir():
+    """Diretório do código testado (script ou pacote), sem importá-lo."""
+    if sys.argv[1] == '-m':
+        spec = importlib.util.find_spec(sys.argv[2].split('.')[0])
+        return os.path.dirname(os.path.abspath(spec.origin))
+    return os.path.dirname(os.path.abspath(sys.argv[1]))
+
+
 def _install_plot_logger(path):
     """Registra as chamadas de desenho relevantes (texto, barras, pizza, linhas)."""
     import matplotlib
@@ -82,7 +92,7 @@ def _install_plot_logger(path):
     import matplotlib.pyplot as plt
 
     calls = []
-    app_dir = os.path.dirname(os.path.abspath(sys.argv[1]))
+    app_dir = _target_dir()
 
     def from_app():
         # Só registra chamadas feitas pelo código do investsh; as internas do
@@ -167,10 +177,15 @@ if os.environ.get('INVESTSH_COVERAGE'):
     import atexit
     import coverage
     _cov = coverage.Coverage(data_file=os.environ['INVESTSH_COVERAGE'], data_suffix=True,
-                             source=[os.path.dirname(os.path.abspath(sys.argv[1]))])
+                             source=[_target_dir()])
     _cov.start()
     atexit.register(lambda: (_cov.stop(), _cov.save()))
 
-script = sys.argv[1]
-sys.argv = sys.argv[1:]
-runpy.run_path(script, run_name='__main__')
+if sys.argv[1] == '-m':
+    module = sys.argv[2]
+    sys.argv = [module] + sys.argv[3:]
+    runpy.run_module(module, run_name='__main__', alter_sys=True)
+else:
+    script = sys.argv[1]
+    sys.argv = sys.argv[1:]
+    runpy.run_path(script, run_name='__main__')

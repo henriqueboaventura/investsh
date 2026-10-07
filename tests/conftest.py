@@ -4,7 +4,12 @@ from pathlib import Path
 
 import pytest
 
-from support import App
+import sys
+
+from support import PKG_SRC, App
+
+# Testes unitários importam o pacote testado (não um investsh instalado)
+sys.path.insert(0, str(PKG_SRC))
 
 
 @pytest.fixture

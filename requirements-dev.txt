@@ -1,4 +1,0 @@
-# Dependências para rodar os testes: pip install -r requirements-dev.txt
--r requirements.txt
-pytest>=8
-pyte>=0.8      # emulador de terminal: captura as telas da TUI nos testes

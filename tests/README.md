@@ -5,7 +5,7 @@ investsh em arquivos *golden* (`tests/golden/`) e falham se qualquer coisa mudar
 Servem de rede de segurança para refatorações.
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 .venv/bin/pytest            # suíte completa (~3 min, a maior parte na TUI)
 .venv/bin/pytest -k menu    # só um grupo
 ```
@@ -52,8 +52,11 @@ O erro mostra o diff entre o golden e a saída atual.
 ## Reestruturação do código
 
 Os pontos de entrada estão centralizados em `tests/support.py`
-(`FINANCES_CMD`, `ANALYZE_CMD`, `App.setup`, `load_finances`). Ao mover o código
-(ex.: para um pacote), ajuste só esses pontos: os goldens não devem mudar.
+(`PKG_SRC`, `FINANCES_CMD`, `ANALYZE_CMD`, `App.setup`, `load_finances`). Ao mover
+o código, ajuste só esses pontos: os goldens não devem mudar.
+
+Os processos testados rodam `python -m investsh` com `src/` no `PYTHONPATH`, ou
+seja, testam o código do repositório (não um investsh instalado).
 
 `INVESTSH_TEST_SRC=/outro/diretorio pytest` roda a suíte contra outra cópia do
 código, útil para comparar versões.

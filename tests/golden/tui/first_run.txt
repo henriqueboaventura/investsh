@@ -1,7 +1,7 @@
 === pergunta de primeira execução ===
 
 Bem-vindo ao investsh!
-Não encontrei <APP>/scripts/../data/investments.json.
+Não encontrei <APP>/data/investments.json.
 
   [1] Começar com carteira vazia (recomendado)
   [2] Copiar dados de exemplo (para explorar o app)

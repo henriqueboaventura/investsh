@@ -6,7 +6,7 @@
 ║    investsh — Atualização Mensal     ║
 ╚══════════════════════════════════════╝{RST}
 
-{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+{DIM}Arquivo: <APP>/data/investments.json{RST}
 Última atualização: {W}2026-10-06{RST}
 Total atual:        {W}R$   205,672.26{RST}
 FGTS:               {W}R$    18,500.00{RST}
@@ -60,7 +60,7 @@ FGTS:               {W}R$    18,500.00{RST}
   Total c/ FGTS: {W}R$   224,292.26{RST}
 
 {C}Salvar alterações? (s/n){RST}: 
-{G}{BLD}✓ Salvo em <APP>/scripts/../data/investments.json{RST}
+{G}{BLD}✓ Salvo em <APP>/data/investments.json{RST}
 {G}✓ Histórico atualizado para hoje (2026-10-06){RST}
 {G}✓ Imagem gerada: assets/status.png{RST}
 

@@ -1,8 +1,8 @@
 # Formato dos dados
 
 Todos os dados ficam em `data/` (fora do git por padrão). Exemplos completos em
-[`examples/`](../examples). Você pode editar os arquivos à mão ou usar os scripts —
-`scripts/finances.py` escreve exatamente este formato.
+[`src/investsh/examples/`](../src/investsh/examples). Você pode editar os arquivos à
+mão ou usar o `investsh`, que escreve exatamente este formato.
 
 Datas usam `YYYY-MM-DD`. Valores monetários estão em reais (BRL), exceto campos com
 sufixo `USD`.
@@ -12,7 +12,7 @@ sufixo `USD`.
 ```jsonc
 {
   "lastUpdated": "2026-10-01",
-  "dollarRate": 5.40,            // atualizado pelo finances.py ao buscar cotações
+  "dollarRate": 5.40,            // atualizado pelo investsh ao buscar cotações
   "fgts": 18500.0,               // saldo do FGTS (entra só no "total com FGTS")
   "idealAllocation": { ... },    // ver abaixo
   "emergencyReserve": { ... },   // ver abaixo
@@ -60,7 +60,7 @@ Campos comuns:
 | `maturity` | não | Vencimento, ou `null` |
 | `balance` | sim | Saldo atual em BRL |
 | `invested` | não | Custo/valor aplicado em BRL (base para rentabilidade) |
-| `previousBalance` | não | Saldo no save anterior — preenchido pelo `finances.py` |
+| `previousBalance` | não | Saldo no save anterior — preenchido pelo `investsh` |
 | `allocationGroup` | recomendado | Classe de alocação, ver tabela abaixo |
 | `indexer` | não | `CDI`, `SELIC`, `FIXED_RATE`, `IPCA`, `SP_500`, `FTSE_GLOBAL_ALL_CAP`, `LBMA_GOLD_PRICE`, `ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX`, `IAFD` ou `null` |
 | `purpose` | não | Objetivo financeiro, ex. `RESERVA_EMERGENCIA`, `PROTECAO_INFLACAO_LONGO_PRAZO`, `APOSENTADORIA_E_LONGO_PRAZO` (lista completa em `_PURPOSES` no `finances.py`; outros textos são aceitos) |
@@ -109,7 +109,7 @@ em BRL). O `name` precisa ser uma chave de `CRYPTO_IDS` (`Bitcoin`, `Ethereum`, 
 
 ## `data/history.json`
 
-Lista de snapshots, um por data de save. O `finances.py` adiciona/atualiza automaticamente.
+Lista de snapshots, um por data de save. O `investsh` adiciona/atualiza automaticamente.
 
 ```json
 [

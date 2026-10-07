@@ -19,15 +19,24 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
 
 ## Começo rápido
 
-Requisito: **Python 3.9+** (macOS ou Linux; no Windows, use o WSL).
+Requisito: **Python 3.9+** (macOS ou Linux; no Windows, use o WSL). Instale com
+[pipx](https://pipx.pypa.io), que coloca o comando `investsh` no seu PATH:
 
 ```bash
-git clone https://github.com/henriqueboaventura/investsh.git
-cd investsh
-python3 scripts/finances.py
+pipx install git+https://github.com/henriqueboaventura/investsh.git
 ```
 
-Na primeira execução o script cria `data/investments.json` e pergunta:
+Crie uma pasta para seus dados e rode lá dentro:
+
+```bash
+mkdir ~/minhas-financas && cd ~/minhas-financas
+investsh
+```
+
+Os dados ficam em `data/` dentro da pasta atual. Para usar outra pasta sem entrar
+nela: `investsh --dir ~/minhas-financas` (ou `export INVESTSH_DIR=~/minhas-financas`).
+
+Na primeira execução o investsh cria `data/investments.json` e pergunta:
 
 - **Carteira vazia** (recomendado) — para começar a cadastrar seus ativos
 - **Dados de exemplo** — uma carteira fictícia, para explorar antes de usar de verdade
@@ -39,13 +48,14 @@ Depois:
 2. Tecle `n` (**Novo ativo**) para cadastrar cada investimento.
 3. Tecle `w` para salvar.
 
-> Prefere editar JSON à mão? Copie `examples/investments.json` para `data/` e edite.
+> Prefere editar JSON à mão? Use [`src/investsh/examples/investments.json`](src/investsh/examples/investments.json)
+> como modelo em `data/investments.json`.
 > O formato está em [docs/DATA_FORMAT.md](docs/DATA_FORMAT.md).
 
-Opcional — para o resumo em imagem:
+Opcional — para o resumo em imagem, instale o matplotlib junto:
 
 ```bash
-pip install -r requirements.txt
+pipx inject investsh matplotlib
 ```
 
 ---
@@ -53,7 +63,7 @@ pip install -r requirements.txt
 ## Rotina mensal
 
 ```bash
-python3 scripts/finances.py
+investsh
 ```
 
 | Tecla | Ação |
@@ -75,7 +85,7 @@ Ao salvar:
   (alimenta os gráficos de evolução);
 - com `matplotlib` instalado, o resumo visual é gerado em `assets/status.png`.
 
-Sem terminal interativo, ou para scripts: `python3 scripts/finances.py --menu` abre um menu
+Sem terminal interativo, ou para scripts: `investsh --menu` abre um menu
 numerado com as mesmas funções (opção `V` mostra a carteira completa).
 
 ---
@@ -83,7 +93,7 @@ numerado com as mesmas funções (opção `V` mostra a carteira completa).
 ## Análise com IA
 
 ```bash
-python3 scripts/analyze.py
+investsh analyze
 ```
 
 Gera um prompt com toda a carteira (alocação vs. ideal, desempenho, vencimentos, parâmetros)
@@ -106,7 +116,7 @@ Para ter histórico no git ou sincronizar entre computadores:
 
 1. Use um repositório **privado** (nunca um fork público).
 2. Remova `data/` e `assets/status.png` do `.gitignore`.
-3. Opcional: `export FINANCES_AUTO_GIT=1` para que todo save no `finances.py` faça
+3. Opcional: `export FINANCES_AUTO_GIT=1` para que todo save no `investsh` faça
    `git commit` + `git push` automaticamente.
 
 ---
@@ -115,7 +125,7 @@ Para ter histórico no git ou sincronizar entre computadores:
 
 | O quê | Onde |
 |---|---|
-| Alocação ideal, reserva, FGTS, projeção | Tecla `p` no `finances.py`, ou `data/investments.json` |
+| Alocação ideal, reserva, FGTS, projeção | Tecla `p` no `investsh`, ou `data/investments.json` |
 | Grupos de alocação | `GROUP_META` em `scripts/finances.py` |
 | Corretoras, ordem e cores | `_BROKERS`, `BROKER_ORDER` e `BR_C` em `scripts/finances.py` |
 | Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `scripts/finances.py` |
@@ -145,7 +155,7 @@ convertidos pela cotação do dia.
 ## Problemas comuns
 
 **Caracteres estranhos, sem cores ou tela cortada** — use um terminal UTF‑8 com pelo menos
-100 colunas, ou o modo texto: `python3 scripts/finances.py --menu`.
+100 colunas, ou o modo texto: `investsh --menu`.
 
 **`_curses` não encontrado (Windows)** — rode no WSL, ou use `--menu`.
 
@@ -162,7 +172,8 @@ só não gera o PNG.
 O projeto tem uma suíte de regressão que cobre o menu, a TUI, a imagem e os cálculos:
 
 ```bash
-python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+git clone https://github.com/henriqueboaventura/investsh.git && cd investsh
+python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 .venv/bin/pytest
 ```
 

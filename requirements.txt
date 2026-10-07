@@ -1,2 +1,0 @@
-# Opcional — os scripts rodam só com a biblioteca padrão do Python.
-matplotlib>=3.7   # gera assets/status.png (resumo visual da carteira) ao salvar

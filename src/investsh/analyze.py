@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Gera prompt de análise da carteira e copia pro clipboard. Cole no claude.ai."""
 
 import json
@@ -7,11 +6,12 @@ import sys
 from datetime import date, datetime
 from pathlib import Path
 
-DATA_FILE = Path(__file__).parent.parent / "data" / "investments.json"
+# Diretório de trabalho (contém data/); o comando `investsh analyze --dir` muda.
+BASE = Path.cwd()
 
 
 def load_portfolio():
-    with open(DATA_FILE) as f:
+    with open(BASE / "data" / "investments.json") as f:
         return json.load(f)
 
 
@@ -234,7 +234,10 @@ def copy_to_clipboard(text):
         return False
 
 
-def main():
+def main(base=None):
+    global BASE
+    if base is not None:
+        BASE = Path(base)
     data = load_portfolio()
     m = compute(data)
     prompt = build_prompt(m)
@@ -252,7 +255,7 @@ def main():
         print("Abra claude.ai e cole (Cmd+V) numa conversa nova.")
     else:
         # fallback: salva em arquivo
-        out = Path(__file__).parent.parent / "analise_prompt.txt"
+        out = BASE / "analise_prompt.txt"
         out.write_text(prompt, encoding="utf-8")
         print(f"\nNão foi possível copiar. Prompt salvo em: {out}")
         print("Abra o arquivo, selecione tudo e cole no claude.ai.")
@@ -264,6 +267,3 @@ def main():
             for a in vencidos:
                 print(f"   - {a['name']} (venc. {a['maturity']})")
 
-
-if __name__ == "__main__":
-    main()
