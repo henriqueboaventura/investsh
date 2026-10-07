@@ -1,0 +1,1048 @@
+=== Sumário ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Patrimônio
+  R$ 32.486,42
+  R$ 33.486,42 com FGTS
+
+  Total aportado R$ 23.286,42
+  Valorização    R$ 9.200,00  (+41.4%)
+  Variação mês   R$ 986,42  (+3.1%)
+
+  FGTS:    R$ 1.000,00
+  Ativos:  10
+  USD/BRL: 5.4321
+
+  Histórico mensal
+  Mês                Total    Valorização        Aportes        %
+  ───────────────────────────────────────────────────────────────
+  2026-13     R$ 30.000,00   R$ -1.000,00        s/dados    -3.2%
+  2026-08     R$ 31.000,00  +R$ 20.000,00   R$ -1.000,00  +158.3%
+  2026-06     R$ 12.000,00   R$ -8.000,00        s/dados   -40.0%
+  2026-05     R$ 20.000,00       +R$ 0,00        s/dados    +0.0%
+
+  Projeção
+        Meta  c/ FGTS             s/ FGTS
+  ──────────────────────────────────────────────────
+     R$ 700K  2045-04 (222m)      2045-05 (223m)
+     R$ 800K  2046-05 (235m)      2046-05 (235m)
+     R$ 1.0M  —                   —
+     R$ 1.5M  —                   —
+     R$ 2.0M  —                   —
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-29/29
+--- estilos ---
+###################################################========================================================================================
+ #########  ........   .........   ........   .......   .......   ........
+
+  CCCCCCCCCC
+  ** *********
+  .. ......... ... ....
+
+  ccccc cccccccc .. .........
+  ccccccccccc    GG GGGGGGGG  gggggggg
+  cccccccc ccc   GG GGGGGG  ggggggg
+
+  .....    .. ........
+  .......  ..
+  ........ ......
+
+  CCCCCCCCC CCCCCC
+  ...                .....    ...........        .......        .
+  ...............................................................
+  .......     .. .........   .. .........        .......    .....
+  .......     .. .........  ggg ggggggggg   rr rrrrrrrrr  ggggggg
+  .......     .. .........   .. .........        .......   rrrrrr
+  .......     .. .........       ... ....        .......    ggggg
+
+  CCCCCCCC
+        ....  .. ....             .. ....
+  ..................................................
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  .                   .
+     .. ....  .                   .
+     .. ....  .                   .
+
+
+
+
+
+
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Alocação ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Categoria/Sub                            Saldo   Atual   Ideal    Diff
+  ─────────────────────────────────────────────────────────────────
+
+  Renda Fixa                        R$ 12.000,00   43.7%   60.0%  -16.3%
+    CDI                             R$ 12.000,00   43.7%   30.0%  +13.7%
+
+  Renda Variável                    R$ 10.086,42   36.7%   40.0%   -3.3%
+    Crypto                           R$ 6.000,00   21.8%       —       —
+    FII                              R$ 3.000,00   10.9%   10.0%   +0.9%
+    ETF Exterior                     R$ 1.086,42    4.0%       —       —
+
+  Previdência                            R$ 0,00    0.0%       —       —
+    Previdência                          R$ 0,00    0.0%       —       —
+
+  Outros                             R$ 5.400,00   19.6%       —       —
+    Debênture                        R$ 2.500,00    9.1%       —       —
+    LCI                              R$ 1.500,00    5.5%       —       —
+    Fundo Imobiliário                  R$ 800,00    2.9%       —       —
+    ETF                                R$ 600,00    2.2%       —       —
+
+  ── Reserva de Emergência ──
+  R$ 5.000,00
+  mín R$ 10.000,00 · meta R$ 15.000,00 · máx R$ 20.000,00
+  R$ 5.000,00 abaixo do mínimo
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-25/25
+--- estilos ---
+###################################################========================================================================================
+  .......  ##########  .........   ........   .......   .......   ........
+
+  .............                            .....   .....   .....    ....
+  .................................................................
+
+  CCCCC CCCC                        ** *********   .....   .....  rrrrrr
+    ...                             .. .........   .....   .....  rrrrrr
+
+  GGGGG GGGGGGGG                    ** *********   .....   .....   rrrrr
+    ......                           .. ........   .....       .       r
+    ...                              .. ........   .....   .....   ggggg
+    ... ........                     .. ........    ....       .       r
+
+  MMMMMMMMMMM                            ** ****    ....       .       g
+    ...........                          .. ....    ....       .       g
+
+  ??????                             ** ********   .....       .       r
+    .........                        .. ........    ....       .       r
+    ...                              .. ........    ....       .       r
+    ..... ...........                  .. ......    ....       .       r
+    ...                                .. ......    ....       .       r
+
+  MM MMMMMMM MM MMMMMMMMMM MM
+  RR RRRRRRRR
+  ... .. ......... . .... .. ......... . ... .. .........
+  rr rrrrrrrr rrrrrr rr rrrrrr
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Indexador ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Indexador                        Saldo       %  Barra
+  ──────────────────────────────────────────────────────────────
+  CDI                       R$ 17.000,00   52.3%  ██████████████████████████
+  Sem indexador             R$ 11.900,00   36.6%  ██████████████████
+  INDICE_CUSTOM              R$ 2.500,00    7.7%  ███
+  S&P 500                    R$ 1.086,42    3.3%  █
+  ──────────────────────────────────────────────────────────────
+  Total                     R$ 32.486,42    100%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                            1-9/9
+--- estilos ---
+###################################################========================================================================================
+  .......   ........  ###########  ........   .......   .......   ........
+
+  .........                        .....       .  .....
+  ..............................................................
+  ccc                       .. .........   .....  gggggggggggggggggggggggggg
+  ccc ccccccccc             .. .........   .....  gggggggggggggggggg
+  ccccccccccccc              .. ........    ....  ggg
+  ccc ccc                    .. ........    ....  g
+  ..............................................................
+  *****                     ** *********    ****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=====================================================================================================================================#######
+=== Objetivo ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Objetivo                                       Saldo       %  Barra
+  ────────────────────────────────────────────────────────────────────────────
+  Renda pós-fixada e estabilidade         R$ 12.000,00   36.9%  ██████████████████
+  Assimetria e exposição a cripto          R$ 6.000,00   18.5%  █████████
+  Sem objetivo                             R$ 5.900,00   18.2%  █████████
+  Reserva de emergência                    R$ 5.000,00   15.4%  ███████
+  OBJETIVO_CUSTOM                          R$ 2.500,00    7.7%  ███
+  Cresc. ações EUA (USD)                   R$ 1.086,42    3.3%  █
+  Aposentadoria e longo prazo                  R$ 0,00    0.0%
+  ────────────────────────────────────────────────────────────────────────────
+  Total                                   R$ 32.486,42    100%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-12/12
+--- estilos ---
+###################################################========================================================================================
+  .......   ........   .........  ##########  .......   .......   ........
+
+  ........                                       .....       .  .....
+  ............................................................................
+  ccccc cccccccccc c cccccccccccc         .. .........   .....  gggggggggggggggggg
+  cccccccccc c ccccccccc c cccccc          .. ........   .....  ggggggggg
+  ccc cccccccc                             .. ........   .....  ggggggggg
+  ccccccc cc cccccccccc                    .. ........   .....  ggggggg
+  ccccccccccccccc                          .. ........    ....  ggg
+  cccccc ccccc ccc ccccc                   .. ........    ....  g
+  ccccccccccccc c ccccc ccccc                  .. ....    ....
+  ............................................................................
+  *****                                   ** *********    ****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Detalhe ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  ── XP  R$ 17.900,00 (55.1%) ──
+  Nome                                      Categoria                        Saldo       G%           Δ Mês
+  ──────────────────────────────────────────────────────────────────────────────────────────
+  CDB sem previousBalance                   CDB                       R$ 12.000,00    -4.0%               —
+  Sem allocationGroup                       LCI                        R$ 1.500,00    +7.1%       +R$ 10,00
+  Previdência                               Previdência Privada            R$ 0,00        —               —
+  Ouro legado                               ETF                          R$ 600,00   +20.0%       +R$ 10,00
+  Ativo sem custo base                      Fundo Imobiliário          R$ 3.000,00        —      R$ -100,00
+  FII legado                                Fundo Imobiliário            R$ 800,00   -20.0%       R$ -20,00
+
+  ── Nubank  R$ 5.000,00 (15.4%) ──
+  Nome                                      Categoria                        Saldo       G%           Δ Mês
+  ──────────────────────────────────────────────────────────────────────────────────────────
+  Reserva CDB                               CDB                        R$ 5.000,00    +4.2%       +R$ 50,00
+
+  ── Nomad  R$ 1.086,42 (3.3%) ──
+  Nome                                      Categoria                        Saldo       G%           Δ Mês
+  ──────────────────────────────────────────────────────────────────────────────────────────
+  ETF USD sem balanceUSD                    ETF                        R$ 1.086,42    +0.0%       +R$ 36,42
+
+  ── Binance  R$ 6.000,00 (18.5%) ──
+  Nome                                      Categoria                        Saldo       G%           Δ Mês
+  ──────────────────────────────────────────────────────────────────────────────────────────
+  Bitcoin                                   Crypto                     R$ 6.000,00        —    +R$ 1.000,00
+
+  ── Corretora Nova  R$ 2.500,00 (7.7%) ──
+  Nome                                      Categoria                        Saldo       G%           Δ Mês
+  ──────────────────────────────────────────────────────────────────────────────────────────
+  Grupo desconhecido                        Debênture                  R$ 2.500,00   +25.0%               —
+
+
+
+
+
+
+
+
+
+
+
+
+ /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-30/30
+--- estilos ---
+###################################################========================================================================================
+  .......   ........   .........   ........  #########  .......   ........
+
+  MM MM  MM MMMMMMMMM MMMMMMM MM
+  ....                                      .........                        .....       ..           . ...
+  ..........................................................................................
+===========================================================================================================================================
+  ... ...............                       ...                        .. ........    ggggg       ggg ggggg
+  ...........                               ........... .......            .. ....        .               .
+  .... ......                               ...                          .. ......   gggggg       ggg ggggg
+  ..... ... ..... ....                      ..... ...........          .. ........        .      rr rrrrrrr
+  ... ......                                ..... ...........            .. ......   rrrrrr       rr rrrrrr
+
+  MM MMMMMM  MM MMMMMMMM MMMMMMM MM
+  ....                                      .........                        .....       ..           . ...
+  ..........................................................................................
+  ....... ...                               ...                        .. ........    ggggg       ggg ggggg
+
+  MM MMMMM  MM MMMMMMMM MMMMMM MM
+  ....                                      .........                        .....       ..           . ...
+  ..........................................................................................
+  ... ... ... ..........                    ...                        .. ........    ggggg       ggg ggggg
+
+  MM MMMMMMM  MM MMMMMMMM MMMMMMM MM
+  ....                                      .........                        .....       ..           . ...
+  ..........................................................................................
+  .......                                   ......                     .. ........        .    ggg gggggggg
+
+  MM MMMMMMMMM MMMM  MM MMMMMMMM MMMMMM MM
+  ....                                      .........                        .....       ..           . ...
+  ..........................................................................................
+  ..... ............                        .........                  .. ........   gggggg               .
+
+
+
+
+
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Brokers ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Broker                 Saldo       %  Barra
+  ──────────────────────────────────────────────────
+  XP              R$ 17.900,00   55.1%  ███████████████████████████
+  Binance          R$ 6.000,00   18.5%  █████████
+  Nubank           R$ 5.000,00   15.4%  ███████
+  Corretora Nova     R$ 2.500,00    7.7%  ███
+  Nomad            R$ 1.086,42    3.3%  █
+  ──────────────────────────────────────────────────
+  Total           R$ 32.486,42    100%
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-10/10
+--- estilos ---
+###################################################========================================================================================
+  .......   ........   .........   ........   .......  #########  ........
+
+  ......                 .....       .  .....
+  ..................................................
+  cc              .. .........   .....  ggggggggggggggggggggggggggg
+  ccccccc          .. ........   .....  ggggggggg
+  cccccc           .. ........   .....  ggggggg
+  ccccccccc cccc     .. ........    ....  ggg
+  ccccc            .. ........    ....  g
+  ..................................................
+  *****           ** *********    ****
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Gráficos ===
+ investsh   R$ 32.486,42   2026-09-15   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Evolução Patrimonial
+
+      R$ 31.310,00 │        ●
+                   │        │   ●
+                   │        │
+                   │        │
+                   │        │
+      R$ 20.382,22 │●       │
+                   │    │   │
+                   │    │   │
+                   │    │   │
+      R$ 11.640,00 │    ●
+                    └────────────────
+                     05/206/208/213/2
+
+  ───────────────────────────────────────────────────────
+
+  Evolução por Corretora
+
+  ● XP   ● Nubank   ● Nomad   ● Binance   ● Corretora Nova
+
+      R$ 17.087,70 │          ●
+                   │
+                   │
+                   │
+       R$ 7.323,30 │     ●
+                   │     ●    ✚
+                   │          ●
+           R$ 0,00 │✚    ✚    ●    ✚
+                    └────────────────────
+                     05/2606/2608/2613/26
+
+  ───────────────────────────────────────────────────────
+
+  Alocação por Subcategoria
+  Subcategoria                                                   %             Saldo  Meta
+
+  CDI                     ██████████████████████████████   43.7%      R$ 12.000,00  meta 30.0%  (+13.7%)
+  Crypto                  ███████████████                  21.8%       R$ 6.000,00
+  FII                     ███████                          10.9%       R$ 3.000,00  meta 10.0%  (+0.9%)
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-41/47
+--- estilos ---
+###################################################========================================================================================
+  .......   ........   .........   ........   .......   .......  ##########
+
+  CCCCCCCC CCCCCCCCCCC
+
+      .. ......... .        C
+                   .        .   G
+                   .        .
+                   .        .
+                   .        .
+      .. ......... .C       .
+                   .    .   .
+                   .    .   .
+                   .    .   .
+      .. ......... .    C
+                    .................
+                     ................
+
+  .......................................................
+
+  CCCCCCCC CCC CCCCCCCCC
+
+  C ..   M ......   ? .....   G .......   C ......... ....
+
+      .. ......... .          C
+                   .
+                   .
+                   .
+       .. ........ .     C
+                   .     M    *
+                   .          C
+           .. .... .*    *    ?    *
+                    .....................
+                     ....................
+
+  .......................................................
+
+  CCCCCCCC CCC CCCCCCCCCCCC
+  ............                                                   .             .....  ....
+
+  ...                     ??????????????????????????????   rrrrr      .. .........  .... .....  ........
+  ......                  ggggggggggggggg                  .....       .. ........
+  ...                     ggggggg                          ggggg       .. ........  .... .....  .......
+
+===================================================================================================================================#########
+=== salvo ===
+ investsh   R$ 32.486,42   2026-10-06   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Evolução Patrimonial
+
+      R$ 32.811,28 │            ●
+                   │        ●       ●
+                   │        │
+                   │        │
+                   │        │
+      R$ 21.049,46 │●       │
+                   │    │   │
+                   │    │   │
+                   │    │   │
+      R$ 11.640,00 │    ●
+                    └────────────────────
+                     05/206/208/210/213/2
+
+  ───────────────────────────────────────────────────────
+
+  Evolução por Corretora
+
+  ● XP   ● Nubank   ● Nomad   ● Binance   ● Corretora Nova
+
+      R$ 18.437,00 │               ●
+                   │          ●
+                   │
+                   │
+       R$ 7.901,57 │     ●
+                   │     ●    ✚    ✚
+                   │          ●    ●
+           R$ 0,00 │✚    ✚    ●    ●    ✚
+                    └─────────────────────────
+                     05/2606/2608/2610/2613/26
+
+  ───────────────────────────────────────────────────────
+
+  Alocação por Subcategoria
+  Subcategoria                                                   %             Saldo  Meta
+
+  CDI                     ██████████████████████████████   43.7%      R$ 12.000,00  meta 30.0%  (+13.7%)
+  Crypto                  ███████████████                  21.8%       R$ 6.000,00
+  FII                     ███████                          10.9%       R$ 3.000,00  meta 10.0%  (+0.9%)
+
+ ✓ Salvo  (+R$ 0,00)                                                                                                                1-41/47
+--- estilos ---
+###################################################========================================================================================
+  .......   ........   .........   ........   .......   .......  ##########
+
+  CCCCCCCC CCCCCCCCCCC
+
+      .. ......... .            C
+                   .        C       G
+                   .        .
+                   .        .
+                   .        .
+      .. ......... .C       .
+                   .    .   .
+                   .    .   .
+                   .    .   .
+      .. ......... .    C
+                    .....................
+                     ....................
+
+  .......................................................
+
+  CCCCCCCC CCC CCCCCCCCC
+
+  C ..   M ......   ? .....   G .......   C ......... ....
+
+      .. ......... .               C
+                   .          C
+                   .
+                   .
+       .. ........ .     C
+                   .     M    *    *
+                   .          C    C
+           .. .... .*    *    ?    ?    *
+                    ..........................
+                     .........................
+
+  .......................................................
+
+  CCCCCCCC CCC CCCCCCCCCCCC
+  ............                                                   .             .....  ....
+
+  ...                     ??????????????????????????????   rrrrr      .. .........  .... .....  ........
+  ......                  ggggggggggggggg                  .....       .. ........
+  ...                     ggggggg                          ggggg       .. ........  .... .....  .......
+
+===================================================================================================================================#########
+
+### data/investments.json
+{
+  "dollarRate": 5.4321,
+  "emergencyReserve": {
+    "excludeFromAllocation": true,
+    "maximum": 20000.0,
+    "minimum": 10000.0,
+    "target": 15000.0
+  },
+  "fgts": 1000.0,
+  "idealAllocation": {
+    "rendaFixa": 60.0,
+    "rendaVariavel": 40.0,
+    "rfCDI": 30.0,
+    "rvFII": 10.0
+  },
+  "investments": [
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 5000.0,
+      "broker": "Nubank",
+      "category": "CDB",
+      "indexer": "CDI",
+      "invested": 4800.0,
+      "maturity": null,
+      "name": "Reserva CDB",
+      "previousBalance": 4950.0,
+      "purpose": "RESERVA_EMERGENCIA",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 12000.0,
+      "broker": "XP",
+      "category": "CDB",
+      "indexer": "CDI",
+      "invested": 12500.0,
+      "maturity": "2026-11-01",
+      "name": "CDB sem previousBalance",
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "balance": 3000.0,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "maturity": null,
+      "name": "Ativo sem custo base",
+      "previousBalance": 3100.0,
+      "purpose": null,
+      "type": null
+    },
+    {
+      "allocationGroup": "GRUPO_INEXISTENTE",
+      "balance": 2500.0,
+      "broker": "Corretora Nova",
+      "category": "Debênture",
+      "indexer": "INDICE_CUSTOM",
+      "invested": 2000.0,
+      "maturity": "15/01/2030",
+      "name": "Grupo desconhecido",
+      "previousBalance": 2500.0,
+      "purpose": "OBJETIVO_CUSTOM",
+      "type": "IPCA"
+    },
+    {
+      "balance": 1500.0,
+      "broker": "XP",
+      "category": "LCI",
+      "invested": 1400.0,
+      "maturity": "2025-12-01",
+      "name": "Sem allocationGroup",
+      "previousBalance": 1490.0,
+      "type": "PRE"
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "balance": 1086.42,
+      "balanceUSD": 200.0,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "SP_500",
+      "investedUSD": 200.0,
+      "maturity": null,
+      "name": "ETF USD sem balanceUSD",
+      "previousBalance": 1050.0,
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_DOLAR",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "balance": 6000.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Bitcoin",
+      "previousBalance": 5000.0,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.01,
+      "type": null
+    },
+    {
+      "allocationGroup": "PREVIDENCIA",
+      "balance": 0.0,
+      "broker": "XP",
+      "category": "Previdência Privada",
+      "indexer": null,
+      "invested": 0.0,
+      "maturity": null,
+      "name": "Previdência",
+      "previousBalance": 0.0,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "type": null
+    },
+    {
+      "balance": 800.0,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "invested": 1000.0,
+      "maturity": null,
+      "name": "FII legado",
+      "previousBalance": 820.0,
+      "type": null
+    },
+    {
+      "balance": 600.0,
+      "broker": "XP",
+      "category": "ETF",
+      "invested": 500.0,
+      "maturity": "data inválida",
+      "name": "Ouro legado",
+      "previousBalance": 590.0,
+      "type": "Ouro"
+    }
+  ],
+  "lastUpdated": "2026-10-06",
+  "projectionParams": {
+    "fgtsAnnualReturn": 0.05,
+    "monthlyContribution": 500.0,
+    "monthlyReturn": 0.01
+  }
+}
+### data/history.json
+[
+  {
+    "date": "2026-05-01",
+    "total": 20000.0,
+    "totalWithFGTS": 21000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 5000.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 40000.0,
+        "broker": "XP",
+        "name": "x"
+      }
+    ],
+    "date": "2026-06-01",
+    "total": 45000.0,
+    "totalInvested": 30000.0,
+    "totalWithFGTS": 46000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 4000.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 8000.0,
+        "broker": "XP",
+        "name": "x"
+      }
+    ],
+    "date": "2026-06-20",
+    "total": 12000.0,
+    "totalInvested": 31000.0,
+    "totalWithFGTS": 13000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 4950.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 16590.0,
+        "broker": "XP",
+        "name": "x"
+      },
+      {
+        "balance": 5000.0,
+        "broker": "Binance",
+        "name": "y"
+      },
+      {
+        "balance": 2500.0,
+        "broker": "Corretora Nova",
+        "name": "z"
+      }
+    ],
+    "date": "2026-08-01",
+    "total": 31000.0,
+    "totalInvested": 30000.0,
+    "totalWithFGTS": 32000.0
+  },
+  {
+    "date": "2026-13-01",
+    "total": 30000.0,
+    "totalWithFGTS": 31000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 5000.0,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "Reserva CDB",
+        "type": "POS"
+      },
+      {
+        "balance": 12000.0,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2026-11-01",
+        "name": "CDB sem previousBalance",
+        "type": "POS"
+      },
+      {
+        "balance": 3000.0,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "Ativo sem custo base",
+        "type": null
+      },
+      {
+        "balance": 2500.0,
+        "broker": "Corretora Nova",
+        "category": "Debênture",
+        "maturity": "15/01/2030",
+        "name": "Grupo desconhecido",
+        "type": "IPCA"
+      },
+      {
+        "balance": 1500.0,
+        "broker": "XP",
+        "category": "LCI",
+        "maturity": "2025-12-01",
+        "name": "Sem allocationGroup",
+        "type": "PRE"
+      },
+      {
+        "balance": 1086.42,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "ETF USD sem balanceUSD",
+        "type": null
+      },
+      {
+        "balance": 6000.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 0.0,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência",
+        "type": null
+      },
+      {
+        "balance": 800.0,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII legado",
+        "type": null
+      },
+      {
+        "balance": 600.0,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": "data inválida",
+        "name": "Ouro legado",
+        "type": "Ouro"
+      }
+    ],
+    "date": "2026-10-06",
+    "total": 32486.42,
+    "totalInvested": 23286.42,
+    "totalWithFGTS": 33486.42
+  }
+]
+### assets/status.png: PNG

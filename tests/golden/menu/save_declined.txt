@@ -1,0 +1,42 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-10-01{RST}
+Total atual:        {W}R$   205,576.35{RST}
+FGTS:               {W}R$    18,500.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Antes:    R$   205,576.35
+  Depois:   R$   205,672.26
+  Variação: {G}+R$        95.91{RST}
+  FGTS:     R$    18,500.00
+  Total c/ FGTS: {W}R$   224,172.26{RST}
+
+{C}Salvar alterações? (s/n){RST}: 
+{Y}Nenhuma alteração salva.{RST}
+

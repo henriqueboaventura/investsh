@@ -1,0 +1,137 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}Bem-vindo ao investsh!{RST}
+{DIM}Não encontrei <APP>/scripts/../data/investments.json.{RST}
+
+  {C}[1]{RST} Começar com carteira vazia {DIM}(recomendado){RST}
+  {C}[2]{RST} Copiar dados de exemplo {DIM}(para explorar o app){RST}
+  {C}[x]{RST} Sair
+
+{C}Escolha{RST} [1]: {G}✓ Criado <APP>/scripts/../data/investments.json{RST}
+{DIM}  Ajuste alocação ideal, reserva e projeção em "Parâmetros".{RST}
+
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-10-06{RST}
+Total atual:        {W}R$         0.00{RST}
+FGTS:               {W}R$         0.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Total:          {W}         R$ 0,00{RST}
+  Total c/ FGTS:  {W}         R$ 0,00{RST}
+  Total aportado: {DIM}         R$ 0,00{RST}
+  Valorização:    {G}         R$ 0,00  (+0.0%){RST}
+  Variação mês:   {G}         R$ 0,00  (+0.0%){RST}
+
+{BLD}{W}▸ Alocação{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}
+{DIM}──────────────────────────────────────────────────────────────────────{RST}
+
+{BLD}{W}▸ Exposição por Indexador{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+{BLD}{W}▸ Por Objetivo Financeiro{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+{BLD}{W}▸ Ativos por Corretora{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Antes:    R$         0.00
+  Depois:   R$         0.00
+  Variação: {G}+R$         0.00{RST}
+  FGTS:     R$         0.00
+  Total c/ FGTS: {W}R$         0.00{RST}
+
+{C}Salvar alterações? (s/n){RST}: 
+{G}{BLD}✓ Salvo em <APP>/scripts/../data/investments.json{RST}
+{G}✓ Histórico: 1 snapshot(s){RST}
+{Y}  pip install matplotlib  →  necessário para imagem{RST}
+
+
+### data/investments.json
+{
+  "dollarRate": 5.4321,
+  "emergencyReserve": {
+    "excludeFromAllocation": true,
+    "maximum": 40000.0,
+    "minimum": 20000.0,
+    "target": 30000.0
+  },
+  "fgts": 0.0,
+  "idealAllocation": {
+    "multiAtivoGlobal": 2.0,
+    "previdencia": 5.0,
+    "rendaFixa": 55.0,
+    "rendaVariavel": 38.0,
+    "rfCDI": 18.0,
+    "rfExterior": 5.0,
+    "rfIPCA": 22.0,
+    "rfPre": 10.0,
+    "rvCrypto": 1.0,
+    "rvETFBrasil": 5.0,
+    "rvETFExterior": 12.0,
+    "rvFII": 10.0,
+    "rvFundosAcoes": 8.0,
+    "rvOuro": 2.0
+  },
+  "investments": [],
+  "lastUpdated": "2026-10-06",
+  "projectionParams": {
+    "fgtsAnnualReturn": 0.06,
+    "monthlyContribution": 1500.0,
+    "monthlyReturn": 0.008
+  }
+}
+### data/history.json
+[
+  {
+    "assets": [],
+    "date": "2026-10-06",
+    "total": 0,
+    "totalInvested": 0.0,
+    "totalWithFGTS": 0.0
+  }
+]
+### assets/status.png: ausente

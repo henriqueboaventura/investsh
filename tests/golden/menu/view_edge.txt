@@ -1,0 +1,137 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-09-15{RST}
+Total atual:        {W}R$    32,000.00{RST}
+FGTS:               {W}R$     1,000.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Total:          {W}    R$ 31.986,42{RST}
+  Total c/ FGTS:  {W}    R$ 32.986,42{RST}
+  Total aportado: {DIM}    R$ 23.286,42{RST}
+  Valorização:    {G}     R$ 8.700,00  (+39.2%){RST}
+  Variação mês:   {G}       R$ 486,42  (+1.5%){RST}
+
+{BLD}{W}▸ Alocação{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}
+{DIM}──────────────────────────────────────────────────────────────────────{RST}
+  {C}{BLD}Renda Fixa                    {RST}  {W}  R$ 12.000,00{RST}   44.5%  {DIM} 60.0%{RST}  {R}-15.5%{RST}
+  {DIM}  CDI                         {RST}    R$ 12.000,00   44.5%  {DIM} 30.0%{RST}  {R}+14.5%{RST}
+  {G}{BLD}Renda Variável                {RST}  {W}   R$ 9.586,42{RST}   35.5%  {DIM} 40.0%{RST}  {R} -4.5%{RST}
+  {DIM}  Crypto                      {RST}     R$ 5.500,00   20.4%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  FII                         {RST}     R$ 3.000,00   11.1%  {DIM} 10.0%{RST}  {G} +1.1%{RST}
+  {DIM}  ETF Exterior                {RST}     R$ 1.086,42    4.0%  {DIM}     —{RST}  {DIM}     —{RST}
+  {M}{BLD}Previdência                   {RST}  {W}       R$ 0,00{RST}    0.0%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  Previdência                 {RST}         R$ 0,00    0.0%  {DIM}     —{RST}  {DIM}     —{RST}
+  {Y}{BLD}Outros                        {RST}  {W}   R$ 5.400,00{RST}   20.0%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  Debênture                   {RST}     R$ 2.500,00    9.3%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  LCI                         {RST}     R$ 1.500,00    5.6%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  Fundo Imobiliário           {RST}       R$ 800,00    3.0%  {DIM}     —{RST}  {DIM}     —{RST}
+  {DIM}  ETF                         {RST}       R$ 600,00    2.2%  {DIM}     —{RST}  {DIM}     —{RST}
+
+{BLD}{W}▸ Reserva de Emergência{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {R}R$ 5.000,00{RST}  {DIM}(mín R$ 10.000,00 · meta R$ 15.000,00 · máx R$ 20.000,00){RST}
+  {R}R$ 5.000,00 abaixo do mínimo{RST}
+
+{BLD}{W}▸ Exposição por Indexador{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {W}CDI                   {RST}    R$ 17.000,00   53.1%
+  {W}Sem indexador         {RST}    R$ 11.400,00   35.6%
+  {W}INDICE_CUSTOM         {RST}     R$ 2.500,00    7.8%
+  {W}S&P 500               {RST}     R$ 1.086,42    3.4%
+
+{BLD}{W}▸ Por Objetivo Financeiro{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {W}Renda pós-fixada e estabilidade     {RST}    R$ 12.000,00   37.5%
+  {W}Sem objetivo                        {RST}     R$ 5.900,00   18.4%
+  {W}Assimetria e exposição a cripto     {RST}     R$ 5.500,00   17.2%
+  {W}Reserva de emergência               {RST}     R$ 5.000,00   15.6%
+  {W}OBJETIVO_CUSTOM                     {RST}     R$ 2.500,00    7.8%
+  {W}Cresc. ações EUA (USD)              {RST}     R$ 1.086,42    3.4%
+  {W}Aposentadoria e longo prazo         {RST}         R$ 0,00    0.0%
+
+{BLD}{W}▸ Evolução por Corretora{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}2026-05 → 2026-13{RST}
+  {W}XP        {RST} {C}▁▄█▁{RST}         R$ 0,00  {G}+0.0%{RST}
+  {W}Nubank    {RST} {C}▁▇█▁{RST}         R$ 0,00  {G}+0.0%{RST}
+  {W}Nomad     {RST} {C}▄▄▄▄{RST}         R$ 0,00  {G}+0.0%{RST}
+  {W}Binance   {RST} {C}▁▁█▁{RST}         R$ 0,00  {G}+0.0%{RST}
+  {W}Corretora Nova{RST} {C}▁▁█▁{RST}         R$ 0,00  {G}+0.0%{RST}
+
+{BLD}{W}▸ Ativos por Corretora{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+  {M}{BLD}── XP  R$ 17.900,00 (56.0%) ──{RST}
+  {DIM}Nome                                      Categoria                        Saldo  Ganho%  Δ Mês{RST}
+{DIM}───────────────────────────────────────────────────────────────────────────────────────────────{RST}
+  CDB sem previousBalance                   {DIM}CDB                   {RST}    R$ 12.000,00  {R}-4.0%{RST}  {DIM}—{RST}
+  Sem allocationGroup                       {DIM}LCI                   {RST}     R$ 1.500,00  {G}+7.1%{RST}  {G}+R$ 10,00{RST}
+  Previdência                               {DIM}Previdência Privada   {RST}         R$ 0,00  {DIM}—{RST}  {DIM}—{RST}
+  Ouro legado                               {DIM}ETF                   {RST}       R$ 600,00  {G}+20.0%{RST}  {G}+R$ 10,00{RST}
+  Ativo sem custo base                      {DIM}Fundo Imobiliário     {RST}     R$ 3.000,00  {DIM}—{RST}  {R}R$ -100,00{RST}
+  FII legado                                {DIM}Fundo Imobiliário     {RST}       R$ 800,00  {R}-20.0%{RST}  {R}R$ -20,00{RST}
+
+  {M}{BLD}── Nubank  R$ 5.000,00 (15.6%) ──{RST}
+  {DIM}Nome                                      Categoria                        Saldo  Ganho%  Δ Mês{RST}
+{DIM}───────────────────────────────────────────────────────────────────────────────────────────────{RST}
+  Reserva CDB                               {DIM}CDB                   {RST}     R$ 5.000,00  {G}+4.2%{RST}  {G}+R$ 50,00{RST}
+
+  {M}{BLD}── Nomad  R$ 1.086,42 (3.4%) ──{RST}
+  {DIM}Nome                                      Categoria                        Saldo  Ganho%  Δ Mês{RST}
+{DIM}───────────────────────────────────────────────────────────────────────────────────────────────{RST}
+  ETF USD sem balanceUSD                    {DIM}ETF                   {RST}     R$ 1.086,42  {G}+0.0%{RST}  {G}+R$ 36,42{RST}
+
+  {M}{BLD}── Binance  R$ 5.500,00 (17.2%) ──{RST}
+  {DIM}Nome                                      Categoria                        Saldo  Ganho%  Δ Mês{RST}
+{DIM}───────────────────────────────────────────────────────────────────────────────────────────────{RST}
+  Bitcoin                                   {DIM}Crypto                {RST}     R$ 5.500,00  {DIM}—{RST}  {G}+R$ 500,00{RST}
+
+  {M}{BLD}── Corretora Nova  R$ 2.500,00 (7.8%) ──{RST}
+  {DIM}Nome                                      Categoria                        Saldo  Ganho%  Δ Mês{RST}
+{DIM}───────────────────────────────────────────────────────────────────────────────────────────────{RST}
+  Grupo desconhecido                        {DIM}Debênture             {RST}     R$ 2.500,00  {G}+25.0%{RST}  {DIM}—{RST}
+
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{Y}Saindo sem salvar.{RST}
+

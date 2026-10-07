@@ -1,0 +1,405 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}Bem-vindo ao investsh!{RST}
+{DIM}Não encontrei <APP>/scripts/../data/investments.json.{RST}
+
+  {C}[1]{RST} Começar com carteira vazia {DIM}(recomendado){RST}
+  {C}[2]{RST} Copiar dados de exemplo {DIM}(para explorar o app){RST}
+  {C}[x]{RST} Sair
+
+{C}Escolha{RST} [1]: {G}✓ Criado <APP>/scripts/../data/investments.json{RST}
+{DIM}  Ajuste alocação ideal, reserva e projeção em "Parâmetros".{RST}
+
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-10-01{RST}
+Total atual:        {W}R$   205,576.35{RST}
+FGTS:               {W}R$    18,500.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{Y}Saindo sem salvar.{RST}
+
+
+### data/investments.json
+{
+  "dollarRate": 5.4,
+  "emergencyReserve": {
+    "assetNames": [
+      "Tesouro Selic 2029",
+      "CDB Liquidez Diária Banco Exemplo"
+    ],
+    "excludeFromAllocation": true,
+    "maximum": 40000.0,
+    "minimum": 20000.0,
+    "target": 30000.0
+  },
+  "fgts": 18500.0,
+  "idealAllocation": {
+    "multiAtivoGlobal": 2.0,
+    "previdencia": 5.0,
+    "rendaFixa": 55.0,
+    "rendaVariavel": 38.0,
+    "rfCDI": 18.0,
+    "rfExterior": 5.0,
+    "rfIPCA": 22.0,
+    "rfPre": 10.0,
+    "rvCrypto": 1.0,
+    "rvETFBrasil": 5.0,
+    "rvETFExterior": 12.0,
+    "rvFII": 10.0,
+    "rvFundosAcoes": 8.0,
+    "rvOuro": 2.0
+  },
+  "investments": [
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 19850.4,
+      "broker": "XP",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "SELIC",
+      "invested": 18000.0,
+      "liquidity": "DAILY",
+      "maturity": "2029-03-01",
+      "name": "Tesouro Selic 2029",
+      "previousBalance": 19671.75,
+      "purpose": "RESERVA_EMERGENCIA",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 100.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 8420.15,
+      "broker": "Nubank",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 8000.0,
+      "liquidity": "IMMEDIATE",
+      "maturity": null,
+      "name": "CDB Liquidez Diária Banco Exemplo",
+      "previousBalance": 8344.37,
+      "purpose": "RESERVA_EMERGENCIA_REMUNERADA",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 100.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 23110.72,
+      "broker": "XP",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 20000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2028-06-15",
+      "name": "CDB Banco Alfa 110% CDI",
+      "previousBalance": 22902.72,
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 110.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 16380.09,
+      "broker": "XP",
+      "category": "LCA",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 15000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2027-11-20",
+      "name": "LCA Banco Beta 95% CDI",
+      "previousBalance": 16232.67,
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 95.0
+      },
+      "taxExempt": true,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_PRE",
+      "balance": 13640.55,
+      "broker": "XP",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "FIXED_RATE",
+      "invested": 12000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2028-01-10",
+      "name": "CDB Banco Gama Pré 12,5%",
+      "previousBalance": 13517.79,
+      "purpose": "TRAVAR_TAXA_ATE_O_VENCIMENTO",
+      "rate": {
+        "kind": "ANNUAL_FIXED",
+        "value": 12.5
+      },
+      "taxExempt": false,
+      "type": "PRE"
+    },
+    {
+      "allocationGroup": "RF_IPCA",
+      "balance": 24985.3,
+      "broker": "XP",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "IPCA",
+      "invested": 22000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2035-05-15",
+      "name": "Tesouro IPCA+ 2035",
+      "previousBalance": 24760.43,
+      "purpose": "PROTECAO_INFLACAO_LONGO_PRAZO",
+      "rate": {
+        "kind": "IPCA_PLUS",
+        "value": 6.4
+      },
+      "taxExempt": false,
+      "type": "IPCA"
+    },
+    {
+      "allocationGroup": "RF_IPCA",
+      "balance": 10512.8,
+      "broker": "Nubank",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "IPCA",
+      "invested": 10000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2045-05-15",
+      "name": "Tesouro IPCA+ 2045",
+      "previousBalance": 10418.18,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "rate": {
+        "kind": "IPCA_PLUS",
+        "value": 6.7
+      },
+      "taxExempt": false,
+      "type": "IPCA"
+    },
+    {
+      "allocationGroup": "RV_ETF_BRASIL",
+      "averagePrice": 120.0,
+      "balance": 9780.0,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": null,
+      "invested": 9000.0,
+      "maturity": null,
+      "name": "BOVA11",
+      "previousBalance": 9633.3,
+      "purpose": "CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS",
+      "quantity": 75,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "averagePrice": 314.29,
+      "balance": 13420.5,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": "SP_500",
+      "invested": 11000.0,
+      "maturity": null,
+      "name": "IVVB11",
+      "previousBalance": 13219.19,
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_REAIS",
+      "quantity": 35,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_OURO",
+      "averagePrice": 15.38,
+      "balance": 4610.2,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": "LBMA_GOLD_PRICE",
+      "invested": 4000.0,
+      "maturity": null,
+      "name": "GOLD11",
+      "previousBalance": 4541.05,
+      "purpose": "PROTECAO_OURO_E_CAMBIO",
+      "quantity": 260,
+      "type": "Ouro"
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "averagePrice": 94.12,
+      "balance": 7820.4,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "invested": 8000.0,
+      "maturity": null,
+      "name": "FII Logístico Exemplo (LOGX11)",
+      "previousBalance": 7703.09,
+      "purpose": "RENDA_IMOBILIARIA_LOGISTICA",
+      "quantity": 85,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "averagePrice": 9.72,
+      "balance": 7255.1,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "invested": 7000.0,
+      "maturity": null,
+      "name": "FII Papel Exemplo (PAPL11)",
+      "previousBalance": 7146.27,
+      "purpose": "RENDA_IMOBILIARIA_SECURITIES_E_FOF",
+      "quantity": 720,
+      "type": null
+    },
+    {
+      "administrationFeeAnnual": 1.9,
+      "allocationGroup": "RV_FUNDOS_ACOES",
+      "balance": 11240.66,
+      "broker": "XP",
+      "category": "Fundos de Investimento",
+      "indexer": null,
+      "invested": 10000.0,
+      "maturity": null,
+      "name": "Fundo de Ações Exemplo FIA",
+      "performanceFee": 20.0,
+      "previousBalance": 11072.05,
+      "purpose": "CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA",
+      "type": null
+    },
+    {
+      "administrationFeeAnnual": 0.8,
+      "allocationGroup": "PREVIDENCIA",
+      "balance": 13105.9,
+      "broker": "XP",
+      "category": "Previdência Privada",
+      "indexer": null,
+      "invested": 12000.0,
+      "maturity": null,
+      "name": "Previdência PGBL Exemplo",
+      "performanceFee": 0.0,
+      "previousBalance": 12909.31,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "balance": 9344.16,
+      "balanceUSD": 1730.4,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "FTSE_GLOBAL_ALL_CAP",
+      "investedUSD": 1500.0,
+      "maturity": null,
+      "name": "VT",
+      "previousBalance": 9157.28,
+      "purpose": "CRESCIMENTO_ACOES_GLOBAIS",
+      "ticker": "VT",
+      "type": null
+    },
+    {
+      "allocationGroup": "RF_EXTERIOR",
+      "balance": 4460.94,
+      "balanceUSD": 826.1,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX",
+      "investedUSD": 800.0,
+      "maturity": null,
+      "name": "SGOV",
+      "previousBalance": 4371.72,
+      "purpose": "PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR",
+      "ticker": "SGOV",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "MULTIATIVO_GLOBAL",
+      "balance": 2328.48,
+      "balanceUSD": 431.2,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": null,
+      "investedUSD": 400.0,
+      "maturity": null,
+      "name": "AOK",
+      "previousBalance": 2281.91,
+      "purpose": "DIVERSIFICACAO_GLOBAL_CONSERVADORA",
+      "ticker": "AOK",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "averagePrice": 480000.0,
+      "balance": 2790.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Bitcoin",
+      "previousBalance": 2650.5,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.0045,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "averagePrice": 17500.0,
+      "balance": 2520.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Ethereum",
+      "previousBalance": 2394.0,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.12,
+      "type": null
+    }
+  ],
+  "lastUpdated": "2026-10-01",
+  "projectionParams": {
+    "fgtsAnnualReturn": 0.06,
+    "monthlyContribution": 1500.0,
+    "monthlyReturn": 0.008
+  }
+}
+### data/history.json
+(ausente)
+### assets/status.png: ausente

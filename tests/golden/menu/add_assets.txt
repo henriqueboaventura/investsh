@@ -1,0 +1,3093 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-10-01{RST}
+Total atual:        {W}R$   205,576.35{RST}
+FGTS:               {W}R$    18,500.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Adicionar Novo Ativo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+{C}  Nome do ativo{RST}: 
+  {M}Categoria:{RST}
+  {DIM}[0]{RST} CDB
+  {DIM}[1]{RST} LCA
+  {DIM}[2]{RST} LCI
+  {DIM}[3]{RST} Tesouro Direto
+  {DIM}[4]{RST} ETF
+  {DIM}[5]{RST} Fundo Imobiliário
+  {DIM}[6]{RST} Fundos de Investimento
+  {DIM}[7]{RST} Previdência Privada
+  {DIM}[8]{RST} Crypto
+  {C}Escolha{RST}: 
+  {M}Tipo / Subcategoria:{RST}
+  {DIM}[0]{RST} POS
+  {DIM}[1]{RST} PRE
+  {DIM}[2]{RST} IPCA
+  {DIM}[3]{RST} Ouro
+  {DIM}[4]{RST} (nenhum)
+  {C}Escolha{RST}:   {Y}  Digite um número de 0 a 4{RST}
+  {C}Escolha{RST}: 
+  {M}Corretora:{RST}
+  {DIM}[0]{RST} XP
+  {DIM}[1]{RST} Nubank
+  {DIM}[2]{RST} Nomad
+  {DIM}[3]{RST} Binance
+  {C}Escolha{RST}: {C}  Vencimento (YYYY-MM-DD ou Enter para nenhum){RST}: 
+  {M}Indexador:{RST}
+  {DIM}[0]{RST} CDI
+  {DIM}[1]{RST} SELIC
+  {DIM}[2]{RST} FIXED_RATE
+  {DIM}[3]{RST} IPCA
+  {DIM}[4]{RST} SP_500
+  {DIM}[5]{RST} FTSE_GLOBAL_ALL_CAP
+  {DIM}[6]{RST} LBMA_GOLD_PRICE
+  {DIM}[7]{RST} ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX
+  {DIM}[8]{RST} IAFD
+  {DIM}[9]{RST} (nenhum)
+  {DIM}[10]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Grupo de Alocação:{RST}
+  {DIM}[0]{RST} RF_CDI
+  {DIM}[1]{RST} RF_PRE
+  {DIM}[2]{RST} RF_IPCA
+  {DIM}[3]{RST} RF_EXTERIOR
+  {DIM}[4]{RST} RESERVA_EMERGENCIA
+  {DIM}[5]{RST} CAIXA_TRANSITORIA
+  {DIM}[6]{RST} RV_ETF_BRASIL
+  {DIM}[7]{RST} RV_ETF_EXTERIOR
+  {DIM}[8]{RST} RV_OURO
+  {DIM}[9]{RST} RV_FUNDOS_ACOES
+  {DIM}[10]{RST} RV_FII
+  {DIM}[11]{RST} RV_CRYPTO
+  {DIM}[12]{RST} MULTIATIVO_GLOBAL
+  {DIM}[13]{RST} PREVIDENCIA
+  {DIM}[14]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Objetivo:{RST}
+  {DIM}[0]{RST} RENDA_POS_FIXADA_E_ESTABILIDADE
+  {DIM}[1]{RST} TRAVAR_TAXA_ATE_O_VENCIMENTO
+  {DIM}[2]{RST} PROTECAO_INFLACAO_LONGO_PRAZO
+  {DIM}[3]{RST} RESERVA_EMERGENCIA
+  {DIM}[4]{RST} RESERVA_EMERGENCIA_REMUNERADA
+  {DIM}[5]{RST} LIQUIDEZ_E_ESTABILIDADE
+  {DIM}[6]{RST} CAIXA_DE_CURTO_PRAZO
+  {DIM}[7]{RST} CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA
+  {DIM}[8]{RST} CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS
+  {DIM}[9]{RST} CRESCIMENTO_ACOES_EUA_EM_DOLAR
+  {DIM}[10]{RST} CRESCIMENTO_ACOES_EUA_EM_REAIS
+  {DIM}[11]{RST} CRESCIMENTO_ACOES_GLOBAIS
+  {DIM}[12]{RST} DIVERSIFICACAO_GLOBAL_MODERADA
+  {DIM}[13]{RST} ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
+  {DIM}[14]{RST} PROTECAO_OURO_E_CAMBIO
+  {DIM}[15]{RST} PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR
+  {DIM}[16]{RST} RENDA_IMOBILIARIA_HIBRIDA
+  {DIM}[17]{RST} RENDA_IMOBILIARIA_LOGISTICA
+  {DIM}[18]{RST} RENDA_IMOBILIARIA_VIA_FOF
+  {DIM}[19]{RST} RENDA_IMOBILIARIA_SECURITIES_E_FOF
+  {DIM}[20]{RST} RENDA_IMOBILIARIA_MULTIESTRATEGIA
+  {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
+  {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
+  {DIM}[23]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}:   {G}✓ Ativo adicionado!{RST}
+{C}  Adicionar outro? (s/n){RST}: 
+{C}  Nome do ativo{RST}: 
+  {M}Categoria:{RST}
+  {DIM}[0]{RST} CDB
+  {DIM}[1]{RST} LCA
+  {DIM}[2]{RST} LCI
+  {DIM}[3]{RST} Tesouro Direto
+  {DIM}[4]{RST} ETF
+  {DIM}[5]{RST} Fundo Imobiliário
+  {DIM}[6]{RST} Fundos de Investimento
+  {DIM}[7]{RST} Previdência Privada
+  {DIM}[8]{RST} Crypto
+  {C}Escolha{RST}: 
+  {M}Tipo / Subcategoria:{RST}
+  {DIM}[0]{RST} POS
+  {DIM}[1]{RST} PRE
+  {DIM}[2]{RST} IPCA
+  {DIM}[3]{RST} Ouro
+  {DIM}[4]{RST} (nenhum)
+  {C}Escolha{RST}: 
+  {M}Corretora:{RST}
+  {DIM}[0]{RST} XP
+  {DIM}[1]{RST} Nubank
+  {DIM}[2]{RST} Nomad
+  {DIM}[3]{RST} Binance
+  {C}Escolha{RST}: {C}  Vencimento (YYYY-MM-DD ou Enter para nenhum){RST}: 
+  {M}Indexador:{RST}
+  {DIM}[0]{RST} CDI
+  {DIM}[1]{RST} SELIC
+  {DIM}[2]{RST} FIXED_RATE
+  {DIM}[3]{RST} IPCA
+  {DIM}[4]{RST} SP_500
+  {DIM}[5]{RST} FTSE_GLOBAL_ALL_CAP
+  {DIM}[6]{RST} LBMA_GOLD_PRICE
+  {DIM}[7]{RST} ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX
+  {DIM}[8]{RST} IAFD
+  {DIM}[9]{RST} (nenhum)
+  {DIM}[10]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Grupo de Alocação:{RST}
+  {DIM}[0]{RST} RF_CDI
+  {DIM}[1]{RST} RF_PRE
+  {DIM}[2]{RST} RF_IPCA
+  {DIM}[3]{RST} RF_EXTERIOR
+  {DIM}[4]{RST} RESERVA_EMERGENCIA
+  {DIM}[5]{RST} CAIXA_TRANSITORIA
+  {DIM}[6]{RST} RV_ETF_BRASIL
+  {DIM}[7]{RST} RV_ETF_EXTERIOR
+  {DIM}[8]{RST} RV_OURO
+  {DIM}[9]{RST} RV_FUNDOS_ACOES
+  {DIM}[10]{RST} RV_FII
+  {DIM}[11]{RST} RV_CRYPTO
+  {DIM}[12]{RST} MULTIATIVO_GLOBAL
+  {DIM}[13]{RST} PREVIDENCIA
+  {DIM}[14]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Objetivo:{RST}
+  {DIM}[0]{RST} RENDA_POS_FIXADA_E_ESTABILIDADE
+  {DIM}[1]{RST} TRAVAR_TAXA_ATE_O_VENCIMENTO
+  {DIM}[2]{RST} PROTECAO_INFLACAO_LONGO_PRAZO
+  {DIM}[3]{RST} RESERVA_EMERGENCIA
+  {DIM}[4]{RST} RESERVA_EMERGENCIA_REMUNERADA
+  {DIM}[5]{RST} LIQUIDEZ_E_ESTABILIDADE
+  {DIM}[6]{RST} CAIXA_DE_CURTO_PRAZO
+  {DIM}[7]{RST} CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA
+  {DIM}[8]{RST} CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS
+  {DIM}[9]{RST} CRESCIMENTO_ACOES_EUA_EM_DOLAR
+  {DIM}[10]{RST} CRESCIMENTO_ACOES_EUA_EM_REAIS
+  {DIM}[11]{RST} CRESCIMENTO_ACOES_GLOBAIS
+  {DIM}[12]{RST} DIVERSIFICACAO_GLOBAL_MODERADA
+  {DIM}[13]{RST} ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
+  {DIM}[14]{RST} PROTECAO_OURO_E_CAMBIO
+  {DIM}[15]{RST} PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR
+  {DIM}[16]{RST} RENDA_IMOBILIARIA_HIBRIDA
+  {DIM}[17]{RST} RENDA_IMOBILIARIA_LOGISTICA
+  {DIM}[18]{RST} RENDA_IMOBILIARIA_VIA_FOF
+  {DIM}[19]{RST} RENDA_IMOBILIARIA_SECURITIES_E_FOF
+  {DIM}[20]{RST} RENDA_IMOBILIARIA_MULTIESTRATEGIA
+  {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
+  {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
+  {DIM}[23]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Valor em USD{RST}:   {G}→ BRL: R$     1,629.63{RST}
+  {G}✓ Ativo adicionado!{RST}
+{C}  Adicionar outro? (s/n){RST}: 
+{C}  Nome do ativo{RST}: 
+  {M}Categoria:{RST}
+  {DIM}[0]{RST} CDB
+  {DIM}[1]{RST} LCA
+  {DIM}[2]{RST} LCI
+  {DIM}[3]{RST} Tesouro Direto
+  {DIM}[4]{RST} ETF
+  {DIM}[5]{RST} Fundo Imobiliário
+  {DIM}[6]{RST} Fundos de Investimento
+  {DIM}[7]{RST} Previdência Privada
+  {DIM}[8]{RST} Crypto
+  {C}Escolha{RST}: 
+  {M}Tipo / Subcategoria:{RST}
+  {DIM}[0]{RST} POS
+  {DIM}[1]{RST} PRE
+  {DIM}[2]{RST} IPCA
+  {DIM}[3]{RST} Ouro
+  {DIM}[4]{RST} (nenhum)
+  {C}Escolha{RST}: 
+  {M}Corretora:{RST}
+  {DIM}[0]{RST} XP
+  {DIM}[1]{RST} Nubank
+  {DIM}[2]{RST} Nomad
+  {DIM}[3]{RST} Binance
+  {C}Escolha{RST}: {C}  Vencimento (YYYY-MM-DD ou Enter para nenhum){RST}: 
+  {M}Indexador:{RST}
+  {DIM}[0]{RST} CDI
+  {DIM}[1]{RST} SELIC
+  {DIM}[2]{RST} FIXED_RATE
+  {DIM}[3]{RST} IPCA
+  {DIM}[4]{RST} SP_500
+  {DIM}[5]{RST} FTSE_GLOBAL_ALL_CAP
+  {DIM}[6]{RST} LBMA_GOLD_PRICE
+  {DIM}[7]{RST} ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX
+  {DIM}[8]{RST} IAFD
+  {DIM}[9]{RST} (nenhum)
+  {DIM}[10]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Grupo de Alocação:{RST}
+  {DIM}[0]{RST} RF_CDI
+  {DIM}[1]{RST} RF_PRE
+  {DIM}[2]{RST} RF_IPCA
+  {DIM}[3]{RST} RF_EXTERIOR
+  {DIM}[4]{RST} RESERVA_EMERGENCIA
+  {DIM}[5]{RST} CAIXA_TRANSITORIA
+  {DIM}[6]{RST} RV_ETF_BRASIL
+  {DIM}[7]{RST} RV_ETF_EXTERIOR
+  {DIM}[8]{RST} RV_OURO
+  {DIM}[9]{RST} RV_FUNDOS_ACOES
+  {DIM}[10]{RST} RV_FII
+  {DIM}[11]{RST} RV_CRYPTO
+  {DIM}[12]{RST} MULTIATIVO_GLOBAL
+  {DIM}[13]{RST} PREVIDENCIA
+  {DIM}[14]{RST} Outro (digitar)
+  {C}Escolha{RST}: 
+  {M}Objetivo:{RST}
+  {DIM}[0]{RST} RENDA_POS_FIXADA_E_ESTABILIDADE
+  {DIM}[1]{RST} TRAVAR_TAXA_ATE_O_VENCIMENTO
+  {DIM}[2]{RST} PROTECAO_INFLACAO_LONGO_PRAZO
+  {DIM}[3]{RST} RESERVA_EMERGENCIA
+  {DIM}[4]{RST} RESERVA_EMERGENCIA_REMUNERADA
+  {DIM}[5]{RST} LIQUIDEZ_E_ESTABILIDADE
+  {DIM}[6]{RST} CAIXA_DE_CURTO_PRAZO
+  {DIM}[7]{RST} CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA
+  {DIM}[8]{RST} CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS
+  {DIM}[9]{RST} CRESCIMENTO_ACOES_EUA_EM_DOLAR
+  {DIM}[10]{RST} CRESCIMENTO_ACOES_EUA_EM_REAIS
+  {DIM}[11]{RST} CRESCIMENTO_ACOES_GLOBAIS
+  {DIM}[12]{RST} DIVERSIFICACAO_GLOBAL_MODERADA
+  {DIM}[13]{RST} ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
+  {DIM}[14]{RST} PROTECAO_OURO_E_CAMBIO
+  {DIM}[15]{RST} PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR
+  {DIM}[16]{RST} RENDA_IMOBILIARIA_HIBRIDA
+  {DIM}[17]{RST} RENDA_IMOBILIARIA_LOGISTICA
+  {DIM}[18]{RST} RENDA_IMOBILIARIA_VIA_FOF
+  {DIM}[19]{RST} RENDA_IMOBILIARIA_SECURITIES_E_FOF
+  {DIM}[20]{RST} RENDA_IMOBILIARIA_MULTIESTRATEGIA
+  {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
+  {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
+  {DIM}[23]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Quantidade (unidades){RST}:   {G}✓ Ativo adicionado!{RST}
+{C}  Adicionar outro? (s/n){RST}: 
+{C}  Nome do ativo{RST}: 
+  {M}Categoria:{RST}
+  {DIM}[0]{RST} CDB
+  {DIM}[1]{RST} LCA
+  {DIM}[2]{RST} LCI
+  {DIM}[3]{RST} Tesouro Direto
+  {DIM}[4]{RST} ETF
+  {DIM}[5]{RST} Fundo Imobiliário
+  {DIM}[6]{RST} Fundos de Investimento
+  {DIM}[7]{RST} Previdência Privada
+  {DIM}[8]{RST} Crypto
+  {C}Escolha{RST}: 
+  {M}Tipo / Subcategoria:{RST}
+  {DIM}[0]{RST} POS
+  {DIM}[1]{RST} PRE
+  {DIM}[2]{RST} IPCA
+  {DIM}[3]{RST} Ouro
+  {DIM}[4]{RST} (nenhum)
+  {C}Escolha{RST}: 
+  {M}Corretora:{RST}
+  {DIM}[0]{RST} XP
+  {DIM}[1]{RST} Nubank
+  {DIM}[2]{RST} Nomad
+  {DIM}[3]{RST} Binance
+  {C}Escolha{RST}: {C}  Vencimento (YYYY-MM-DD ou Enter para nenhum){RST}: 
+  {M}Indexador:{RST}
+  {DIM}[0]{RST} CDI
+  {DIM}[1]{RST} SELIC
+  {DIM}[2]{RST} FIXED_RATE
+  {DIM}[3]{RST} IPCA
+  {DIM}[4]{RST} SP_500
+  {DIM}[5]{RST} FTSE_GLOBAL_ALL_CAP
+  {DIM}[6]{RST} LBMA_GOLD_PRICE
+  {DIM}[7]{RST} ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX
+  {DIM}[8]{RST} IAFD
+  {DIM}[9]{RST} (nenhum)
+  {DIM}[10]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Indexador (texto livre){RST}: 
+  {M}Grupo de Alocação:{RST}
+  {DIM}[0]{RST} RF_CDI
+  {DIM}[1]{RST} RF_PRE
+  {DIM}[2]{RST} RF_IPCA
+  {DIM}[3]{RST} RF_EXTERIOR
+  {DIM}[4]{RST} RESERVA_EMERGENCIA
+  {DIM}[5]{RST} CAIXA_TRANSITORIA
+  {DIM}[6]{RST} RV_ETF_BRASIL
+  {DIM}[7]{RST} RV_ETF_EXTERIOR
+  {DIM}[8]{RST} RV_OURO
+  {DIM}[9]{RST} RV_FUNDOS_ACOES
+  {DIM}[10]{RST} RV_FII
+  {DIM}[11]{RST} RV_CRYPTO
+  {DIM}[12]{RST} MULTIATIVO_GLOBAL
+  {DIM}[13]{RST} PREVIDENCIA
+  {DIM}[14]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Grupo de Alocação (texto livre){RST}: 
+  {M}Objetivo:{RST}
+  {DIM}[0]{RST} RENDA_POS_FIXADA_E_ESTABILIDADE
+  {DIM}[1]{RST} TRAVAR_TAXA_ATE_O_VENCIMENTO
+  {DIM}[2]{RST} PROTECAO_INFLACAO_LONGO_PRAZO
+  {DIM}[3]{RST} RESERVA_EMERGENCIA
+  {DIM}[4]{RST} RESERVA_EMERGENCIA_REMUNERADA
+  {DIM}[5]{RST} LIQUIDEZ_E_ESTABILIDADE
+  {DIM}[6]{RST} CAIXA_DE_CURTO_PRAZO
+  {DIM}[7]{RST} CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA
+  {DIM}[8]{RST} CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS
+  {DIM}[9]{RST} CRESCIMENTO_ACOES_EUA_EM_DOLAR
+  {DIM}[10]{RST} CRESCIMENTO_ACOES_EUA_EM_REAIS
+  {DIM}[11]{RST} CRESCIMENTO_ACOES_GLOBAIS
+  {DIM}[12]{RST} DIVERSIFICACAO_GLOBAL_MODERADA
+  {DIM}[13]{RST} ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
+  {DIM}[14]{RST} PROTECAO_OURO_E_CAMBIO
+  {DIM}[15]{RST} PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR
+  {DIM}[16]{RST} RENDA_IMOBILIARIA_HIBRIDA
+  {DIM}[17]{RST} RENDA_IMOBILIARIA_LOGISTICA
+  {DIM}[18]{RST} RENDA_IMOBILIARIA_VIA_FOF
+  {DIM}[19]{RST} RENDA_IMOBILIARIA_SECURITIES_E_FOF
+  {DIM}[20]{RST} RENDA_IMOBILIARIA_MULTIESTRATEGIA
+  {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
+  {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
+  {DIM}[23]{RST} Outro (digitar)
+  {C}Escolha{RST}: {C}  Objetivo (texto livre){RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}:   {G}✓ Ativo adicionado!{RST}
+{C}  Adicionar outro? (s/n){RST}: 
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Adicionar Novo Ativo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+{C}  Nome do ativo{RST}: 
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Antes:    R$   205,576.35
+  Depois:   R$   213,402.14
+  Variação: {G}+R$     7,825.79{RST}
+  FGTS:     R$    18,500.00
+  Total c/ FGTS: {W}R$   231,902.14{RST}
+
+{C}Salvar alterações? (s/n){RST}: 
+{G}{BLD}✓ Salvo em <APP>/scripts/../data/investments.json{RST}
+{G}✓ Histórico: 14 snapshot(s){RST}
+{G}✓ Imagem gerada: assets/status.png{RST}
+
+
+### data/investments.json
+{
+  "dollarRate": 5.4321,
+  "emergencyReserve": {
+    "assetNames": [
+      "Tesouro Selic 2029",
+      "CDB Liquidez Diária Banco Exemplo"
+    ],
+    "excludeFromAllocation": true,
+    "maximum": 40000.0,
+    "minimum": 20000.0,
+    "target": 30000.0
+  },
+  "fgts": 18500.0,
+  "idealAllocation": {
+    "multiAtivoGlobal": 2.0,
+    "previdencia": 5.0,
+    "rendaFixa": 55.0,
+    "rendaVariavel": 38.0,
+    "rfCDI": 18.0,
+    "rfExterior": 5.0,
+    "rfIPCA": 22.0,
+    "rfPre": 10.0,
+    "rvCrypto": 1.0,
+    "rvETFBrasil": 5.0,
+    "rvETFExterior": 12.0,
+    "rvFII": 10.0,
+    "rvFundosAcoes": 8.0,
+    "rvOuro": 2.0
+  },
+  "investments": [
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 19850.4,
+      "broker": "XP",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "SELIC",
+      "invested": 18000.0,
+      "liquidity": "DAILY",
+      "maturity": "2029-03-01",
+      "name": "Tesouro Selic 2029",
+      "previousBalance": 19671.75,
+      "purpose": "RESERVA_EMERGENCIA",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 100.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 8420.15,
+      "broker": "Nubank",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 8000.0,
+      "liquidity": "IMMEDIATE",
+      "maturity": null,
+      "name": "CDB Liquidez Diária Banco Exemplo",
+      "previousBalance": 8344.37,
+      "purpose": "RESERVA_EMERGENCIA_REMUNERADA",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 100.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 23110.72,
+      "broker": "XP",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 20000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2028-06-15",
+      "name": "CDB Banco Alfa 110% CDI",
+      "previousBalance": 22902.72,
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 110.0
+      },
+      "taxExempt": false,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 16380.09,
+      "broker": "XP",
+      "category": "LCA",
+      "fgcEligible": true,
+      "indexer": "CDI",
+      "invested": 15000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2027-11-20",
+      "name": "LCA Banco Beta 95% CDI",
+      "previousBalance": 16232.67,
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "rate": {
+        "kind": "PERCENT_CDI",
+        "value": 95.0
+      },
+      "taxExempt": true,
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_PRE",
+      "balance": 13640.55,
+      "broker": "XP",
+      "category": "CDB",
+      "fgcEligible": true,
+      "indexer": "FIXED_RATE",
+      "invested": 12000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2028-01-10",
+      "name": "CDB Banco Gama Pré 12,5%",
+      "previousBalance": 13517.79,
+      "purpose": "TRAVAR_TAXA_ATE_O_VENCIMENTO",
+      "rate": {
+        "kind": "ANNUAL_FIXED",
+        "value": 12.5
+      },
+      "taxExempt": false,
+      "type": "PRE"
+    },
+    {
+      "allocationGroup": "RF_IPCA",
+      "balance": 24985.3,
+      "broker": "XP",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "IPCA",
+      "invested": 22000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2035-05-15",
+      "name": "Tesouro IPCA+ 2035",
+      "previousBalance": 24760.43,
+      "purpose": "PROTECAO_INFLACAO_LONGO_PRAZO",
+      "rate": {
+        "kind": "IPCA_PLUS",
+        "value": 6.4
+      },
+      "taxExempt": false,
+      "type": "IPCA"
+    },
+    {
+      "allocationGroup": "RF_IPCA",
+      "balance": 10512.8,
+      "broker": "Nubank",
+      "category": "Tesouro Direto",
+      "fgcEligible": false,
+      "indexer": "IPCA",
+      "invested": 10000.0,
+      "liquidity": "AT_MATURITY",
+      "maturity": "2045-05-15",
+      "name": "Tesouro IPCA+ 2045",
+      "previousBalance": 10418.18,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "rate": {
+        "kind": "IPCA_PLUS",
+        "value": 6.7
+      },
+      "taxExempt": false,
+      "type": "IPCA"
+    },
+    {
+      "allocationGroup": "RV_ETF_BRASIL",
+      "averagePrice": 120.0,
+      "balance": 9780.0,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": null,
+      "invested": 9000.0,
+      "maturity": null,
+      "name": "BOVA11",
+      "previousBalance": 9633.3,
+      "purpose": "CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS",
+      "quantity": 75,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "averagePrice": 314.29,
+      "balance": 13420.5,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": "SP_500",
+      "invested": 11000.0,
+      "maturity": null,
+      "name": "IVVB11",
+      "previousBalance": 13219.19,
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_REAIS",
+      "quantity": 35,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_OURO",
+      "averagePrice": 15.38,
+      "balance": 4610.2,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": "LBMA_GOLD_PRICE",
+      "invested": 4000.0,
+      "maturity": null,
+      "name": "GOLD11",
+      "previousBalance": 4541.05,
+      "purpose": "PROTECAO_OURO_E_CAMBIO",
+      "quantity": 260,
+      "type": "Ouro"
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "averagePrice": 94.12,
+      "balance": 7820.4,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "invested": 8000.0,
+      "maturity": null,
+      "name": "FII Logístico Exemplo (LOGX11)",
+      "previousBalance": 7703.09,
+      "purpose": "RENDA_IMOBILIARIA_LOGISTICA",
+      "quantity": 85,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "averagePrice": 9.72,
+      "balance": 7255.1,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "invested": 7000.0,
+      "maturity": null,
+      "name": "FII Papel Exemplo (PAPL11)",
+      "previousBalance": 7146.27,
+      "purpose": "RENDA_IMOBILIARIA_SECURITIES_E_FOF",
+      "quantity": 720,
+      "type": null
+    },
+    {
+      "administrationFeeAnnual": 1.9,
+      "allocationGroup": "RV_FUNDOS_ACOES",
+      "balance": 11240.66,
+      "broker": "XP",
+      "category": "Fundos de Investimento",
+      "indexer": null,
+      "invested": 10000.0,
+      "maturity": null,
+      "name": "Fundo de Ações Exemplo FIA",
+      "performanceFee": 20.0,
+      "previousBalance": 11072.05,
+      "purpose": "CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA",
+      "type": null
+    },
+    {
+      "administrationFeeAnnual": 0.8,
+      "allocationGroup": "PREVIDENCIA",
+      "balance": 13105.9,
+      "broker": "XP",
+      "category": "Previdência Privada",
+      "indexer": null,
+      "invested": 12000.0,
+      "maturity": null,
+      "name": "Previdência PGBL Exemplo",
+      "performanceFee": 0.0,
+      "previousBalance": 12909.31,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "balance": 9399.7058,
+      "balanceUSD": 1730.4,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "FTSE_GLOBAL_ALL_CAP",
+      "investedUSD": 1500.0,
+      "maturity": null,
+      "name": "VT",
+      "previousBalance": 9344.16,
+      "purpose": "CRESCIMENTO_ACOES_GLOBAIS",
+      "ticker": "VT",
+      "type": null
+    },
+    {
+      "allocationGroup": "RF_EXTERIOR",
+      "balance": 4487.4578,
+      "balanceUSD": 826.1,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX",
+      "investedUSD": 800.0,
+      "maturity": null,
+      "name": "SGOV",
+      "previousBalance": 4460.94,
+      "purpose": "PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR",
+      "ticker": "SGOV",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "MULTIATIVO_GLOBAL",
+      "balance": 2342.3215,
+      "balanceUSD": 431.2,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": null,
+      "investedUSD": 400.0,
+      "maturity": null,
+      "name": "AOK",
+      "previousBalance": 2328.48,
+      "purpose": "DIVERSIFICACAO_GLOBAL_CONSERVADORA",
+      "ticker": "AOK",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "averagePrice": 480000.0,
+      "balance": 2790.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Bitcoin",
+      "previousBalance": 2650.5,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.0045,
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "averagePrice": 17500.0,
+      "balance": 2520.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Ethereum",
+      "previousBalance": 2394.0,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.12,
+      "type": null
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 5100.25,
+      "broker": "Nubank",
+      "category": "CDB",
+      "indexer": "CDI",
+      "invested": 5000.0,
+      "maturity": "2027-01-01",
+      "name": "CDB Novo",
+      "previousBalance": 5100.25,
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "balance": 1629.63,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "SP_500",
+      "investedUSD": 300.0,
+      "maturity": null,
+      "name": "ETF EUA",
+      "previousBalance": 1629.63,
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_DOLAR",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "balance": 0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Solana",
+      "previousBalance": 0,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 2.5,
+      "type": null
+    },
+    {
+      "allocationGroup": "GRUPO_X",
+      "balance": 1000.0,
+      "broker": "Nubank",
+      "category": "CDB",
+      "indexer": "IPCA+DEB",
+      "invested": 1000.0,
+      "maturity": "2031-05-15",
+      "name": "Debênture X",
+      "previousBalance": 1000.0,
+      "purpose": "MEU_OBJETIVO",
+      "type": "IPCA"
+    }
+  ],
+  "lastUpdated": "2026-10-06",
+  "projectionParams": {
+    "fgtsAnnualReturn": 0.06,
+    "monthlyContribution": 1500.0,
+    "monthlyReturn": 0.008
+  }
+}
+### data/history.json
+[
+  {
+    "assets": [
+      {
+        "balance": 16329.46,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 6926.64,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 19011.49,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13474.7,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 11221.08,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 20553.57,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8648.11,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8045.29,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 11040.06,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 3792.47,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 6433.27,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 5968.24,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 9246.86,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 10781.26,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 7686.75,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3669.69,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 1915.47,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2295.13,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2073.02,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2025-10-01",
+    "total": 169112.54,
+    "totalInvested": 166840.0,
+    "totalWithFGTS": 186537.79
+  },
+  {
+    "assets": [
+      {
+        "balance": 16496.78,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 6997.61,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 19206.29,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13612.76,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 11336.05,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 20764.17,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8736.72,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8127.72,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 11153.18,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 3831.33,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 6499.19,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6029.39,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 9341.61,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 10891.73,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 7765.51,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3707.29,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 1935.1,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2318.64,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2094.26,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2025-11-01",
+    "total": 170845.33,
+    "totalInvested": 168340.0,
+    "totalWithFGTS": 188357.71
+  },
+  {
+    "assets": [
+      {
+        "balance": 16836.09,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7141.54,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 19601.33,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13892.75,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 11569.22,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 21191.25,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8916.42,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8294.89,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 11382.58,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 3910.14,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 6632.86,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6153.4,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 9533.75,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 11115.75,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 7925.24,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3783.54,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 1974.9,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2366.33,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2137.33,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2025-12-01",
+    "total": 174359.32,
+    "totalInvested": 169840.0,
+    "totalWithFGTS": 191959.26
+  },
+  {
+    "assets": [
+      {
+        "balance": 17116.11,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7260.32,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 19927.33,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 14123.81,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 11761.63,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 21543.7,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9064.71,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8432.85,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 11571.89,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 3975.17,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 6743.18,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6255.75,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 9692.31,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 11300.63,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8057.05,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3846.47,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2007.74,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2405.69,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2172.88,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-01-01",
+    "total": 177259.23,
+    "totalInvested": 171340.0,
+    "totalWithFGTS": 194947.17
+  },
+  {
+    "assets": [
+      {
+        "balance": 17515.36,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7429.67,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 20392.16,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 14453.27,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12035.99,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 22046.23,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9276.16,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8629.56,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 11841.82,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4067.89,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 6900.47,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6401.67,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 9918.4,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 11564.23,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8244.99,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3936.19,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2054.58,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2461.81,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2223.57,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-02-01",
+    "total": 181394.03,
+    "totalInvested": 172840.0,
+    "totalWithFGTS": 199170.41
+  },
+  {
+    "assets": [
+      {
+        "balance": 17797.29,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7549.26,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 20720.4,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 14685.91,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12229.72,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 22401.09,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9425.47,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8768.46,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12032.43,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4133.37,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7011.54,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6504.71,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10078.05,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 11750.37,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8377.7,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 3999.55,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2087.65,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2501.43,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2259.36,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-03-01",
+    "total": 184313.79,
+    "totalInvested": 174340.0,
+    "totalWithFGTS": 202179.05
+  },
+  {
+    "assets": [
+      {
+        "balance": 18139.63,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7694.48,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 21118.97,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 14968.4,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12464.96,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 22831.99,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9606.77,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8937.13,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12263.88,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4212.88,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7146.41,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6629.83,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10271.9,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 11976.39,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8538.85,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4076.48,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2127.8,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2549.55,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2302.82,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-04-01",
+    "total": 187859.14,
+    "totalInvested": 175840.0,
+    "totalWithFGTS": 205813.72
+  },
+  {
+    "assets": [
+      {
+        "balance": 18259.93,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7745.5,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 21259.03,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 15067.67,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12547.63,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 22983.41,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9670.49,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 8996.4,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12345.21,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4240.82,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7193.81,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6673.8,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10340.03,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 12055.82,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8595.48,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4103.52,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2141.92,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2566.46,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2318.09,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-05-01",
+    "total": 189105.01,
+    "totalInvested": 177340.0,
+    "totalWithFGTS": 207149.37
+  },
+  {
+    "assets": [
+      {
+        "balance": 18630.86,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7902.85,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 21690.88,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 15373.75,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12802.52,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 23450.29,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9866.93,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9179.15,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12595.99,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4326.97,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7339.94,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6809.37,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10550.07,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 12300.72,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8770.09,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4186.88,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2185.43,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2618.59,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2365.18,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-06-01",
+    "total": 192946.45,
+    "totalInvested": 178840.0,
+    "totalWithFGTS": 211081.03
+  },
+  {
+    "assets": [
+      {
+        "balance": 18840.09,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 7991.59,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 21934.47,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 15546.4,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 12946.3,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 23713.64,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9977.74,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9282.23,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12737.45,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4375.56,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7422.37,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 6885.84,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10668.55,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 12438.86,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 8868.58,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4233.89,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2209.97,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2648.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2391.74,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-07-01",
+    "total": 195113.26,
+    "totalInvested": 180340.0,
+    "totalWithFGTS": 213338.51
+  },
+  {
+    "assets": [
+      {
+        "balance": 19181.9,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 8136.59,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 22332.42,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 15828.46,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13181.18,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 24143.87,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 10158.76,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9450.64,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 12968.54,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4454.94,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7557.03,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 7010.77,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 10862.11,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 12664.53,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 9029.48,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4310.71,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2250.06,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2696.04,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2435.13,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-08-01",
+    "total": 198653.19,
+    "totalInvested": 181840.0,
+    "totalWithFGTS": 216969.57
+  },
+  {
+    "assets": [
+      {
+        "balance": 19549.27,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 8292.42,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 22760.14,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 16131.61,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13433.63,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 24606.28,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 10353.32,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9631.64,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 13216.91,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4540.26,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7701.77,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 7145.04,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 11070.14,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 12907.09,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 9202.41,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4393.27,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2293.16,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2747.68,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2481.77,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-09-01",
+    "total": 202457.8,
+    "totalInvested": 183340.0,
+    "totalWithFGTS": 220865.76
+  },
+  {
+    "assets": [
+      {
+        "balance": 19850.4,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 8420.15,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 23110.72,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 16380.09,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13640.55,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 24985.3,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 10512.8,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9780.0,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 13420.5,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4610.2,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7820.4,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 7255.1,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 11240.66,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 13105.9,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 9344.16,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4460.94,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2328.48,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2790.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2520.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      }
+    ],
+    "date": "2026-10-01",
+    "total": 205576.35,
+    "totalInvested": 184840.0,
+    "totalWithFGTS": 224076.35
+  },
+  {
+    "assets": [
+      {
+        "balance": 19850.4,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2029-03-01",
+        "name": "Tesouro Selic 2029",
+        "type": "POS"
+      },
+      {
+        "balance": 8420.15,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "CDB Liquidez Diária Banco Exemplo",
+        "type": "POS"
+      },
+      {
+        "balance": 23110.72,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-06-15",
+        "name": "CDB Banco Alfa 110% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 16380.09,
+        "broker": "XP",
+        "category": "LCA",
+        "maturity": "2027-11-20",
+        "name": "LCA Banco Beta 95% CDI",
+        "type": "POS"
+      },
+      {
+        "balance": 13640.55,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2028-01-10",
+        "name": "CDB Banco Gama Pré 12,5%",
+        "type": "PRE"
+      },
+      {
+        "balance": 24985.3,
+        "broker": "XP",
+        "category": "Tesouro Direto",
+        "maturity": "2035-05-15",
+        "name": "Tesouro IPCA+ 2035",
+        "type": "IPCA"
+      },
+      {
+        "balance": 10512.8,
+        "broker": "Nubank",
+        "category": "Tesouro Direto",
+        "maturity": "2045-05-15",
+        "name": "Tesouro IPCA+ 2045",
+        "type": "IPCA"
+      },
+      {
+        "balance": 9780.0,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "BOVA11",
+        "type": null
+      },
+      {
+        "balance": 13420.5,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "IVVB11",
+        "type": null
+      },
+      {
+        "balance": 4610.2,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "GOLD11",
+        "type": "Ouro"
+      },
+      {
+        "balance": 7820.4,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Logístico Exemplo (LOGX11)",
+        "type": null
+      },
+      {
+        "balance": 7255.1,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII Papel Exemplo (PAPL11)",
+        "type": null
+      },
+      {
+        "balance": 11240.66,
+        "broker": "XP",
+        "category": "Fundos de Investimento",
+        "maturity": null,
+        "name": "Fundo de Ações Exemplo FIA",
+        "type": null
+      },
+      {
+        "balance": 13105.9,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência PGBL Exemplo",
+        "type": null
+      },
+      {
+        "balance": 9399.7058,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "VT",
+        "type": null
+      },
+      {
+        "balance": 4487.4578,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "SGOV",
+        "type": "POS"
+      },
+      {
+        "balance": 2342.3215,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "AOK",
+        "type": null
+      },
+      {
+        "balance": 2790.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 2520.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Ethereum",
+        "type": null
+      },
+      {
+        "balance": 5100.25,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": "2027-01-01",
+        "name": "CDB Novo",
+        "type": "POS"
+      },
+      {
+        "balance": 1629.63,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "ETF EUA",
+        "type": null
+      },
+      {
+        "balance": 0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Solana",
+        "type": null
+      },
+      {
+        "balance": 1000.0,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": "2031-05-15",
+        "name": "Debênture X",
+        "type": "IPCA"
+      }
+    ],
+    "date": "2026-10-06",
+    "total": 213402.1351,
+    "totalInvested": 192556.3,
+    "totalWithFGTS": 231902.1351
+  }
+]
+### assets/status.png: PNG

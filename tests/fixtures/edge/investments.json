@@ -1,0 +1,143 @@
+{
+  "lastUpdated": "2026-09-15",
+  "dollarRate": 5.0,
+  "fgts": 1000.0,
+  "idealAllocation": {
+    "rendaFixa": 60.0,
+    "rendaVariavel": 40.0,
+    "rfCDI": 30.0,
+    "rvFII": 10.0
+  },
+  "emergencyReserve": {
+    "minimum": 10000.0,
+    "target": 15000.0,
+    "maximum": 20000.0,
+    "excludeFromAllocation": true
+  },
+  "projectionParams": {
+    "monthlyReturn": 0.01,
+    "fgtsAnnualReturn": 0.05,
+    "monthlyContribution": 500.0
+  },
+  "investments": [
+    {
+      "name": "Reserva CDB",
+      "category": "CDB",
+      "type": "POS",
+      "broker": "Nubank",
+      "maturity": null,
+      "balance": 5000.0,
+      "invested": 4800.0,
+      "previousBalance": 4950.0,
+      "indexer": "CDI",
+      "purpose": "RESERVA_EMERGENCIA",
+      "allocationGroup": "RESERVA_EMERGENCIA"
+    },
+    {
+      "name": "CDB sem previousBalance",
+      "category": "CDB",
+      "type": "POS",
+      "broker": "XP",
+      "maturity": "2026-11-01",
+      "balance": 12000.0,
+      "invested": 12500.0,
+      "indexer": "CDI",
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "allocationGroup": "RF_CDI"
+    },
+    {
+      "name": "Ativo sem custo base",
+      "category": "Fundo Imobiliário",
+      "type": null,
+      "broker": "XP",
+      "maturity": null,
+      "balance": 3000.0,
+      "previousBalance": 3100.0,
+      "indexer": null,
+      "purpose": null,
+      "allocationGroup": "RV_FII"
+    },
+    {
+      "name": "Grupo desconhecido",
+      "category": "Debênture",
+      "type": "IPCA",
+      "broker": "Corretora Nova",
+      "maturity": "15/01/2030",
+      "balance": 2500.0,
+      "invested": 2000.0,
+      "previousBalance": 2500.0,
+      "indexer": "INDICE_CUSTOM",
+      "purpose": "OBJETIVO_CUSTOM",
+      "allocationGroup": "GRUPO_INEXISTENTE"
+    },
+    {
+      "name": "Sem allocationGroup",
+      "category": "LCI",
+      "type": "PRE",
+      "broker": "XP",
+      "maturity": "2025-12-01",
+      "balance": 1500.0,
+      "invested": 1400.0,
+      "previousBalance": 1490.0
+    },
+    {
+      "name": "ETF USD sem balanceUSD",
+      "category": "ETF",
+      "type": null,
+      "broker": "Nomad",
+      "maturity": null,
+      "investedUSD": 200.0,
+      "balance": 1100.0,
+      "previousBalance": 1050.0,
+      "indexer": "SP_500",
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_DOLAR",
+      "allocationGroup": "RV_ETF_EXTERIOR"
+    },
+    {
+      "name": "Bitcoin",
+      "category": "Crypto",
+      "type": null,
+      "broker": "Binance",
+      "maturity": null,
+      "quantity": 0.01,
+      "balance": 5500.0,
+      "previousBalance": 5000.0,
+      "indexer": null,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "allocationGroup": "RV_CRYPTO"
+    },
+    {
+      "name": "Previdência",
+      "category": "Previdência Privada",
+      "type": null,
+      "broker": "XP",
+      "maturity": null,
+      "balance": 0.0,
+      "invested": 0.0,
+      "previousBalance": 0.0,
+      "indexer": null,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "allocationGroup": "PREVIDENCIA"
+    },
+    {
+      "name": "FII legado",
+      "category": "Fundo Imobiliário",
+      "type": null,
+      "broker": "XP",
+      "maturity": null,
+      "balance": 800.0,
+      "invested": 1000.0,
+      "previousBalance": 820.0
+    },
+    {
+      "name": "Ouro legado",
+      "category": "ETF",
+      "type": "Ouro",
+      "broker": "XP",
+      "maturity": "data inválida",
+      "balance": 600.0,
+      "invested": 500.0,
+      "previousBalance": 590.0
+    }
+  ]
+}

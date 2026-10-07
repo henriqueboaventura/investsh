@@ -1,0 +1,9 @@
+
+Carteira: 2026-09-15 | R$ 32,000.00 | 10 ativos
+Prompt gerado: ~1,543 tokens (6,173 caracteres)
+
+Prompt copiado para o clipboard!
+Abra claude.ai e cole (Cmd+V) numa conversa nova.
+
+⚠  1 ativo(s) VENCIDO(S) detectado(s):
+   - Sem allocationGroup (venc. 2025-12-01)

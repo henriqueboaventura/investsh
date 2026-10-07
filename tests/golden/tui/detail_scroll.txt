@@ -1,0 +1,100 @@
+=== cursor desceu além da tela ===
+ investsh   R$ 205.462,26   2026-10-01   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  CDB Banco Gama   CDB                       R$ 13.640,55   +13.7%      +R$ 122
+  LCA Banco Beta   LCA                       R$ 16.380,09    +9.2%      +R$ 147
+  Tesouro Selic 2  Tesouro Direto            R$ 19.850,40   +10.3%      +R$ 178
+  Tesouro IPCA+ 2  Tesouro Direto            R$ 24.985,30   +13.6%      +R$ 224
+  Previdência PGB  Previdência Privada       R$ 13.105,90    +9.2%      +R$ 196
+  GOLD11           ETF                        R$ 4.610,20   +15.3%       +R$ 69
+  BOVA11           ETF                        R$ 9.780,00    +8.7%      +R$ 146
+  IVVB11           ETF                       R$ 13.420,50   +22.0%      +R$ 201
+  FII Logístico E  Fundo Imobiliário          R$ 7.820,40    -2.2%      +R$ 117
+  FII Papel Exemp  Fundo Imobiliário          R$ 7.255,10    +3.6%      +R$ 108
+  Fundo de Ações   Fundos de Investimento    R$ 11.240,66   +12.4%      +R$ 168
+  Tesouro IPCA+ 2  Tesouro Direto            R$ 10.512,80    +5.1%       +R$ 94
+  ── Nubank  R$ 18.932,95 (9.2%) ──
+  VT               ETF                        R$ 9.399,71   +15.4%      +R$ 242
+  Nome             Categoria                        Saldo       G%           Δ
+  ── Binance  R$ 5.100,00 (2.5%) ──────────────────────────────────      +R$ 75
+  Nome             Categoria                        Saldo       G%           Δ
+  ─────────────────────────────────────────────────────────────────      +R$ 60
+  Bitcoin          Crypto                     R$ 2.700,00   +25.0%       +R$ 49
+  Ethereum         Crypto                     R$ 2.400,00   +14.3%        +R$ 6
+
+ /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  16-35/35
+--- estilos ---
+####################################################===========================
+  .......   ........   .........   ........  #########  .......   ........
+  ... ..... ....   ...                       .. .........   gggggg      ggg ggg
+  ... ..... ....   ...                       .. .........    ggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ........... ...  ........... .......       .. .........    ggggg      ggg ggg
+  ......           ...                        .. ........   gggggg       ggg gg
+  ......           ...                        .. ........    ggggg      ggg ggg
+  ......           ...                       .. .........   gggggg      ggg ggg
+  ... ......... .  ..... ...........          .. ........    rrrrr      ggg ggg
+  ... ..... .....  ..... ...........          .. ........    ggggg      ggg ggg
+  ..... .. .....   ...... .. ............    .. .........   gggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........    ggggg       ggg gg
+  MM MMMMMM  MM MMMMMMMMM MMMMMM MM
+  ..               ...                        .. ........   gggggg      ggg ggg
+  ....             .........                        .....       ..           .
+  MM MMMMMMM  MM MMMMMMMM MMMMMM MM................................      ggg gg
+  ....             .........                        .....       ..           .
+  .................................................................      ggg gg
+  .......          ......                     .. ........   gggggg       ggg gg
+===============================================================================
+
+======================================================================##########
+=== cursor subiu além da tela ===
+ investsh   R$ 205.462,26   2026-10-01   USD 5.4321
+  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  CDB Banco Alfa   CDB                       R$ 23.110,72   +15.6%      +R$ 208
+  CDB Banco Gama   CDB                       R$ 13.640,55   +13.7%      +R$ 122
+  LCA Banco Beta   LCA                       R$ 16.380,09    +9.2%      +R$ 147
+  Tesouro Selic 2  Tesouro Direto            R$ 19.850,40   +10.3%      +R$ 178
+  Tesouro IPCA+ 2  Tesouro Direto            R$ 24.985,30   +13.6%      +R$ 224
+  Previdência PGB  Previdência Privada       R$ 13.105,90    +9.2%      +R$ 196
+  GOLD11           ETF                        R$ 4.610,20   +15.3%       +R$ 69
+  BOVA11           ETF                        R$ 9.780,00    +8.7%      +R$ 146
+  IVVB11           ETF                       R$ 13.420,50   +22.0%      +R$ 201
+  FII Logístico E  Fundo Imobiliário          R$ 7.820,40    -2.2%      +R$ 117
+  FII Papel Exemp  Fundo Imobiliário          R$ 7.255,10    +3.6%      +R$ 108
+  Fundo de Ações   Fundos de Investimento    R$ 11.240,66   +12.4%      +R$ 168
+  LCA Banco Beta   LCA                       R$ 16.380,09    +9.2%      +R$ 147
+  Tesouro Selic 2  Tesouro Direto            R$ 19.850,40   +10.3%      +R$ 178
+  Tesouro IPCA+ 2  Tesouro Direto            R$ 24.985,30   +13.6%      +R$ 224
+  Previdência PGB  Previdência Privada       R$ 13.105,90    +9.2%      +R$ 196
+  CDB Liquidez Di  CDB                        R$ 8.420,15    +5.3%       +R$ 75
+  Tesouro IPCA+ 2  Tesouro Direto            R$ 10.512,80    +5.1%       +R$ 94
+  IVVB11           ETF                       R$ 13.420,50   +22.0%      +R$ 201
+  FII Logístico E  Fundo Imobiliário          R$ 7.820,40    -2.2%      +R$ 117
+  Nome             Categoria                        Saldo       G%           Δ
+ /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params   5-24/35
+--- estilos ---
+####################################################===========================
+  .......   ........   .........   ........  #########  .......   ........
+===============================================================================
+  ... ..... ....   ...                       .. .........   gggggg      ggg ggg
+  ... ..... ....   ...                       .. .........    ggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ........... ...  ........... .......       .. .........    ggggg      ggg ggg
+  ......           ...                        .. ........   gggggg       ggg gg
+  ......           ...                        .. ........    ggggg      ggg ggg
+  ......           ...                       .. .........   gggggg      ggg ggg
+  ... ......... .  ..... ...........          .. ........    rrrrr      ggg ggg
+  ... ..... .....  ..... ...........          .. ........    ggggg      ggg ggg
+  ..... .. .....   ...... .. ............    .. .........   gggggg      ggg ggg
+  ... ..... ....   ...                       .. .........    ggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ....... ..... .  ....... ......            .. .........   gggggg      ggg ggg
+  ........... ...  ........... .......       .. .........    ggggg      ggg ggg
+  ... ........ ..  ...                        .. ........    ggggg       ggg gg
+  ....... ..... .  ....... ......            .. .........    ggggg       ggg gg
+  ......           ...                       .. .........   gggggg      ggg ggg
+  ... ......... .  ..... ...........          .. ........    rrrrr      ggg ggg
+  ....             .........                        .....       ..           .
+=======================================================================#########

@@ -1,0 +1,204 @@
+Você é um analista sênior de investimentos brasileiro com 20 anos de experiência em gestão de patrimônio pessoal. Faça uma análise profunda e honesta da carteira abaixo. Seja direto — se algo está errado, diga com números concretos.
+
+CONTEXTO DE MERCADO (mai/2026):
+- SELIC: ~14,75% a.a. | CDI: ~14,65% a.a. | IPCA 12m: ~5,5% a.a.
+- USD/BRL: R$ 5.0
+
+PATRIMÔNIO (atualizado: 2026-09-15)
+- Investimentos líquidos: R$ 32,000.00
+- FGTS:                   R$ 1,000.00
+- Total com FGTS:         R$ 33,000.00
+- Número de ativos:       10
+
+VALORES POR CLASSE
+- RF CDI (pós-fixado):   R$ 17,000.00
+- RF Pré-fixado:         R$ 1,500.00
+- RF IPCA+:              R$ 0.00
+- FII:                   R$ 3,800.00
+- ETF:                   R$ 1,100.00
+- Ouro:                  R$ 600.00
+- Fundos de Ações:       R$ 0.00
+- Crypto:                R$ 5,500.00
+- Previdência Privada:   R$ 0.00
+
+ALOCAÇÃO ATUAL vs IDEAL
+Categoria            | Atual  | Ideal  | Desvio
+---------------------|--------|--------|--------
+Renda Fixa Total     |  57.8% |  60.0% | -2.2%
+  CDI/Pós-fixado    |  53.1% |  30.0% | +23.1%
+  Pré-Fixado        |   4.7% |   0.0% | +4.7%
+  IPCA+             |   0.0% |   0.0% | +0.0%
+Renda Variável Total |  34.4% |  40.0% | -5.6%
+  FII               |  11.9% |  10.0% | +1.9%
+  ETF               |   3.4% |   0.0% | +3.4%
+  Ouro              |   1.9% |   0.0% | +1.9%
+  Fundos de Ações   |   0.0% |   0.0% | +0.0%
+  Crypto            |  17.2% |   0.0% | +17.2%
+Previdência          |   0.0% |   0.0% | +0.0%
+
+ALERTAS DE VENCIMENTO (vencidos + próximos 6 meses)
+  - Sem allocationGroup: VENCIDO (venc. 2025-12-01)
+  - CDB sem previousBalance: vence em 26d (venc. 2026-11-01)
+
+PERFORMANCE POR ATIVO (ordenado por ganho %)
+  - Grupo desconhecido [OUTROS]: +25.0%  (investido R$2,000 → atual R$2,500, ganho R$500)
+  - Ouro legado [RV_OURO]: +20.0%  (investido R$500 → atual R$600, ganho R$100)
+  - Sem allocationGroup [RF_PRE]: +7.1%  (investido R$1,400 → atual R$1,500, ganho R$100)
+  - Reserva CDB [RF_CDI]: +4.2%  (investido R$4,800 → atual R$5,000, ganho R$200)
+  - CDB sem previousBalance [RF_CDI]: -4.0%  (investido R$12,500 → atual R$12,000, ganho R$-500)
+  - FII legado [RV_FII]: -20.0%  (investido R$1,000 → atual R$800, ganho R$-200)
+
+PARÂMETROS DE PROJEÇÃO
+- Retorno mensal estimado: 1.00% (12.0% a.a.)
+- Aporte mensal: R$ 500
+
+LISTA COMPLETA DE ATIVOS (JSON)
+[
+  {
+    "name": "Reserva CDB",
+    "category": "CDB",
+    "type": "POS",
+    "broker": "Nubank",
+    "maturity": null,
+    "balance": 5000.0,
+    "invested": 4800.0,
+    "previousBalance": 4950.0,
+    "indexer": "CDI",
+    "purpose": "RESERVA_EMERGENCIA",
+    "allocationGroup": "RESERVA_EMERGENCIA"
+  },
+  {
+    "name": "CDB sem previousBalance",
+    "category": "CDB",
+    "type": "POS",
+    "broker": "XP",
+    "maturity": "2026-11-01",
+    "balance": 12000.0,
+    "invested": 12500.0,
+    "indexer": "CDI",
+    "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+    "allocationGroup": "RF_CDI"
+  },
+  {
+    "name": "Ativo sem custo base",
+    "category": "Fundo Imobiliário",
+    "type": null,
+    "broker": "XP",
+    "maturity": null,
+    "balance": 3000.0,
+    "previousBalance": 3100.0,
+    "indexer": null,
+    "purpose": null,
+    "allocationGroup": "RV_FII"
+  },
+  {
+    "name": "Grupo desconhecido",
+    "category": "Debênture",
+    "type": "IPCA",
+    "broker": "Corretora Nova",
+    "maturity": "15/01/2030",
+    "balance": 2500.0,
+    "invested": 2000.0,
+    "previousBalance": 2500.0,
+    "indexer": "INDICE_CUSTOM",
+    "purpose": "OBJETIVO_CUSTOM",
+    "allocationGroup": "GRUPO_INEXISTENTE"
+  },
+  {
+    "name": "Sem allocationGroup",
+    "category": "LCI",
+    "type": "PRE",
+    "broker": "XP",
+    "maturity": "2025-12-01",
+    "balance": 1500.0,
+    "invested": 1400.0,
+    "previousBalance": 1490.0
+  },
+  {
+    "name": "ETF USD sem balanceUSD",
+    "category": "ETF",
+    "type": null,
+    "broker": "Nomad",
+    "maturity": null,
+    "investedUSD": 200.0,
+    "balance": 1100.0,
+    "previousBalance": 1050.0,
+    "indexer": "SP_500",
+    "purpose": "CRESCIMENTO_ACOES_EUA_EM_DOLAR",
+    "allocationGroup": "RV_ETF_EXTERIOR"
+  },
+  {
+    "name": "Bitcoin",
+    "category": "Crypto",
+    "type": null,
+    "broker": "Binance",
+    "maturity": null,
+    "quantity": 0.01,
+    "balance": 5500.0,
+    "previousBalance": 5000.0,
+    "indexer": null,
+    "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+    "allocationGroup": "RV_CRYPTO"
+  },
+  {
+    "name": "Previdência",
+    "category": "Previdência Privada",
+    "type": null,
+    "broker": "XP",
+    "maturity": null,
+    "balance": 0.0,
+    "invested": 0.0,
+    "previousBalance": 0.0,
+    "indexer": null,
+    "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+    "allocationGroup": "PREVIDENCIA"
+  },
+  {
+    "name": "FII legado",
+    "category": "Fundo Imobiliário",
+    "type": null,
+    "broker": "XP",
+    "maturity": null,
+    "balance": 800.0,
+    "invested": 1000.0,
+    "previousBalance": 820.0
+  },
+  {
+    "name": "Ouro legado",
+    "category": "ETF",
+    "type": "Ouro",
+    "broker": "XP",
+    "maturity": "data inválida",
+    "balance": 600.0,
+    "invested": 500.0,
+    "previousBalance": 590.0
+  }
+]
+
+---
+
+Produza um relatório completo em português com estas seções:
+
+## 1. Diagnóstico Geral
+Saúde geral da carteira: pontos fortes e problemas críticos. Seja direto.
+
+## 2. Análise de Alocação
+Para cada desvio significativo (>3pp): o que significa em R$, impacto no risco/retorno, se é justificável.
+
+## 3. Alertas e Urgências
+Ativos vencidos, em prejuízo, concentrações de risco. O que precisa de atenção imediata.
+
+## 4. Análise de Performance
+Quais ativos performam bem ou mal e por quê. Comparativo com benchmarks (CDI, IPCA+, IBOV, S&P 500).
+
+## 5. Sugestão de Aporte (R$ 500/mês)
+Onde concentrar o próximo aporte para rebalancear. Seja específico com percentuais e valores.
+
+## 6. Estratégia de Crescimento (próximos 12 meses)
+3 a 5 ações concretas considerando vencimentos, rebalanceamento e cenário atual.
+
+## 7. Projeção Patrimonial
+Com R$ 500/mês e 12.0% a.a., quando atinge R$ 1.000.000?
+Mostre 3 cenários: pessimista (-2pp), base, otimista (+2pp).
+
+Use linguagem técnica mas acessível. Números concretos em todo lugar.

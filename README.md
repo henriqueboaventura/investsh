@@ -135,6 +135,7 @@ convertidos pela cotação do dia.
 ├── data/                 # Seus dados — criado na 1ª execução, fora do git
 │   ├── investments.json  #   carteira atual
 │   └── history.json      #   snapshots a cada save
+├── tests/                # Testes de regressão (ver tests/README.md)
 └── docs/
     └── DATA_FORMAT.md    # Formato dos arquivos JSON
 ```
@@ -155,6 +156,17 @@ abra de novo. Sem cotação, os saldos salvos continuam valendo.
 só não gera o PNG.
 
 ---
+
+## Contribuindo
+
+O projeto tem uma suíte de regressão que cobre o menu, a TUI, a imagem e os cálculos:
+
+```bash
+python3 -m venv .venv && .venv/bin/pip install -r requirements-dev.txt
+.venv/bin/pytest
+```
+
+Detalhes em [tests/README.md](tests/README.md).
 
 ## Aviso
 

@@ -13,6 +13,8 @@ analise_prompt.txt
 *.zip
 
 # Dev
+.venv/
+.pytest_cache/
 .DS_Store
 .env
 .claude/

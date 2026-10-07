@@ -1,0 +1,6 @@
+
+Carteira: 2026-10-01 | R$ 205,576.35 | 19 ativos
+Prompt gerado: ~2,983 tokens (11,935 caracteres)
+
+Não foi possível copiar. Prompt salvo em: analise_prompt.txt
+Abra o arquivo, selecione tudo e cole no claude.ai.

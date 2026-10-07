@@ -1,0 +1,515 @@
+# exit=0
+# stderr:
+# stdout:
+
+{BLD}{G}╔══════════════════════════════════════╗
+║    investsh — Atualização Mensal     ║
+╚══════════════════════════════════════╝{RST}
+
+{DIM}Arquivo: <APP>/scripts/../data/investments.json{RST}
+Última atualização: {W}2026-09-15{RST}
+Total atual:        {W}R$    32,000.00{RST}
+FGTS:               {W}R$     1,000.00{RST}
+
+{BLD}{W}▸ Cotações Automáticas{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {G}✓ USD/BRL: 5.4321{RST}
+  {G}✓ Crypto: Bitcoin: R$ 600,000  Ethereum: R$ 20,000  Dogecoin: R$ 1  XRP: R$ 12{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Aporte{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}custo base: R$    12,500.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}custo base: R$     1,400.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}custo base: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}custo base: R$       500.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}custo base: R$     1,000.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}custo base: R$     4,800.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}custo base: $200.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}custo base: R$     2,000.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}: 
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Saque{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}saldo: R$    12,000.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}saldo: R$     1,500.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}saldo: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}saldo: R$       600.00{RST}
+  {DIM}[ 4]{RST} XP       Ativo sem custo base                   {DIM}saldo: R$     3,000.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}saldo: R$       800.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}saldo: R$     5,000.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}saldo: $0.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}saldo: R$     2,500.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}:   {Y}Crypto: ajuste a quantidade diretamente em "Atualizar ativo".{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Saque{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}saldo: R$    12,000.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}saldo: R$     1,500.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}saldo: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}saldo: R$       600.00{RST}
+  {DIM}[ 4]{RST} XP       Ativo sem custo base                   {DIM}saldo: R$     3,000.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}saldo: R$       800.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}saldo: R$     5,000.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}saldo: $0.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}saldo: R$     2,500.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}: {C}  Valor sacado em USD (saldo atual: $200.00){RST}: 
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Saque{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}saldo: R$    12,000.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}saldo: R$     1,500.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}saldo: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}saldo: R$       600.00{RST}
+  {DIM}[ 4]{RST} XP       Ativo sem custo base                   {DIM}saldo: R$     3,000.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}saldo: R$       800.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}saldo: R$     5,000.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}saldo: $0.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}saldo: R$     2,500.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}: {C}  Valor sacado em USD (saldo atual: $200.00){RST}:   {Y}Valor maior que o saldo disponível.{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Saque{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}saldo: R$    12,000.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}saldo: R$     1,500.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}saldo: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}saldo: R$       600.00{RST}
+  {DIM}[ 4]{RST} XP       Ativo sem custo base                   {DIM}saldo: R$     3,000.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}saldo: R$       800.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}saldo: R$     5,000.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}saldo: $0.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}saldo: R$     2,500.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}: {C}  Valor sacado em USD (saldo atual: $200.00){RST}:   {G}✓ Saque: $50.00 USD (25.0% do saldo){RST}
+  {G}✓ Novo saldo: $150.00 USD | Custo base: $150.00 USD{RST}
+
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Registrar Saque{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}[ 0]{RST} XP       CDB sem previousBalance                {DIM}saldo: R$    12,000.00{RST}
+  {DIM}[ 1]{RST} XP       Sem allocationGroup                    {DIM}saldo: R$     1,500.00{RST}
+  {DIM}[ 2]{RST} XP       Previdência                            {DIM}saldo: R$         0.00{RST}
+  {DIM}[ 3]{RST} XP       Ouro legado                            {DIM}saldo: R$       600.00{RST}
+  {DIM}[ 4]{RST} XP       Ativo sem custo base                   {DIM}saldo: R$     3,000.00{RST}
+  {DIM}[ 5]{RST} XP       FII legado                             {DIM}saldo: R$       800.00{RST}
+  {DIM}[ 6]{RST} Nubank   Reserva CDB                            {DIM}saldo: R$     5,000.00{RST}
+  {DIM}[ 7]{RST} Nomad    ETF USD sem balanceUSD                 {DIM}saldo: $150.00 USD{RST}
+  {DIM}[ 9]{RST} Corretora Nova Grupo desconhecido                     {DIM}saldo: R$     2,500.00{RST}
+
+  {C}Número do ativo (Enter = cancelar){RST}: {C}  Valor sacado em R$ (saldo atual: R$     5,000.00){RST}: 
+{BLD}{W}O que deseja fazer?{RST}
+  {C}[1]{RST} Atualizar saldos (todos)
+  {C}[2]{RST} Atualizar ativo específico
+  {C}[3]{RST} Registrar aporte
+  {C}[4]{RST} Registrar saque
+  {C}[5]{RST} Adicionar novo ativo
+  {C}[6]{RST} Remover ativo
+  {C}[7]{RST} Parâmetros
+  {C}[V]{RST} Visualizar (terminal)
+  {C}[0]{RST} Salvar e sair
+  {C}[x]{RST} Sair sem salvar
+
+{C}Escolha{RST}: 
+{BLD}{W}▸ Resumo{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Antes:    R$    32,000.00
+  Depois:   R$    31,714.81
+  Variação: {R}R$      -285.19{RST}
+  FGTS:     R$     1,000.00
+  Total c/ FGTS: {W}R$    32,714.81{RST}
+
+{C}Salvar alterações? (s/n){RST}: 
+{G}{BLD}✓ Salvo em <APP>/scripts/../data/investments.json{RST}
+{G}✓ Histórico: 6 snapshot(s){RST}
+{G}✓ Imagem gerada: assets/status.png{RST}
+
+
+### data/investments.json
+{
+  "dollarRate": 5.4321,
+  "emergencyReserve": {
+    "excludeFromAllocation": true,
+    "maximum": 20000.0,
+    "minimum": 10000.0,
+    "target": 15000.0
+  },
+  "fgts": 1000.0,
+  "idealAllocation": {
+    "rendaFixa": 60.0,
+    "rendaVariavel": 40.0,
+    "rfCDI": 30.0,
+    "rvFII": 10.0
+  },
+  "investments": [
+    {
+      "allocationGroup": "RESERVA_EMERGENCIA",
+      "balance": 5000.0,
+      "broker": "Nubank",
+      "category": "CDB",
+      "indexer": "CDI",
+      "invested": 4800.0,
+      "maturity": null,
+      "name": "Reserva CDB",
+      "previousBalance": 4950.0,
+      "purpose": "RESERVA_EMERGENCIA",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 12000.0,
+      "broker": "XP",
+      "category": "CDB",
+      "indexer": "CDI",
+      "invested": 12500.0,
+      "maturity": "2026-11-01",
+      "name": "CDB sem previousBalance",
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "type": "POS"
+    },
+    {
+      "allocationGroup": "RV_FII",
+      "balance": 3000.0,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "indexer": null,
+      "maturity": null,
+      "name": "Ativo sem custo base",
+      "previousBalance": 3100.0,
+      "purpose": null,
+      "type": null
+    },
+    {
+      "allocationGroup": "GRUPO_INEXISTENTE",
+      "balance": 2500.0,
+      "broker": "Corretora Nova",
+      "category": "Debênture",
+      "indexer": "INDICE_CUSTOM",
+      "invested": 2000.0,
+      "maturity": "15/01/2030",
+      "name": "Grupo desconhecido",
+      "previousBalance": 2500.0,
+      "purpose": "OBJETIVO_CUSTOM",
+      "type": "IPCA"
+    },
+    {
+      "balance": 1500.0,
+      "broker": "XP",
+      "category": "LCI",
+      "invested": 1400.0,
+      "maturity": "2025-12-01",
+      "name": "Sem allocationGroup",
+      "previousBalance": 1490.0,
+      "type": "PRE"
+    },
+    {
+      "allocationGroup": "RV_ETF_EXTERIOR",
+      "balance": 814.815,
+      "balanceUSD": 150.0,
+      "broker": "Nomad",
+      "category": "ETF",
+      "indexer": "SP_500",
+      "investedUSD": 150.0,
+      "maturity": null,
+      "name": "ETF USD sem balanceUSD",
+      "previousBalance": 1100.0,
+      "purpose": "CRESCIMENTO_ACOES_EUA_EM_DOLAR",
+      "type": null
+    },
+    {
+      "allocationGroup": "RV_CRYPTO",
+      "balance": 5500.0,
+      "broker": "Binance",
+      "category": "Crypto",
+      "indexer": null,
+      "maturity": null,
+      "name": "Bitcoin",
+      "previousBalance": 5000.0,
+      "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
+      "quantity": 0.01,
+      "type": null
+    },
+    {
+      "allocationGroup": "PREVIDENCIA",
+      "balance": 0.0,
+      "broker": "XP",
+      "category": "Previdência Privada",
+      "indexer": null,
+      "invested": 0.0,
+      "maturity": null,
+      "name": "Previdência",
+      "previousBalance": 0.0,
+      "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
+      "type": null
+    },
+    {
+      "balance": 800.0,
+      "broker": "XP",
+      "category": "Fundo Imobiliário",
+      "invested": 1000.0,
+      "maturity": null,
+      "name": "FII legado",
+      "previousBalance": 820.0,
+      "type": null
+    },
+    {
+      "balance": 600.0,
+      "broker": "XP",
+      "category": "ETF",
+      "invested": 500.0,
+      "maturity": "data inválida",
+      "name": "Ouro legado",
+      "previousBalance": 590.0,
+      "type": "Ouro"
+    }
+  ],
+  "lastUpdated": "2026-10-06",
+  "projectionParams": {
+    "fgtsAnnualReturn": 0.05,
+    "monthlyContribution": 500.0,
+    "monthlyReturn": 0.01
+  }
+}
+### data/history.json
+[
+  {
+    "date": "2026-05-01",
+    "total": 20000.0,
+    "totalWithFGTS": 21000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 5000.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 40000.0,
+        "broker": "XP",
+        "name": "x"
+      }
+    ],
+    "date": "2026-06-01",
+    "total": 45000.0,
+    "totalInvested": 30000.0,
+    "totalWithFGTS": 46000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 4000.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 8000.0,
+        "broker": "XP",
+        "name": "x"
+      }
+    ],
+    "date": "2026-06-20",
+    "total": 12000.0,
+    "totalInvested": 31000.0,
+    "totalWithFGTS": 13000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 4950.0,
+        "broker": "Nubank",
+        "name": "Reserva CDB"
+      },
+      {
+        "balance": 16590.0,
+        "broker": "XP",
+        "name": "x"
+      },
+      {
+        "balance": 5000.0,
+        "broker": "Binance",
+        "name": "y"
+      },
+      {
+        "balance": 2500.0,
+        "broker": "Corretora Nova",
+        "name": "z"
+      }
+    ],
+    "date": "2026-08-01",
+    "total": 31000.0,
+    "totalInvested": 30000.0,
+    "totalWithFGTS": 32000.0
+  },
+  {
+    "date": "2026-13-01",
+    "total": 30000.0,
+    "totalWithFGTS": 31000.0
+  },
+  {
+    "assets": [
+      {
+        "balance": 5000.0,
+        "broker": "Nubank",
+        "category": "CDB",
+        "maturity": null,
+        "name": "Reserva CDB",
+        "type": "POS"
+      },
+      {
+        "balance": 12000.0,
+        "broker": "XP",
+        "category": "CDB",
+        "maturity": "2026-11-01",
+        "name": "CDB sem previousBalance",
+        "type": "POS"
+      },
+      {
+        "balance": 3000.0,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "Ativo sem custo base",
+        "type": null
+      },
+      {
+        "balance": 2500.0,
+        "broker": "Corretora Nova",
+        "category": "Debênture",
+        "maturity": "15/01/2030",
+        "name": "Grupo desconhecido",
+        "type": "IPCA"
+      },
+      {
+        "balance": 1500.0,
+        "broker": "XP",
+        "category": "LCI",
+        "maturity": "2025-12-01",
+        "name": "Sem allocationGroup",
+        "type": "PRE"
+      },
+      {
+        "balance": 814.815,
+        "broker": "Nomad",
+        "category": "ETF",
+        "maturity": null,
+        "name": "ETF USD sem balanceUSD",
+        "type": null
+      },
+      {
+        "balance": 5500.0,
+        "broker": "Binance",
+        "category": "Crypto",
+        "maturity": null,
+        "name": "Bitcoin",
+        "type": null
+      },
+      {
+        "balance": 0.0,
+        "broker": "XP",
+        "category": "Previdência Privada",
+        "maturity": null,
+        "name": "Previdência",
+        "type": null
+      },
+      {
+        "balance": 800.0,
+        "broker": "XP",
+        "category": "Fundo Imobiliário",
+        "maturity": null,
+        "name": "FII legado",
+        "type": null
+      },
+      {
+        "balance": 600.0,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": "data inválida",
+        "name": "Ouro legado",
+        "type": "Ouro"
+      }
+    ],
+    "date": "2026-10-06",
+    "total": 31714.815,
+    "totalInvested": 23014.815,
+    "totalWithFGTS": 32714.815
+  }
+]
+### assets/status.png: PNG
