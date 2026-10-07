@@ -1958,9 +1958,9 @@ def run_tui(data, crypto_prices=None):
             elif key == curses.KEY_PPAGE:
                 scrolls[t] = max(0, scrolls[t] - content_h)
                 if t == 'd': det_sel[0] = max(0, det_sel[0] - content_h)
-            elif key == ord('g'):
+            elif key == curses.KEY_HOME:  # 'g' é a aba Gráficos
                 scrolls[t] = 0; det_sel[0] = 0
-            elif key == ord('G'):
+            elif key in (ord('G'), curses.KEY_END):
                 scrolls[t] = max(0, n - content_h)
                 det_sel[0] = max(0, len(selectbl[0]) - 1)
             elif key in (10, 13, curses.KEY_ENTER) and t == 'd' and selectbl[0]:
