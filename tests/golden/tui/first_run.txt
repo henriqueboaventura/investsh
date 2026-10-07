@@ -8,16 +8,6 @@ Não encontrei <APP>/scripts/../data/investments.json.
   [x] Sair
 
 Escolha [1]:
---- estilos ---
-
-GGGGGGGGG GG GGGGGGGGG
-... ......... ...............................................................
-
-  ccc ....... ... ........ ..... .............
-  ccc ...... ..... .. ....... ..... ........ . ....
-  ccc ....
-
-ccccccc ....
 === TUI com dados de exemplo ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
   Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos

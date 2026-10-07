@@ -93,7 +93,7 @@ def test_first_run_empty_portfolio(app):
     golden_run(app, 'first_run_empty', ['1', 'V', '0', 's'], INVESTSH_TEST_NO_MPL='1')
 
 
-@pytest.mark.xfail(reason='BUG conhecido: com matplotlib >= 3.10, salvar carteira vazia quebra '
+@pytest.mark.xfail(reason='BUG conhecido: com matplotlib recente (ex.: 3.11), salvar carteira vazia quebra '
                           'em generate_status_image (pie sem fatias) depois de gravar data/',
                    strict=False)
 def test_save_empty_portfolio_with_matplotlib(app):
