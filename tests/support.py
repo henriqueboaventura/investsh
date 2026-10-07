@@ -147,7 +147,7 @@ class App:
         from investsh import sync
         return sync.state_paths(self.root)
 
-    def wait_sync(self, timeout=30):
+    def wait_sync(self, timeout=60):
         """Espera o commit/push/imagem em segundo plano (se houver) terminar."""
         _, path = self.sync_paths()
         deadline = time.time() + timeout

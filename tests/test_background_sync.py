@@ -8,6 +8,7 @@ import pytest
 from support import FINANCES_CMD, strip_ansi
 
 SLOW_PUSH = 4  # segundos que o remoto de teste leva para aceitar um push
+DONE = 60      # prazo para o segundo plano terminar (folga para máquinas de CI lentas)
 
 
 def git(*args, cwd):
@@ -49,13 +50,11 @@ def commits(app):
     return int(git('rev-list', '--count', 'HEAD', cwd=app.root))
 
 
-def edit_and_save(t, value, quit=False):
+def edit_and_save(t, value):
+    """Muda o saldo do 1º ativo e salva; retorna quanto o save levou para responder."""
     t.press('d', 'enter', 'u').fill(value)
     start = time.time()
-    if quit:
-        t.press('q', 's', quiet=0.1)
-    else:
-        t.press('w', 's', until='✓ Salvo', quiet=0.1)
+    t.press('w', 's', until='✓ Salvo', quiet=0.1)
     return time.time() - start
 
 
@@ -67,7 +66,7 @@ def test_save_returns_before_slow_push(repo, tui_factory):
     assert '↻ enviando…' in t.text()
     assert remote_unchanged(repo)   # push ainda em andamento
 
-    t.wait_for('push ok', timeout=SLOW_PUSH + 15)   # a barra se atualiza sozinha
+    t.wait_for('push ok', timeout=DONE)   # a barra se atualiza sozinha
     assert pushed(repo)
     t.press('q')
     assert t.wait_exit() == 0
@@ -76,13 +75,14 @@ def test_save_returns_before_slow_push(repo, tui_factory):
 def test_quit_does_not_wait_for_push(repo, tui_factory):
     set_remote_hook(repo.remote, f'sleep {SLOW_PUSH}')
     t = tui_factory()
-    start = time.time()
-    edit_and_save(t, '1000', quit=True)
+    t.press('d', 'enter', 'u').fill('1000')
+    start = time.time()                      # do "sair e salvar" até o processo terminar
+    t.press('q', 's', quiet=0.1)
     assert t.wait_exit() == 0
     assert time.time() - start < SLOW_PUSH / 2, 'sair esperou o push'
     assert remote_unchanged(repo)   # push ainda em andamento
 
-    state = repo.wait_sync(timeout=SLOW_PUSH + 15)   # continua após a TUI fechar
+    state = repo.wait_sync(timeout=DONE)   # continua após a TUI fechar
     assert state['ok'] and state['message'] == '↑ push ok'
     assert pushed(repo) and commits(repo) == 2
 
@@ -92,7 +92,7 @@ def test_consecutive_saves_are_queued(repo, tui_factory):
     t = tui_factory()
     edit_and_save(t, '1000')
     edit_and_save(t, '2000')
-    t.wait_for('push ok', timeout=30)
+    t.wait_for('push ok', timeout=DONE)
     t.press('q')
     assert t.wait_exit() == 0
     repo.wait_sync()
@@ -106,7 +106,7 @@ def test_failed_push_is_reported_and_retried(repo, tui_factory):
     set_remote_hook(repo.remote, 'exit 1')
     t = tui_factory()
     edit_and_save(t, '1000')
-    t.wait_for('push falhou', timeout=30)
+    t.wait_for('push falhou', timeout=DONE)
     t.press('q')
     assert t.wait_exit() == 0
     assert commits(repo) == 2 and remote_unchanged(repo)
