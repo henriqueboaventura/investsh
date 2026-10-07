@@ -8,9 +8,17 @@ except ImportError:  # Python < 3.11
     import tomli as tomllib
 
 
-# Diretório de trabalho: contém data/ (seus dados), assets/ (imagem de resumo) e,
-# opcionalmente, investsh.toml. Padrão: diretório atual; `investsh --dir` muda.
-ROOT = os.getcwd()
+# Pasta de dados: contém data/ (seus dados), assets/ (imagem de resumo) e,
+# opcionalmente, investsh.toml. Escolhida por default_dir() / `investsh --dir`.
+DEFAULT_DIR = os.path.join('~', '.investsh')
+
+
+def default_dir():
+    """Pasta de dados quando --dir não é passado: $INVESTSH_DIR, senão ~/.investsh."""
+    return os.path.expanduser(os.environ.get('INVESTSH_DIR') or DEFAULT_DIR)
+
+
+ROOT = default_dir()
 
 DATA = os.path.join(ROOT, 'data', 'investments.json')
 
@@ -35,7 +43,7 @@ class ConfigError(Exception):
 def configure(base_dir):
     """Define o diretório de trabalho e carrega a configuração dele."""
     global ROOT, DATA, AUTO_GIT, GIT_PUSH
-    ROOT = os.path.abspath(base_dir)
+    ROOT = os.path.abspath(os.path.expanduser(base_dir))
     DATA = os.path.join(ROOT, 'data', 'investments.json')
     git = load_file(os.path.join(ROOT, CONFIG_FILE)).get('git', {})
     AUTO_GIT = git.get('auto_commit', False)

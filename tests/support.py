@@ -175,10 +175,19 @@ class App:
         return ''.join(out)
 
     # ── execução ────────────────────────────────────────────────────────────
+    @property
+    def home(self):
+        """HOME falso dos processos testados: o ~/.investsh real nunca é tocado."""
+        return self.root.parent / 'home'
+
     def env(self, **extra):
+        """Ambiente dos processos testados. Valor None em `extra` remove a variável."""
         env = {k: v for k, v in os.environ.items()
                if not k.startswith(('FINANCES_', 'INVESTSH_')) or k == 'INVESTSH_COVERAGE'}
+        self.home.mkdir(exist_ok=True)
         env.update({
+            'HOME': str(self.home),
+            'INVESTSH_DIR': str(self.root),   # pasta de dados do teste (padrão seria ~/.investsh)
             'INVESTSH_TEST_NOW': FROZEN_NOW,
             'INVESTSH_TEST_RATES': 'ok',
             'PYTHONPATH': os.pathsep.join([str(SITE), str(PKG_SRC)]),
@@ -191,7 +200,11 @@ class App:
             'LC_ALL': UTF8_LOCALE,
             'LANG': UTF8_LOCALE,
         })
-        env.update({k: str(v) for k, v in extra.items()})
+        for k, v in extra.items():
+            if v is None:
+                env.pop(k, None)
+            else:
+                env[k] = str(v)
         return env
 
     def normalize(self, text):

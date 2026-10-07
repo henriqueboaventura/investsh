@@ -21,11 +21,12 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 | `test_analyze.py` | Prompt de análise, clipboard e fallback para arquivo | Prompt completo |
 | `test_config_file.py` | `investsh.toml`: commit/push automático, validação, variável de ambiente por cima | Repositório git real com remoto |
 | `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
-| `test_cli.py` | `--dir`, `$INVESTSH_DIR`, `--version`, subcomandos | Asserções |
+| `test_cli.py` | Pasta de dados (`--dir`, `$INVESTSH_DIR`, padrão `~/.investsh`, `~`), `--version`, subcomandos | Asserções |
 
 ## Determinismo
 
-Cada teste roda numa pasta temporária `/tmp/ish-XXXXXXXX/app`, com `tests/site` no
+Cada teste roda numa pasta temporária `/tmp/ish-XXXXXXXX/app` (via `INVESTSH_DIR`, com um
+`HOME` falso ao lado: o seu `~/.investsh` nunca é tocado), com `tests/site` no
 `PYTHONPATH`. O `tests/site/sitecustomize.py` é carregado pelo Python em **todo**
 processo iniciado pelos testes (inclusive os de segundo plano do investsh) e:
 

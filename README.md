@@ -26,17 +26,21 @@ Requisito: **Python 3.9+** (macOS ou Linux; no Windows, use o WSL). Instale com
 pipx install git+https://github.com/henriqueboaventura/investsh.git
 ```
 
-Crie uma pasta para seus dados e rode lá dentro:
+Depois é só rodar, de qualquer pasta:
 
 ```bash
-mkdir ~/minhas-financas && cd ~/minhas-financas
 investsh
 ```
 
-Os dados ficam em `data/` dentro da pasta atual. Para usar outra pasta sem entrar
-nela: `investsh --dir ~/minhas-financas` (ou `export INVESTSH_DIR=~/minhas-financas`).
+Seus dados ficam em **`~/.investsh/`**. Para usar outra pasta:
 
-Na primeira execução o investsh cria `data/investments.json` e pergunta:
+| Como | Exemplo |
+|---|---|
+| Opção `--dir` | `investsh --dir ~/minhas-financas` (ou `--dir .` para a pasta atual) |
+| Variável de ambiente | `export INVESTSH_DIR=~/minhas-financas` |
+| Link simbólico | `ln -s ~/minhas-financas ~/.investsh` (útil se a pasta é um repositório git em outro lugar) |
+
+Na primeira execução o investsh cria `~/.investsh/data/investments.json` e pergunta:
 
 - **Carteira vazia** (recomendado) — para começar a cadastrar seus ativos
 - **Dados de exemplo** — uma carteira fictícia, para explorar antes de usar de verdade
@@ -118,13 +122,21 @@ isso envia os dados da sua carteira para o serviço escolhido.
 
 - O investsh só lê e escreve arquivos locais. As únicas chamadas de rede são as cotações
   (AwesomeAPI e CoinGecko), que não recebem nenhum dado seu.
-- Seus dados ficam na pasta que você escolher, separados do código. Nada vai para o git
-  a menos que você ligue o commit automático (abaixo).
+- Seus dados ficam em `~/.investsh/` (ou na pasta que você escolher), separados do código.
+  Nada vai para o git a menos que você ligue o commit automático (abaixo).
 
 ### Versionar seus dados com git
 
 Para ter histórico ou sincronizar entre computadores, faça da sua pasta de dados um
-repositório git **privado** e crie nela um arquivo `investsh.toml`:
+repositório git **privado** e crie nela um arquivo `investsh.toml`. Se o repositório já
+existe em outro lugar, aponte o `~/.investsh` para ele com um link simbólico:
+
+```bash
+git clone git@github.com:voce/minhas-financas.git ~/minhas-financas   # privado!
+ln -s ~/minhas-financas ~/.investsh
+```
+
+`~/.investsh/investsh.toml`:
 
 ```toml
 [git]
@@ -132,7 +144,7 @@ auto_commit = true   # commit "update AAAA-MM" a cada save
 push = true          # e envia para o remoto (false = só commit local)
 ```
 
-A configuração vale só para essa pasta: rodar o `investsh` em outro lugar não commita nada.
+A configuração vale só para essa pasta de dados: usar outra com `--dir` não commita nada.
 Commits que não chegarem ao remoto (ex.: sem internet) são avisados ao abrir o investsh e
 reenviados no próximo save ou com `investsh sync`.
 Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligado.
@@ -159,7 +171,7 @@ convertidos pela cotação do dia.
 
 ```
 ├── src/investsh/
-│   ├── cli.py            # Comando `investsh` (opções --menu, --dir, analyze)
+│   ├── cli.py            # Comando `investsh` (--menu, --dir, analyze, sync)
 │   ├── app.py            # Carrega a carteira e abre o menu ou a TUI
 │   ├── core.py           # Regras: classificação, custo base, reserva, histórico, R$
 │   ├── quotes.py         # Cotações (dólar e cripto)
@@ -175,7 +187,7 @@ convertidos pela cotação do dia.
     └── DATA_FORMAT.md    # Formato dos arquivos JSON
 ```
 
-Na pasta de dados (a atual, ou `--dir`):
+Na pasta de dados (`~/.investsh`, ou a escolhida com `--dir` / `$INVESTSH_DIR`):
 
 ```
 ├── investsh.toml         # opcional: configuração (commit automático)

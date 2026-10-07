@@ -7,9 +7,11 @@ from . import __version__
 
 
 def main(argv=None):
+    from . import config
     parser = argparse.ArgumentParser(
         prog='investsh',
-        description='Controle de investimentos no terminal. Os dados ficam em DIR/data/.',
+        description='Controle de investimentos no terminal. '
+                    f'Pasta de dados: {config.default_dir()} (mude com --dir ou $INVESTSH_DIR).',
     )
     parser.add_argument('command', nargs='?', choices=['analyze', 'sync'],
                         help='analyze: gera um prompt de análise da carteira para IA; '
@@ -17,17 +19,19 @@ def main(argv=None):
     parser.add_argument('--job', help=argparse.SUPPRESS)  # uso interno: sync em segundo plano
     parser.add_argument('--menu', action='store_true',
                         help='menu de texto numerado em vez da tela interativa')
-    parser.add_argument('--dir', default=os.environ.get('INVESTSH_DIR', '.'),
-                        help='diretório com data/ e assets/ (padrão: atual, ou $INVESTSH_DIR)')
+    parser.add_argument('--dir', default=None,
+                        help='pasta de dados (padrão: $INVESTSH_DIR, senão ~/.investsh); '
+                             'use --dir . para a pasta atual')
     parser.add_argument('--version', action='version', version=f'investsh {__version__}')
     args = parser.parse_args(argv)
+    if args.dir is None:
+        args.dir = config.default_dir()
 
     if args.command == 'analyze':
         from . import analyze
-        analyze.main(os.path.abspath(args.dir))
+        analyze.main(os.path.abspath(os.path.expanduser(args.dir)))
         return
 
-    from . import config
     try:
         config.configure(args.dir)
     except config.ConfigError as e:
