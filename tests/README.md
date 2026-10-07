@@ -57,3 +57,18 @@ Os pontos de entrada estão centralizados em `tests/support.py`
 
 `INVESTSH_TEST_SRC=/outro/diretorio pytest` roda a suíte contra outra cópia do
 código, útil para comparar versões.
+
+## Bugs conhecidos
+
+Encontrados ao escrever a suíte. Os goldens registram o comportamento **atual**;
+ao corrigir um deles, regrave os goldens afetados e revise o diff.
+
+| # | Onde | Bug | Teste que registra |
+|---|---|---|---|
+| 1 | Imagem | Com matplotlib recente (ex.: 3.11; a versão do Python 3.9 não quebra), salvar carteira vazia quebra (`pie` sem fatias) depois de gravar `data/`; no `--menu` o programa sai com erro | `test_save_empty_portfolio_with_matplotlib` (xfail) |
+| 2 | TUI | Corrigido: o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
+| 3 | TUI | Texto com acento digitado vira mojibake (`Debênture` → `DebÃªnture`): `curs_input` trata bytes UTF-8 como caracteres | `tui/new_assets.txt` |
+| 4 | TUI | "Atualizar todos" (`u`) muda a quantidade de cripto mas não recalcula o saldo em R$ | `tui/update_all.txt` |
+| 5 | Menu | Ao remover vários ativos, a ordem das mensagens "✗ Removido" é aleatória (itera um `set`) | `test_remove_multiple_assets` |
+| 6 | TUI | `g` abre a aba Gráficos, então o atalho "g = topo" nunca executa | — |
+| 7 | TUI | Avisos do matplotlib (stderr) aparecem desenhados por cima da tela durante o save | silenciado no `harness.py` |

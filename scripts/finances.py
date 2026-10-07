@@ -913,42 +913,36 @@ def run_tui(data, crypto_prices=None):
                     buf.insert(pos, c); pos += 1
 
     def popup_menu(stdscr, title, options):
-        """Centered popup. Salva/restaura a área sobrescrita. Returns key or None (Esc)."""
+        """Centered popup em janela própria. Returns key or None (Esc)."""
         h, w    = stdscr.getmaxyx()
         inner   = max(len(title), max(len(f' [{k}] {l} ') for k, l in options))
         pw, ph  = inner + 4, len(options) + 4
         py, px  = max(1, (h - ph) // 2), max(0, (w - pw) // 2)
 
-        # Salva os caracteres que vão ser sobrescritos
-        saved = []
-        for r in range(py, min(py + ph + 1, h)):
-            row_save = []
-            for c in range(px, min(px + pw + 1, w)):
-                try:
-                    row_save.append(stdscr.inch(r, c))
-                except curses.error:
-                    row_save.append(ord(' '))
-            saved.append(row_save)
+        # Janela separada: ao fechar, o curses redesenha o que estava por baixo
+        # (touchwin), sem precisar salvar/restaurar caracteres manualmente.
+        win = curses.newwin(max(1, min(ph, h - py)), max(1, min(pw, w - px)), py, px)
+        win.keypad(True)
 
         sel    = 0
         result = None
         while True:
             try:
-                stdscr.addstr(py,     px, '┌' + '─' * (pw - 2) + '┐')
-                stdscr.addstr(py + 1, px, '│' + ' ' * (pw - 2) + '│')
-                stdscr.addstr(py + 1, px + 1 + (pw - 2 - len(title)) // 2, title, curses.A_BOLD)
-                stdscr.addstr(py + 2, px, '├' + '─' * (pw - 2) + '┤')
+                win.addstr(0, 0, '┌' + '─' * (pw - 2) + '┐')
+                win.addstr(1, 0, '│' + ' ' * (pw - 2) + '│')
+                win.addstr(1, 1 + (pw - 2 - len(title)) // 2, title, curses.A_BOLD)
+                win.addstr(2, 0, '├' + '─' * (pw - 2) + '┤')
                 for i, (k, lbl) in enumerate(options):
-                    row = py + 3 + i
-                    stdscr.addstr(row, px, '│' + ' ' * (pw - 2) + '│')
+                    row = 3 + i
+                    win.addstr(row, 0, '│' + ' ' * (pw - 2) + '│')
                     label = f' [{k}] {lbl} '
                     attr  = curses.A_REVERSE | curses.A_BOLD if i == sel else 0
-                    stdscr.addstr(row, px + 1, label[:pw - 2], attr)
-                stdscr.addstr(py + 3 + len(options), px, '└' + '─' * (pw - 2) + '┘')
+                    win.addstr(row, 1, label[:pw - 2], attr)
+                win.addstr(3 + len(options), 0, '└' + '─' * (pw - 2) + '┘')
             except curses.error:
                 pass
-            stdscr.refresh()
-            ch = stdscr.getch()
+            win.refresh()
+            ch = win.getch()
             if ch in (10, 13, curses.KEY_ENTER):
                 result = options[sel][0]; break
             elif ch == 27:
@@ -965,17 +959,8 @@ def run_tui(data, crypto_prices=None):
                     continue
                 break
 
-        # Restaura a área sobrescrita
-        for ri, row_save in enumerate(saved):
-            r = py + ri
-            if r >= h: break
-            for ci, ch_saved in enumerate(row_save):
-                c = px + ci
-                if c >= w: break
-                try:
-                    stdscr.addch(r, c, ch_saved & 0xFF, ch_saved & ~0xFF)
-                except curses.error:
-                    pass
+        del win
+        stdscr.touchwin()
         stdscr.refresh()
 
         return result
