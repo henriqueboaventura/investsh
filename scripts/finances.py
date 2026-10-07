@@ -1276,6 +1276,9 @@ def run_tui(data, crypto_prices=None):
 
             if cat == 'Crypto':
                 inv['quantity'] = val
+                price = crypto_prices.get(inv['name'])
+                if price:
+                    inv['balance'] = round(val * price, 4)
             elif inv_usd is not None:
                 inv['balanceUSD'] = val
                 inv['balance']    = round(val * dolar, 4)

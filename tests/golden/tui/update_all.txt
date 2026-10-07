@@ -551,7 +551,7 @@
 
 ===========================================================================================================================================
 === Ethereum ===
- Atualizar Saldos   19/19   R$ 201.310,89
+ Atualizar Saldos   19/19   R$ 201.610,89
 
     Binance  ·  Crypto
     Ethereum
@@ -643,16 +643,16 @@
 
 ===========================================================================================================================================
 === Esc encerra a atualização ===
- investsh   R$ 201.310,89   2026-10-01   USD 5.4321
+ investsh   R$ 201.610,89   2026-10-01   USD 5.4321
   Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
-  R$ 201.310,89
-  R$ 219.810,89 com FGTS
+  R$ 201.610,89
+  R$ 220.110,89 com FGTS
 
   Total aportado R$ 185.166,67
-  Valorização    R$ 16.144,22  (+8.7%)
-  Variação mês   R$ -1.616,69  (-0.8%)
+  Valorização    R$ 16.444,22  (+8.9%)
+  Variação mês   R$ -1.316,69  (-0.6%)
     Binance   Ethereum
   FGTS:    R$ 18.500,00
   Ativos:  19
@@ -677,7 +677,7 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2035-02 (100m)      2035-07 (105m)
+     R$ 700K  2035-02 (100m)      2035-06 (104m)
      R$ 800K  2036-04 (114m)      2036-08 (118m)
      R$ 1.0M  2038-03 (137m)      2038-07 (141m)
      R$ 1.5M  2041-12 (182m)      2042-03 (185m)
@@ -735,16 +735,16 @@
 
 ===================================================================================================================================#########
 === popup de alterações não salvas ===
- investsh   R$ 201.310,89   2026-10-01   USD 5.4321
+ investsh   R$ 201.610,89   2026-10-01   USD 5.4321
   Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
-  R$ 201.310,89
-  R$ 219.810,89 com FGTS
+  R$ 201.610,89
+  R$ 220.110,89 com FGTS
 
   Total aportado R$ 185.166,67
-  Valorização    R$ 16.144,22  (+8.7%)
-  Variação mês   R$ -1.616,69  (-0.8%)
+  Valorização    R$ 16.444,22  (+8.9%)
+  Variação mês   R$ -1.316,69  (-0.6%)
     Binance   Ethereum
   FGTS:    R$ 18.500,00
   Ativos:  19
@@ -769,7 +769,7 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2035-02 (100m)      2035-07 (105m)
+     R$ 700K  2035-02 (100m)      2035-06 (104m)
      R$ 800K  2036-04 (114m)      2036-08 (118m)
      R$ 1.0M  2038-03 (137m)      2038-07 (141m)
      R$ 1.5M  2041-12 (182m)      2042-03 (185m)
@@ -827,16 +827,16 @@
 
 ===================================================================================================================================#########
 === cancelar mantém na TUI ===
- investsh   R$ 201.310,89   2026-10-01   USD 5.4321
+ investsh   R$ 201.610,89   2026-10-01   USD 5.4321
   Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
-  R$ 201.310,89
-  R$ 219.810,89 com FGTS
+  R$ 201.610,89
+  R$ 220.110,89 com FGTS
 
   Total aportado R$ 185.166,67
-  Valorização    R$ 16.144,22  (+8.7%)
-  Variação mês   R$ -1.616,69  (-0.8%)
+  Valorização    R$ 16.444,22  (+8.9%)
+  Variação mês   R$ -1.316,69  (-0.6%)
     Binance   Ethereum
   FGTS:    R$ 18.500,00
   Ativos:  19
@@ -861,7 +861,7 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2035-02 (100m)      2035-07 (105m)
+     R$ 700K  2035-02 (100m)      2035-06 (104m)
      R$ 800K  2036-04 (114m)      2036-08 (118m)
      R$ 1.0M  2038-03 (137m)      2038-07 (141m)
      R$ 1.5M  2041-12 (182m)      2042-03 (185m)
@@ -1243,13 +1243,13 @@
     {
       "allocationGroup": "RV_CRYPTO",
       "averagePrice": 480000.0,
-      "balance": 2700.0,
+      "balance": 3000.0,
       "broker": "Binance",
       "category": "Crypto",
       "indexer": null,
       "maturity": null,
       "name": "Bitcoin",
-      "previousBalance": 2650.5,
+      "previousBalance": 2700.0,
       "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
       "quantity": 0.005,
       "type": null
@@ -3497,7 +3497,7 @@
         "type": null
       },
       {
-        "balance": 2700.0,
+        "balance": 3000.0,
         "broker": "Binance",
         "category": "Crypto",
         "maturity": null,
@@ -3514,9 +3514,9 @@
       }
     ],
     "date": "2026-10-06",
-    "total": 201310.8893,
+    "total": 201610.8893,
     "totalInvested": 185166.67,
-    "totalWithFGTS": 219810.8893
+    "totalWithFGTS": 220110.8893
   }
 ]
 ### assets/status.png: PNG

@@ -117,7 +117,6 @@ def test_update_all(demo, tui_factory):
         t.press('enter')
     t.snap('VT (USD)')
     t.fill('900').snap('Bitcoin: quantidade')
-    # BUG conhecido (registrado): aqui a quantidade muda, mas o saldo em R$ não é recalculado
     t.fill('0.005').snap('Ethereum')
     t.press('esc').snap('Esc encerra a atualização')
     t.press('q').snap('popup de alterações não salvas')
