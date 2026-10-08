@@ -151,3 +151,24 @@ def test_maturity_alerts():
     assert [(a['name'], a['days']) for a in alerts] == [
         ('Venceu', -5), ('Vence logo', 14), ('Formato BR', 70)]
     assert alerts[0]['date'] == date(2026, 10, 1)
+
+
+# ── % do CDI só em períodos de 28 dias ou mais ───────────────────────────────
+
+def test_pct_cdi_hidden_for_short_periods():
+    hist = [snap('2026-10-01', 1000, 1000), snap('2026-10-07', 984, 1000)]
+    cdi = {date(2026, 10, d): 0.05 for d in range(2, 8)}
+    s = perf.summary(hist, cdi, None, today=date(2026, 10, 8))
+    row = s['since_start']
+    assert row['portfolio'] == pytest.approx(-0.016) and row['cdi'] > 0
+    assert row['pct_cdi'] is None          # 6 dias: razão sem significado (seria ~-500%)
+
+
+@pytest.mark.parametrize('end, shown', [('2026-02-28', False), ('2026-03-01', True)])
+def test_pct_cdi_minimum_days(end, shown):
+    # 01/02 → 28/02 = 27 dias (oculto); 01/02 → 01/03 = 28 dias (mostrado)
+    hist = [snap('2026-02-01', 1000, 1000), snap(end, 1010, 1000)]
+    cdi = {date(2026, 2, d): 0.05 for d in range(2, 29)}
+    cdi[date(2026, 3, 1)] = 0.05
+    row = perf.summary(hist, cdi, None, today=date(2026, 3, 2))['since_start']
+    assert (row['pct_cdi'] is not None) is shown

@@ -73,6 +73,10 @@ def ipca_return(ipca, start, end):
     return (f - 1 if covered else None), complete
 
 
+# "% do CDI" só para períodos com pelo menos tantos dias (28: inclui fevereiro)
+MIN_DAYS_PCT_CDI = 28
+
+
 def _row(ps, cdi, ipca):
     portfolio = 1.0
     for p in ps:
@@ -85,7 +89,9 @@ def _row(ps, cdi, ipca):
         for p in ps:
             c *= 1 + cdi_return(cdi, p['start'], p['end'])
         row['cdi'] = c - 1
-        if row['cdi'] > 0:
+        # Em poucos dias o CDI rende quase nada e a razão explode (ex.: -1,6% / 0,2%
+        # = -800%): só faz sentido a partir de ~1 mês.
+        if row['cdi'] > 0 and (end - start).days >= MIN_DAYS_PCT_CDI:
             row['pct_cdi'] = row['portfolio'] / row['cdi']
     if ipca is not None:
         i, complete, covered = 1.0, True, False
@@ -202,6 +208,9 @@ def table(s, note=None):
     lines.append([])
     if incomplete:
         lines.append([('* IPCA dos meses ainda não divulgados fica de fora do acumulado.', 'dim')])
+    if any(r['cdi'] and r['pct_cdi'] is None for r in [st, *s['months']]):
+        lines.append([(f'% do CDI só em períodos de {MIN_DAYS_PCT_CDI} dias ou mais '
+                       '(em poucos dias a comparação não tem significado).', 'dim')])
     lines.append([('Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA '
                    'no mesmo período (Banco Central).', 'dim')])
     if note:

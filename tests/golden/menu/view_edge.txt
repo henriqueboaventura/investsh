@@ -47,8 +47,9 @@ FGTS:               {W}R$     1,000.00{RST}
   {DIM}Mês                                 Carteira       CDI      IPCA  % do CDI{RST}
   {DIM}──────────────────────────────────────────────────────────────────────────{RST}
   jul/2026                          {RST}{G}  +173.91%{RST}{DIM}    +1.51%{RST}{DIM}    +0.55%{RST}{G}    11510%{RST}
-  jun/2026                          {RST}{R}   -74.73%{RST}{DIM}    +0.70%{RST}{DIM}    +0.25%{RST}{R}   -10640%{RST}
+  jun/2026                          {RST}{R}   -74.73%{RST}{DIM}    +0.70%{RST}{DIM}    +0.25%{RST}{DIM}         —{RST}
 
+  {DIM}% do CDI só em períodos de 28 dias ou mais (em poucos dias a comparação não tem significado).{RST}
   {DIM}Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA no mesmo período (Banco Central).{RST}
 
 {BLD}{W}▸ Vencimentos (próximos 90 dias){RST}
