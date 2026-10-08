@@ -187,6 +187,7 @@ class App:
         self.home.mkdir(exist_ok=True)
         env.update({
             'HOME': str(self.home),
+            'XDG_CACHE_HOME': str(self.home / '.cache'),   # cache do CDI/IPCA isolado
             'INVESTSH_DIR': str(self.root),   # pasta de dados do teste (padrão seria ~/.investsh)
             'INVESTSH_TEST_NOW': FROZEN_NOW,
             'INVESTSH_TEST_RATES': 'ok',
@@ -309,7 +310,8 @@ class TUI:
 
     # Textos que indicam que o investsh já está esperando teclas: a barra de abas
     # da TUI, ou a pergunta de primeira execução (antes do curses assumir o terminal).
-    READY = ('Sumário   Alocação', 'Escolha [1]:')
+    TAB_BAR = 'Sumário   Rentabilidade'   # início da barra de abas da TUI
+    READY = (TAB_BAR, 'Escolha [1]:')
 
     def wait_ready(self, timeout=60):
         """Espera a tela inicial. Teclas enviadas antes disso passam pelo modo de
@@ -403,7 +405,8 @@ class TUI:
 
     # Cor de frente → letra; negrito → maiúscula; vídeo reverso/fundo → '=' ou '#'
     FG = {'default': '.', 'green': 'g', 'red': 'r', 'cyan': 'c', 'magenta': 'm',
-          'yellow': 'y', 'black': 'k', 'white': 'w', 'blue': 'b',
+          'yellow': 'y', 'brown': 'y',   # pyte chama a cor 3 (amarelo do curses) de brown
+          'black': 'k', 'white': 'w', 'blue': 'b',
           'brightgreen': 'g', 'brightred': 'r', 'brightcyan': 'c', 'brightmagenta': 'm',
           'brightyellow': 'y', 'brightwhite': 'w', 'brightblack': 'k', 'brightblue': 'b'}
 

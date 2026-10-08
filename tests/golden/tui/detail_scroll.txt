@@ -1,6 +1,6 @@
 === cursor desceu além da tela ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
   Fundo de Ações   Fundos de Investimento    R$ 11.240,66   +12.4%      +R$ 168
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
@@ -25,7 +25,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  16-35/35
 --- estilos ---
 ####################################################===========================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########
   ..... .. .....   ...... .. ............    .. .........   gggggg      ggg ggg
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
@@ -50,7 +50,7 @@
 ======================================================================##########
 === cursor subiu além da tela ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
   CDB Banco Alfa   CDB                       R$ 23.110,72   +15.6%      +R$ 208
   CDB Banco Gama   CDB                       R$ 13.640,55   +13.7%      +R$ 122
   LCA Banco Beta   LCA                       R$ 16.380,09    +9.2%      +R$ 147
@@ -75,7 +75,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params   5-24/35
 --- estilos ---
 ####################################################===========================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########
 ===============================================================================
   ... ..... ....   ...                       .. .........   gggggg      ggg ggg
   ... ..... ....   ...                       .. .........    ggggg      ggg ggg

@@ -1,0 +1,153 @@
+"""Rentabilidade descontando aportes, comparação com CDI/IPCA e alertas de vencimento."""
+from datetime import date
+
+import pytest
+
+from investsh import core, perf
+
+
+def snap(d, total, invested=None, usd=None, rate=None):
+    s = {'date': d, 'total': total}
+    if invested is not None:
+        s['totalInvested'] = invested
+    if usd is not None:
+        s['totalInvestedUSD'] = usd
+        s['dollarRate'] = rate
+    return s
+
+
+# ── Períodos entre fotos ─────────────────────────────────────────────────────
+
+def test_period_without_flow():
+    [p] = perf.periods([snap('2026-01-01', 1000, 1000), snap('2026-02-01', 1010, 1000)])
+    assert p['start'] == date(2026, 1, 1) and p['end'] == date(2026, 2, 1)
+    assert p['flow'] == 0
+    assert p['r'] == pytest.approx(0.01)
+
+
+def test_period_with_contribution_uses_modified_dietz():
+    # aporte de 100 no período: ganho real = 1110 - 1000 - 100 = 10, sobre 1000 + 100/2
+    [p] = perf.periods([snap('2026-01-01', 1000, 1000), snap('2026-02-01', 1110, 1100)])
+    assert p['flow'] == 100
+    assert p['r'] == pytest.approx(10 / 1050)
+
+
+def test_dollar_move_is_not_a_contribution():
+    # custo: R$ 1000 + US$ 100. Dólar 5,00 → 5,50 sem aporte: o custo em R$ sobe 50,
+    # mas isso é câmbio, não aporte. Saldo 1500 → 1560: rendeu 60 sobre 1500 = 4%.
+    p0 = snap('2026-01-01', 1500, 1000 + 100 * 5.0, usd=100, rate=5.0)
+    p1 = snap('2026-02-01', 1560, 1000 + 100 * 5.5, usd=100, rate=5.5)
+    [p] = perf.periods([p0, p1])
+    assert p['flow'] == pytest.approx(0)
+    assert p['r'] == pytest.approx(0.04)
+
+
+def test_snapshots_without_invested_are_skipped():
+    hist = [snap('2026-01-01', 900), snap('2026-01-15', 1000, 1000), snap('2026-02-01', 1010, 1000)]
+    assert [p['start'] for p in perf.periods(hist)] == [date(2026, 1, 15)]
+
+
+def test_same_day_snapshots_are_ignored():
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-01-01', 1005, 1000), snap('2026-02-01', 1010, 1000)]
+    [p] = perf.periods(hist)
+    assert p['r'] == pytest.approx(1010 / 1005 - 1)
+
+
+# ── Indicadores no mesmo período ─────────────────────────────────────────────
+
+def test_cdi_compounds_business_days_in_period():
+    cdi = {date(2026, 1, 1): 0.05, date(2026, 1, 2): 0.05, date(2026, 1, 5): 0.04}
+    # período (01/01, 05/01]: 02/01 e 05/01 contam; 01/01 não
+    assert perf.cdi_return(cdi, date(2026, 1, 1), date(2026, 1, 5)) == pytest.approx(1.0005 * 1.0004 - 1)
+
+
+def test_ipca_is_prorated_by_calendar_days():
+    ipca = {(2026, 1): 0.31, (2026, 2): 0.50}
+    # 30 dias de janeiro (02 a 31) e 1 dia de fevereiro
+    expected = 1.0031 ** (30 / 31) * 1.005 ** (1 / 28) - 1
+    value, complete = perf.ipca_return(ipca, date(2026, 1, 1), date(2026, 2, 1))
+    assert complete and value == pytest.approx(expected)
+
+
+def test_ipca_missing_month_is_marked_incomplete():
+    value, complete = perf.ipca_return({(2026, 1): 0.31}, date(2026, 1, 15), date(2026, 2, 10))
+    assert not complete
+    assert value == pytest.approx(1.0031 ** (16 / 31) - 1)   # só o que há de janeiro
+
+
+# ── Resumo: meses, 12 meses, desde o início ──────────────────────────────────
+
+def test_summary_rows():
+    hist = [snap('2025-12-01', 1000, 1000), snap('2026-01-01', 1010, 1000),
+            snap('2026-01-15', 1120, 1100), snap('2026-02-01', 1130, 1100)]
+    cdi = {date(2025, 12, d): 0.04 for d in range(2, 32)}
+    cdi.update({date(2026, 1, d): 0.05 for d in range(1, 32)})
+    cdi.update({date(2026, 2, 1): 0.05})
+    ipca = {(2025, 12): 0.5, (2026, 1): 0.3, (2026, 2): 0.4}
+    s = perf.summary(hist, cdi, ipca, today=date(2026, 2, 3))
+
+    r1 = 1010 / 1000 - 1                     # 01/12→01/01: meio em dezembro
+    r2 = (1120 - 1010 - 100) / (1010 + 50)   # 01/01→15/01: meio em janeiro
+    r3 = 1130 / 1120 - 1                     # 15/01→01/02: meio em janeiro
+    months = {(m['year'], m['month']): m for m in s['months']}
+    assert set(months) == {(2025, 12), (2026, 1)}
+    assert months[(2025, 12)]['portfolio'] == pytest.approx(r1)
+    assert months[(2026, 1)]['portfolio'] == pytest.approx((1 + r2) * (1 + r3) - 1)
+    assert s['since_start']['portfolio'] == pytest.approx((1 + r1) * (1 + r2) * (1 + r3) - 1)
+    assert s['since_start']['start'] == date(2025, 12, 1)
+    assert s['since_start']['cdi'] == pytest.approx(1.0004 ** 30 * 1.0005 ** 32 - 1)
+    jan = months[(2026, 1)]
+    assert jan['pct_cdi'] == pytest.approx(jan['portfolio'] / jan['cdi'])
+
+
+def test_summary_twelve_months_window():
+    hist = [snap('2024-06-01', 1000, 1000), snap('2025-01-01', 1100, 1000), snap('2026-01-01', 1210, 1000)]
+    s = perf.summary(hist, {}, {}, today=date(2026, 1, 10))
+    # só o período que termina dentro dos últimos 12 meses entra
+    assert s['last_12m']['portfolio'] == pytest.approx(0.10)
+    assert s['last_12m']['start'] == date(2025, 1, 1)
+    assert s['since_start']['portfolio'] == pytest.approx(0.21)
+
+
+def test_summary_without_enough_history():
+    s = perf.summary([snap('2026-01-01', 1000, 1000)], {}, {}, today=date(2026, 1, 2))
+    assert s is None
+
+
+def test_ipca_with_no_published_month_is_none():
+    assert perf.ipca_return({}, date(2026, 9, 1), date(2026, 10, 1)) == (None, False)
+
+
+def test_summary_without_benchmarks():
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-02-01', 1010, 1000)]
+    s = perf.summary(hist, None, None, today=date(2026, 2, 2))
+    assert s['since_start']['portfolio'] == pytest.approx(0.01)
+    assert s['since_start']['cdi'] is None and s['since_start']['pct_cdi'] is None
+
+
+def test_history_snapshot_records_fx_basis():
+    data = {'lastUpdated': '2026-10-06', 'fgts': 0, 'dollarRate': 5.0, 'investments': [
+        {'name': 'A', 'invested': 100.0, 'balance': 100.0},
+        {'name': 'B', 'investedUSD': 10.0, 'balance': 60.0}]}
+    s = core.history_snapshot(data, 160.0)
+    assert s['totalInvested'] == 150.0
+    assert s['totalInvestedUSD'] == 10.0
+    assert s['dollarRate'] == 5.0
+
+
+# ── Vencimentos ──────────────────────────────────────────────────────────────
+
+def test_maturity_alerts():
+    invs = [
+        {'name': 'Vence logo', 'maturity': '2026-10-20', 'balance': 100.0},
+        {'name': 'Venceu', 'maturity': '2026-10-01', 'balance': 50.0},
+        {'name': 'Venceu e foi resgatado', 'maturity': '2026-09-01', 'balance': 0.0},
+        {'name': 'Longe', 'maturity': '2027-06-01', 'balance': 10.0},
+        {'name': 'Formato BR', 'maturity': '15/12/2026', 'balance': 10.0},
+        {'name': 'Sem data', 'maturity': None, 'balance': 10.0},
+        {'name': 'Inválida', 'maturity': 'em breve', 'balance': 10.0},
+    ]
+    alerts = core.maturity_alerts(invs, today=date(2026, 10, 6), days=90)
+    assert [(a['name'], a['days']) for a in alerts] == [
+        ('Venceu', -5), ('Vence logo', 14), ('Formato BR', 70)]
+    assert alerts[0]['date'] == date(2026, 10, 1)

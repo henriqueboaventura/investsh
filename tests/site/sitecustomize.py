@@ -66,10 +66,37 @@ def _install():
             self.close()
 
 
+    def fake_bcb(url):
+        """API SGS do Banco Central: CDI 0,05% em cada dia útil; IPCA 0,40% ao mês,
+        divulgado só até agosto/2026 (setembro e outubro "ainda não saíram")."""
+        import re
+        from datetime import timedelta
+        code = int(re.search(r'sgs\.(\d+)', url).group(1))
+        d0, d1 = (_dt.datetime.strptime(v, '%d/%m/%Y').date() for v in
+                  re.search(r'dataInicial=([\d/]+)&dataFinal=([\d/]+)', url).groups())
+        rows, d = [], d0
+        while d <= d1:
+            if code == 12 and d.weekday() < 5:
+                rows.append({'data': d.strftime('%d/%m/%Y'), 'valor': '0.050000'})
+            if code == 433 and d.day == 1 and (d.year, d.month) <= (2026, 8):
+                rows.append({'data': d.strftime('%d/%m/%Y'), 'valor': '0.40'})
+            d += timedelta(days=1)
+        return rows
+
     def fake_urlopen(url, *args, **kwargs):
         url = getattr(url, 'full_url', url)
         if os.environ.get('INVESTSH_TEST_RATES', 'ok') == 'fail':
             raise urllib.error.URLError('rede desligada nos testes')
+        if 'api.bcb.gov.br' in url:
+            rows = fake_bcb(url)
+            if not rows:
+                # Como a API real: período sem dados → erro "Value(s) not found", às vezes
+                # com HTTP 404 e às vezes com HTTP 200 (INVESTSH_TEST_BCB_EMPTY=404|200)
+                body = b'{"erro":{"statusCode":404,"detail":"SGSNegocioException: Value(s) not found"}}'
+                if os.environ.get('INVESTSH_TEST_BCB_EMPTY', '404') == '200':
+                    return _FakeResponse(body)
+                raise urllib.error.HTTPError(url, 404, 'Not Found', None, io.BytesIO(body))
+            return _FakeResponse(json.dumps(rows).encode())
         for host, payload in FAKE_RESPONSES.items():
             if host in url:
                 return _FakeResponse(json.dumps(payload).encode())

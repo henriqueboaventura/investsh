@@ -1,6 +1,6 @@
 === campo com valor atual ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 23110.72
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -92,7 +92,7 @@
 ===========================================================================================================================================#
 === ← ← e apaga no meio ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -138,7 +138,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 2311072
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -184,7 +184,7 @@
 ===========================================================================================================================================#
 === → e insere ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -230,7 +230,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 23110792
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -276,7 +276,7 @@
 ===========================================================================================================================================#
 === valor editado salvo no ativo ===
  investsh   R$ 23.293.143,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 23.252.881,10 (99.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -322,7 +322,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 #######################################################====================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -368,7 +368,7 @@
 ===================================================================================================================================#########
 === número inválido volta ao valor padrão ===
  investsh   R$ 23.293.143,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 23.252.881,10 (99.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -414,7 +414,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 23110792.0
 --- estilos ---
 #######################################################====================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -460,7 +460,7 @@
 ===========================================================================================================================================#
 === popup: ↓ ↓ ↑ k ===
  investsh   R$ 23.293.143,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 23.252.881,10 (99.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -506,7 +506,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 #######################################################====================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -552,7 +552,7 @@
 ===================================================================================================================================#########
 === popup: tecla sem opção é ignorada ===
  investsh   R$ 23.293.143,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 23.252.881,10 (99.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -598,7 +598,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 #######################################################====================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -644,7 +644,7 @@
 ===================================================================================================================================#########
 === Enter escolhe a opção destacada ===
  investsh   R$ 23.293.143,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 23.252.881,10 (99.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -690,7 +690,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 23110792.0
 --- estilos ---
 #######################################################====================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...

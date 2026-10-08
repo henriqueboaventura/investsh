@@ -37,6 +37,10 @@ FGTS:               {W}R$    18,500.00{RST}
   Valorização:    {G}    R$ 20.745,59  (+11.2%){RST}
   Variação mês:   {G}     R$ 2.744,68  (+1.4%){RST}
 
+{BLD}{W}▸ Rentabilidade{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}Precisa de dois saves com total investido para calcular (cada save grava uma foto da carteira).{RST}
+
 {BLD}{W}▸ Alocação{RST}
 {DIM}────────────────────────────────────────────────────────────{RST}
   {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}

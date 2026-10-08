@@ -1,6 +1,6 @@
 === popup alterações não salvas ===
  investsh   R$ 182.352,54   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 142.090,10 (77.9%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...

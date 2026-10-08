@@ -2884,8 +2884,10 @@ FGTS:               {W}R$    18,500.00{RST}
       }
     ],
     "date": "2026-10-06",
+    "dollarRate": 5.4321,
     "total": 207490.1562,
     "totalInvested": 186744.571,
+    "totalInvestedUSD": 2850.5,
     "totalWithFGTS": 225990.1562
   }
 ]

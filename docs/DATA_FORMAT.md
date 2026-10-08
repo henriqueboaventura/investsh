@@ -115,8 +115,14 @@ Lista de snapshots, um por data de save. O `investsh` adiciona/atualiza automati
 [
   { "date": "2026-09-01", "total": 198000.0, "totalWithFGTS": 216400.0, "totalInvested": 185000.0 },
   { "date": "2026-10-01", "total": 205576.35, "totalWithFGTS": 224076.35, "totalInvested": 190000.0,
+    "totalInvestedUSD": 2700.0, "dollarRate": 5.40,
     "assets": [ { "name": "...", "category": "...", "type": "...", "broker": "...", "maturity": null, "balance": 0 } ] }
 ]
 ```
 
-`totalInvested` e `assets` são opcionais (usados nos gráficos por corretora).
+Campos opcionais (fotos antigas podem não ter):
+
+- `totalInvested` — custo total; necessário para a rentabilidade descontando aportes.
+- `totalInvestedUSD` e `dollarRate` — custo em dólar e câmbio do dia: separam aporte de
+  variação cambial no cálculo da rentabilidade.
+- `assets` — saldos por ativo, usados nos gráficos por corretora.

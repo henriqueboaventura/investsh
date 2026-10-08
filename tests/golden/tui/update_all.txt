@@ -644,7 +644,7 @@
 ===========================================================================================================================================
 === Esc encerra a atualização ===
  investsh   R$ 201.610,89   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 201.610,89
@@ -690,7 +690,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -736,7 +736,7 @@
 ===================================================================================================================================#########
 === popup de alterações não salvas ===
  investsh   R$ 201.610,89   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 201.610,89
@@ -782,7 +782,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -828,7 +828,7 @@
 ===================================================================================================================================#########
 === cancelar mantém na TUI ===
  investsh   R$ 201.610,89   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 201.610,89
@@ -874,7 +874,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -3514,8 +3514,10 @@
       }
     ],
     "date": "2026-10-06",
+    "dollarRate": 5.4321,
     "total": 201610.8893,
     "totalInvested": 185166.67,
+    "totalInvestedUSD": 2700.0,
     "totalWithFGTS": 220110.8893
   }
 ]

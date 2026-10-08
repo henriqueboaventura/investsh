@@ -1,6 +1,6 @@
 === popup do 1º ativo (CDB Alfa) ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -92,7 +92,7 @@
 ===================================================================================================================================#########
 === editar saldo: campo pré-preenchido ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -138,7 +138,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 23110.72
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -184,7 +184,7 @@
 ===========================================================================================================================================#
 === novo saldo digitado ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -230,7 +230,7 @@
  Saldo  CDB Banco Alfa 110% CDI: 24000,5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -276,7 +276,7 @@
 ===========================================================================================================================================#
 === saldo atualizado ===
  investsh   R$ 206.352,04   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.089,60 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -322,7 +322,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -368,7 +368,7 @@
 ===================================================================================================================================#########
 === aporte R$ 1000,37 ===
  investsh   R$ 207.352,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 167.089,97 (80.6%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -414,7 +414,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -460,7 +460,7 @@
 ===================================================================================================================================#########
 === saque R$ 500 ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -506,7 +506,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -552,7 +552,7 @@
 ===================================================================================================================================#########
 === saque maior que saldo é ignorado ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -598,7 +598,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -644,7 +644,7 @@
 ===================================================================================================================================#########
 === aporte cancelado com Esc ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -690,7 +690,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -736,7 +736,7 @@
 ===================================================================================================================================#########
 === popup cancelado ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -782,7 +782,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -828,7 +828,7 @@
 ===================================================================================================================================#########
 === popup fechado com Esc ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (80.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -874,7 +874,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -920,7 +920,7 @@
 ===================================================================================================================================#########
 === popup ativo USD ===
  investsh   R$ 206.852,41   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Nomad  R$ 16.229,49 (7.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -966,7 +966,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1012,7 +1012,7 @@
 =====================================================================================================================================#######
 === aporte USD 100 ===
  investsh   R$ 207.395,62   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Nomad  R$ 16.772,70 (8.1%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1058,7 +1058,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1104,7 +1104,7 @@
 =====================================================================================================================================#######
 === saque USD 50 ===
  investsh   R$ 207.124,01   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Nomad  R$ 16.501,09 (8.0%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1150,7 +1150,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1196,7 +1196,7 @@
 =====================================================================================================================================#######
 === saldo USD 1000 ===
  investsh   R$ 207.797,05   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Nomad  R$ 17.174,13 (8.3%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1242,7 +1242,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1288,7 +1288,7 @@
 =====================================================================================================================================#######
 === popup cripto (sem aporte/saque) ===
  investsh   R$ 207.797,05   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Binance  R$ 5.100,00 (2.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1334,7 +1334,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMMMM  MM MMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1380,7 +1380,7 @@
 =====================================================================================================================================#######
 === quantidade BTC 0.01 ===
  investsh   R$ 211.097,05   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── Binance  R$ 8.400,00 (4.0%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1426,7 +1426,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MMMMMMM  MM MMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1472,7 +1472,7 @@
 =====================================================================================================================================#######
 === confirmação de exclusão ===
  investsh   R$ 211.097,05   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (78.9%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1518,7 +1518,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1564,7 +1564,7 @@
 =====================================================================================================================================#######
 === exclusão cancelada ===
  investsh   R$ 211.097,05   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 166.589,97 (78.9%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -1610,7 +1610,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1656,7 +1656,7 @@
 =====================================================================================================================================#######
 === GOLD11 excluído ===
  investsh   R$ 206.486,85   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
 
 
@@ -1702,7 +1702,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-0/0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
 
 
@@ -1748,7 +1748,7 @@
 =====================================================================================================================================#######
 === popup salvar ===
  investsh   R$ 206.486,85   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
 
 
@@ -1794,7 +1794,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-0/0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
 
 
@@ -1840,7 +1840,7 @@
 =====================================================================================================================================#######
 === salvar cancelado ===
  investsh   R$ 206.486,85   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
 
 
@@ -1886,7 +1886,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-0/0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
 
 
@@ -1932,7 +1932,7 @@
 =====================================================================================================================================#######
 === salvo (mensagem na barra) ===
  investsh   R$ 206.486,85   2026-10-06   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
 
 
@@ -1978,7 +1978,7 @@
  ✓ Salvo  (+R$ 1.024,59)                                                                                                              1-0/0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
 
 
@@ -2024,7 +2024,7 @@
 =====================================================================================================================================#######
 === Sumário após salvar ===
  investsh   R$ 206.486,85   2026-10-06   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 206.486,85
@@ -2070,7 +2070,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -4687,8 +4687,10 @@
       }
     ],
     "date": "2026-10-06",
+    "dollarRate": 5.4321,
     "total": 206486.8473,
     "totalInvested": 184426.3094,
+    "totalInvestedUSD": 2751.4091,
     "totalWithFGTS": 224986.8473
   }
 ]

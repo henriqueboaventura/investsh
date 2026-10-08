@@ -144,6 +144,7 @@ def test_history_snapshot(f):
     snap = f.history_snapshot(data, 170.123456)
     assert snap == {
         'date': '2026-10-06', 'total': 170.1235, 'totalWithFGTS': 180.1235, 'totalInvested': 150.0,
+        'totalInvestedUSD': 10.0, 'dollarRate': 5.0,
         'assets': [
             {'name': 'A', 'category': 'CDB', 'type': 'POS', 'broker': 'XP', 'maturity': '2030-01-01', 'balance': 110.1235},
             {'name': 'B', 'category': 'CDB', 'type': 'POS', 'broker': 'Nomad', 'maturity': None, 'balance': 60.0}]}

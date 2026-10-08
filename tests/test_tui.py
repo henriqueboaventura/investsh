@@ -20,7 +20,7 @@ def finish(app, tui, name, with_data=True):
 def test_tabs_and_scroll(demo, tui_factory):
     t = tui_factory()
     t.snap('início (Sumário)')
-    for key, label in (('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('j', 'j', 'j').snap('Gráficos após j j j')
@@ -219,7 +219,7 @@ def test_reload_from_disk(demo, tui_factory):
 def test_edge_dataset(app, tui_factory):
     app.seed('edge')
     t = tui_factory()
-    for key, label in (('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
@@ -232,6 +232,7 @@ def test_rates_unavailable(demo, tui_factory):
     t = tui_factory(INVESTSH_TEST_RATES='fail')
     t.snap('Sumário sem cotações')
     t.press('d').snap('Detalhe sem cotações')
+    t.press('e').snap('Rentabilidade sem conexão com o Banco Central')
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'rates_fail', with_data=False)
@@ -242,7 +243,7 @@ def test_first_run_then_tui(app, tui_factory):
     # Só texto: o caminho absoluto impresso tem tamanho diferente em macOS (/private/tmp) e Linux
     t.snap('pergunta de primeira execução', styles=False)
     t.press('2', 'enter')
-    t.READY = ('Sumário   Alocação',)
+    t.READY = (t.TAB_BAR,)
     t.wait_ready()
     t.snap('TUI com dados de exemplo')
     t.press('q')
@@ -254,9 +255,9 @@ def test_empty_portfolio(app, tui_factory):
     # Sem matplotlib: com ele, o resultado depende da versão (bug da imagem com carteira vazia)
     t = tui_factory(INVESTSH_TEST_NO_MPL='1')
     t.press('1', 'enter')
-    t.READY = ('Sumário   Alocação',)
+    t.READY = (t.TAB_BAR,)
     t.wait_ready()
-    for key, label in (('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
@@ -340,7 +341,7 @@ def test_save_without_matplotlib(demo, tui_factory):
 def test_zero_balances(demo, tui_factory):
     demo.edit(lambda d: [i.update(balance=0.0, previousBalance=0.0) for i in d['investments']])
     t = tui_factory(INVESTSH_TEST_RATES='fail')
-    for key, label in (('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
@@ -366,5 +367,20 @@ def test_save_keeps_stderr_off_screen(demo, tui_factory):
     t = tui_factory(INVESTSH_TEST_STDERR_NOISE='1')
     t.press('w', 's', until='✓ Salvo')
     assert 'RUIDO' not in t.text()
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
+def test_startup_warns_about_maturities(app, tui_factory):
+    app.seed('edge')   # um ativo vence em 26 dias e outro já venceu (com saldo)
+    t = tui_factory()
+    assert '⚠ 2 ativo(s) vencem em até 30 dias ou já venceram (veja o Sumário)' in t.text()
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
+def test_no_startup_warning_without_urgent_maturities(demo, tui_factory):
+    t = tui_factory()
+    assert '⚠' not in t.text()
     t.press('q')
     assert t.wait_exit() == 0

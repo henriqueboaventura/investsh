@@ -37,6 +37,25 @@ FGTS:               {W}R$     1,000.00{RST}
   Valorização:    {G}     R$ 8.700,00  (+39.2%){RST}
   Variação mês:   {G}       R$ 486,42  (+1.5%){RST}
 
+{BLD}{W}▸ Rentabilidade{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+  {DIM}Período                             Carteira       CDI      IPCA  % do CDI{RST}
+  {DIM}──────────────────────────────────────────────────────────────────────────{RST}
+  Desde 01/06/2026 (61 dias)        {RST}{R}   -30.77%{RST}{DIM}    +2.22%{RST}{DIM}    +0.80%{RST}{R}    -1384%{RST}
+
+  {DIM}Mês                                 Carteira       CDI      IPCA  % do CDI{RST}
+  {DIM}──────────────────────────────────────────────────────────────────────────{RST}
+  jul/2026                          {RST}{G}  +173.91%{RST}{DIM}    +1.51%{RST}{DIM}    +0.55%{RST}{G}    11510%{RST}
+  jun/2026                          {RST}{R}   -74.73%{RST}{DIM}    +0.70%{RST}{DIM}    +0.25%{RST}{R}   -10640%{RST}
+
+  {DIM}Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA no mesmo período (Banco Central).{RST}
+
+{BLD}{W}▸ Vencimentos (próximos 90 dias){RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  Sem allocationGroup                     {DIM}01/12/2025{RST}  {R}venceu há 309 dia(s){RST}     R$ 1.500,00
+  CDB sem previousBalance                 {DIM}01/11/2026{RST}  {Y}vence em 26 dia(s){RST}    R$ 12.000,00
+
 {BLD}{W}▸ Alocação{RST}
 {DIM}────────────────────────────────────────────────────────────{RST}
   {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}

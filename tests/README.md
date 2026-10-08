@@ -19,6 +19,8 @@ marcado como `slow` automaticamente e só roda com `--all`.
 
 | Arquivo | O quê | Como |
 |---|---|---|
+| `test_perf.py` | Rentabilidade descontando aportes, câmbio, CDI/IPCA proporcionais, vencimentos | Unitário, valores calculados à mão |
+| `test_benchmarks.py` | CDI/IPCA na tela, cache, sem internet, janela de vencimentos no `investsh.toml` | Banco Central falso no `sitecustomize` |
 | `test_core.py` | Cálculos: formatação, classificação, custo base, reserva, histórico | Unitário, valores calculados à mão |
 | `test_menu.py` | Todos os fluxos do `--menu`, primeira execução, save, auto-git | Saída completa (com cores) + `data/` final |
 | `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
@@ -36,7 +38,8 @@ Cada teste roda numa pasta temporária `/tmp/ish-XXXXXXXX/app` (via `INVESTSH_DI
 processo iniciado pelos testes (inclusive os de segundo plano do investsh) e:
 
 - congela data/hora em `2026-10-06 12:00` (`INVESTSH_TEST_NOW`);
-- troca as APIs de cotação por valores fixos (USD 5,4321, BTC R$ 600.000…);
+- troca as APIs de cotação por valores fixos (USD 5,4321, BTC R$ 600.000…) e a do Banco
+  Central por CDI 0,05% ao dia útil e IPCA 0,40% ao mês (divulgado até ago/2026);
   `INVESTSH_TEST_RATES=fail` simula rede fora;
 - fixa `PYTHONHASHSEED` e remove avisos de fontes do matplotlib da saída.
 

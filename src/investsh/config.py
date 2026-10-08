@@ -32,8 +32,15 @@ CONFIG_FILE = 'investsh.toml'
 AUTO_GIT = False
 GIT_PUSH = True
 
+# Alertas de vencimento: ativos que vencem em até N dias ([alerts] maturity_days)
+MATURITY_DAYS = 90
+
 # Chaves aceitas em investsh.toml: seção → {chave: tipo}
-SCHEMA = {'git': {'auto_commit': bool, 'push': bool}}
+SCHEMA = {
+    'git': {'auto_commit': bool, 'push': bool},
+    'alerts': {'maturity_days': int},
+}
+TYPE_NAMES = {bool: 'true ou false', int: 'um número inteiro'}
 
 
 class ConfigError(Exception):
@@ -42,12 +49,14 @@ class ConfigError(Exception):
 
 def configure(base_dir):
     """Define o diretório de trabalho e carrega a configuração dele."""
-    global ROOT, DATA, AUTO_GIT, GIT_PUSH
+    global ROOT, DATA, AUTO_GIT, GIT_PUSH, MATURITY_DAYS
     ROOT = os.path.abspath(os.path.expanduser(base_dir))
     DATA = os.path.join(ROOT, 'data', 'investments.json')
-    git = load_file(os.path.join(ROOT, CONFIG_FILE)).get('git', {})
+    settings = load_file(os.path.join(ROOT, CONFIG_FILE))
+    git = settings.get('git', {})
     AUTO_GIT = git.get('auto_commit', False)
     GIT_PUSH = git.get('push', True)
+    MATURITY_DAYS = settings.get('alerts', {}).get('maturity_days', 90)
     env = os.environ.get('FINANCES_AUTO_GIT', '').strip().lower()
     if env in ('1', 'true', 'yes'):
         AUTO_GIT = True
@@ -74,8 +83,10 @@ def load_file(path):
             kind = SCHEMA[section].get(key)
             if kind is None:
                 print(f'{CONFIG_FILE}: chave desconhecida ignorada: {section}.{key}', file=sys.stderr)
-            elif not isinstance(value, kind):
-                raise ConfigError(f'{CONFIG_FILE}: {section}.{key} deve ser true ou false')
+            elif not isinstance(value, kind) or (kind is int and isinstance(value, bool)):
+                raise ConfigError(f'{CONFIG_FILE}: {section}.{key} deve ser {TYPE_NAMES[kind]}')
+            elif kind is int and value < 0:
+                raise ConfigError(f'{CONFIG_FILE}: {section}.{key} não pode ser negativo')
             else:
                 out[section][key] = value
     return out

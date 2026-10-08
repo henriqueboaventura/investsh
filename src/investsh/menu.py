@@ -7,7 +7,9 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, broker_monthly_series, sparkline, brl_fmt,
+    maturity_alerts,
 )
+from . import config, perf
 
 
 def do_update(data, dolar, crypto_prices):
@@ -440,6 +442,25 @@ def do_view(data):
     print(f'  Total aportado: {DIM}{brl_fmt(t_inv):>16}{RST}')
     print(f'  Valorização:    {vcol}{brl_fmt(valorizacao):>16}  ({val_pct:+.1f}%){RST}')
     print(f'  Variação mês:   {mcol}{brl_fmt(month_gain):>16}  ({month_pct:+.1f}%){RST}')
+
+    # ── Rentabilidade vs CDI/IPCA ─────────────────────────────────────────────
+    import datetime as _dt
+    print_header('Rentabilidade')
+    summary, note = perf.load(_dt.date.today())
+    colors = {'header': DIM, 'sep': DIM, 'label': '', 'pos': G, 'neg': R, 'dim': DIM}
+    for line in perf.table(summary, note)[1:]:          # [0] é o título (já no cabeçalho)
+        print('  ' + ''.join(f'{colors[kind]}{text}{RST}' for text, kind in line) if line else '')
+
+    # ── Vencimentos ───────────────────────────────────────────────────────────
+    alerts = maturity_alerts(invs, _dt.date.today(), config.MATURITY_DAYS)
+    if alerts:
+        print_header(f'Vencimentos (próximos {config.MATURITY_DAYS} dias)')
+        for a in alerts:
+            col = R if a['days'] < 0 else (Y if a['days'] <= 30 else '')
+            when = (f'venceu há {-a["days"]} dia(s)' if a['days'] < 0 else
+                    'vence hoje' if a['days'] == 0 else f'vence em {a["days"]} dia(s)')
+            print(f'  {a["name"][:38]:<38}  {DIM}{a["date"]:%d/%m/%Y}{RST}  '
+                  f'{col}{when:<18}{RST}  {brl_fmt(a["balance"]):>14}')
 
     # ── Alocação ──────────────────────────────────────────────────────────────
     print_header('Alocação')

@@ -1,6 +1,6 @@
 === Sumário sem cotações ===
  investsh   R$ 205.576,35   2026-10-01   USD 5.4000
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 205.576,35
@@ -46,7 +46,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -92,7 +92,7 @@
 ===================================================================================================================================#########
 === Detalhe sem cotações ===
  investsh   R$ 205.576,35   2026-10-01   USD 5.4000
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -138,7 +138,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -174,6 +174,98 @@
   ..........................................................................................
   .......                                   ......                     .. ........   gggggg      ggg gggggg
   ........                                  ......                     .. ........   gggggg      ggg gggggg
+
+
+
+
+
+
+
+===================================================================================================================================#########
+=== Rentabilidade sem conexão com o Banco Central ===
+ investsh   R$ 205.576,35   2026-10-01   USD 5.4000
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+
+  Rentabilidade descontando aportes
+
+  Período                             Carteira       CDI      IPCA  % do CDI
+  ──────────────────────────────────────────────────────────────────────────
+  Desde 01/10/2025 (365 dias)          +10.36%         —         —         —
+
+  Mês                                 Carteira       CDI      IPCA  % do CDI
+  ──────────────────────────────────────────────────────────────────────────
+  set/2026                              +0.80%         —         —         —
+  ago/2026                              +1.16%         —         —         —
+  jul/2026                              +1.04%         —         —         —
+  jun/2026                              +0.34%         —         —         —
+  mai/2026                              +1.23%         —         —         —
+  abr/2026                              -0.13%         —         —         —
+  mar/2026                              +1.11%         —         —         —
+  fev/2026                              +0.78%         —         —         —
+  jan/2026                              +1.48%         —         —         —
+  dez/2025                              +0.80%         —         —         —
+  nov/2025                              +1.17%         —         —         —
+  out/2025                              +0.14%         —         —         —
+
+  Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA no mesmo período (Banco Central).
+  CDI/IPCA indisponíveis (sem conexão com o Banco Central e sem cache)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-24/24
+--- estilos ---
+####################################################=======================================================================================
+  .......  ###############  ........   .........   ........   .......   .......   ........
+
+  CCCCCCCCCCCCC CCCCCCCCCCC CCCCCCC
+
+  .......                             ........       ...      ....  . .. ...
+  ..........................................................................
+  ..... .......... .... .....          ggggggg         .         .         .
+
+  ...                                 ........       ...      ....  . .. ...
+  ..........................................................................
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              rrrrrr         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+  ........                              gggggg         .         .         .
+
+  .......... ..... ..... .... ...... .. ..... ........... ... . .... .. ..... ....... ...... .........
+  rrrrrrrr rrrrrrrrrrrrr rrrr rrrrrrr rrr r rrrrr rrrrrrr r rrr rrrrrr
+
+
+
+
+
+
+
+
+
+
+
 
 
 

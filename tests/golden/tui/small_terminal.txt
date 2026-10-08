@@ -1,6 +1,6 @@
 === Sumário 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
 
   Patrimônio
   R$ 205.462,26
@@ -25,7 +25,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/37
 --- estilos ---
 ####################################################===========================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......
 
   CCCCCCCCCC
   ** **********
@@ -50,7 +50,7 @@
 =======================================================================#########
 === Detalhe 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome             Categoria                        Saldo       G%           Δ
@@ -75,7 +75,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params   1-20/35
 --- estilos ---
 ####################################################===========================
-  .......   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....             .........                        .....       ..           .
@@ -100,7 +100,7 @@
 =======================================================================#########
 === Alocação 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
 
   Categoria/Sub                            Saldo   Atual   Ideal    Diff
   ─────────────────────────────────────────────────────────────────
@@ -125,7 +125,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/28
 --- estilos ---
 ####################################################===========================
-  .......  ##########  .........   ........   .......   .......   ........
+  .......   .............  ##########  .........   ........   .......
 
   .............                            .....   .....   .....    ....
   .................................................................
@@ -144,13 +144,13 @@
     ......                           .. ........    ....    ....   ggggg
     ....                             .. ........    ....    ....   ggggg
 
-  ?????????? ??????                  ** ********    ....    ....   ggggg
+  YYYYYYYYYY YYYYYY                  ** ********    ....    ....   ggggg
     .......... ......                .. ........    ....       .       g
 
 =======================================================================#########
 === Gráficos 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
 
   Evolução Patrimonial
 
@@ -175,7 +175,7 @@
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/50
 --- estilos ---
 ####################################################===========================
-  .......   ........   .........   ........   .......   .......  ##########
+  .......   .............   ........   .........   ........   .......
 
   CCCCCCCC CCCCCCCCCCC
 

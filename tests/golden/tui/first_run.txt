@@ -10,7 +10,7 @@ Não encontrei <APP>/data/investments.json.
 Escolha [1]:
 === TUI com dados de exemplo ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 205.462,26
@@ -56,7 +56,7 @@ Escolha [1]:
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-21/21
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********

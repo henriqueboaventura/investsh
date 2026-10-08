@@ -267,5 +267,33 @@ def history_snapshot(data, total):
         'total':         round(total, 4),
         'totalWithFGTS': round(total + data['fgts'], 4),
         'totalInvested': round(total_invested(data), 4),
+        # Custo em dólar e câmbio do dia: separam aporte de variação cambial (perf.py)
+        'totalInvestedUSD': round(sum(i.get('investedUSD') or 0 for i in data['investments']), 4),
+        'dollarRate':    data.get('dollarRate'),
         'assets':        [investment_snapshot(inv) for inv in data['investments']],
     }
+
+
+def parse_maturity(value):
+    """Data de vencimento (AAAA-MM-DD ou DD/MM/AAAA), ou None se ausente/inválida."""
+    from datetime import datetime as _dt
+    for f in ('%Y-%m-%d', '%d/%m/%Y'):
+        try:
+            return _dt.strptime(str(value), f).date()
+        except ValueError:
+            continue
+    return None
+
+
+def maturity_alerts(investments, today, days=90):
+    """Ativos com saldo que vencem em até `days` dias (ou já venceram), do mais urgente."""
+    out = []
+    for inv in investments:
+        due = parse_maturity(inv.get('maturity')) if inv.get('maturity') else None
+        if due is None or not inv.get('balance'):
+            continue
+        left = (due - today).days
+        if left <= days:
+            out.append({'name': inv.get('name', ''), 'date': due, 'days': left,
+                        'balance': inv['balance'], 'broker': inv.get('broker', '')})
+    return sorted(out, key=lambda a: (a['days'], a['name']))

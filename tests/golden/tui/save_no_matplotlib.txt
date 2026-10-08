@@ -1,6 +1,6 @@
 === salvo sem matplotlib ===
  investsh   R$ 205.462,26   2026-10-06   USD 5.4321
-  Sumário   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 
   Patrimônio
   R$ 205.462,26
@@ -46,7 +46,7 @@
  ✓ Salvo  (+R$ 0,00)                                                                                                                1-37/37
 --- estilos ---
 ####################################################=======================================================================================
- #########  ........   .........   ........   .......   .......   ........
+ #########  .............   ........   .........   ........   .......   .......   ........
 
   CCCCCCCCCC
   ** **********
@@ -2686,8 +2686,10 @@
       }
     ],
     "date": "2026-10-06",
+    "dollarRate": 5.4321,
     "total": 205462.2551,
     "totalInvested": 184926.67,
+    "totalInvestedUSD": 2700.0,
     "totalWithFGTS": 223962.2551
   }
 ]

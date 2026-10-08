@@ -48,6 +48,10 @@ FGTS:               {W}R$         0.00{RST}
   Valorização:    {G}         R$ 0,00  (+0.0%){RST}
   Variação mês:   {G}         R$ 0,00  (+0.0%){RST}
 
+{BLD}{W}▸ Rentabilidade{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+  {DIM}Precisa de dois saves com total investido para calcular (cada save grava uma foto da carteira).{RST}
+
 {BLD}{W}▸ Alocação{RST}
 {DIM}────────────────────────────────────────────────────────────{RST}
   {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}
@@ -129,8 +133,10 @@ FGTS:               {W}R$         0.00{RST}
   {
     "assets": [],
     "date": "2026-10-06",
+    "dollarRate": 5.4321,
     "total": 0,
     "totalInvested": 0.0,
+    "totalInvestedUSD": 0,
     "totalWithFGTS": 0.0
   }
 ]

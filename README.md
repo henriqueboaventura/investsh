@@ -6,6 +6,11 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
 
 - **Carteira** — patrimônio total, alocação atual vs. ideal, reserva de emergência, exposição
   por indexador e por objetivo, visão por corretora e gráficos de evolução no terminal
+- **Rentabilidade vs CDI e IPCA** — quanto a carteira rendeu descontando os aportes, por mês,
+  nos últimos 12 meses e desde o início, lado a lado com o CDI e o IPCA do mesmo período
+  (dados do Banco Central)
+- **Alertas de vencimento** — títulos que vencem nos próximos 90 dias (ou já venceram) aparecem
+  no Sumário, com aviso ao abrir quando faltam 30 dias ou menos
 - **Rotina mensal** — atualize saldos, registre aportes e saques, cadastre ativos; cada save
   guarda um snapshot no histórico
 - **Cotações automáticas** — dólar ([AwesomeAPI](https://docs.awesomeapi.com.br/)) e cripto
@@ -77,7 +82,7 @@ investsh
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
-| `s` `a` `i` `o` `d` `b` `g` | Abas: Sumário, Alocação, Indexador, Objetivo, Detalhe, Brokers, Gráficos |
+| `s` `e` `a` `i` `o` `d` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Brokers, Gráficos |
 | `↑` `↓` / `j` `k` | Navegar |
 | `r` | Recarregar do disco |
 | `w` | Salvar |
@@ -118,6 +123,21 @@ isso envia os dados da sua carteira para o serviço escolhido.
 
 ---
 
+## Rentabilidade
+
+A aba **Rentabilidade** (tecla `e`; no `--menu`, opção `V`) responde: *a carteira rendeu mais
+que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/history.json`:
+
+- entre dois saves, o rendimento desconta os aportes e saques do período (método de Dietz
+  modificado: aportes contam pela metade do período);
+- a variação do dólar no custo dos ativos em USD não conta como aporte;
+- CDI e IPCA vêm da API pública do Banco Central, acumulados exatamente no mesmo período,
+  e ficam em cache por 12 horas em `~/.cache/investsh` (sem internet, usa o cache);
+- o IPCA de um mês só sai no mês seguinte: meses ainda não divulgados aparecem com `*`.
+
+O cálculo começa no primeiro save com "total investido" registrado: quanto mais saves, mais
+completo o histórico. Salvar uma vez por mês já basta para a visão mensal.
+
 ## Privacidade
 
 - O investsh só lê e escreve arquivos locais. As únicas chamadas de rede são as cotações
@@ -150,6 +170,13 @@ reenviados no próximo save ou com `investsh sync`.
 Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligado.
 Para ligar ou desligar temporariamente, por cima do arquivo: `FINANCES_AUTO_GIT=1` ou `0`.
 
+O mesmo arquivo ajusta a janela dos alertas de vencimento (padrão: 90 dias):
+
+```toml
+[alerts]
+maturity_days = 180
+```
+
 ---
 
 ## Personalização
@@ -174,6 +201,8 @@ convertidos pela cotação do dia.
 │   ├── cli.py            # Comando `investsh` (--menu, --dir, analyze, sync)
 │   ├── app.py            # Carrega a carteira e abre o menu ou a TUI
 │   ├── core.py           # Regras: classificação, custo base, reserva, histórico, R$
+│   ├── perf.py           # Rentabilidade descontando aportes vs CDI/IPCA
+│   ├── bench.py          # CDI e IPCA do Banco Central (com cache)
 │   ├── quotes.py         # Cotações (dólar e cripto)
 │   ├── menu.py           # Modo texto (--menu)
 │   ├── tui.py            # Tela interativa (curses)

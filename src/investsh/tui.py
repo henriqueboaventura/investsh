@@ -6,8 +6,20 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
+    maturity_alerts,
 )
 from .storage import do_save_tui
+from . import perf
+
+# Vencimentos a até tantos dias geram aviso ao abrir (a lista completa fica no Sumário)
+URGENT_DAYS = 30
+
+
+def maturity_text(a):
+    """'vence em 12 dias' / 'vence hoje' / 'venceu há 3 dias'."""
+    if a['days'] < 0:
+        return f'venceu há {-a["days"]} dia(s)'
+    return 'vence hoje' if a['days'] == 0 else f'vence em {a["days"]} dia(s)'
 
 
 def run_tui(data, crypto_prices=None):
@@ -21,12 +33,20 @@ def run_tui(data, crypto_prices=None):
     dirty        = [False]  # True quando há alterações não salvas
     pending_sync = [None]   # {'job', 'msg'}: commit/push rodando em segundo plano
 
-    # Commits de saves anteriores que não chegaram ao remoto (ex.: sem rede)
+    # Avisos ao abrir: vencimentos próximos e commits que não chegaram ao remoto
+    import datetime as _dt
+    warnings = []
+    urgent = [a for a in maturity_alerts(data['investments'], _dt.date.today(), config.MATURITY_DAYS)
+              if a['days'] <= URGENT_DAYS]
+    if urgent:
+        warnings.append(f'⚠ {len(urgent)} ativo(s) vencem em até {URGENT_DAYS} dias ou já venceram '
+                        f'(veja o Sumário)')
     if not sync.busy():
         n_unpushed = sync.unpushed()
         if n_unpushed:
-            status_msg[0] = (f'⚠ {n_unpushed} commit(s) não enviado(s) ao remoto — '
-                             f'rode: investsh sync')
+            warnings.append(f'⚠ {n_unpushed} commit(s) não enviado(s) ao remoto — '
+                            f'rode: investsh sync')
+    status_msg[0] = '   '.join(warnings)
 
     # Migrate Nomad assets: add balanceUSD if missing
     dol = data.get('dollarRate', 1)
@@ -486,12 +506,12 @@ def run_tui(data, crypto_prices=None):
         DIM  = curses.A_DIM
         REV  = curses.A_REVERSE
 
-        TABS     = [('s', 'Sumário'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
-                    ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')]
+        TABS     = [('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'),
+                    ('o', 'Objetivo'), ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')]
         TAB_KEYS = {k for k, _ in TABS}
 
         tab      = ['s']
-        scrolls  = {'s': 0, 'a': 0, 'i': 0, 'o': 0, 'd': 0, 'b': 0, 'g': 0}
+        scrolls  = {k: 0 for k, _ in TABS}
         search   = ['']
         srch_act = [False]   # search bar open
         det_sel  = [0]       # cursor index into selectbl
@@ -534,6 +554,21 @@ def run_tui(data, crypto_prices=None):
                     row([seg(f'  FGTS:    {brl_fmt(fgts)}', DIM)]),
                     row([seg(f'  Ativos:  {len(invs)}', DIM)]),
                     row([seg(f'  USD/BRL: {dolar:.4f}', DIM)])]
+
+            # Vencimentos próximos (ou já vencidos com saldo)
+            import datetime as _dt
+            alerts = maturity_alerts(invs, _dt.date.today(), config.MATURITY_DAYS)
+            if alerts:
+                out.append(row([]))
+                out.append(row([seg(f'  Vencimentos (próximos {config.MATURITY_DAYS} dias)', CYN | BOLD)]))
+                for a in alerts:
+                    col = RED if a['days'] < 0 else (YLW if a['days'] <= URGENT_DAYS else 0)
+                    out.append(row([
+                        seg(f'  {a["name"][:38]:<38}', 0),
+                        seg(f'  {a["date"]:%d/%m/%Y}', DIM),
+                        seg(f'  {maturity_text(a):<18}', col | (BOLD if col else 0)),
+                        seg(f'  {brl_fmt(a["balance"]):>14}', 0),
+                    ]))
             # Monthly history table
             hist_path = os.path.join(config.ROOT, 'data', 'history.json')
             try:
@@ -625,6 +660,16 @@ def run_tui(data, crypto_prices=None):
                     seg(f'  {fmt_hit(hit_sem):<18}', col_sem),
                 ]))
 
+            return out, []
+
+        def build_perf():
+            import datetime as _dt
+            summary, note = perf.load(_dt.date.today())
+            kinds = {'title': CYN | BOLD, 'header': DIM, 'sep': DIM, 'label': 0,
+                     'pos': GRN, 'neg': RED, 'dim': DIM}
+            out = [row([])]
+            for line in perf.table(summary, note):
+                out.append(row([seg('  ')] + [seg(text, kinds[kind]) for text, kind in line]))
             return out, []
 
         def build_allocation():
@@ -955,7 +1000,8 @@ def run_tui(data, crypto_prices=None):
                 ]))
             return out, []
 
-        builders = {'s': build_summary, 'a': build_allocation, 'i': build_indexer, 'o': build_purpose,
+        builders = {'s': build_summary, 'e': build_perf, 'a': build_allocation, 'i': build_indexer,
+                    'o': build_purpose,
                     'd': lambda: build_detail(search[0]), 'b': build_brokers, 'g': build_charts}
 
         def refresh():

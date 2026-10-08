@@ -37,6 +37,31 @@ FGTS:               {W}R$    18,500.00{RST}
   Valorização:    {G}    R$ 20.745,59  (+11.2%){RST}
   Variação mês:   {G}     R$ 2.744,68  (+1.4%){RST}
 
+{BLD}{W}▸ Rentabilidade{RST}
+{DIM}────────────────────────────────────────────────────────────{RST}
+
+  {DIM}Período                             Carteira       CDI      IPCA  % do CDI{RST}
+  {DIM}──────────────────────────────────────────────────────────────────────────{RST}
+  Desde 01/10/2025 (365 dias)       {RST}{G}   +10.36%{RST}{DIM}   +13.94%{RST}{DIM}   +4.48%*{RST}{R}       74%{RST}
+
+  {DIM}Mês                                 Carteira       CDI      IPCA  % do CDI{RST}
+  {DIM}──────────────────────────────────────────────────────────────────────────{RST}
+  set/2026                          {RST}{G}    +0.80%{RST}{DIM}    +1.11%{RST}{DIM}        —*{RST}{R}       72%{RST}
+  ago/2026                          {RST}{G}    +1.16%{RST}{DIM}    +1.11%{RST}{DIM}   +0.39%*{RST}{G}      105%{RST}
+  jul/2026                          {RST}{G}    +1.04%{RST}{DIM}    +1.11%{RST}{DIM}    +0.40%{RST}{R}       94%{RST}
+  jun/2026                          {RST}{G}    +0.34%{RST}{DIM}    +1.11%{RST}{DIM}    +0.40%{RST}{R}       31%{RST}
+  mai/2026                          {RST}{G}    +1.23%{RST}{DIM}    +1.06%{RST}{DIM}    +0.40%{RST}{G}      117%{RST}
+  abr/2026                          {RST}{R}    -0.13%{RST}{DIM}    +1.11%{RST}{DIM}    +0.40%{RST}{R}      -12%{RST}
+  mar/2026                          {RST}{G}    +1.11%{RST}{DIM}    +1.16%{RST}{DIM}    +0.40%{RST}{R}       96%{RST}
+  fev/2026                          {RST}{G}    +0.78%{RST}{DIM}    +1.00%{RST}{DIM}    +0.40%{RST}{R}       78%{RST}
+  jan/2026                          {RST}{G}    +1.48%{RST}{DIM}    +1.06%{RST}{DIM}    +0.40%{RST}{G}      140%{RST}
+  dez/2025                          {RST}{G}    +0.80%{RST}{DIM}    +1.16%{RST}{DIM}    +0.40%{RST}{R}       69%{RST}
+  nov/2025                          {RST}{G}    +1.17%{RST}{DIM}    +1.06%{RST}{DIM}    +0.40%{RST}{G}      111%{RST}
+  out/2025                          {RST}{G}    +0.14%{RST}{DIM}    +1.11%{RST}{DIM}    +0.40%{RST}{R}       12%{RST}
+
+  {DIM}* IPCA dos meses ainda não divulgados fica de fora do acumulado.{RST}
+  {DIM}Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA no mesmo período (Banco Central).{RST}
+
 {BLD}{W}▸ Alocação{RST}
 {DIM}────────────────────────────────────────────────────────────{RST}
   {DIM}Categoria/Sub                            Saldo   Atual   Ideal    Diff{RST}
