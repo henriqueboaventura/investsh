@@ -212,6 +212,16 @@ FGTS:               {W}R$     1,000.00{RST}
     "target": 15000.0
   },
   "fgts": 1000.0,
+  "flows": [
+    {
+      "amount": -271.61,
+      "broker": "Nomad",
+      "date": "2026-10-06",
+      "name": "ETF USD sem balanceUSD",
+      "usd": -50.0
+    }
+  ],
+  "flowsSince": "2026-10-06",
   "idealAllocation": {
     "rendaFixa": 60.0,
     "rendaVariavel": 40.0,

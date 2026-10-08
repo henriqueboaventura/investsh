@@ -274,6 +274,28 @@ def history_snapshot(data, total):
     }
 
 
+def record_flow(data, inv, amount, usd=None):
+    """Registra dinheiro entrando (+, aporte) ou saindo (-, saque) da carteira.
+
+    Fica em data['flows'] e vai para o disco no save. A rentabilidade (perf.py) usa
+    esses lançamentos para separar aporte de rendimento: só o que passa por aqui conta
+    como dinheiro novo; atualizar saldo é sempre rendimento (ou transferência entre ativos).
+    """
+    from datetime import date as _date
+    flow = {'date': _date.today().isoformat(), 'name': inv.get('name', ''),
+            'broker': inv.get('broker', ''), 'amount': round(amount, 2)}
+    if usd is not None:
+        flow['usd'] = round(usd, 4)
+    data.setdefault('flows', []).append(flow)
+    return flow
+
+
+def start_flow_log(data):
+    """No save: a partir desta data os aportes/saques registrados estão completos."""
+    data.setdefault('flows', [])
+    data.setdefault('flowsSince', data['lastUpdated'])
+
+
 def parse_maturity(value):
     """Data de vencimento (AAAA-MM-DD ou DD/MM/AAAA), ou None se ausente/inválida."""
     from datetime import datetime as _dt

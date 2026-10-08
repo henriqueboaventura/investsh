@@ -189,23 +189,24 @@ def test_saque_without_cost_basis(app):
 def test_add_assets(demo):
     golden_run(demo, 'add_assets', [
         '5',
-        'CDB Novo', '0', 'x', '0', '1', '2027-01-01', '0', '0', '0', '5000', '5100,25', 's',
-        'ETF EUA', '4', '4', '2', '', '4', '7', '9', '300', 's',
+        'CDB Novo', '0', 'x', '0', '1', '2027-01-01', '0', '0', '0', '5000', '5100,25', 's', 's',   # aporte
+        'ETF EUA', '4', '4', '2', '', '4', '7', '9', '300', 'n', 's',               # veio de outro ativo
         'Solana', '8', '4', '3', '', '9', '11', '13', '2,5', 's',
         'Debênture X', '0', '2', '1', '2031-05-15', '10', 'IPCA+DEB', '14', 'GRUPO_X', '23', 'MEU_OBJETIVO',
-        '1000', '1000', 'n',
+        '1000', '1000', 's', 'n',
         '5', '',                  # nome vazio → volta ao menu
         '0', 's',
     ])
 
 
 def test_remove_assets(demo):
-    golden_run(demo, 'remove', ['6', '0, 99,abc,0', '6', '', '0', 's'])
+    golden_run(demo, 'remove', ['6', '0, 99,abc,0', 's', '6', '', '0', 's'])   # s = saldo sacado
 
 
 def test_remove_multiple_assets(demo):
     a, b = index_of(demo, '6', 'Tesouro Selic 2029'), index_of(demo, '6', 'Bitcoin')
-    golden_run(demo, 'remove_multiple', ['6', f'{b},{a},{b}', '0', 's'])
+    # Bitcoin: saldo foi para outro ativo (n); Tesouro Selic: sacado (s)
+    golden_run(demo, 'remove_multiple', ['6', f'{b},{a},{b}', 'n', 's', '0', 's'])
 
 def test_params(demo):
     answers = ['20000', '0,9', '', '7',            # FGTS, rendimento, aporte (mantém), FGTS a.a.

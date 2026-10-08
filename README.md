@@ -128,20 +128,33 @@ isso envia os dados da sua carteira para o serviço escolhido.
 A aba **Rentabilidade** (tecla `r`; no `--menu`, opção `V`) responde: *a carteira rendeu mais
 que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/history.json`:
 
-- entre dois saves, o rendimento desconta os aportes e saques do período (método de Dietz
-  modificado: aportes contam pela metade do período);
-- a variação do dólar no custo dos ativos em USD não conta como aporte;
+- entre dois saves, o rendimento desconta o dinheiro que entrou e saiu da carteira no
+  período (método de Dietz modificado: aportes contam pela metade do período);
 - CDI e IPCA vêm da API pública do Banco Central, acumulados exatamente no mesmo período,
   e ficam em cache por 12 horas em `~/.cache/investsh` (sem internet, usa o cache);
 - o IPCA de um mês só sai no mês seguinte: meses ainda não divulgados aparecem com `*`.
 
-O cálculo começa no primeiro save com "total investido" registrado: quanto mais saves, mais
-completo o histórico. Salvar uma vez por mês já basta para a visão mensal.
+Salvar uma vez por mês já basta para a visão mensal. No **Sumário**, o *Histórico mensal*
+decompõe a variação do saldo de cada mês: **Variação = Aportes + Saques + Valorização**, com
+a rentabilidade do mês ao lado.
 
-No **Sumário**, o *Histórico mensal* decompõe a variação do saldo de cada mês:
-**Variação = Aportes + Saques + Valorização**, com a rentabilidade do mês ao lado. Para o
-investsh separar aporte de rendimento, registre depósitos e resgates com **Registrar aporte**
-e **Registrar saque** (em vez de só atualizar o saldo).
+### O que conta como aporte e saque
+
+O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investments.json`):
+
+| Ação | Conta como |
+|---|---|
+| **Registrar aporte** / **Registrar saque** | aporte / saque, pelo valor em dinheiro |
+| **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
+| **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
+| **Atualizar saldo** (inclusive quantidade de cripto) | valorização |
+
+Ou seja: depósitos e resgates de verdade passam por *Registrar aporte/saque*; mover dinheiro
+entre ativos pode ser só atualizar os saldos (a soma não muda). Compra de cripto com dinheiro
+novo aparece como valorização: registre um aporte em outro ativo antes de transferir.
+
+Antes do primeiro save com essa versão (`flowsSince`), sem os lançamentos, o investsh usa a
+variação do custo total entre as fotos, que é uma aproximação.
 
 ## Privacidade
 

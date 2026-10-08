@@ -303,6 +303,28 @@ FGTS:               {W}R$    18,500.00{RST}
     "target": 30000.0
   },
   "fgts": 18500.0,
+  "flows": [
+    {
+      "amount": 1000.0,
+      "broker": "XP",
+      "date": "2026-10-06",
+      "name": "CDB Banco Alfa 110% CDI"
+    },
+    {
+      "amount": 0.37,
+      "broker": "XP",
+      "date": "2026-10-06",
+      "name": "CDB Banco Alfa 110% CDI"
+    },
+    {
+      "amount": 817.53,
+      "broker": "Nomad",
+      "date": "2026-10-06",
+      "name": "SGOV",
+      "usd": 150.5
+    }
+  ],
+  "flowsSince": "2026-10-06",
   "idealAllocation": {
     "multiAtivoGlobal": 2.0,
     "previdencia": 5.0,

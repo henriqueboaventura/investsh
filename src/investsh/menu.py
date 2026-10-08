@@ -7,7 +7,7 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, broker_monthly_series, sparkline, brl_fmt,
-    maturity_alerts,
+    maturity_alerts, record_flow,
 )
 from . import config, perf
 
@@ -132,6 +132,12 @@ def do_add(data, dolar):
             balance  = ask_float('  Saldo atual')
             new_inv['invested'] = invested or 0
             new_inv['balance']  = balance or 0
+
+        # Dinheiro novo é aporte; saldo vindo de outro ativo (ou já existente), não
+        if new_inv['balance'] > 0 and ask_yes(
+                f'  Saldo inicial de {fmt(new_inv["balance"])} é dinheiro novo (aporte)?'):
+            record_flow(data, new_inv, new_inv['balance'],
+                        usd=new_inv['investedUSD'] if 'investedUSD' in new_inv else None)
 
         invs.append(new_inv)
         print(f'  {G}✓ Ativo adicionado!{RST}')
@@ -265,6 +271,7 @@ def do_aporte(data):
             inv['balance']     = round(inv['balanceUSD'] * dol, 4)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] + val * dol, 4)
+            record_flow(data, inv, val * dol, usd=val)
             print(f'  {G}✓ Custo base: ${cur_usd:,.2f} + ${val:,.2f} = ${inv["investedUSD"]:,.2f} USD{RST}')
             print(f'  {G}✓ Saldo BRL:  {fmt(inv["balance"])}{RST}')
     elif 'invested' in inv:
@@ -276,6 +283,7 @@ def do_aporte(data):
             inv['balance']  = round(cur_bal + val, 2)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] + val, 2)
+            record_flow(data, inv, val)
             print(f'  {G}✓ Custo base: {fmt(cur)} + {fmt(val)} = {fmt(inv["invested"])}{RST}')
             print(f'  {G}✓ Saldo:      {fmt(cur_bal)} + {fmt(val)} = {fmt(inv["balance"])}{RST}')
     else:
@@ -320,6 +328,7 @@ def do_saque(data):
         inv['balanceUSD']  = round(cur_bal_usd - val, 4)
         inv['investedUSD'] = round(inv.get('investedUSD', 0) * (1 - pct), 4)
         inv['balance']     = round(inv['balanceUSD'] * data.get('dollarRate', 1), 4)
+        record_flow(data, inv, -val * data.get('dollarRate', 1), usd=-val)
         print(f'  {G}✓ Saque: ${val:,.2f} USD ({pct*100:.1f}% do saldo){RST}')
         print(f'  {G}✓ Novo saldo: ${inv["balanceUSD"]:,.2f} USD | Custo base: ${inv["investedUSD"]:,.2f} USD{RST}')
     else:
@@ -337,6 +346,7 @@ def do_saque(data):
             inv['invested'] = round(old_invested * (1 - pct), 2)
         if 'previousBalance' in inv:
             inv['previousBalance'] = round(inv['previousBalance'] - val, 2)
+        record_flow(data, inv, -val)
         if 'invested' in inv:
             print(f'  {G}✓ Saque: {fmt(val)} ({pct*100:.1f}% do saldo){RST}')
             print(f'  {G}✓ Novo saldo: {fmt(inv["balance"])} | Custo base: {fmt(old_invested)} → {fmt(inv["invested"])}{RST}')
@@ -360,8 +370,15 @@ def do_remove(data):
                 if idx < len(sorted_invs) and sorted_invs[idx]['name'] not in to_remove:
                     to_remove.append(sorted_invs[idx]['name'])
         data['investments'] = [inv for inv in invs if inv['name'] not in to_remove]
+        by_name = {inv['name']: inv for inv in invs}
         for n in to_remove:
             print(f'  {R}✗ Removido: {n}{RST}')
+            inv = by_name[n]
+            # Saldo que sai da carteira é saque; se foi para outro ativo, não
+            if inv.get('balance') and ask_yes(
+                    f'    Saldo de {fmt(inv["balance"])} foi sacado (saiu da carteira)?'):
+                usd = inv.get('balanceUSD') if 'investedUSD' in inv else None
+                record_flow(data, inv, -inv['balance'], usd=-usd if usd else None)
 
 
 def do_params(data):

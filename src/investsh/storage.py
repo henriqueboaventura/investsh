@@ -4,7 +4,7 @@ from datetime import datetime
 
 from . import config, sync
 from .term import G, R, Y, C, W, DIM, RST, BLD, fmt, ask_yes, print_header
-from .core import brl_fmt, history_snapshot
+from .core import brl_fmt, history_snapshot, start_flow_log
 from .image import generate_status_image
 
 
@@ -30,6 +30,7 @@ def do_save_tui(data, total_before, pre_balances):
         elif round(inv['balance'], 4) != round(prev, 4):
             inv['previousBalance'] = prev
 
+    start_flow_log(data)
     write_json(config.DATA, data)
 
     hist_path = os.path.join(config.ROOT, 'data', 'history.json')
@@ -90,6 +91,7 @@ def do_save(data, total_before, pre_balances):
             inv['previousBalance'] = prev
         # else: inalterado → mantém previousBalance existente
 
+    start_flow_log(data)
     write_json(config.DATA, data)
     print(f'\n{G}{BLD}✓ Salvo em {config.DATA}{RST}')
 

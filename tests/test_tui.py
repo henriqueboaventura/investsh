@@ -98,7 +98,7 @@ def test_asset_actions_and_save(demo, tui_factory):
     t.press('/', 'esc', '/').type('gold11').press('enter')
     t.press('enter', 'x').snap('confirmação de exclusão')
     t.press('n').snap('exclusão cancelada')
-    t.press('enter', 'x', 's').snap('GOLD11 excluído')
+    t.press('enter', 'x', 's').snap('GOLD11 excluído (saldo sacado)')
     # salvar
     t.press('w').snap('popup salvar')
     t.press('c').snap('salvar cancelado')
@@ -152,7 +152,8 @@ def test_new_assets(demo, tui_factory):
     t.press('0').snap('popup objetivo')
     t.press('0').snap('custo base')
     t.fill('5000').snap('saldo atual')
-    t.fill('5100').snap('CDB Novo cadastrado')
+    t.fill('5100').snap('origem do saldo inicial')
+    t.press('a').snap('CDB Novo cadastrado (aporte)')
 
     # Nomad (USD), opções ≥ 10 escolhidas com setas
     t.press('n').type('ETF EUA').press('enter', '4', '4', '2', 'enter', '4')
@@ -160,7 +161,7 @@ def test_new_assets(demo, tui_factory):
     t.press(*(['j'] * 9), 'enter')             # CRESCIMENTO_ACOES_EUA_EM_DOLAR
     t.snap('Nomad: custo base USD')
     t.fill('300').snap('Nomad: valor atual USD (padrão = custo)')
-    t.fill('320').snap('ETF EUA cadastrado')
+    t.fill('320').press('t').snap('ETF EUA cadastrado (veio de outro ativo)')
 
     # Cripto
     t.press('n').type('Solana').press('enter', '8', '4', '3', 'enter', '9')
@@ -175,7 +176,7 @@ def test_new_assets(demo, tui_factory):
     t.type('IPCA+DEB').press('enter')
     t.press(*(['down'] * 14), 'enter').type('GRUPO_X').press('enter')
     t.press(*(['down'] * 23), 'enter').type('MEU_OBJETIVO').press('enter')
-    t.fill('1000').fill('1000').snap('Debênture cadastrada')
+    t.fill('1000').fill('1000').press('a').snap('Debênture cadastrada')
 
     # cancelamentos
     t.press('n', 'enter').snap('nome vazio cancela')

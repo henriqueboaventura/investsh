@@ -1,10 +1,17 @@
 """Rentabilidade da carteira descontando aportes, comparada ao CDI e ao IPCA.
 
-Cada save grava uma foto em data/history.json com o saldo total e o total investido.
-Entre duas fotos consecutivas, o rendimento é calculado pelo método de Dietz
-modificado: (saldo final - saldo inicial - aportes) / (saldo inicial + aportes/2),
-supondo os aportes no meio do período. Os períodos são encadeados por mês, nos
-últimos 12 meses e desde a primeira foto com total investido.
+Cada save grava uma foto em data/history.json com o saldo total. Entre duas fotos
+consecutivas, o rendimento é calculado pelo método de Dietz modificado:
+(saldo final - saldo inicial - aportes) / (saldo inicial + aportes/2), supondo os
+aportes no meio do período. Os períodos são encadeados por mês, nos últimos 12 meses
+e desde a primeira foto calculável.
+
+De onde vêm os aportes do período:
+- a partir de `flowsSince` (investments.json): os lançamentos de aporte/saque em
+  `flows`, com o valor em dinheiro que entrou ou saiu;
+- antes disso: a variação do total investido (custo base) entre as fotos. É uma
+  aproximação: o saque reduz o custo só proporcionalmente, e correções de custo
+  aparecem como aporte.
 
 CDI e IPCA são acumulados exatamente no mesmo intervalo de datas, para a
 comparação ser justa. "% do CDI" = rendimento da carteira / rendimento do CDI.
@@ -21,26 +28,47 @@ def _day(s):
         return None
 
 
-def periods(history):
-    """Períodos entre fotos consecutivas que têm total investido."""
+def periods(history, flows=None, since=None):
+    """Períodos entre fotos consecutivas com aporte conhecido.
+
+    `flows` = lançamentos [{date, amount}] (+ aporte, - saque), completos a partir da
+    data `since` (AAAA-MM-DD). Cada período tem flow (líquido), inflow e outflow.
+    """
+    since = _day(since) if since else None
     by_date = {}
     for s in history:
         d = _day(s.get('date'))
-        if s.get('totalInvested') is not None and d:
+        if d and (s.get('totalInvested') is not None or (since and d >= since)):
             by_date[d] = s                    # mesmo dia: vale a última foto
+    events = []
+    for f in flows or []:
+        d = _day(f.get('date'))
+        if d and isinstance(f.get('amount'), (int, float)):
+            events.append((d, f['amount']))
     snaps = [by_date[d] for d in sorted(by_date)]
     out = []
     for a, b in zip(snaps, snaps[1:]):
-        flow = b['totalInvested'] - a['totalInvested']
-        # Custo de ativos em dólar é guardado em R$ pela cotação do dia: a variação
-        # cambial do custo não é aporte e sai do fluxo.
-        if a.get('totalInvestedUSD') is not None and a.get('dollarRate') and b.get('dollarRate'):
-            flow -= a['totalInvestedUSD'] * (b['dollarRate'] - a['dollarRate'])
+        start, end = _day(a['date']), _day(b['date'])
+        if since and start >= since:
+            # Lançamento no dia de uma foto já está nela (aporte, depois save)
+            amounts = [v for d, v in events if start < d <= end]
+            inflow = sum(v for v in amounts if v > 0)
+            outflow = sum(v for v in amounts if v < 0)
+            flow = inflow + outflow
+        elif a.get('totalInvested') is not None and b.get('totalInvested') is not None:
+            flow = b['totalInvested'] - a['totalInvested']
+            # Custo de ativos em dólar é guardado em R$ pela cotação do dia: a variação
+            # cambial do custo não é aporte e sai do fluxo.
+            if a.get('totalInvestedUSD') is not None and a.get('dollarRate') and b.get('dollarRate'):
+                flow -= a['totalInvestedUSD'] * (b['dollarRate'] - a['dollarRate'])
+            inflow, outflow = max(flow, 0.0), min(flow, 0.0)
+        else:
+            continue
         base = a['total'] + flow / 2
         if base <= 0:
             continue
         out.append({
-            'start': _day(a['date']), 'end': _day(b['date']), 'flow': flow,
+            'start': start, 'end': end, 'flow': flow, 'inflow': inflow, 'outflow': outflow,
             'r': (b['total'] - a['total'] - flow) / base,
         })
     return out
@@ -110,13 +138,13 @@ def _row(ps, cdi, ipca):
     return row
 
 
-def summary(history, cdi, ipca, today):
+def summary(history, cdi, ipca, today, flows=None, since=None):
     """Rentabilidade por mês, nos últimos 12 meses e desde o início.
 
     `cdi`/`ipca` None = indicador indisponível (ex.: sem internet). Retorna None se
-    o histórico ainda não tem dois saves com total investido.
+    o histórico ainda não tem dois saves com aporte conhecido.
     """
-    ps = periods(history)
+    ps = periods(history, flows, since)
     if not ps:
         return None
     # Cada período conta no mês em que cai o seu meio (onde está a maior parte dos
@@ -139,12 +167,12 @@ def summary(history, cdi, ipca, today):
     }
 
 
-def monthly(history):
+def monthly(history, flows=None, since=None):
     """Histórico mês a mês (último save de cada mês), com a variação decomposta.
 
     Variação = aportes + saques + valorização, entre o último save do mês anterior e o
-    último do mês. Aportes/saques vêm dos períodos entre saves (sem o efeito do dólar
-    no custo); só há decomposição se todos esses saves têm total investido.
+    último do mês. Só há decomposição se todos os períodos do mês têm aporte conhecido
+    (ver periods).
     """
     by_date = {}
     for snap in history:
@@ -164,11 +192,10 @@ def monthly(history):
         if prev is not None:
             row['change'] = end['total'] - prev['total']
             chain = [prev] + snaps
-            if all(x.get('totalInvested') is not None for x in chain):
-                ps = periods(chain)
-                flows = [p['flow'] for p in ps]
-                row['contributions'] = sum(f for f in flows if f > 0)
-                row['withdrawals'] = sum(f for f in flows if f < 0)
+            ps = periods(chain, flows, since)
+            if len(ps) == len(chain) - 1:
+                row['contributions'] = sum(p['inflow'] for p in ps)
+                row['withdrawals'] = sum(p['outflow'] for p in ps)
                 row['gain'] = row['change'] - row['contributions'] - row['withdrawals']
                 growth = 1.0
                 for p in ps:
@@ -186,6 +213,21 @@ MESES = ['', 'jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out
 WIDTHS = (34, 10, 10, 10, 10)
 
 
+def flow_log(data=None):
+    """(lançamentos, data de início) de investments.json, ou de `data` já carregado."""
+    import json
+    from . import config
+    if data is None:
+        try:
+            with open(config.DATA, encoding='utf-8') as f:
+                data = json.load(f)
+        except (FileNotFoundError, ValueError):
+            return [], None
+    if not isinstance(data, dict):
+        return [], None
+    return data.get('flows') or [], data.get('flowsSince')
+
+
 def load(today):
     """Lê o histórico da pasta de dados e busca CDI/IPCA. Retorna (resumo, nota)."""
     import json
@@ -196,7 +238,8 @@ def load(today):
             history = json.load(f)
     except (FileNotFoundError, ValueError):
         history = []
-    ps = periods(history)
+    flows, since = flow_log()
+    ps = periods(history, flows, since)
     if not ps:
         return None, None
     start = ps[0]['start']
@@ -205,7 +248,7 @@ def load(today):
     note = None if not missing else \
         f'{"/".join(missing)} indisponíve{"is" if len(missing) > 1 else "l"} ' \
         f'(sem conexão com o Banco Central e sem cache)'
-    return summary(history, cdi, ipca, today), note
+    return summary(history, cdi, ipca, today, flows, since), note
 
 
 def _pct(v, plus=True):

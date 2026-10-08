@@ -6,7 +6,7 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
-    maturity_alerts,
+    maturity_alerts, record_flow,
 )
 from .storage import do_save_tui
 from . import perf
@@ -199,6 +199,7 @@ def run_tui(data, crypto_prices=None):
             inv['balance']     = round(inv['balanceUSD'] * dol, 4)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] + val * dol, 4)
+            record_flow(data, inv, val * dol, usd=val)
             dirty[0] = True
         else:
             cur = inv.get('invested', 0)
@@ -208,6 +209,7 @@ def run_tui(data, crypto_prices=None):
             inv['balance']  = round(inv['balance'] + val, 2)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] + val, 2)
+            record_flow(data, inv, val)
             dirty[0] = True
         return True
 
@@ -226,6 +228,7 @@ def run_tui(data, crypto_prices=None):
             inv['balance']     = round(inv['balanceUSD'] * dol, 4)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] - val * dol, 4)
+            record_flow(data, inv, -val * dol, usd=-val)
             dirty[0] = True
         else:
             cur_bal = inv['balance']
@@ -237,15 +240,27 @@ def run_tui(data, crypto_prices=None):
                 inv['invested'] = round(inv['invested'] * (1 - pct), 2)
             if 'previousBalance' in inv:
                 inv['previousBalance'] = round(inv['previousBalance'] - val, 2)
+            record_flow(data, inv, -val)
             dirty[0] = True
         return True
 
     def act_delete(stdscr, inv):
-        choice = popup_menu(stdscr, inv['name'][:32], [
-            ('s', 'Sim, excluir'),
-            ('n', 'Cancelar'),
-        ])
-        if choice == 's':
+        if inv.get('balance'):
+            # Saldo que sai da carteira é saque; se foi para outro ativo, não
+            choice = popup_menu(stdscr, inv['name'][:32], [
+                ('s', f'Excluir: saldo de {brl_fmt(inv["balance"])} foi sacado'),
+                ('t', 'Excluir: saldo foi para outro ativo'),
+                ('n', 'Cancelar'),
+            ])
+        else:
+            choice = popup_menu(stdscr, inv['name'][:32], [
+                ('s', 'Sim, excluir'),
+                ('n', 'Cancelar'),
+            ])
+        if choice in ('s', 't'):
+            if choice == 's' and inv.get('balance'):
+                usd = inv.get('balanceUSD') if 'investedUSD' in inv else None
+                record_flow(data, inv, -inv['balance'], usd=-usd if usd else None)
             data['investments'] = [i for i in data['investments'] if i is not inv]
             dirty[0] = True
             return True
@@ -336,6 +351,17 @@ def run_tui(data, crypto_prices=None):
             if balance is None: return False
             new_inv['invested'] = invested
             new_inv['balance']  = balance
+
+        if new_inv['balance'] > 0:
+            # Dinheiro novo é aporte; saldo vindo de outro ativo (ou já existente), não
+            origin = popup_menu(stdscr, f'Saldo inicial {brl_fmt(new_inv["balance"])}', [
+                ('a', 'Aporte: dinheiro novo na carteira'),
+                ('t', 'Veio de outro ativo / já existia'),
+            ])
+            if origin is None: return False
+            if origin == 'a':
+                usd = new_inv.get('balanceUSD')
+                record_flow(data, new_inv, new_inv['balance'], usd=usd)
 
         data['investments'].append(new_inv)
         pre_balances[name] = new_inv['balance']
@@ -573,7 +599,7 @@ def run_tui(data, crypto_prices=None):
             hist_path = os.path.join(config.ROOT, 'data', 'history.json')
             try:
                 with open(hist_path, encoding='utf-8') as hf:
-                    months = perf.monthly(json.load(hf))[-12:]
+                    months = perf.monthly(json.load(hf), *perf.flow_log(data))[-12:]
             except (FileNotFoundError, json.JSONDecodeError):
                 months = []
             if months:

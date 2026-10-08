@@ -105,6 +105,8 @@
     "target": 30000.0
   },
   "fgts": 18500.0,
+  "flows": [],
+  "flowsSince": "2026-10-06",
   "idealAllocation": {
     "multiAtivoGlobal": 2.0,
     "previdencia": 5.0,

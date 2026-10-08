@@ -225,3 +225,71 @@ def test_invalid_dates_are_ignored():
             snap('2026-02-01', 1010, 1000)]
     assert [r['month'] for r in perf.monthly(hist)] == ['2026-01', '2026-02']
     assert perf.periods(hist)[0]['r'] == pytest.approx(0.01)
+
+
+# ── Lançamentos de aporte/saque (flows) ──────────────────────────────────────
+
+def flow(d, amount):
+    return {'date': d, 'name': 'X', 'broker': 'XP', 'amount': amount}
+
+
+def test_explicit_flows_replace_cost_basis():
+    # Sem total investido nas fotos: a partir de flowsSince valem os lançamentos
+    hist = [snap('2026-01-01', 1000), snap('2026-02-01', 1110)]
+    [p] = perf.periods(hist, [flow('2026-01-15', 100)], since='2026-01-01')
+    assert p['flow'] == 100 and p['inflow'] == 100 and p['outflow'] == 0
+    assert p['r'] == pytest.approx(10 / 1050)
+
+
+def test_withdrawal_counts_the_cash_not_the_cost_share():
+    # Saque de 1000 de um ativo com saldo 1100 e custo 1000: o custo cai só 909,09.
+    # Pelo custo, sobravam 90,91 de "perda"; pelo lançamento, o rendimento é zero.
+    hist = [snap('2026-01-01', 1100, 1000), snap('2026-02-01', 100, 1000 * (1 - 1000 / 1100))]
+    [by_cost] = perf.periods(hist)
+    assert by_cost['r'] < -0.1
+    [p] = perf.periods(hist, [flow('2026-01-20', -1000)], since='2026-01-01')
+    assert p['flow'] == -1000 and p['r'] == pytest.approx(0)
+
+
+def test_flow_on_snapshot_day_belongs_to_that_snapshot():
+    # Aporte e save no mesmo dia: o aporte já está na foto de 01/02
+    hist = [snap('2026-01-01', 1000), snap('2026-02-01', 1100), snap('2026-03-01', 1110)]
+    p1, p2 = perf.periods(hist, [flow('2026-02-01', 100)], since='2026-01-01')
+    assert p1['flow'] == 100 and p2['flow'] == 0
+
+
+def test_cost_basis_before_flows_since():
+    # Até flowsSince: variação do total investido; depois: lançamentos
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-02-01', 1110, 1100),
+            snap('2026-03-01', 1300, 1100)]
+    flows = [flow('2026-01-10', 999), flow('2026-02-10', 180)]   # o de janeiro é ignorado
+    p1, p2 = perf.periods(hist, flows, since='2026-02-01')
+    assert p1['flow'] == 100 and p2['flow'] == 180
+
+
+def test_monthly_shows_gross_contributions_and_withdrawals():
+    # Transferência registrada como saque + aporte: aparecem os dois, a valorização não muda
+    hist = [snap('2026-01-31', 1000), snap('2026-02-28', 1010)]
+    flows = [flow('2026-02-10', -300), flow('2026-02-10', 300)]
+    [_, feb] = perf.monthly(hist, flows, since='2026-01-31')
+    assert feb['contributions'] == 300 and feb['withdrawals'] == -300
+    assert feb['gain'] == pytest.approx(10) and feb['r'] == pytest.approx(0.01)
+
+
+def test_invalid_flows_are_ignored():
+    hist = [snap('2026-01-01', 1000), snap('2026-02-01', 1010)]
+    flows = [flow('2026-13-01', 50), {'date': '2026-01-10', 'amount': 'x'}, {}]
+    [p] = perf.periods(hist, flows, since='2026-01-01')
+    assert p['flow'] == 0
+
+
+def test_record_flow_and_start_flow_log():
+    data = {'investments': [], 'lastUpdated': '2026-10-06'}
+    core.record_flow(data, {'name': 'SGOV', 'broker': 'Nomad'}, -271.6051, usd=-50)
+    assert data['flows'] == [{'date': date.today().isoformat(), 'name': 'SGOV', 'broker': 'Nomad',
+                              'amount': -271.61, 'usd': -50}]
+    core.start_flow_log(data)
+    assert data['flowsSince'] == '2026-10-06'
+    data['lastUpdated'] = '2026-11-01'
+    core.start_flow_log(data)
+    assert data['flowsSince'] == '2026-10-06'      # não avança depois de iniciado

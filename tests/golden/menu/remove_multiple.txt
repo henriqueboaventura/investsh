@@ -52,8 +52,8 @@ FGTS:               {W}R$    18,500.00{RST}
   {DIM}[18]{RST} Binance  Ethereum                                 R$     2,520.00
 
   {C}Números separados por vírgula (Enter = cancelar){RST}:   {R}✗ Removido: Bitcoin{RST}
-  {R}✗ Removido: Tesouro Selic 2029{RST}
-
+{C}    Saldo de R$     2,790.00 foi sacado (saiu da carteira)? (s/n){RST}:   {R}✗ Removido: Tesouro Selic 2029{RST}
+{C}    Saldo de R$    19,850.40 foi sacado (saiu da carteira)? (s/n){RST}: 
 {BLD}{W}O que deseja fazer?{RST}
   {C}[1]{RST} Atualizar saldos (todos)
   {C}[2]{RST} Atualizar ativo específico
@@ -95,6 +95,15 @@ FGTS:               {W}R$    18,500.00{RST}
     "target": 30000.0
   },
   "fgts": 18500.0,
+  "flows": [
+    {
+      "amount": -19850.4,
+      "broker": "XP",
+      "date": "2026-10-06",
+      "name": "Tesouro Selic 2029"
+    }
+  ],
+  "flowsSince": "2026-10-06",
   "idealAllocation": {
     "multiAtivoGlobal": 2.0,
     "previdencia": 5.0,

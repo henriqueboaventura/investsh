@@ -21,9 +21,26 @@ sufixo `USD`.
     "fgtsAnnualReturn": 0.06,      // 6% a.a.
     "monthlyContribution": 1500.0  // aporte mensal
   },
-  "investments": [ ... ]
+  "investments": [ ... ],
+  "flowsSince": "2026-10-01",    // a partir desta data, `flows` está completo
+  "flows": [ ... ]               // aportes e saques (ver abaixo)
 }
 ```
+
+### `flows`
+
+Dinheiro que entrou (+, aporte) ou saiu (−, saque) da carteira, gravado por *Registrar
+aporte/saque* e ao criar ou excluir ativo com saldo. A rentabilidade usa estes lançamentos
+nos períodos a partir de `flowsSince` (definido no primeiro save); antes disso, usa a
+variação de `totalInvested` no histórico.
+
+```json
+{ "date": "2026-10-06", "name": "SGOV", "broker": "Nomad", "amount": -271.61, "usd": -50.0 }
+```
+
+- `amount` — valor em R$ (ativos em dólar: convertido pela cotação do dia).
+- `usd` — opcional, o valor em dólar do lançamento.
+- Um lançamento com a data de um save já está na foto daquele dia.
 
 ### `idealAllocation`
 
@@ -122,7 +139,7 @@ Lista de snapshots, um por data de save. O `investsh` adiciona/atualiza automati
 
 Campos opcionais (fotos antigas podem não ter):
 
-- `totalInvested` — custo total; necessário para a rentabilidade descontando aportes.
+- `totalInvested` — custo total; base da rentabilidade antes de `flowsSince` (ver `flows`).
 - `totalInvestedUSD` e `dollarRate` — custo em dólar e câmbio do dia: separam aporte de
   variação cambial no cálculo da rentabilidade.
 - `assets` — saldos por ativo, usados nos gráficos por corretora.

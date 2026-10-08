@@ -113,7 +113,7 @@ FGTS:               {W}R$    18,500.00{RST}
   {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
   {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
   {DIM}[23]{RST} Outro (digitar)
-  {C}Escolha{RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}:   {G}✓ Ativo adicionado!{RST}
+  {C}Escolha{RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}: {C}  Saldo inicial de R$     5,100.25 é dinheiro novo (aporte)? (s/n){RST}:   {G}✓ Ativo adicionado!{RST}
 {C}  Adicionar outro? (s/n){RST}: 
 {C}  Nome do ativo{RST}: 
   {M}Categoria:{RST}
@@ -196,7 +196,7 @@ FGTS:               {W}R$    18,500.00{RST}
   {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
   {DIM}[23]{RST} Outro (digitar)
   {C}Escolha{RST}: {C}  Valor em USD{RST}:   {G}→ BRL: R$     1,629.63{RST}
-  {G}✓ Ativo adicionado!{RST}
+{C}  Saldo inicial de R$     1,629.63 é dinheiro novo (aporte)? (s/n){RST}:   {G}✓ Ativo adicionado!{RST}
 {C}  Adicionar outro? (s/n){RST}: 
 {C}  Nome do ativo{RST}: 
   {M}Categoria:{RST}
@@ -360,7 +360,7 @@ FGTS:               {W}R$    18,500.00{RST}
   {DIM}[21]{RST} APOSENTADORIA_E_LONGO_PRAZO
   {DIM}[22]{RST} RENDA_PREFIXADA_COM_FLUXO_DE_CUPONS
   {DIM}[23]{RST} Outro (digitar)
-  {C}Escolha{RST}: {C}  Objetivo (texto livre){RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}:   {G}✓ Ativo adicionado!{RST}
+  {C}Escolha{RST}: {C}  Objetivo (texto livre){RST}: {C}  Valor investido (custo base){RST}: {C}  Saldo atual{RST}: {C}  Saldo inicial de R$     1,000.00 é dinheiro novo (aporte)? (s/n){RST}:   {G}✓ Ativo adicionado!{RST}
 {C}  Adicionar outro? (s/n){RST}: 
 {BLD}{W}O que deseja fazer?{RST}
   {C}[1]{RST} Atualizar saldos (todos)
@@ -420,6 +420,21 @@ FGTS:               {W}R$    18,500.00{RST}
     "target": 30000.0
   },
   "fgts": 18500.0,
+  "flows": [
+    {
+      "amount": 5100.25,
+      "broker": "Nubank",
+      "date": "2026-10-06",
+      "name": "CDB Novo"
+    },
+    {
+      "amount": 1000.0,
+      "broker": "Nubank",
+      "date": "2026-10-06",
+      "name": "Debênture X"
+    }
+  ],
+  "flowsSince": "2026-10-06",
   "idealAllocation": {
     "multiAtivoGlobal": 2.0,
     "previdencia": 5.0,
