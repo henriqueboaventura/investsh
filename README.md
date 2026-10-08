@@ -82,9 +82,9 @@ investsh
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
-| `s` `e` `a` `i` `o` `d` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Brokers, Gráficos |
+| `s` `r` `a` `i` `o` `d` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Brokers, Gráficos |
 | `↑` `↓` / `j` `k` | Navegar |
-| `r` | Recarregar do disco |
+| `R` | Recarregar do disco (após editar os arquivos por fora) |
 | `w` | Salvar |
 | `q` | Sair |
 
@@ -125,7 +125,7 @@ isso envia os dados da sua carteira para o serviço escolhido.
 
 ## Rentabilidade
 
-A aba **Rentabilidade** (tecla `e`; no `--menu`, opção `V`) responde: *a carteira rendeu mais
+A aba **Rentabilidade** (tecla `r`; no `--menu`, opção `V`) responde: *a carteira rendeu mais
 que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/history.json`:
 
 - entre dois saves, o rendimento desconta os aportes e saques do período (método de Dietz

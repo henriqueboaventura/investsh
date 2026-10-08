@@ -90,7 +90,7 @@
 
 
 ===================================================================================================================================#########
-=== após r: FGTS lido do disco ===
+=== após R: FGTS lido do disco ===
  investsh   R$ 205.576,35   2026-10-01   USD 5.4000
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
 

@@ -506,7 +506,7 @@ def run_tui(data, crypto_prices=None):
         DIM  = curses.A_DIM
         REV  = curses.A_REVERSE
 
-        TABS     = [('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'),
+        TABS     = [('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'),
                     ('o', 'Objetivo'), ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')]
         TAB_KEYS = {k for k, _ in TABS}
 
@@ -1000,7 +1000,7 @@ def run_tui(data, crypto_prices=None):
                 ]))
             return out, []
 
-        builders = {'s': build_summary, 'e': build_perf, 'a': build_allocation, 'i': build_indexer,
+        builders = {'s': build_summary, 'r': build_perf, 'a': build_allocation, 'i': build_indexer,
                     'o': build_purpose,
                     'd': lambda: build_detail(search[0]), 'b': build_brokers, 'g': build_charts}
 
@@ -1148,7 +1148,7 @@ def run_tui(data, crypto_prices=None):
                     break
             elif key == curses.KEY_RESIZE:
                 pass
-            elif key == ord('r'):
+            elif key == ord('R'):   # recarregar do disco ('r' é a aba Rentabilidade)
                 data.clear()
                 with open(config.DATA, encoding='utf-8') as f:
                     data.update(json.load(f))

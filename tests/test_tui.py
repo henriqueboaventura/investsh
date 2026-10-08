@@ -20,7 +20,7 @@ def finish(app, tui, name, with_data=True):
 def test_tabs_and_scroll(demo, tui_factory):
     t = tui_factory()
     t.snap('início (Sumário)')
-    for key, label in (('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('j', 'j', 'j').snap('Gráficos após j j j')
@@ -208,7 +208,7 @@ def test_reload_from_disk(demo, tui_factory):
     t = tui_factory()
     demo.edit(lambda d: d.update(fgts=99999.0))
     t.snap('antes do r')
-    t.press('r').snap('após r: FGTS lido do disco')
+    t.press('R').snap('após R: FGTS lido do disco')
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'reload', with_data=False)
@@ -219,7 +219,7 @@ def test_reload_from_disk(demo, tui_factory):
 def test_edge_dataset(app, tui_factory):
     app.seed('edge')
     t = tui_factory()
-    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
@@ -232,7 +232,7 @@ def test_rates_unavailable(demo, tui_factory):
     t = tui_factory(INVESTSH_TEST_RATES='fail')
     t.snap('Sumário sem cotações')
     t.press('d').snap('Detalhe sem cotações')
-    t.press('e').snap('Rentabilidade sem conexão com o Banco Central')
+    t.press('r').snap('Rentabilidade sem conexão com o Banco Central')
     t.press('q')
     assert t.wait_exit() == 0
     finish(demo, t, 'rates_fail', with_data=False)
@@ -257,7 +257,7 @@ def test_empty_portfolio(app, tui_factory):
     t.press('1', 'enter')
     t.READY = (t.TAB_BAR,)
     t.wait_ready()
-    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
@@ -341,7 +341,7 @@ def test_save_without_matplotlib(demo, tui_factory):
 def test_zero_balances(demo, tui_factory):
     demo.edit(lambda d: [i.update(balance=0.0, previousBalance=0.0) for i in d['investments']])
     t = tui_factory(INVESTSH_TEST_RATES='fail')
-    for key, label in (('s', 'Sumário'), ('e', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
+    for key, label in (('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'), ('o', 'Objetivo'),
                        ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')):
         t.press(key).snap(label)
     t.press('w', 's', until='✓ Salvo').snap('salvo')
