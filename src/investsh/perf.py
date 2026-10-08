@@ -14,15 +14,20 @@ from datetime import date, timedelta
 
 
 def _day(s):
-    return date.fromisoformat(s[:10])
+    """Data de uma foto do histórico, ou None se ausente ou inválida (foto ignorada)."""
+    try:
+        return date.fromisoformat(str(s)[:10])
+    except ValueError:
+        return None
 
 
 def periods(history):
     """Períodos entre fotos consecutivas que têm total investido."""
     by_date = {}
     for s in history:
-        if s.get('totalInvested') is not None and s.get('date'):
-            by_date[_day(s['date'])] = s      # mesmo dia: vale a última foto
+        d = _day(s.get('date'))
+        if s.get('totalInvested') is not None and d:
+            by_date[d] = s                    # mesmo dia: vale a última foto
     snaps = [by_date[d] for d in sorted(by_date)]
     out = []
     for a, b in zip(snaps, snaps[1:]):
@@ -132,6 +137,47 @@ def summary(history, cdi, ipca, today):
         'last_12m': _row(recent, cdi, ipca) if recent else None,
         'since_start': _row(ps, cdi, ipca),
     }
+
+
+def monthly(history):
+    """Histórico mês a mês (último save de cada mês), com a variação decomposta.
+
+    Variação = aportes + saques + valorização, entre o último save do mês anterior e o
+    último do mês. Aportes/saques vêm dos períodos entre saves (sem o efeito do dólar
+    no custo); só há decomposição se todos esses saves têm total investido.
+    """
+    by_date = {}
+    for snap in history:
+        d = _day(snap.get('date'))
+        if d:
+            by_date[d] = snap
+    dates = sorted(by_date)
+    by_month = {}
+    for d in dates:
+        by_month.setdefault(f'{d:%Y-%m}', []).append(by_date[d])
+    rows, prev = [], None
+    for month in sorted(by_month):
+        snaps = by_month[month]
+        end = snaps[-1]
+        row = {'month': month, 'total': end['total'], 'change': None, 'has_flows': False,
+               'contributions': None, 'withdrawals': None, 'gain': None, 'r': None}
+        if prev is not None:
+            row['change'] = end['total'] - prev['total']
+            chain = [prev] + snaps
+            if all(x.get('totalInvested') is not None for x in chain):
+                ps = periods(chain)
+                flows = [p['flow'] for p in ps]
+                row['contributions'] = sum(f for f in flows if f > 0)
+                row['withdrawals'] = sum(f for f in flows if f < 0)
+                row['gain'] = row['change'] - row['contributions'] - row['withdrawals']
+                growth = 1.0
+                for p in ps:
+                    growth *= 1 + p['r']
+                row['r'] = growth - 1
+                row['has_flows'] = True
+        rows.append(row)
+        prev = end
+    return rows
 
 
 # ── Exibição (compartilhada entre a TUI e o --menu) ──────────────────────────

@@ -138,6 +138,11 @@ que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/histo
 O cálculo começa no primeiro save com "total investido" registrado: quanto mais saves, mais
 completo o histórico. Salvar uma vez por mês já basta para a visão mensal.
 
+No **Sumário**, o *Histórico mensal* decompõe a variação do saldo de cada mês:
+**Variação = Aportes + Saques + Valorização**, com a rentabilidade do mês ao lado. Para o
+investsh separar aporte de rendimento, registre depósitos e resgates com **Registrar aporte**
+e **Registrar saque** (em vez de só atualizar o saldo).
+
 ## Privacidade
 
 - O investsh só lê e escreve arquivos locais. As únicas chamadas de rede são as cotações

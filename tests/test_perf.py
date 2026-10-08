@@ -172,3 +172,56 @@ def test_pct_cdi_minimum_days(end, shown):
     cdi[date(2026, 3, 1)] = 0.05
     row = perf.summary(hist, cdi, None, today=date(2026, 3, 2))['since_start']
     assert (row['pct_cdi'] is not None) is shown
+
+
+# ── Histórico mensal: variação = aportes + saques + valorização ──────────────
+
+def test_monthly_breakdown():
+    hist = [
+        snap('2026-01-20', 1000, 1000),
+        snap('2026-02-05', 1300, 1300),   # aporte 300, sem rendimento
+        snap('2026-02-20', 1110, 1100),   # saque 200; rendimento 10
+        snap('2026-03-20', 1120, 1100),   # rendimento 10
+    ]
+    rows = {r['month']: r for r in perf.monthly(hist)}
+    jan, feb, mar = rows['2026-01'], rows['2026-02'], rows['2026-03']
+    assert jan['total'] == 1000 and jan['change'] is None and not jan['has_flows']
+    assert feb['total'] == 1110 and feb['change'] == 110
+    assert feb['contributions'] == 300 and feb['withdrawals'] == -200
+    assert feb['gain'] == pytest.approx(10)
+    assert feb['change'] == pytest.approx(feb['contributions'] + feb['withdrawals'] + feb['gain'])
+    assert feb['r'] == pytest.approx((1 + 0) * (1 + 10 / (1300 - 100)) - 1)
+    assert mar['contributions'] == 0 and mar['withdrawals'] == 0 and mar['gain'] == pytest.approx(10)
+
+
+def test_monthly_dollar_move_is_gain_not_withdrawal():
+    hist = [snap('2026-09-14', 1500, 1000 + 100 * 5.0, usd=100, rate=5.0),
+            snap('2026-10-07', 1450, 1000 + 100 * 4.5, usd=100, rate=4.5)]
+    oct_ = perf.monthly(hist)[-1]
+    assert oct_['contributions'] == 0 and oct_['withdrawals'] == 0
+    assert oct_['gain'] == pytest.approx(-50)       # perda com o dólar é rendimento negativo
+
+
+def test_monthly_without_cost_basis_shows_only_change():
+    hist = [snap('2026-07-15', 1000), snap('2026-08-15', 1050), snap('2026-09-14', 1100, 1050),
+            snap('2026-10-07', 1110, 1050)]
+    rows = {r['month']: r for r in perf.monthly(hist)}
+    assert rows['2026-08']['change'] == 50 and not rows['2026-08']['has_flows']
+    assert rows['2026-08']['r'] is None
+    # setembro: o save anterior (agosto) não tem custo → sem decomposição
+    assert rows['2026-09']['change'] == 50 and not rows['2026-09']['has_flows']
+    assert rows['2026-10']['has_flows'] and rows['2026-10']['gain'] == pytest.approx(10)
+
+
+def test_monthly_uses_last_save_of_each_month():
+    hist = [snap('2026-01-05', 1000, 1000), snap('2026-01-25', 1020, 1000), snap('2026-02-10', 1030, 1000)]
+    rows = perf.monthly(hist)
+    assert [r['month'] for r in rows] == ['2026-01', '2026-02']
+    assert rows[0]['total'] == 1020 and rows[1]['change'] == 10
+
+
+def test_invalid_dates_are_ignored():
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-13-01', 5000, 1000), snap(None, 1, 1),
+            snap('2026-02-01', 1010, 1000)]
+    assert [r['month'] for r in perf.monthly(hist)] == ['2026-01', '2026-02']
+    assert perf.periods(hist)[0]['r'] == pytest.approx(0.01)

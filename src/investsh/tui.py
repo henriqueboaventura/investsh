@@ -569,49 +569,47 @@ def run_tui(data, crypto_prices=None):
                         seg(f'  {maturity_text(a):<18}', col | (BOLD if col else 0)),
                         seg(f'  {brl_fmt(a["balance"]):>14}', 0),
                     ]))
-            # Monthly history table
+            # Histórico mensal: variação = aportes + saques + valorização
             hist_path = os.path.join(config.ROOT, 'data', 'history.json')
             try:
                 with open(hist_path, encoding='utf-8') as hf:
-                    history = json.load(hf)
-                monthly = monthly_summary(history)
-                if len(monthly) >= 1:
-                    out.append(row([]))
-                    out.append(row([seg('  Histórico mensal', CYN | BOLD)]))
-                    out.append(row([seg(
-                        f"  {'Mês':<8}  {'Total':>14}  {'Valorização':>13}  {'Aportes':>13}  {'%':>7}", DIM)]))
-                    out.append(row([seg('  ' + '─' * 63, DIM)]))
-                    recent = monthly[-12:]
-                    for i, h in enumerate(reversed(recent)):
-                        prev_h = recent[len(recent) - i - 2] if i < len(recent) - 1 else None
-                        prev_t = prev_h['total'] if prev_h else h['total']
-                        dt   = h.get('date', '—')[:7]
-                        tot  = h.get('total', 0)
-                        md   = tot - prev_t
-                        mp   = md / prev_t * 100 if prev_t else 0
-                        mc2  = GRN if md >= 0 else RED
-                        ps   = f'{mp:+.1f}%'
-
-                        if prev_h is not None and 'totalInvested' in h and 'totalInvested' in prev_h:
-                            aportes     = h['totalInvested'] - prev_h['totalInvested']
-                            valorizacao = md - aportes
-                            vc2  = GRN if valorizacao >= 0 else RED
-                            apc  = GRN if aportes     >= 0 else RED
-                            vs   = f'{("+" if valorizacao>=0 else "")}{brl_fmt(valorizacao)}'
-                            aps  = f'{("+" if aportes>=0 else "")}{brl_fmt(aportes)}'
-                        else:
-                            vc2, apc = DIM, DIM
-                            vs, aps  = f'{("+" if md>=0 else "")}{brl_fmt(md)}', 's/dados'
-
-                        out.append(row([
-                            seg(f'  {dt:<8}', 0),
-                            seg(f'  {brl_fmt(tot):>14}', 0),
-                            seg(f'  {vs:>13}', vc2 if i > 0 else DIM),
-                            seg(f'  {aps:>13}', apc if i > 0 else DIM),
-                            seg(f'  {ps:>7}', mc2 if i > 0 else DIM),
-                        ]))
+                    months = perf.monthly(json.load(hf))[-12:]
             except (FileNotFoundError, json.JSONDecodeError):
-                pass
+                months = []
+            if months:
+                def cents(v):   # resíduos de ponto flutuante (ex.: -0,0000001) viram 0
+                    return None if v is None else (round(v, 2) or 0.0)
+
+                def money(v):
+                    v = cents(v)
+                    return '—' if v is None else f'{"+" if v > 0 else ""}{brl_fmt(v)}'
+
+                def sign_col(v):
+                    v = cents(v)
+                    return DIM if v is None else (GRN if v >= 0 else RED)
+
+                out.append(row([]))
+                out.append(row([seg('  Histórico mensal', CYN | BOLD)]))
+                out.append(row([seg(
+                    f"  {'Mês':<8}  {'Saldo':>14}  {'Variação':>14}  {'Aportes':>13}  {'Saques':>13}"
+                    f"  {'Valorização':>14}  {'Rentab.':>7}", DIM)]))
+                out.append(row([seg('  ' + '─' * 101, DIM)]))
+                for m in reversed(months):
+                    r = '—' if m['r'] is None else f"{m['r'] * 100:+.1f}%"
+                    out.append(row([
+                        seg(f"  {m['month']:<8}", 0),
+                        seg(f"  {brl_fmt(m['total']):>14}", 0),
+                        seg(f"  {money(m['change']):>14}", sign_col(m['change'])),
+                        seg(f"  {money(m['contributions']):>13}",
+                            CYN if cents(m['contributions']) else DIM),
+                        seg(f"  {money(m['withdrawals']):>13}",
+                            YLW if cents(m['withdrawals']) else DIM),
+                        seg(f"  {money(m['gain']):>14}", sign_col(m['gain'])),
+                        seg(f"  {r:>7}", sign_col(m['r'])),
+                    ]))
+                if any(m['change'] is not None and not m['has_flows'] for m in months):
+                    out.append(row([seg('  — meses antes do custo total ser registrado nos saves: '
+                                        'só saldo e variação', DIM)]))
 
             # Projection milestones
             p      = data.get('projectionParams', {})
