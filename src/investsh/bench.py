@@ -4,6 +4,9 @@ Séries: 12 = CDI diário (% ao dia), 433 = IPCA mensal (% no mês). O cache fic
 $XDG_CACHE_HOME/investsh (padrão ~/.cache/investsh), fora da pasta de dados, e vale
 12 horas. Sem internet, usa o cache mesmo antigo; sem cache, o indicador fica
 indisponível e a tela mostra só a carteira.
+
+A API às vezes leva dezenas de segundos para responder: a TUI lê só o cache
+(offline=True) e busca em segundo plano.
 """
 import json
 import os
@@ -48,13 +51,17 @@ def _not_found(body):
     return b'not found' in body.lower()
 
 
-def _rows(name, start, today):
+def _rows(name, start, today, offline=False):
     path = os.path.join(cache_dir(), f'{name}.json')
     try:
         with open(path, encoding='utf-8') as f:
             cached = json.load(f)
     except (FileNotFoundError, ValueError):
         cached = None
+    if offline:
+        # Só o cache, mesmo antigo, desde que cubra o início pedido
+        ok = cached and cached.get('start', '9999') <= start.isoformat()
+        return cached['rows'] if ok else None
     if (cached and cached.get('start', '9999') <= start.isoformat()
             and cached.get('end') == today.isoformat()
             and time.time() - cached.get('fetched_at', 0) < MAX_AGE):
@@ -77,15 +84,15 @@ def _date(s):
     return date(int(y), int(m), int(d))
 
 
-def cdi(start, today):
+def cdi(start, today, offline=False):
     """{data: CDI do dia em %} desde `start`, ou None se indisponível."""
-    rows = _rows('cdi', start, today)
+    rows = _rows('cdi', start, today, offline)
     return None if rows is None else {_date(r['data']): float(r['valor']) for r in rows}
 
 
-def ipca(start, today):
+def ipca(start, today, offline=False):
     """{(ano, mês): IPCA do mês em %} desde o mês de `start`, ou None se indisponível."""
-    rows = _rows('ipca', date(start.year, start.month, 1), today)
+    rows = _rows('ipca', date(start.year, start.month, 1), today, offline)
     if rows is None:
         return None
     out = {}

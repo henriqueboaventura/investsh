@@ -228,8 +228,12 @@ def flow_log(data=None):
     return data.get('flows') or [], data.get('flowsSince')
 
 
-def load(today):
-    """Lê o histórico da pasta de dados e busca CDI/IPCA. Retorna (resumo, nota)."""
+def load(today, offline=False, loading=False):
+    """Lê o histórico da pasta de dados e busca CDI/IPCA. Retorna (resumo, nota).
+
+    offline=True: CDI/IPCA só do cache (não acessa a rede). loading=True: há uma
+    busca em andamento, e a nota diz isso em vez de "indisponível".
+    """
     import json
     import os
     from . import bench, config
@@ -243,11 +247,15 @@ def load(today):
     if not ps:
         return None, None
     start = ps[0]['start']
-    cdi, ipca = bench.cdi(start, today), bench.ipca(start, today)
+    cdi, ipca = bench.cdi(start, today, offline), bench.ipca(start, today, offline)
     missing = [n for n, v in (('CDI', cdi), ('IPCA', ipca)) if v is None]
-    note = None if not missing else \
-        f'{"/".join(missing)} indisponíve{"is" if len(missing) > 1 else "l"} ' \
-        f'(sem conexão com o Banco Central e sem cache)'
+    if not missing:
+        note = None
+    elif loading:
+        note = f'{"/".join(missing)}: buscando no Banco Central…'
+    else:
+        note = f'{"/".join(missing)} indisponíve{"is" if len(missing) > 1 else "l"} ' \
+               f'(sem conexão com o Banco Central e sem cache)'
     return summary(history, cdi, ipca, today, flows, since), note
 
 
@@ -303,5 +311,5 @@ def table(s, note=None):
     lines.append([('Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA '
                    'no mesmo período (Banco Central).', 'dim')])
     if note:
-        lines.append([(note, 'neg')])
+        lines.append([(note, 'dim' if note.endswith('…') else 'neg')])
     return lines

@@ -131,7 +131,8 @@ que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/histo
 - entre dois saves, o rendimento desconta o dinheiro que entrou e saiu da carteira no
   período (método de Dietz modificado: aportes contam pela metade do período);
 - CDI e IPCA vêm da API pública do Banco Central, acumulados exatamente no mesmo período,
-  e ficam em cache por 12 horas em `~/.cache/investsh` (sem internet, usa o cache);
+  e ficam em cache por 12 horas em `~/.cache/investsh` (sem internet, usa o cache). A
+  busca roda em segundo plano: a tela não trava se o Banco Central demorar;
 - o IPCA de um mês só sai no mês seguinte: meses ainda não divulgados aparecem com `*`.
 
 Salvar uma vez por mês já basta para a visão mensal. No **Sumário**, o *Histórico mensal*

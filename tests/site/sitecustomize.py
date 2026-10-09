@@ -5,7 +5,8 @@ sitecustomize ao iniciar qualquer processo, inclusive os que o investsh abre
 em segundo plano. Antes do código do investsh rodar, ele:
 - congela data/hora em INVESTSH_TEST_NOW (ISO 8601);
 - substitui urllib.request.urlopen por respostas fixas de cotação
-  (INVESTSH_TEST_RATES=ok | fail);
+  (INVESTSH_TEST_RATES=ok | fail) e do Banco Central (INVESTSH_TEST_BCB_DELAY
+  simula a API lenta);
 - opcionalmente grava as chamadas de desenho do matplotlib em
   INVESTSH_TEST_PLOTLOG (JSON), em vez de depender dos pixels do PNG;
 - simula matplotlib ausente (INVESTSH_TEST_NO_MPL) ou ruído em stderr
@@ -88,6 +89,9 @@ def _install():
         if os.environ.get('INVESTSH_TEST_RATES', 'ok') == 'fail':
             raise urllib.error.URLError('rede desligada nos testes')
         if 'api.bcb.gov.br' in url:
+            # API lenta (às vezes leva dezenas de segundos): INVESTSH_TEST_BCB_DELAY=segundos
+            import time
+            time.sleep(float(os.environ.get('INVESTSH_TEST_BCB_DELAY', 0)))
             rows = fake_bcb(url)
             if not rows:
                 # Como a API real: período sem dados → erro "Value(s) not found", às vezes

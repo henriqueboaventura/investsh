@@ -229,6 +229,26 @@ def test_edge_dataset(app, tui_factory):
     finish(app, t, 'edge')
 
 
+def test_slow_central_bank_does_not_freeze(demo, tui_factory):
+    # A API do Banco Central às vezes leva dezenas de segundos: a busca de CDI/IPCA
+    # roda em segundo plano e as teclas continuam respondendo
+    import time
+    t = tui_factory(INVESTSH_TEST_BCB_DELAY='4')
+    start = time.time()
+    t.press('r', until='buscando no Banco Central')
+    assert 'Desde 01/10/2025' in t.text()                  # carteira já calculada
+    t.press('a', until='Categoria/Sub')
+    t.press('r', until='buscando no Banco Central')
+    assert time.time() - start < 3
+    while 'buscando' in t.text():                           # redesenha sozinha ao terminar
+        assert time.time() - start < 30, t.text()
+        t.settle(quiet=0.3)
+    assert 'indisponíve' not in t.text()
+    assert '+13.94%' in t.text()                            # CDI do período preenchido
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
 def test_rates_unavailable(demo, tui_factory):
     t = tui_factory(INVESTSH_TEST_RATES='fail')
     t.snap('Sumário sem cotações')

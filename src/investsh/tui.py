@@ -33,6 +33,16 @@ def run_tui(data, crypto_prices=None):
     dirty        = [False]  # True quando há alterações não salvas
     pending_sync = [None]   # {'job', 'msg'}: commit/push rodando em segundo plano
 
+    # CDI/IPCA do Banco Central: a API às vezes leva dezenas de segundos. A busca roda
+    # numa thread desde a abertura; a aba Rentabilidade lê o cache e se redesenha no fim.
+    import threading
+    def _fetch_benchmarks():
+        try:
+            perf.load(_dt.date.today())
+        except Exception:
+            pass   # sem rede etc.: a aba mostra "indisponível"; nada vai para a tela
+    bench_fetch = threading.Thread(target=_fetch_benchmarks, daemon=True)
+
     # Avisos ao abrir: vencimentos próximos e commits que não chegaram ao remoto
     import datetime as _dt
     warnings = []
@@ -688,7 +698,8 @@ def run_tui(data, crypto_prices=None):
 
         def build_perf():
             import datetime as _dt
-            summary, note = perf.load(_dt.date.today())
+            summary, note = perf.load(_dt.date.today(), offline=True,
+                                      loading=bench_fetch.is_alive())
             kinds = {'title': CYN | BOLD, 'header': DIM, 'sep': DIM, 'label': 0,
                      'pos': GRN, 'neg': RED, 'dim': DIM}
             out = [row([])]
@@ -1045,10 +1056,20 @@ def run_tui(data, crypto_prices=None):
             elif li >= scrolls[t] + ch:
                 scrolls[t] = li - ch + 1
 
+        bench_fetch.start()
+        bench_pending = [True]
         refresh()
 
         # ── draw / event loop ─────────────────────────────────────────────────
         while True:
+            # CDI/IPCA chegaram: redesenha a Rentabilidade sem perder a rolagem
+            if bench_pending[0] and not bench_fetch.is_alive():
+                bench_pending[0] = False
+                if tab[0] == 'r':
+                    keep = scrolls['r']
+                    refresh()
+                    scrolls['r'] = min(keep, max(0, len(lines[0]) - 1))
+
             # Resultado do commit/push em segundo plano, quando terminar
             if pending_sync[0]:
                 st = sync.read_state()
@@ -1105,8 +1126,7 @@ def run_tui(data, crypto_prices=None):
             end = min(scroll + content_h, n)
             pos = f' {scroll+1}-{end}/{n} '
             if status_msg[0]:
-                hint = f' {status_msg[0]}'
-                status_msg[0] = ''
+                hint = f' {status_msg[0]}'   # fica até a próxima tecla
             elif srch_act[0]:
                 hint = f' Buscar: {search[0]}█  Esc limpar  Enter confirmar'
             elif t == 'd':
@@ -1120,13 +1140,14 @@ def run_tui(data, crypto_prices=None):
             except curses.error: pass
 
             stdscr.refresh()
-            # Com envio pendente, acorda a cada 250 ms para atualizar a barra
-            stdscr.timeout(250 if pending_sync[0] else -1)
+            # Com envio ou busca pendente, acorda a cada 250 ms para atualizar a tela
+            stdscr.timeout(250 if pending_sync[0] or bench_pending[0] else -1)
             try:
                 key, kchar = read_key(stdscr)
             except curses.error:   # timeout sem tecla
                 continue
             stdscr.timeout(-1)
+            status_msg[0] = ''
 
             # ── search mode ───────────────────────────────────────────────────
             if srch_act[0]:
