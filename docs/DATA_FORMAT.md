@@ -40,6 +40,8 @@ variação de `totalInvested` no histórico.
 
 - `amount` — valor em R$ (ativos em dólar: convertido pela cotação do dia).
 - `usd` — opcional, o valor em dólar do lançamento.
+- `kind` — opcional; `"provento"` para dividendo/cupom pago fora da carteira (*Registrar
+  provento*): conta como saída, mas aparece em coluna própria no histórico mensal.
 - Um lançamento com a data de um save já está na foto daquele dia.
 
 ### `idealAllocation`

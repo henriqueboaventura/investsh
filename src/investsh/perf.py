@@ -31,8 +31,9 @@ def _day(s):
 def periods(history, flows=None, since=None):
     """Períodos entre fotos consecutivas com aporte conhecido.
 
-    `flows` = lançamentos [{date, amount}] (+ aporte, - saque), completos a partir da
-    data `since` (AAAA-MM-DD). Cada período tem flow (líquido), inflow e outflow.
+    `flows` = lançamentos [{date, amount, kind?}] (+ aporte, - saque), completos a partir
+    da data `since` (AAAA-MM-DD). Cada período tem flow (líquido), inflow, outflow e
+    dividends (proventos pagos para fora, kind='provento'; ficam fora de outflow).
     """
     since = _day(since) if since else None
     by_date = {}
@@ -44,24 +45,25 @@ def periods(history, flows=None, since=None):
     for f in flows or []:
         d = _day(f.get('date'))
         if d and isinstance(f.get('amount'), (int, float)):
-            events.append((d, f['amount']))
+            events.append((d, f['amount'], f.get('kind') == 'provento'))
     snaps = [by_date[d] for d in sorted(by_date)]
     out = []
     for a, b in zip(snaps, snaps[1:]):
         start, end = _day(a['date']), _day(b['date'])
         if since and start >= since:
             # Lançamento no dia de uma foto já está nela (aporte, depois save)
-            amounts = [v for d, v in events if start < d <= end]
-            inflow = sum(v for v in amounts if v > 0)
-            outflow = sum(v for v in amounts if v < 0)
-            flow = inflow + outflow
+            amounts = [(v, prov) for d, v, prov in events if start < d <= end]
+            inflow = sum(v for v, prov in amounts if v > 0 and not prov)
+            outflow = sum(v for v, prov in amounts if v < 0 and not prov)
+            dividends = sum(v for v, prov in amounts if prov)
+            flow = inflow + outflow + dividends
         elif a.get('totalInvested') is not None and b.get('totalInvested') is not None:
             flow = b['totalInvested'] - a['totalInvested']
             # Custo de ativos em dólar é guardado em R$ pela cotação do dia: a variação
             # cambial do custo não é aporte e sai do fluxo.
             if a.get('totalInvestedUSD') is not None and a.get('dollarRate') and b.get('dollarRate'):
                 flow -= a['totalInvestedUSD'] * (b['dollarRate'] - a['dollarRate'])
-            inflow, outflow = max(flow, 0.0), min(flow, 0.0)
+            inflow, outflow, dividends = max(flow, 0.0), min(flow, 0.0), 0.0
         else:
             continue
         base = a['total'] + flow / 2
@@ -69,6 +71,7 @@ def periods(history, flows=None, since=None):
             continue
         out.append({
             'start': start, 'end': end, 'flow': flow, 'inflow': inflow, 'outflow': outflow,
+            'dividends': dividends,
             'r': (b['total'] - a['total'] - flow) / base,
         })
     return out
@@ -170,8 +173,9 @@ def summary(history, cdi, ipca, today, flows=None, since=None):
 def monthly(history, flows=None, since=None):
     """Histórico mês a mês (último save de cada mês), com a variação decomposta.
 
-    Variação = aportes + saques + valorização, entre o último save do mês anterior e o
-    último do mês. Só há decomposição se todos os períodos do mês têm aporte conhecido
+    Variação = aportes + saques + proventos + valorização, entre o último save do mês
+    anterior e o último do mês (proventos pagos para fora são negativos: saíram da
+    carteira, mas fazem parte do rendimento). Só há decomposição se todos os períodos do mês têm aporte conhecido
     (ver periods).
     """
     by_date = {}
@@ -188,7 +192,8 @@ def monthly(history, flows=None, since=None):
         snaps = by_month[month]
         end = snaps[-1]
         row = {'month': month, 'total': end['total'], 'change': None, 'has_flows': False,
-               'contributions': None, 'withdrawals': None, 'gain': None, 'r': None}
+               'contributions': None, 'withdrawals': None, 'dividends': None, 'gain': None,
+               'r': None}
         if prev is not None:
             row['change'] = end['total'] - prev['total']
             chain = [prev] + snaps
@@ -196,7 +201,9 @@ def monthly(history, flows=None, since=None):
             if len(ps) == len(chain) - 1:
                 row['contributions'] = sum(p['inflow'] for p in ps)
                 row['withdrawals'] = sum(p['outflow'] for p in ps)
-                row['gain'] = row['change'] - row['contributions'] - row['withdrawals']
+                row['dividends'] = sum(p['dividends'] for p in ps)
+                row['gain'] = (row['change'] - row['contributions'] - row['withdrawals']
+                               - row['dividends'])
                 growth = 1.0
                 for p in ps:
                     growth *= 1 + p['r']

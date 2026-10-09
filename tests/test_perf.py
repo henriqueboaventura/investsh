@@ -293,3 +293,19 @@ def test_record_flow_and_start_flow_log():
     data['lastUpdated'] = '2026-11-01'
     core.start_flow_log(data)
     assert data['flowsSince'] == '2026-10-06'      # não avança depois de iniciado
+
+
+def test_dividends_paid_out_count_as_return():
+    # FII de 1000 paga 10 de provento: o saldo cai para 990, mas rendeu 0 (não -1%)
+    hist = [snap('2026-01-01', 1000), snap('2026-02-01', 990)]
+    prov = [{'date': '2026-01-15', 'amount': -10, 'kind': 'provento'}]
+    [p] = perf.periods(hist, prov, since='2026-01-01')
+    assert p['dividends'] == -10 and p['outflow'] == 0 and p['r'] == pytest.approx(0, abs=1e-12)
+    [_, feb] = perf.monthly(hist, prov, since='2026-01-01')
+    assert feb['dividends'] == -10 and feb['withdrawals'] == 0 and feb['gain'] == pytest.approx(0)
+
+
+def test_record_flow_kind():
+    data = {'investments': []}
+    core.record_flow(data, {'name': 'KNRI11', 'broker': 'XP'}, -68.2, kind='provento')
+    assert data['flows'][0]['kind'] == 'provento' and data['flows'][0]['amount'] == -68.2

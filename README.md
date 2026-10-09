@@ -146,9 +146,14 @@ O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investmen
 | Ação | Conta como |
 |---|---|
 | **Registrar aporte** / **Registrar saque** | aporte / saque, pelo valor em dinheiro |
+| **Registrar provento** (dividendo, cupom pago na conta) | provento: saiu da carteira, mas é rendimento; o saldo não muda |
 | **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
 | **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
 | **Atualizar saldo** (inclusive quantidade de cripto) | valorização |
+
+Provento que você reinveste (no mesmo ativo ou em outro) é um *Registrar aporte* normal,
+depois do *Registrar provento*. Quando há proventos, o *Histórico mensal* ganha a coluna
+**Proventos**.
 
 Ou seja: depósitos e resgates de verdade passam por *Registrar aporte/saque*; mover dinheiro
 entre ativos pode ser só atualizar os saldos (a soma não muda). Compra de cripto com dinheiro

@@ -274,18 +274,23 @@ def history_snapshot(data, total):
     }
 
 
-def record_flow(data, inv, amount, usd=None):
+def record_flow(data, inv, amount, usd=None, kind=None):
     """Registra dinheiro entrando (+, aporte) ou saindo (-, saque) da carteira.
 
     Fica em data['flows'] e vai para o disco no save. A rentabilidade (perf.py) usa
     esses lançamentos para separar aporte de rendimento: só o que passa por aqui conta
     como dinheiro novo; atualizar saldo é sempre rendimento (ou transferência entre ativos).
+
+    Provento (dividendo, cupom) pago na conta corrente é uma saída com kind='provento':
+    o saldo do ativo já caiu sozinho, e sem o lançamento essa queda contaria como perda.
     """
     from datetime import date as _date
     flow = {'date': _date.today().isoformat(), 'name': inv.get('name', ''),
             'broker': inv.get('broker', ''), 'amount': round(amount, 2)}
     if usd is not None:
         flow['usd'] = round(usd, 4)
+    if kind:
+        flow['kind'] = kind   # 'provento': dividendo/cupom pago para fora da carteira
     data.setdefault('flows', []).append(flow)
     return flow
 

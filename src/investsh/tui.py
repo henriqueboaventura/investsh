@@ -254,6 +254,20 @@ def run_tui(data, crypto_prices=None):
             dirty[0] = True
         return True
 
+    def act_provento(stdscr, inv):
+        """Dividendo/cupom pago fora da carteira: só o lançamento, o saldo não muda."""
+        if 'investedUSD' in inv:
+            val = curs_input(stdscr, f'Provento USD  {inv["name"][:28]}', default=0.0, numeric=True)
+            if val is None or val <= 0: return False
+            dol = data.get('dollarRate', 1)
+            record_flow(data, inv, -val * dol, usd=-val, kind='provento')
+        else:
+            val = curs_input(stdscr, f'Provento R$  {inv["name"][:31]}', default=0.0, numeric=True)
+            if val is None or val <= 0: return False
+            record_flow(data, inv, -val, kind='provento')
+        dirty[0] = True
+        return True
+
     def act_delete(stdscr, inv):
         if inv.get('balance'):
             # Saldo que sai da carteira é saque; se foi para outro ativo, não
@@ -605,7 +619,7 @@ def run_tui(data, crypto_prices=None):
                         seg(f'  {maturity_text(a):<18}', col | (BOLD if col else 0)),
                         seg(f'  {brl_fmt(a["balance"]):>14}', 0),
                     ]))
-            # Histórico mensal: variação = aportes + saques + valorização
+            # Histórico mensal: variação = aportes + saques (+ proventos) + valorização
             hist_path = os.path.join(config.ROOT, 'data', 'history.json')
             try:
                 with open(hist_path, encoding='utf-8') as hf:
@@ -624,12 +638,15 @@ def run_tui(data, crypto_prices=None):
                     v = cents(v)
                     return DIM if v is None else (GRN if v >= 0 else RED)
 
+                # Coluna de proventos só quando há algum no período mostrado
+                with_div = any(cents(m.get('dividends')) for m in months)
                 out.append(row([]))
                 out.append(row([seg('  Histórico mensal', CYN | BOLD)]))
                 out.append(row([seg(
                     f"  {'Mês':<8}  {'Saldo':>14}  {'Variação':>14}  {'Aportes':>13}  {'Saques':>13}"
-                    f"  {'Valorização':>14}  {'Rentab.':>7}", DIM)]))
-                out.append(row([seg('  ' + '─' * 101, DIM)]))
+                    + (f"  {'Proventos':>13}" if with_div else '')
+                    + f"  {'Valorização':>14}  {'Rentab.':>7}", DIM)]))
+                out.append(row([seg('  ' + '─' * (116 if with_div else 101), DIM)]))
                 for m in reversed(months):
                     r = '—' if m['r'] is None else f"{m['r'] * 100:+.1f}%"
                     out.append(row([
@@ -640,12 +657,17 @@ def run_tui(data, crypto_prices=None):
                             CYN if cents(m['contributions']) else DIM),
                         seg(f"  {money(m['withdrawals']):>13}",
                             YLW if cents(m['withdrawals']) else DIM),
+                    ] + ([seg(f"  {money(m['dividends']):>13}",
+                              YLW if cents(m['dividends']) else DIM)] if with_div else []) + [
                         seg(f"  {money(m['gain']):>14}", sign_col(m['gain'])),
                         seg(f"  {r:>7}", sign_col(m['r'])),
                     ]))
                 if any(m['change'] is not None and not m['has_flows'] for m in months):
                     out.append(row([seg('  — meses antes do custo total ser registrado nos saves: '
                                         'só saldo e variação', DIM)]))
+                if with_div:
+                    out.append(row([seg('  Proventos: dividendos e cupons pagos na conta corrente '
+                                        '(saíram da carteira; o rendimento está na valorização)', DIM)]))
 
             # Projection milestones
             p      = data.get('projectionParams', {})
@@ -1243,6 +1265,7 @@ def run_tui(data, crypto_prices=None):
                 if inv.get('category') != 'Crypto':
                     options.append(('a', 'Registrar aporte'))
                     options.append(('s', 'Registrar saque'))
+                    options.append(('p', 'Registrar provento (dividendo, cupom)'))
                 options += [('x', 'Excluir'), ('c', 'Cancelar')]
                 choice = popup_menu(stdscr, inv['name'][:32], options)
                 if choice == 'u':
@@ -1251,6 +1274,9 @@ def run_tui(data, crypto_prices=None):
                     if act_aporte(stdscr, inv): refresh()
                 elif choice == 's':
                     if act_saque(stdscr, inv): refresh()
+                elif choice == 'p':
+                    if act_provento(stdscr, inv):
+                        status_msg[0] = '✓ Provento registrado (o saldo não muda)'; refresh()
                 elif choice == 'x':
                     if act_delete(stdscr, inv):
                         det_sel[0] = max(0, det_sel[0] - 1); refresh()

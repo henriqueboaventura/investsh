@@ -109,6 +109,30 @@ def test_asset_actions_and_save(demo, tui_factory):
     finish(demo, t, 'asset_actions')
 
 
+def test_provento(demo, tui_factory):
+    # Provento pago na conta: só o lançamento; o saldo do FII não muda
+    import json
+    path = demo.root / 'data' / 'investments.json'
+    data = json.loads(path.read_text(encoding='utf-8'))
+    data['flowsSince'] = '2026-10-01'          # lançamentos valendo desde o save de 01/10
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+    t = tui_factory()
+    t.press('d', '/').type('papl11').press('enter', 'enter').snap('popup do FII')
+    t.press('p').snap('campo do provento')
+    t.fill('72,5').snap('provento registrado')
+    t.press('w', 's', until='✓ Salvo')
+    t.press('s', 'G').snap('Sumário com coluna de proventos')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = json.loads(path.read_text(encoding='utf-8'))
+    [flow] = data['flows']
+    assert flow['name'] == 'FII Papel Exemplo (PAPL11)' and flow['amount'] == -72.5
+    assert flow['kind'] == 'provento'
+    fii = next(i for i in data['investments'] if i['name'] == flow['name'])
+    assert fii['balance'] == 7255.10
+    finish(demo, t, 'provento', with_data=False)
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')
