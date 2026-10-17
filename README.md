@@ -31,6 +31,12 @@ Requisito: **Python 3.9+** (macOS ou Linux; no Windows, use o WSL). Instale com
 pipx install git+https://github.com/henriqueboaventura/investsh.git
 ```
 
+Para atualizar depois para a [última versão](https://github.com/henriqueboaventura/investsh/releases):
+
+```bash
+pipx upgrade investsh
+```
+
 Depois é só rodar, de qualquer pasta:
 
 ```bash
@@ -279,6 +285,28 @@ python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
 ```
 
 Detalhes em [tests/README.md](tests/README.md).
+
+### Versões e releases
+
+O investsh segue o [versionamento semântico](https://semver.org/lang/pt-BR/). A versão fica
+em `__version__`, no [`src/investsh/__init__.py`](src/investsh/__init__.py), e sobe no mesmo
+commit da mudança:
+
+| Mudança | Versão | Exemplo |
+|---|---|---|
+| Correção de bug | patch (`0.2.0` → `0.2.1`) | save que gravava o saldo anterior errado |
+| Funcionalidade ou mudança compatível | minor (`0.2.1` → `0.3.0`) | nova ação na TUI, novo campo opcional |
+| Mudança incompatível | major (`0.3.0` → `1.0.0`) | formato de dados que os arquivos antigos não carregam, opção removida |
+
+Cada versão publicada ganha uma tag `vX.Y.Z` e uma
+[release no GitHub](https://github.com/henriqueboaventura/investsh/releases) com o que mudou:
+
+```bash
+git tag -a v0.2.1 -m v0.2.1 && git push origin v0.2.1
+gh release create v0.2.1 --verify-tag --title v0.2.1 --notes "..."
+```
+
+Sem a mudança de versão, o `pipx upgrade investsh` não instala os commits novos.
 
 ## Aviso
 
