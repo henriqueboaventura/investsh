@@ -4,7 +4,7 @@ from datetime import datetime
 
 from . import config, sync
 from .term import G, R, Y, C, W, DIM, RST, BLD, fmt, ask_yes, print_header
-from .core import brl_fmt, history_snapshot, start_flow_log
+from .core import asset_key, brl_fmt, history_snapshot, start_flow_log
 from .image import generate_status_image
 
 
@@ -24,7 +24,7 @@ def do_save_tui(data, total_before, pre_balances):
     data['lastUpdated'] = datetime.now().strftime('%Y-%m-%d')
 
     for inv in invs:
-        prev = pre_balances.get(inv['name'])
+        prev = pre_balances.get(asset_key(inv))
         if prev is None:
             inv.setdefault('previousBalance', inv['balance'])
         elif round(inv['balance'], 4) != round(prev, 4):
@@ -82,7 +82,7 @@ def do_save(data, total_before, pre_balances):
     # Só atualiza previousBalance quando o saldo mudou; ativos inalterados
     # mantêm o previousBalance anterior para que a variação acumulada apareça.
     for inv in data['investments']:
-        prev = pre_balances.get(inv['name'])
+        prev = pre_balances.get(asset_key(inv))
         if prev is None:
             # Ativo novo adicionado nesta sessão
             inv.setdefault('previousBalance', inv['balance'])

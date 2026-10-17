@@ -72,7 +72,7 @@ Campos comuns:
 
 | Campo | Obrigatório | Descrição |
 |---|---|---|
-| `name` | sim | Nome único do ativo |
+| `name` | sim | Nome do ativo; único por corretora (nome + `broker` identifica o ativo) |
 | `category` | sim | `CDB`, `LCA`, `LCI`, `RDB`, `Tesouro Direto`, `ETF`, `Fundo Imobiliário`, `Fundos de Investimento`, `Previdência Privada`, `Crypto` (ou outro texto) |
 | `type` | não | `POS`, `PRE`, `IPCA`, `Ouro` ou `null` |
 | `broker` | sim | Corretora/banco (`XP`, `Nubank`, `Nomad`, `Binance` têm cores próprias; outros funcionam) |

@@ -6,7 +6,7 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
-    maturity_alerts, record_flow,
+    maturity_alerts, record_flow, asset_key, balances_by_key,
 )
 from .storage import do_save_tui
 from . import perf
@@ -27,7 +27,7 @@ def run_tui(data, crypto_prices=None):
     import curses
     crypto_prices = crypto_prices or {}
 
-    pre_balances = {i['name']: i['balance'] for i in data['investments']}
+    pre_balances = balances_by_key(data['investments'])
     total_before = [sum(pre_balances.values())]
     status_msg   = ['']  # shown in bottom bar after save
     dirty        = [False]  # True quando há alterações não salvas
@@ -317,6 +317,9 @@ def run_tui(data, crypto_prices=None):
                                    [(str(i), b) for i, b in enumerate(BROKERS)])
         if broker_choice is None: return False
         broker = BROKERS[int(broker_choice)]
+        if any(asset_key(i) == (name, broker) for i in data['investments']):
+            status_msg[0] = f'✗ Já existe {name} na {broker}'
+            return False
 
         maturity_s = curs_input(stdscr, 'Vencimento YYYY-MM-DD  (Enter = nenhum)', default='')
         maturity = maturity_s.strip() if maturity_s else None
@@ -388,7 +391,7 @@ def run_tui(data, crypto_prices=None):
                 record_flow(data, new_inv, new_inv['balance'], usd=usd)
 
         data['investments'].append(new_inv)
-        pre_balances[name] = new_inv['balance']
+        pre_balances[asset_key(new_inv)] = new_inv['balance']
         dirty[0] = True
         return True
 
@@ -1191,7 +1194,7 @@ def run_tui(data, crypto_prices=None):
             def save_inplace():
                 ok, msg, job = do_save_tui(data, total_before[0], pre_balances)
                 pre_balances.clear()
-                pre_balances.update({i['name']: i['balance'] for i in data['investments']})
+                pre_balances.update(balances_by_key(data['investments']))
                 total_before[0] = sum(pre_balances.values())
                 dirty[0] = False
                 if job and config.AUTO_GIT:

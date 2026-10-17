@@ -208,6 +208,51 @@ def test_remove_multiple_assets(demo):
     # Bitcoin: saldo foi para outro ativo (n); Tesouro Selic: sacado (s)
     golden_run(demo, 'remove_multiple', ['6', f'{b},{a},{b}', 'n', 's', '0', 's'])
 
+# ── Mesmo nome em corretoras diferentes (chave = nome + corretora) ───────────
+
+TWIN = 'CDB Liquidez Diária Banco Exemplo'   # no exemplo, está na Nubank
+
+
+def add_twin_at_xp(app):
+    """Copia o ativo para a XP com outro saldo, no fim da lista."""
+    def fn(d):
+        twin = dict(next(i for i in d['investments'] if i['name'] == TWIN))
+        twin.update(broker='XP', balance=1000.0, previousBalance=990.0, invested=900.0)
+        d['investments'].append(twin)
+    app.edit(fn)
+
+
+def twins(app):
+    return {i['broker']: i for i in app.read('investments.json')['investments'] if i['name'] == TWIN}
+
+
+def test_save_keeps_previous_balance_of_same_name_in_other_broker(demo):
+    add_twin_at_xp(demo)
+    demo.menu(['0', 's'])
+    t = twins(demo)
+    assert t['Nubank']['previousBalance'] == 8344.37   # não vira o saldo do ativo da XP
+    assert t['XP']['previousBalance'] == 990.0
+
+
+def test_remove_keeps_same_name_in_other_broker(demo):
+    add_twin_at_xp(demo)
+    proc = demo.menu(['6', '', 'x'])
+    idx = next(re.match(r'\s*\[\s*(\d+)\]', l).group(1) for l in strip_ansi(proc.stdout).splitlines()
+               if re.match(r'\s*\[\s*\d+\]\s+XP\s+' + re.escape(TWIN), l))
+    demo.menu(['6', idx, 'n', '0', 's'])
+    assert list(twins(demo)) == ['Nubank']
+
+
+def test_add_refuses_same_name_and_broker(demo):
+    # Nome repetido na mesma corretora (Nubank = 1) é recusado; em outra (XP = 0), aceito
+    proc = demo.menu(['5', TWIN, '0', '0', '1',
+                      TWIN, '0', '0', '0', '', '0', '0', '0', '100', '100', 'n', '',
+                      '0', 's'])
+    assert f'Já existe {TWIN} na Nubank' in strip_ansi(proc.stdout)
+    assert sorted(twins(demo)) == ['Nubank', 'XP']
+    assert twins(demo)['Nubank']['balance'] == 8420.15
+
+
 def test_params(demo):
     answers = ['20000', '0,9', '', '7',            # FGTS, rendimento, aporte (mantém), FGTS a.a.
                '50', '', '12', '', '', '', '', '', '', '', '', '', '3', '',   # 14 metas

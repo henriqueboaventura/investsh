@@ -9,6 +9,7 @@ from .menu import (
 )
 from .tui import run_tui
 from .storage import do_save, first_run
+from .core import balances_by_key
 
 
 def run(menu=False):
@@ -21,7 +22,7 @@ def run(menu=False):
     if menu:
         # Modo texto clássico (útil em ambientes sem TTY ou para scripting)
         total_before = sum(i['balance'] for i in data['investments'])
-        pre_balances = {i['name']: i['balance'] for i in data['investments']}
+        pre_balances = balances_by_key(data['investments'])
 
         print(f'\n{BLD}{G}╔══════════════════════════════════════╗')
         print(f'║    investsh — Atualização Mensal     ║')

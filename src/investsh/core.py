@@ -47,6 +47,16 @@ GROUP_META = {
 }
 
 
+def asset_key(inv):
+    """Identifica o ativo: o mesmo nome pode existir em corretoras diferentes."""
+    return (inv.get('name', ''), inv.get('broker', ''))
+
+
+def balances_by_key(investments):
+    """Saldo de cada ativo por asset_key (base do previousBalance no save)."""
+    return {asset_key(i): i['balance'] for i in investments}
+
+
 def classify(inv):
     meta = GROUP_META.get(inv.get('allocationGroup'))
     if meta:

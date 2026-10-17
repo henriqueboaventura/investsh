@@ -7,7 +7,7 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, broker_monthly_series, sparkline, brl_fmt,
-    maturity_alerts, record_flow,
+    maturity_alerts, record_flow, asset_key,
 )
 from . import config, perf
 
@@ -88,6 +88,9 @@ def do_add(data, dolar):
         typ      = None if typ_s == '(nenhum)' else typ_s
         print(f'\n  {M}Corretora:{RST}')
         broker   = _ask_choice('Escolha', _BROKERS)
+        if any(asset_key(i) == (name, broker) for i in data['investments']):
+            print(f'  {R}✗ Já existe {name} na {broker}{RST}')
+            continue
         maturity = ask('  Vencimento (YYYY-MM-DD ou Enter para nenhum)', default=None)
 
         print(f'\n  {M}Indexador:{RST}')
@@ -367,13 +370,13 @@ def do_remove(data):
             x = x.strip()
             if x.isdigit():
                 idx = int(x)
-                if idx < len(sorted_invs) and sorted_invs[idx]['name'] not in to_remove:
-                    to_remove.append(sorted_invs[idx]['name'])
-        data['investments'] = [inv for inv in invs if inv['name'] not in to_remove]
-        by_name = {inv['name']: inv for inv in invs}
-        for n in to_remove:
-            print(f'  {R}✗ Removido: {n}{RST}')
-            inv = by_name[n]
+                if idx < len(sorted_invs) and sorted_invs[idx] not in to_remove:
+                    to_remove.append(sorted_invs[idx])
+        # Pela chave nome + corretora: o mesmo nome em outra corretora fica
+        keys = {asset_key(inv) for inv in to_remove}
+        data['investments'] = [inv for inv in invs if asset_key(inv) not in keys]
+        for inv in to_remove:
+            print(f'  {R}✗ Removido: {inv["name"]}{RST}')
             # Saldo que sai da carteira é saque; se foi para outro ativo, não
             if inv.get('balance') and ask_yes(
                     f'    Saldo de {fmt(inv["balance"])} foi sacado (saiu da carteira)?'):
