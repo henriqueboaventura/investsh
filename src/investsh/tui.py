@@ -11,7 +11,7 @@ from .core import (
     FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value,
 )
 from .storage import do_save_tui
-from . import perf
+from . import perf, estimate
 
 # Vencimentos a até tantos dias geram aviso ao abrir (a lista completa fica no Sumário)
 URGENT_DAYS = 30
@@ -209,6 +209,34 @@ def run_tui(data, crypto_prices=None):
         stdscr.refresh()
         return val
 
+    def estimator():
+        """Função inv → saldo estimado hoje ({'value', 'as_of'}) ou None.
+
+        CDI só do cache: com a busca no Banco Central ainda em andamento, ativos
+        em % do CDI ficam sem estimativa (os prefixados não precisam do CDI).
+        """
+        from . import bench
+        today = _dt.date.today()
+        try:
+            with open(os.path.join(config.ROOT, 'data', 'history.json'), encoding='utf-8') as hf:
+                history = json.load(hf)
+        except (OSError, ValueError):
+            history = []
+        starts = [estimate.as_of(i, history, today) for i in data['investments'] if estimate.supported(i)]
+        try:
+            cdi = bench.cdi(min(starts), today, offline=True) if starts else None
+        except Exception:
+            cdi = None
+        return lambda inv: estimate.estimate(inv, history, cdi, today)
+
+    def divergence_msg(inv, val, est):
+        """Aviso quando o saldo digitado foge do estimado (erro de digitação, ativo trocado)."""
+        diff = estimate.divergence(val, est)
+        if diff is None:
+            return None
+        return (f'⚠ {inv["name"][:30]}: {brl_fmt(val)} difere {diff * 100:+.1f}% do estimado '
+                f'({brl_fmt(est["value"])}): confira')
+
     # ── actions ───────────────────────────────────────────────────────────────
 
     def act_update_balance(stdscr, inv):
@@ -229,10 +257,14 @@ def run_tui(data, crypto_prices=None):
             inv['balance']    = round(val * data.get('dollarRate', 1), 4)
             dirty[0] = True
         else:
-            val = curs_input(stdscr, f'Saldo  {inv["name"][:33]}', default=inv['balance'], numeric=True)
+            est = estimator()(inv)
+            hint = f'  (estimado {brl_fmt(est["value"])})' if est else ''
+            val = curs_input(stdscr, f'Saldo  {inv["name"][:33]}{hint}', default=inv['balance'], numeric=True)
             if val is None: return False
+            changed = val != inv['balance']   # Enter mantém: não é um valor novo
             inv['balance'] = val
             dirty[0] = True
+            status_msg[0] = (divergence_msg(inv, val, est) if changed else None) or ''
         return True
 
     def act_aporte(stdscr, inv):
@@ -731,6 +763,8 @@ def run_tui(data, crypto_prices=None):
 
     def act_update_all(stdscr):
         invs  = sorted(data['investments'], key=sort_key)
+        est_of = estimator()   # antes de mudar saldos: a estimativa parte do saldo registrado
+        alerts = []
         dolar = data.get('dollarRate', 1)
         total = len(invs)
         BOLD  = curses.A_BOLD
@@ -777,6 +811,10 @@ def run_tui(data, crypto_prices=None):
                 put(f'Em BRL:  {brl_fmt(bal)}   (@ {dolar:.4f})', DIM)
             else:
                 put(f'Saldo atual:   {brl_fmt(bal)}')
+                est = est_of(inv)
+                if est:
+                    put(f'Estimado hoje: {brl_fmt(est["value"])}   '
+                        f'(taxa desde {est["as_of"].strftime("%d/%m")})', curses.color_pair(3))
                 if invested:
                     g  = bal - invested
                     gp = g / invested * 100 if invested else 0
@@ -825,9 +863,16 @@ def run_tui(data, crypto_prices=None):
                 inv['balanceUSD'] = val
                 inv['balance']    = round(val * dolar, 4)
             else:
+                est = est_of(inv)
+                msg = divergence_msg(inv, val, est) if val != inv['balance'] else None
                 inv['balance'] = val
+                if msg: alerts.append(msg)
             dirty[0] = True
 
+        if alerts:
+            status_msg[0] = alerts[0] if len(alerts) == 1 else \
+                f'⚠ {len(alerts)} saldos diferem mais de 1% do estimado: ' + '; '.join(
+                    a.split(':')[0].lstrip('⚠ ') for a in alerts)
         return True
 
     # ── main curses app ───────────────────────────────────────────────────────

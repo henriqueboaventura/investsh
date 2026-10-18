@@ -94,6 +94,13 @@ investsh
 | `w` | Salvar |
 | `q` | Sair |
 
+**Saldo estimado.** Para renda fixa em reais com taxa cadastrada (`rate` em % do CDI ou
+prefixada), a atualização de saldo mostra o **estimado hoje**: o último saldo registrado
+rendendo a taxa desde a data em que foi registrado (CDI diário do Banco Central; prefixado
+em dias úteis). Se o valor digitado diferir mais de 1% do estimado, a barra avisa: costuma
+ser erro de digitação ou de ativo. A estimativa é bruta (sem IR) e deixa de fora Tesouro
+Direto (preço de mercado), IPCA+ e ativos em dólar. Cadastre a taxa em *Editar dados*.
+
 Ao salvar:
 
 - `data/investments.json` é gravado e um snapshot vai para `data/history.json`
@@ -264,6 +271,7 @@ convertidos pela cotação do dia.
 │   ├── sync.py           # Imagem + commit/push (em segundo plano na TUI; `investsh sync`)
 │   ├── analyze.py        # Prompt de análise para IA
 │   ├── check.py          # `investsh check`: inconsistências nos dados
+│   ├── estimate.py       # Saldo estimado da renda fixa (% do CDI, prefixado)
 │   └── examples/         # Dados fictícios (ponto de partida)
 ├── tests/                # Testes de regressão (ver tests/README.md)
 └── docs/
