@@ -194,7 +194,6 @@ class App:
             'PYTHONPATH': os.pathsep.join([str(SITE), str(PKG_SRC)]),
             'PYTHONIOENCODING': 'utf-8',
             'PYTHONDONTWRITEBYTECODE': '1',
-            # do_remove itera um set: sem semente fixa a ordem das mensagens varia
             'PYTHONHASHSEED': '0',
             'MPLBACKEND': 'Agg',
             'MPLCONFIGDIR': str(MPL_CACHE),
@@ -220,13 +219,6 @@ class App:
             input=stdin, capture_output=True, text=True, cwd=self.root,
             env=self.env(**env), timeout=60,
         )
-        return proc
-
-    def menu(self, stdin, **env):
-        """Executa `finances --menu` com as respostas dadas (uma por linha)."""
-        if isinstance(stdin, (list, tuple)):
-            stdin = '\n'.join(stdin) + '\n'
-        proc = self.run(FINANCES_CMD, ['--menu'], stdin=stdin, **env)
         return proc
 
     def tui(self, cols=140, rows=45, **env):

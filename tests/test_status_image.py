@@ -7,14 +7,15 @@ import json
 
 import pytest
 
-from support import assert_golden
+from support import FINANCES_CMD, assert_golden
 
 pytest.importorskip('matplotlib')
 
 
-def render(app, tmp_path, stdin):
+def render(app, tmp_path):
+    """Gera a imagem como o save faz em segundo plano (investsh sync)."""
     log = tmp_path / 'plot.json'
-    proc = app.menu(stdin, INVESTSH_TEST_PLOTLOG=log)
+    proc = app.run(FINANCES_CMD, ['sync'], INVESTSH_TEST_PLOTLOG=log)
     png = app.root / 'assets' / 'status.png'
     assert png.read_bytes()[:4] == b'\x89PNG'
     return proc, json.loads(log.read_text(encoding='utf-8'))
@@ -26,35 +27,42 @@ def golden(name, calls):
 
 
 def test_image_demo(demo, tmp_path):
-    proc, calls = render(demo, tmp_path, ['0', 's'])
+    proc, calls = render(demo, tmp_path)
     assert proc.returncode == 0
     golden('demo', calls)
 
 
 def test_image_edge(app, tmp_path):
     app.seed('edge')
-    proc, calls = render(app, tmp_path, ['0', 's'])
+    proc, calls = render(app, tmp_path)
     assert proc.returncode == 0
     golden('edge', calls)
 
 
 def test_image_without_history(demo, tmp_path):
     (demo.data_dir / 'history.json').unlink()
-    proc, calls = render(demo, tmp_path, ['0', 's'])
+    proc, calls = render(demo, tmp_path)
     assert proc.returncode == 0
     golden('no_history', calls)
 
 
 def test_image_after_losses(demo, tmp_path):
     # Saldos caem: variação negativa muda cores e sinais na imagem
-    n = len(demo.read('investments.json')['investments'])
-    answers = ['1000'] * (n - 2) + ['0.0001', '0.001']
-    proc, calls = render(demo, tmp_path, ['1', *answers, '0', 's'])
+    def fall(d):
+        for inv in d['investments']:
+            inv['balance'] = 1000.0
+            if 'balanceUSD' in inv:
+                inv['balanceUSD'] = round(1000.0 / d['dollarRate'], 4)
+    demo.edit(fall)
+    proc, calls = render(demo, tmp_path)
     assert proc.returncode == 0
     golden('losses', calls)
 
 
 def test_image_empty_portfolio(app, tmp_path):
-    proc, calls = render(app, tmp_path, ['1', '0', 's'])
+    # Como a primeira execução cria (carteira vazia, parâmetros do exemplo)
+    app.seed('examples', history=False)
+    app.edit(lambda d: d.update(investments=[], fgts=0.0))
+    proc, calls = render(app, tmp_path)
     assert proc.returncode == 0
     golden('empty', calls)

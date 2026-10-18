@@ -244,17 +244,6 @@ def broker_monthly_series(broker_order, months=12):
 SPARK_BLOCKS = ' ▁▂▃▄▅▆▇█'
 
 
-def sparkline(values):
-    """Mini-gráfico ASCII (1 caractere por valor), escala própria da série."""
-    if not values:
-        return ''
-    lo, hi = min(values), max(values)
-    if hi == lo:
-        return SPARK_BLOCKS[4] * len(values)
-    span = hi - lo
-    return ''.join(SPARK_BLOCKS[min(8, int((v - lo) / span * 8) + 1)] for v in values)
-
-
 def brl_fmt(v):
     s = f'{abs(v):,.2f}'.replace(',','X').replace('.',',').replace('X','.')
     return f'R$ {"-" if v < 0 else ""}{s}'

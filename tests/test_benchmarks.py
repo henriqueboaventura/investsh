@@ -1,17 +1,35 @@
 """CDI/IPCA do Banco Central: cache local e funcionamento sem internet."""
 import pytest
 
-from support import strip_ansi
+from support import FINANCES_CMD
+
+# Mesmas funções da aba Rentabilidade e da seção Vencimentos da TUI, sem a tela
+SCRIPT = """
+import sys, datetime
+from investsh import config, perf, core
+config.configure(sys.argv[1])
+summary, note = perf.load(datetime.date.today())
+for line in perf.table(summary, note):
+    print(''.join(text for text, _ in line))
+print('--- vencimentos', config.MATURITY_DAYS)
+for a in core.maturity_alerts(
+        __import__('json').load(open(config.DATA, encoding='utf-8'))['investments'],
+        datetime.date.today(), config.MATURITY_DAYS):
+    print(a['name'])
+"""
+
+
+def run_view(app, **env):
+    return app.run(['-c', SCRIPT, str(app.root)], **env)
 
 
 def view(app, **env):
-    proc = app.menu(['V', 'x'], **env)
+    proc = run_view(app, **env)
     assert proc.returncode == 0, proc.stderr
-    out = strip_ansi(proc.stdout)
-    return out[out.index('▸ Rentabilidade'):out.index('▸ Alocação')]
+    return proc.stdout.split('--- vencimentos')[0]
 
 
-def test_rentabilidade_in_menu_view(demo):
+def test_rentabilidade(demo):
     section = view(demo)
     assert 'Desde 01/10/2025' in section
     assert '% do CDI' in section
@@ -50,10 +68,10 @@ def test_insufficient_history(app):
 @pytest.mark.parametrize('days, expected', [(90, False), (500, True)])
 def test_maturity_window_from_config(demo, days, expected):
     (demo.root / 'investsh.toml').write_text(f'[alerts]\nmaturity_days = {days}\n', encoding='utf-8')
-    out = strip_ansi(demo.menu(['V', 'x']).stdout)
+    out = run_view(demo).stdout
     # LCA Banco Beta vence em 20/11/2027: só aparece com janela de 500 dias
-    assert (f'Vencimentos (próximos {days} dias)' in out) is expected
-    assert ('LCA Banco Beta 95% CDI' in out.split('▸ Alocação')[0]) is expected
+    assert f'--- vencimentos {days}' in out
+    assert ('LCA Banco Beta 95% CDI' in out.split('--- vencimentos')[1]) is expected
 
 
 @pytest.mark.parametrize('value, message', [
@@ -63,7 +81,7 @@ def test_maturity_window_from_config(demo, days, expected):
 ])
 def test_invalid_maturity_days(demo, value, message):
     (demo.root / 'investsh.toml').write_text(f'[alerts]\nmaturity_days = {value}\n', encoding='utf-8')
-    proc = demo.menu(['x'])
+    proc = demo.run(FINANCES_CMD, ['sync'])
     assert proc.returncode == 2
     assert message in proc.stderr
 

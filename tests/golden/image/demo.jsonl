@@ -2,26 +2,26 @@
 {"args": [0, 1], "call": "Axes.set_xlim", "kwargs": {}}
 {"args": [0, 1], "call": "Axes.set_ylim", "kwargs": {}}
 {"args": [0.035, 0.9, "investsh"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 17, "fontweight": "bold", "va": "top"}}
-{"args": [0.965, 0.9, "2026-10-06"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "ha": "right", "va": "top"}}
+{"args": [0.965, 0.9, "2026-10-01"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "ha": "right", "va": "top"}}
 {"args": [0.76], "call": "Axes.axhline", "kwargs": {"alpha": 0.4, "color": "#4d6a8a", "linewidth": 0.4, "xmax": 0.98, "xmin": 0.02}}
 {"args": [0.035, 0.66, "Patrimônio"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "top"}}
-{"args": [0.035, 0.56, "R$ 205.672,26"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 23, "fontweight": "bold", "va": "top"}}
-{"args": [0.035, 0.28, "+R$ 2.422,01  (+1.19%)"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 12, "va": "top"}}
-{"args": [0.035, 0.16, "Valoriz. +R\\$ 835,34  ·  Aportes +R\\$ 1.586,67"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 8.3, "va": "top"}}
+{"args": [0.035, 0.56, "R$ 205.576,35"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 23, "fontweight": "bold", "va": "top"}}
+{"args": [0.035, 0.28, "+R$ 2.648,77  (+1.31%)"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 12, "va": "top"}}
+{"args": [0.035, 0.16, "Valoriz. +R\\$ 1.148,77  ·  Aportes +R\\$ 1.500,00"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 8.3, "va": "top"}}
 {"args": [0.58, 0.66, "c/ FGTS"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "top"}}
-{"args": [0.58, 0.56, "R$ 224.172,26"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 15, "fontweight": "600", "va": "top"}}
+{"args": [0.58, 0.56, "R$ 224.076,35"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 15, "fontweight": "600", "va": "top"}}
 {"args": [0.58, 0.28, "19 ativos"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 11, "va": "top"}}
 {"args": [0.58, 0.16, "FGTS: R$ 18.500,00"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 11, "va": "top"}}
-{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [170845.33, 174359.32, 177259.23, 181394.03, 184313.79, 187859.14, 189105.01, 192946.45, 195113.26, 198653.19, 202457.8, 205672.2551]], "call": "Axes.plot", "kwargs": {"color": "#0dcea8", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#0dcea8", "markersize": 3.5, "zorder": 3}}
-{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [170845.33, 174359.32, 177259.23, 181394.03, 184313.79, 187859.14, 189105.01, 192946.45, 195113.26, 198653.19, 202457.8, 205672.2551], 167428.4234], "call": "Axes.fill_between", "kwargs": {"alpha": 0.1, "color": "#0dcea8"}}
+{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [170845.33, 174359.32, 177259.23, 181394.03, 184313.79, 187859.14, 189105.01, 192946.45, 195113.26, 198653.19, 202457.8, 205576.35]], "call": "Axes.plot", "kwargs": {"color": "#0dcea8", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#0dcea8", "markersize": 3.5, "zorder": 3}}
+{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [170845.33, 174359.32, 177259.23, 181394.03, 184313.79, 187859.14, 189105.01, 192946.45, 195113.26, 198653.19, 202457.8, 205576.35], 167428.4234], "call": "Axes.fill_between", "kwargs": {"alpha": 0.1, "color": "#0dcea8"}}
 {"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]], "call": "Axes.set_xticks", "kwargs": {}}
 {"args": [["11/25", "12/25", "01/26", "02/26", "03/26", "04/26", "05/26", "06/26", "07/26", "08/26", "09/26", "10/26"]], "call": "Axes.set_xticklabels", "kwargs": {"color": "#4d6a8a", "fontsize": 8.5}}
-{"args": ["R$ 205.672,26", [11, 205672.2551]], "call": "Axes.annotate", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "fontweight": "bold", "ha": "right", "textcoords": "offset points", "xytext": [0, 8]}}
+{"args": ["R$ 205.576,35", [11, 205576.35]], "call": "Axes.annotate", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "fontweight": "bold", "ha": "right", "textcoords": "offset points", "xytext": [0, 8]}}
 {"args": ["Evolução Patrimonial"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 6}}
-{"args": [[93116.9178, 63526.5658, 13105.9, 5310.0, 2342.3215]], "call": "Axes.pie", "kwargs": {"center": [0, 0.4], "colors": ["#3b82f6", "#0dcea8", "#a78bfa", "#f59e0b", "#c084fc"], "radius": 0.7, "startangle": 90, "wedgeprops": {"edgecolor": "#080d1a", "linewidth": 2.5, "width": 0.52}}}
-{"args": [-0.5025, 0.3606, "52%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
-{"args": [0.483, 0.2562, "36%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
-{"args": [0.243, 0.8415, "7%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
+{"args": [[93090.4, 63471.02, 13105.9, 5310.0, 2328.48]], "call": "Axes.pie", "kwargs": {"center": [0, 0.4], "colors": ["#3b82f6", "#0dcea8", "#a78bfa", "#f59e0b", "#c084fc"], "radius": 0.7, "startangle": 90, "wedgeprops": {"edgecolor": "#080d1a", "linewidth": 2.5, "width": 0.52}}}
+{"args": [-0.5024, 0.3604, "53%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
+{"args": [0.4831, 0.2564, "36%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
+{"args": [0.2429, 0.8416, "7%"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10.5, "fontweight": "bold", "ha": "center", "va": "center"}}
 {"args": [[-0.95], [-0.58], "s"], "call": "Axes.plot", "kwargs": {"color": "#3b82f6", "markersize": 7}}
 {"args": [-0.86, -0.58, "Renda Fixa    52.5%"], "call": "Axes.text", "kwargs": {"color": "#3b82f6", "fontsize": 10, "fontweight": "bold", "ha": "left", "va": "center"}}
 {"args": [[-0.95], [-0.82], "s"], "call": "Axes.plot", "kwargs": {"color": "#0dcea8", "markersize": 7}}
@@ -35,16 +35,16 @@
 {"args": [-1.1, 1.1], "call": "Axes.set_xlim", "kwargs": {}}
 {"args": [-1.83, 1.25], "call": "Axes.set_ylim", "kwargs": {}}
 {"args": ["Alocação"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 4}}
-{"args": [["Binance", "Nomad", "Nubank", "XP"], [5310.0, 16229.4851, 18932.95, 165199.82]], "call": "Axes.barh", "kwargs": {"color": ["#f59e0b", "#22d3ee", "#9333ea", "#3b82f6"], "edgecolor": "none", "height": 0.5}}
+{"args": [["Binance", "Nomad", "Nubank", "XP"], [5310.0, 16133.58, 18932.95, 165199.82]], "call": "Axes.barh", "kwargs": {"color": ["#f59e0b", "#22d3ee", "#9333ea", "#3b82f6"], "edgecolor": "none", "height": 0.5}}
 {"args": [1651.9982, 0.0, "  2.6%   R$ 5.310,00"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
-{"args": [1651.9982, 1.0, "  7.9%   R$ 16.229,49"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
+{"args": [1651.9982, 1.0, "  7.8%   R$ 16.133,58"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
 {"args": [1651.9982, 2.0, "  9.2%   R$ 18.932,95"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
-{"args": [1651.9982, 3.0, "  80.3%   R$ 165.199,82"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
+{"args": [1651.9982, 3.0, "  80.4%   R$ 165.199,82"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 10, "ha": "left", "va": "center"}}
 {"args": [0, 168503.8164], "call": "Axes.set_xlim", "kwargs": {}}
 {"args": ["Por Corretora"], "call": "Axes.set_title", "kwargs": {"color": "#4d6a8a", "fontsize": 10.5, "loc": "left", "pad": 4}}
 {"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [137290.2, 140114.01, 142444.36, 145767.05, 148113.34, 150962.37, 151963.56, 155050.51, 156791.76, 159636.39, 162693.78, 165199.82]], "call": "Axes.plot", "kwargs": {"color": "#3b82f6", "label": "XP", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#3b82f6", "markersize": 3, "zorder": 3}}
 {"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [15734.33, 16057.96, 16325.03, 16705.83, 16974.73, 17301.25, 17415.99, 17769.78, 17969.33, 18295.35, 18645.74, 18932.95]], "call": "Axes.plot", "kwargs": {"color": "#9333ea", "label": "Nubank", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#9333ea", "markersize": 3, "zorder": 3}}
-{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [13407.9, 13683.68, 13911.26, 14235.76, 14464.9, 14743.13, 14840.92, 15142.4, 15312.44, 15590.25, 15888.84, 16229.4851]], "call": "Axes.plot", "kwargs": {"color": "#22d3ee", "label": "Nomad", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#22d3ee", "markersize": 3, "zorder": 3}}
+{"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [13407.9, 13683.68, 13911.26, 14235.76, 14464.9, 14743.13, 14840.92, 15142.4, 15312.44, 15590.25, 15888.84, 16133.58]], "call": "Axes.plot", "kwargs": {"color": "#22d3ee", "label": "Nomad", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#22d3ee", "markersize": 3, "zorder": 3}}
 {"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], [4412.9, 4503.66, 4578.57, 4685.38, 4760.79, 4852.37, 4884.55, 4983.77, 5039.74, 5131.17, 5229.45, 5310.0]], "call": "Axes.plot", "kwargs": {"color": "#f59e0b", "label": "Binance", "linewidth": 2, "marker": "o", "markeredgecolor": "#080d1a", "markerfacecolor": "#f59e0b", "markersize": 3, "zorder": 3}}
 {"args": [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11]], "call": "Axes.set_xticks", "kwargs": {}}
 {"args": [["11/25", "12/25", "01/26", "02/26", "03/26", "04/26", "05/26", "06/26", "07/26", "08/26", "09/26", "10/26"]], "call": "Axes.set_xticklabels", "kwargs": {"color": "#4d6a8a", "fontsize": 8.5}}
@@ -57,7 +57,7 @@
 {"args": [0.72, 0.9792, "Ganho%"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
 {"args": [0.84, 0.9792, "Δ Mês"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "fontweight": "bold", "ha": "left", "va": "center"}}
 {"args": [0.9583], "call": "Axes.axhline", "kwargs": {"alpha": 0.5, "color": "#4d6a8a", "linewidth": 0.4}}
-{"args": [0.01, 0.9375, "── XP   R$ 165.199,82  (80.3%)"], "call": "Axes.text", "kwargs": {"color": "#3b82f6", "fontsize": 9.5, "fontweight": "bold", "va": "center"}}
+{"args": [0.01, 0.9375, "── XP   R$ 165.199,82  (80.4%)"], "call": "Axes.text", "kwargs": {"color": "#3b82f6", "fontsize": 9.5, "fontweight": "bold", "va": "center"}}
 {"args": [0.9187], "call": "Axes.axhline", "kwargs": {"alpha": 0.3, "color": "#4d6a8a", "linewidth": 0.3}}
 {"args": [0.01, 0.8958, "CDB Banco Alfa 110% CDI"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 9.5, "va": "center"}}
 {"args": [0.36, 0.8958, "CDI"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "center"}}
@@ -131,23 +131,23 @@
 {"args": [0.56, 0.3125, "R$ 10.512,80"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
 {"args": [0.72, 0.3125, "+5.1%"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
 {"args": [0.84, 0.3125, "+R$ 94,62"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
-{"args": [0.01, 0.2708, "── Nomad   R$ 16.229,49  (7.9%)"], "call": "Axes.text", "kwargs": {"color": "#22d3ee", "fontsize": 9.5, "fontweight": "bold", "va": "center"}}
+{"args": [0.01, 0.2708, "── Nomad   R$ 16.133,58  (7.8%)"], "call": "Axes.text", "kwargs": {"color": "#22d3ee", "fontsize": 9.5, "fontweight": "bold", "va": "center"}}
 {"args": [0.2521], "call": "Axes.axhline", "kwargs": {"alpha": 0.3, "color": "#4d6a8a", "linewidth": 0.3}}
 {"args": [0.01, 0.2292, "SGOV"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 9.5, "va": "center"}}
 {"args": [0.36, 0.2292, "RF Exterior (USD)"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "center"}}
-{"args": [0.56, 0.2292, "R$ 4.487,46"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
+{"args": [0.56, 0.2292, "R$ 4.460,94"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
 {"args": [0.72, 0.2292, "+3.3%"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
-{"args": [0.84, 0.2292, "+R$ 26,52"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
+{"args": [0.84, 0.2292, "+R$ 89,22"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
 {"args": [0.01, 0.1875, "AOK"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 9.5, "va": "center"}}
 {"args": [0.36, 0.1875, "Multiativo Global"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "center"}}
-{"args": [0.56, 0.1875, "R$ 2.342,32"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
+{"args": [0.56, 0.1875, "R$ 2.328,48"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
 {"args": [0.72, 0.1875, "+7.8%"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
-{"args": [0.84, 0.1875, "+R$ 13,84"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
+{"args": [0.84, 0.1875, "+R$ 46,57"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
 {"args": [0.01, 0.1458, "VT"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 9.5, "va": "center"}}
 {"args": [0.36, 0.1458, "ETF Exterior"], "call": "Axes.text", "kwargs": {"color": "#4d6a8a", "fontsize": 9.5, "va": "center"}}
-{"args": [0.56, 0.1458, "R$ 9.399,71"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
+{"args": [0.56, 0.1458, "R$ 9.344,16"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "family": "monospace", "fontsize": 9.5, "va": "center"}}
 {"args": [0.72, 0.1458, "+15.4%"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
-{"args": [0.84, 0.1458, "+R$ 55,55"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
+{"args": [0.84, 0.1458, "+R$ 186,88"], "call": "Axes.text", "kwargs": {"color": "#0dcea8", "fontsize": 9.5, "va": "center"}}
 {"args": [0.01, 0.1042, "── Binance   R$ 5.310,00  (2.6%)"], "call": "Axes.text", "kwargs": {"color": "#f59e0b", "fontsize": 9.5, "fontweight": "bold", "va": "center"}}
 {"args": [0.0854], "call": "Axes.axhline", "kwargs": {"alpha": 0.3, "color": "#4d6a8a", "linewidth": 0.3}}
 {"args": [0.01, 0.0625, "Bitcoin"], "call": "Axes.text", "kwargs": {"color": "#e8edf5", "fontsize": 9.5, "va": "center"}}

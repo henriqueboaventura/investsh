@@ -6,9 +6,9 @@ Servem de rede de segurança para refatorações.
 
 ```bash
 python3 -m venv .venv && .venv/bin/pip install -e '.[dev]'
-.venv/bin/pytest            # rápidos: cálculos, menu, CLI, configuração (~10s)
+.venv/bin/pytest            # rápidos: cálculos, CLI, configuração, imagem (~10s)
 .venv/bin/pytest --all      # tudo, inclusive a tela interativa (~1 min); o CI usa este
-.venv/bin/pytest -n0 -k menu --all   # um grupo, sem paralelismo (melhor para depurar)
+.venv/bin/pytest -n0 -k transfer --all   # um grupo, sem paralelismo (melhor para depurar)
 ```
 
 Os testes rodam em paralelo (`pytest-xdist`, `-n auto` no `pytest.ini`): cada um usa
@@ -20,13 +20,12 @@ marcado como `slow` automaticamente e só roda com `--all`.
 | Arquivo | O quê | Como |
 |---|---|---|
 | `test_perf.py` | Rentabilidade descontando aportes, câmbio, CDI/IPCA proporcionais, vencimentos | Unitário, valores calculados à mão |
-| `test_benchmarks.py` | CDI/IPCA na tela, cache, sem internet, janela de vencimentos no `investsh.toml` | Banco Central falso no `sitecustomize` |
-| `test_core.py` | Cálculos: formatação, classificação, custo base, reserva, histórico | Unitário, valores calculados à mão |
-| `test_menu.py` | Todos os fluxos do `--menu`, primeira execução, save, auto-git | Saída completa (com cores) + `data/` final |
-| `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
-| `test_status_image.py` | Imagem `assets/status.png` | Chamadas de desenho do matplotlib (pixels variam por máquina) |
+| `test_benchmarks.py` | Tabela de rentabilidade vs CDI/IPCA, cache, sem internet, janela de vencimentos no `investsh.toml` | Banco Central falso no `sitecustomize` |
+| `test_core.py` | Cálculos: formatação, classificação, custo base, reserva, histórico, transferência, lançamentos | Unitário, valores calculados à mão |
+| `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, primeira execução, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
+| `test_status_image.py` | Imagem `assets/status.png` (gerada pelo `investsh sync`) | Chamadas de desenho do matplotlib (pixels variam por máquina) |
 | `test_analyze.py` | Prompt de análise, clipboard e fallback para arquivo | Prompt completo |
-| `test_config_file.py` | `investsh.toml`: commit/push automático, validação, variável de ambiente por cima | Repositório git real com remoto |
+| `test_config_file.py` | `investsh.toml`: commit/push automático (via `investsh sync`), validação, variável de ambiente por cima | Repositório git real com remoto |
 | `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
 | `test_estimate.py` | Saldo estimado: data do saldo, CDI e prefixado por dia útil, o que fica de fora, tolerância | Unitário, valores calculados à mão |
 | `test_tax.py` | IR e IOF regressivos, isenção, prazo sem data da compra, taxa líquida no vencimento | Unitário, valores calculados à mão |
@@ -84,10 +83,12 @@ da correção. A coluna da direita aponta o teste que protege contra a volta do 
 
 | # | Onde | Bug | Teste |
 |---|---|---|---|
-| 1 | Imagem, menu, TUI | carteira vazia ou com saldos zerados quebrava a imagem (`pie` sem fatias) e as telas (divisão por zero) | `test_save_empty_portfolio_with_matplotlib`, `view_zero_balances`, `tui/zero_balances` |
+| 1 | Imagem, TUI | carteira vazia ou com saldos zerados quebrava a imagem (`pie` sem fatias) e as telas (divisão por zero) | `test_image_empty_portfolio`, `tui/zero_balances` |
 | 2 | TUI | o popup restaurava a tela byte a byte e deixava `^^^^@` no lugar de caracteres não-ASCII | `asset_actions`, `new_assets`, `field_editing` |
 | 3 | TUI | texto com acento digitado (campos e busca) virava mojibake (`Debênture` → `DebÃªnture`) | `tui/accented_input.txt`, `tui/new_assets.txt` |
 | 4 | TUI | "atualizar todos" (`u`) mudava a quantidade de cripto sem recalcular o saldo em R$ | `tui/update_all.txt` |
-| 5 | Menu | ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | `menu/remove_multiple.txt` |
+| 5 | Menu (removido na 1.0.0) | ao remover vários ativos, a ordem das mensagens "✗ Removido" era aleatória (itera um `set`) | — |
 | 6 | TUI | o atalho "g = topo" nunca executava (`g` é a aba Gráficos); agora é Home (e End = fim, além de G) | `tui/tabs.txt`, `tui/detail_search.txt` |
 | 7 | TUI | avisos do matplotlib (stderr) apareciam desenhados por cima da tela durante o save | `test_save_keeps_stderr_off_screen` |
+| 8 | Sync | sem `data/history.json` ou sem `assets/` (sem matplotlib), o `git add` falhava e o commit automático não acontecia | `test_file_read_from_dir_option` |
+| 9 | TUI | cada Esc travava a tela por 1 s (`ESCDELAY` padrão do curses; o harness escondia com 25 ms) | `test_escape_responds_fast` |

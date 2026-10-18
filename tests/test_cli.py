@@ -18,29 +18,31 @@ def test_version(app):
     assert proc.stdout.strip() == f'investsh {__version__}'
 
 
+def check(app, *args, **env):
+    """`investsh check` diz qual investments.json leu: serve para conferir a pasta escolhida."""
+    proc = app.run(FINANCES_CMD, ['check', *args], **env)
+    return proc, strip_ansi(proc.stdout)
+
+
 def test_dir_option(app):
     d = other_dir(app)
-    proc = app.run(FINANCES_CMD, ['--menu', '--dir', str(d)], stdin='0\ns\n')
-    out = strip_ansi(proc.stdout)
+    proc, out = check(app, '--dir', str(d))
     assert proc.returncode == 0, proc.stderr
-    assert f'Arquivo: {d}/data/investments.json' in out
-    assert (d / 'data' / 'history.json').exists()
-    assert not (app.data_dir / 'investments.json').exists()
+    assert f'({d}/data/investments.json)' in out
 
 
 def test_dir_from_environment(app):
     d = other_dir(app)
-    proc = app.run(FINANCES_CMD, ['--menu'], stdin='0\ns\n', INVESTSH_DIR=d)
+    proc, out = check(app, INVESTSH_DIR=d)
     assert proc.returncode == 0, proc.stderr
-    assert (d / 'data' / 'history.json').exists()
+    assert f'({d}/data/investments.json)' in out
 
 
 def test_dir_option_wins_over_environment(app):
     d = other_dir(app)
-    proc = app.run(FINANCES_CMD, ['--menu', '--dir', str(d)], stdin='0\ns\n',
-                   INVESTSH_DIR=app.root / 'nao-existe')
+    proc, out = check(app, '--dir', str(d), INVESTSH_DIR=app.root / 'nao-existe')
     assert proc.returncode == 0, proc.stderr
-    assert (d / 'data' / 'history.json').exists()
+    assert f'({d}/data/investments.json)' in out
 
 
 def test_analyze_dir_option(app, tmp_path):
@@ -53,37 +55,33 @@ def test_analyze_dir_option(app, tmp_path):
 
 
 def test_default_dir_is_home_investsh(app):
-    proc = app.run(FINANCES_CMD, ['--menu'], stdin='1\nx\n', INVESTSH_DIR=None)
-    out = strip_ansi(proc.stdout)
-    assert proc.returncode == 0, proc.stderr
-    default = app.home / '.investsh'
-    assert f'Não encontrei {default}/data/investments.json.' in out
-    assert (default / 'data' / 'investments.json').exists()
-    assert not (app.data_dir / 'investments.json').exists()
+    proc, out = check(app, INVESTSH_DIR=None)
+    assert f'{app.home}/.investsh/data/investments.json não existe' in out
 
 
 def test_current_dir_not_used_by_default(demo):
     # Rodar dentro de uma pasta com dados não usa essa pasta: o padrão é ~/.investsh
-    proc = demo.run(FINANCES_CMD, ['--menu'], stdin='x\n', INVESTSH_DIR=None)
-    assert proc.returncode == 0, proc.stderr
-    assert 'Bem-vindo ao investsh!' in strip_ansi(proc.stdout)
-    assert not (demo.home / '.investsh').exists()
+    proc, out = check(demo, INVESTSH_DIR=None)
+    assert f'{demo.home}/.investsh/data/investments.json não existe' in out
 
 
 def test_dir_dot_uses_current_dir(demo):
-    proc = demo.run(FINANCES_CMD, ['--menu', '--dir', '.'], stdin='x\n', INVESTSH_DIR=None)
-    out = strip_ansi(proc.stdout)
+    proc, out = check(demo, '--dir', '.', INVESTSH_DIR=None)
     assert proc.returncode == 0, proc.stderr
-    assert 'Bem-vindo' not in out
-    assert 'Total atual:        R$   205,576.35' in out
+    assert demo.normalize(out).endswith('(<APP>/data/investments.json)\n')   # /tmp ou /private/tmp
 
 
 def test_tilde_expansion(app):
     for args, env in ((['--dir', '~/carteira-a'], {}), ([], {'INVESTSH_DIR': '~/carteira-b'})):
-        proc = app.run(FINANCES_CMD, ['--menu', *args], stdin='1\nx\n', **env)
-        assert proc.returncode == 0, proc.stderr
-    assert (app.home / 'carteira-a' / 'data' / 'investments.json').exists()
-    assert (app.home / 'carteira-b' / 'data' / 'investments.json').exists()
+        proc, out = check(app, *args, **env)
+        name = 'carteira-a' if args else 'carteira-b'
+        assert f'{app.home}/{name}/data/investments.json não existe' in out
+
+
+def test_menu_was_removed(app):
+    proc = app.run(FINANCES_CMD, ['--menu'])
+    assert proc.returncode == 2
+    assert 'o --menu (modo texto) foi removido na versão 1.0.0' in proc.stderr
 
 
 def test_help_shows_data_dir(app):

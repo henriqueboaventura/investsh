@@ -1,4 +1,4 @@
-"""Linha de comando: `investsh`, `investsh --menu`, `investsh analyze`, `investsh check`."""
+"""Linha de comando: `investsh`, `investsh analyze`, `investsh check`, `investsh sync`."""
 import argparse
 import os
 import sys
@@ -18,13 +18,15 @@ def main(argv=None):
                              'check: procura inconsistências nos dados; '
                              'sync: gera a imagem e faz commit/push agora (ver investsh.toml)')
     parser.add_argument('--job', help=argparse.SUPPRESS)  # uso interno: sync em segundo plano
-    parser.add_argument('--menu', action='store_true',
-                        help='menu de texto numerado em vez da tela interativa')
+    parser.add_argument('--menu', action='store_true', help=argparse.SUPPRESS)   # removido na 1.0.0
     parser.add_argument('--dir', default=None,
                         help='pasta de dados (padrão: $INVESTSH_DIR, senão ~/.investsh); '
                              'use --dir . para a pasta atual')
     parser.add_argument('--version', action='version', version=f'investsh {__version__}')
     args = parser.parse_args(argv)
+    if args.menu:
+        parser.exit(2, 'investsh: o --menu (modo texto) foi removido na versão 1.0.0; '
+                       'use a tela interativa: investsh\n')
     if args.dir is None:
         args.dir = config.default_dir()
 
@@ -50,4 +52,4 @@ def main(argv=None):
             sys.exit(sync.foreground())
     else:
         from . import app
-        app.run(menu=args.menu)
+        app.run()

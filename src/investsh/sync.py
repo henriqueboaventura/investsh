@@ -50,8 +50,10 @@ def run():
     month = datetime.now().strftime('%Y-%m')
     git = ['git', '-C', config.ROOT]
     try:
-        subprocess.run(git + ['add', 'data/investments.json', 'data/history.json', 'assets/'],
-                       check=True, capture_output=True)
+        # Só o que existe: sem matplotlib não há assets/, e um caminho ausente faz o add falhar
+        paths = [p for p in ('data/investments.json', 'data/history.json', 'assets/')
+                 if os.path.exists(os.path.join(config.ROOT, p))]
+        subprocess.run(git + ['add', *paths], check=True, capture_output=True)
         subprocess.run(git + ['commit', '-m', f'update {month}'], capture_output=True)
         if not config.GIT_PUSH:
             return True, '✓ commit (sem push)'

@@ -1,4 +1,5 @@
 """Configuração por pasta de dados: investsh.toml."""
+import json
 import subprocess
 
 import pytest
@@ -30,9 +31,22 @@ def write_config(app, text):
     (app.root / 'investsh.toml').write_text(text, encoding='utf-8')
 
 
+def change(app, root=None):
+    """Altera um saldo no arquivo, como um save faria."""
+    path = (root or app.root) / 'data' / 'investments.json'
+    d = json.loads(path.read_text(encoding='utf-8'))
+    d['investments'][0]['balance'] += 100
+    path.write_text(json.dumps(d, ensure_ascii=False, indent=2), encoding='utf-8')
+
+
+def sync(app, *args, **env):
+    return app.run(FINANCES_CMD, ['sync', *args], **env)
+
+
 def save(app, **env):
-    """Altera um saldo e salva pelo --menu."""
-    return app.menu(['2', 'bova', '9900', '0', 's'], **env)
+    """Altera um saldo e roda o mesmo trabalho de segundo plano do save (investsh sync)."""
+    change(app)
+    return sync(app, **env)
 
 
 def commits(app):
@@ -48,9 +62,9 @@ def test_auto_commit_and_push_from_file(repo):
     proc = save(repo)
     out = strip_ansi(proc.stdout)
     assert proc.returncode == 0, proc.stderr
-    assert '✓ Commit criado: update 2026-10' in out
-    assert '✓ Push concluído' in out
+    assert out.strip() == '↑ push ok'
     assert commits(repo) == 2
+    assert git('log', '-1', '--format=%s', cwd=repo.root).strip() == 'update 2026-10'
     assert remote_head(repo) == git('rev-parse', 'HEAD', cwd=repo.root).strip()
 
 
@@ -67,8 +81,7 @@ def test_commit_without_push(repo):
     proc = save(repo)
     out = strip_ansi(proc.stdout)
     assert proc.returncode == 0, proc.stderr
-    assert '✓ Commit criado: update 2026-10' in out
-    assert 'Push concluído' not in out
+    assert out.strip() == '✓ commit (sem push)'
     assert commits(repo) == 2
     assert remote_head(repo) == before
 
@@ -105,9 +118,10 @@ def sub_data_dir(repo):
 def test_file_read_from_dir_option(repo):
     other = sub_data_dir(repo)
     (other / 'investsh.toml').write_text('[git]\nauto_commit = true\npush = false\n', encoding='utf-8')
-    proc = repo.run(FINANCES_CMD, ['--menu', '--dir', str(other)], stdin='0\ns\n')
+    change(repo, other)
+    proc = sync(repo, '--dir', str(other))
     assert proc.returncode == 0, proc.stderr
-    assert '✓ Commit criado: update 2026-10' in strip_ansi(proc.stdout)
+    assert '✓ commit (sem push)' in strip_ansi(proc.stdout)
     assert commits(repo) == 2
 
 
@@ -115,7 +129,8 @@ def test_file_in_current_dir_ignored_with_dir_option(repo):
     # Um investsh.toml em outra pasta não afeta a pasta de dados escolhida
     other = sub_data_dir(repo)
     write_config(repo, '[git]\nauto_commit = true\n')
-    proc = repo.run(FINANCES_CMD, ['--menu', '--dir', str(other)], stdin='0\ns\n')
+    change(repo, other)
+    proc = sync(repo, '--dir', str(other))
     assert proc.returncode == 0, proc.stderr
     assert commits(repo) == 1
 
@@ -128,7 +143,7 @@ def test_file_in_current_dir_ignored_with_dir_option(repo):
 def test_invalid_config_stops_before_touching_data(demo, text, message):
     write_config(demo, text)
     before = demo.data_snapshot()
-    proc = demo.menu(['0', 's'])
+    proc = sync(demo)
     assert proc.returncode == 2
     assert message in proc.stderr
     assert 'Traceback' not in proc.stderr
@@ -137,7 +152,7 @@ def test_invalid_config_stops_before_touching_data(demo, text, message):
 
 def test_unknown_keys_warn(demo):
     write_config(demo, '[git]\nauto_commit = false\nautocommit = true\n\n[outra]\nx = 1\n')
-    proc = demo.menu(['x'])
+    proc = sync(demo)
     assert proc.returncode == 0
     assert 'investsh.toml: chave desconhecida ignorada: git.autocommit' in proc.stderr
     assert 'investsh.toml: chave desconhecida ignorada: outra' in proc.stderr

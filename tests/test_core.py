@@ -30,27 +30,6 @@ def test_brl_fmt(f, value, expected):
     assert f.brl_fmt(value) == expected
 
 
-def test_fmt_fixed_width(f):
-    assert f.fmt(1234.5) == 'R$     1,234.50'
-    assert f.fmt(-1) == 'R$        -1.00'
-
-
-def test_gain_str(f):
-    assert f.gain_str(110, 100) == f'{f.G}(+10.00 / +10.0%){f.RST}'
-    assert f.gain_str(90, 100) == f'{f.R}(-10.00 / -10.0%){f.RST}'
-    assert f.gain_str(90, 0) == ''
-    assert f.gain_str(90, None) == ''
-
-
-def test_sparkline(f):
-    assert f.sparkline([]) == ''
-    assert f.sparkline([5, 5, 5]) == '▄▄▄'
-    assert f.sparkline([0, 4, 8]) == '▁▅█'
-    assert len(f.sparkline(list(range(20)))) == 20
-
-
-# ── Classificação e ordenação ────────────────────────────────────────────────
-
 def test_classify(f):
     assert f.classify(inv(allocationGroup='RF_IPCA')) == ('Renda Fixa', 'IPCA')
     assert f.classify(inv(allocationGroup='RV_CRYPTO')) == ('Renda Variável', 'Crypto')
