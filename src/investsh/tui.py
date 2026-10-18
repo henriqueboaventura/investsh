@@ -878,6 +878,12 @@ def run_tui(data, crypto_prices=None):
     # ── main curses app ───────────────────────────────────────────────────────
 
     def _app(stdscr):
+        # Esc sozinho: o curses espera 1 s (padrão) para ver se é o início de uma
+        # sequência (setas, F1...), e a tela parece travada a cada Esc. 50 ms bastam.
+        try:
+            curses.set_escdelay(50)
+        except (AttributeError, curses.error):
+            pass
         curses.curs_set(0)
         curses.start_color()
         curses.use_default_colors()

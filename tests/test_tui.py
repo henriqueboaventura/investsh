@@ -263,6 +263,21 @@ def test_open_warns_about_data_errors(demo, tui_factory):
     assert t.wait_exit() == 0
 
 
+def test_escape_responds_fast(demo, tui_factory):
+    # O curses espera 1 s depois de um Esc (ESCDELAY); a TUI reduz para a tela não "travar"
+    import time
+    t = tui_factory(ESCDELAY='1000')   # padrão do curses (o harness usa 25 ms)
+    t.press('d', 'enter')
+    assert '[c] Cancelar' in t.text()
+    start = time.time()
+    t.press('esc', quiet=0.01)
+    while '[c] Cancelar' in t.text() and time.time() - start < 3:   # até o popup fechar
+        t._read(0.02)
+    assert time.time() - start < 0.6
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

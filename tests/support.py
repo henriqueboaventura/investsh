@@ -297,7 +297,7 @@ class TUI:
         self.stream = Stream(self.screen)
         self.frames = []
         term = os.environ.get('INVESTSH_TEST_TERM', 'xterm-256color')
-        full_env = app.env(TERM=term, ESCDELAY='25', LINES=rows, COLUMNS=cols, **env)
+        full_env = app.env(**{'TERM': term, 'ESCDELAY': '25', 'LINES': rows, 'COLUMNS': cols, **env})
         pid, fd = pty.fork()
         if pid == 0:  # filho
             os.chdir(app.root)
