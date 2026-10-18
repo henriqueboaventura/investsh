@@ -316,11 +316,16 @@ def run_tui(data, crypto_prices=None):
         choice = popup_menu(stdscr, title, opts)
         return None if choice is None else found[keys.index(choice)]
 
-    def act_transfer(stdscr, src, ask_delete=True):
-        """Dinheiro de um ativo para outro da carteira: sem lançamento, a soma não muda."""
+    def act_transfer(stdscr, src, ask_delete=True, dst=None, amount=None):
+        """Dinheiro de um ativo para outro da carteira: sem lançamento, a soma não muda.
+
+        `dst` e `amount` (na moeda da origem) já definidos: vem do cadastro de um ativo
+        novo, cujo saldo saiu de `src`.
+        """
         if not can_transfer(src):
             return False
-        dst = pick_asset(stdscr, 'Destino', exclude=src)
+        if dst is None:
+            dst = pick_asset(stdscr, 'Destino', exclude=src)
         if dst is None: return False
         dol = data.get('dollarRate', 1)
         src_usd, dst_usd = 'investedUSD' in src, 'investedUSD' in dst
@@ -329,9 +334,13 @@ def run_tui(data, crypto_prices=None):
                  f'Para: {dst.get("broker", "")} · {dst["name"][:44]}', '']
         sent = ask_with_box(stdscr, 'Transferir', route + [
             'Quanto saiu da origem? Digite na barra abaixo.',
-            'Enter = saldo todo · Esc cancela'],
-            f'Sai de {src["name"][:28]} ({"USD" if src_usd else "R$"})', round(src_bal, 2))
+            ('Enter = saldo do ativo novo' if amount is not None else 'Enter = saldo todo')
+            + ' · Esc cancela'],
+            f'Sai de {src["name"][:28]} ({"USD" if src_usd else "R$"})',
+            round(amount if amount is not None else src_bal, 2))
         if sent is None or sent <= 0: return False
+        if amount is not None and abs(sent - amount) < 0.005:
+            sent = amount    # valor padrão (arredondado na tela)
         if abs(sent - src_bal) < 0.005:
             sent = src_bal   # valor padrão (arredondado na tela) = saldo todo
         if sent > src_bal: return False
@@ -478,19 +487,22 @@ def run_tui(data, crypto_prices=None):
 
     def act_delete(stdscr, inv):
         if inv.get('balance'):
-            # Saldo que sai da carteira é saque; se foi para outro ativo, não
+            # Saldo que sai da carteira é saque; saldo que foi para outro ativo passa pela
+            # Transferir (que oferece excluir a origem zerada)
             choice = popup_menu(stdscr, inv['name'][:32], [
                 ('s', f'Excluir: saldo de {brl_fmt(inv["balance"])} foi sacado'),
-                ('t', 'Excluir: saldo foi para outro ativo'),
+                ('t', 'Saldo foi para outro ativo: transferir'),
                 ('n', 'Cancelar'),
             ])
+            if choice == 't':
+                return act_transfer(stdscr, inv)
         else:
             choice = popup_menu(stdscr, inv['name'][:32], [
                 ('s', 'Sim, excluir'),
                 ('n', 'Cancelar'),
             ])
-        if choice in ('s', 't'):
-            if choice == 's' and inv.get('balance'):
+        if choice == 's':
+            if inv.get('balance'):
                 usd = inv.get('balanceUSD') if 'investedUSD' in inv else None
                 record_flow(data, inv, -inv['balance'], usd=-usd if usd else None)
             data['investments'] = [i for i in data['investments'] if i is not inv]
@@ -710,15 +722,36 @@ def run_tui(data, crypto_prices=None):
             new_inv['balance']  = balance
 
         if new_inv['balance'] > 0:
-            # Dinheiro novo é aporte; saldo vindo de outro ativo (ou já existente), não
+            # De onde veio o saldo: dinheiro novo (aporte), outro ativo (transferência
+            # agora, que baixa a origem) ou um ativo que já existia fora do cadastro
             origin = popup_menu(stdscr, f'Saldo inicial {brl_fmt(new_inv["balance"])}', [
                 ('a', 'Aporte: dinheiro novo na carteira'),
-                ('t', 'Veio de outro ativo / já existia'),
+                ('t', 'Veio de outro ativo: transferir agora'),
+                ('j', 'Já existia: ativo que eu tinha e não estava cadastrado'),
             ])
             if origin is None: return False
             if origin == 'a':
                 usd = new_inv.get('balanceUSD')
                 record_flow(data, new_inv, new_inv['balance'], usd=usd)
+            elif origin == 't':
+                src = pick_asset(stdscr, 'Origem do dinheiro', exclude=None)
+                if src is None: return False
+                usd = 'investedUSD' in new_inv
+                cost_key = 'investedUSD' if usd else 'invested'
+                target, cost = (new_inv['balanceUSD'] if usd else new_inv['balance']), new_inv[cost_key]
+                # Começa zerado: a transferência leva o saldo da origem para o ativo novo
+                new_inv.update({'balance': 0.0, cost_key: 0.0, **({'balanceUSD': 0.0} if usd else {})})
+                data['investments'].append(new_inv)
+                dol = data.get('dollarRate', 1)
+                same = ('investedUSD' in src) == usd
+                amount = target if same else (target * dol if usd else target / dol)
+                if not act_transfer(stdscr, src, dst=new_inv, amount=amount):
+                    data['investments'] = [i for i in data['investments'] if i is not new_inv]
+                    return False
+                new_inv[cost_key] = cost   # custo informado no cadastro
+                pre_balances[asset_key(new_inv)] = new_inv['balance']
+                dirty[0] = True
+                return True
 
         data['investments'].append(new_inv)
         pre_balances[asset_key(new_inv)] = new_inv['balance']
@@ -1723,7 +1756,10 @@ def run_tui(data, crypto_prices=None):
                             det_sel[0] = max(0, det_sel[0] - 1)
                         refresh()
                 elif choice == 'x':
-                    if act_delete(stdscr, inv):
-                        det_sel[0] = max(0, det_sel[0] - 1); refresh()
+                    n_before = len(data['investments'])
+                    if act_delete(stdscr, inv):   # excluído, ou saldo transferido
+                        if len(data['investments']) < n_before:
+                            det_sel[0] = max(0, det_sel[0] - 1)
+                        refresh()
 
     curses.wrapper(_app)
