@@ -101,6 +101,15 @@ em dias úteis). Se o valor digitado diferir mais de 1% do estimado, a barra avi
 ser erro de digitação ou de ativo. A estimativa é bruta (sem IR) e deixa de fora Tesouro
 Direto (preço de mercado), IPCA+ e ativos em dólar. Cadastre a taxa em *Editar dados*.
 
+**Valor líquido de IR.** O Sumário mostra, para a renda fixa em reais, quanto você
+resgataria hoje: bruto, IR + IOF e líquido. O IR segue a tabela regressiva sobre o ganho
+(22,5% até 180 dias, 20% até 360, 17,5% até 720, 15% acima), e o IOF vale nos primeiros
+29 dias. LCA, LCI e ativos com `taxExempt` são isentos. A coluna **Líquida** é a taxa
+descontado o IR do prazo até o vencimento: compare CDB com LCA por ela (CDB 116% do CDI por
+mais de 2 anos ≈ 98,6% do CDI líquido). Sem `purchaseDate`, o prazo conta da primeira foto
+do histórico e o IR aparece com `≈` (pode ficar acima do real): cadastre a data da compra
+em *Editar dados*. Fundos, ETFs e ações ficam de fora (regras próprias).
+
 Ao salvar:
 
 - `data/investments.json` é gravado e um snapshot vai para `data/history.json`
@@ -272,6 +281,7 @@ convertidos pela cotação do dia.
 │   ├── analyze.py        # Prompt de análise para IA
 │   ├── check.py          # `investsh check`: inconsistências nos dados
 │   ├── estimate.py       # Saldo estimado da renda fixa (% do CDI, prefixado)
+│   ├── tax.py            # IR/IOF da renda fixa: resgate líquido e taxa líquida
 │   └── examples/         # Dados fictícios (ponto de partida)
 ├── tests/                # Testes de regressão (ver tests/README.md)
 └── docs/

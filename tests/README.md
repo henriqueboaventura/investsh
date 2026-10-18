@@ -29,6 +29,7 @@ marcado como `slow` automaticamente e só roda com `--all`.
 | `test_config_file.py` | `investsh.toml`: commit/push automático, validação, variável de ambiente por cima | Repositório git real com remoto |
 | `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
 | `test_estimate.py` | Saldo estimado: data do saldo, CDI e prefixado por dia útil, o que fica de fora, tolerância | Unitário, valores calculados à mão |
+| `test_tax.py` | IR e IOF regressivos, isenção, prazo sem data da compra, taxa líquida no vencimento | Unitário, valores calculados à mão |
 | `test_check.py` | `investsh check`: cada erro e aviso, códigos de saída | Unitário, dados montados à mão |
 | `test_cli.py` | Pasta de dados (`--dir`, `$INVESTSH_DIR`, padrão `~/.investsh`, `~`), `--version`, subcomandos | Asserções |
 
