@@ -1,6 +1,6 @@
 === campos do ativo ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -17,7 +17,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 110% CDI           │
                                         │ [b] Corretora          XP                                │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          CDB                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -46,7 +46,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -92,7 +92,7 @@
 =====================================================================================================================================#######
 === nome trocado ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -109,7 +109,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 2028               │
                                         │ [b] Corretora          XP                                │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          CDB                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -138,7 +138,7 @@
  Nome: CDB Banco Alfa 2028
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -184,7 +184,7 @@
 ===========================================================================================================================================#
 === nome repetido na XP: erro no título ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -201,7 +201,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 2028               │
                                         │ [b] Corretora          XP                                │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          CDB                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -230,7 +230,7 @@
  Nome: Tesouro Selic 2029
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -276,7 +276,7 @@
 ===========================================================================================================================================#
 === corretora trocada ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -293,7 +293,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 2028               │
                                         │ [b] Corretora          Nubank                            │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          CDB                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -322,7 +322,7 @@
  Nome: Tesouro Selic 2029
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -368,7 +368,7 @@
 ===========================================================================================================================================#
 === data inválida: erro no título ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -385,7 +385,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 2028               │
                                         │ [b] Corretora          Nubank                            │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          CDB                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -414,7 +414,7 @@
  Vencimento AAAA-MM-DD ou DD/MM/AAAA (vazio = nenhuma): 31/02/2028
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -458,9 +458,9 @@
 
 
 ===========================================================================================================================================#
-=== vencimento, taxa, isenção e liquidez ===
+=== vencimento, taxa, isenção, liquidez e categoria ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -477,7 +477,7 @@
                                         ├──────────────────────────────────────────────────────────┤
                                         │ [n] Nome               CDB Banco Alfa 2028               │
                                         │ [b] Corretora          Nubank                            │
-                                        │ [k] Categoria          CDB                               │
+                                        │ [a] Categoria          LCA                               │
                                         │ [y] Tipo               POS                               │
                                         │ [v] Vencimento         2028-06-15                        │
                                         │ [d] Data da compra     —                                 │
@@ -506,7 +506,7 @@
  Taxa (% do CDI): 112,5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -552,12 +552,12 @@
 ===========================================================================================================================================#
 === concluído ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   ── Nubank  R$ 42.143,67 (20.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
   ──────────────────────────────────────────────────────────────────────────────────────────
-  CDB Banco Alfa 2028                       CDB                       R$ 23.210,72   +15.5%      +R$ 208,00
+  CDB Banco Alfa 2028                       LCA                       R$ 23.210,72   +15.5%      +R$ 208,00
 
 
 
@@ -598,7 +598,7 @@
  ✓ Dados de CDB Banco Alfa 2028 atualizados                                                                                           1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  .......   ........
+  .......   .............   ........   .........   ........  #########  ...........   .......   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -727,7 +727,7 @@
       "allocationGroup": "RF_CDI",
       "balance": 24000.0,
       "broker": "Nubank",
-      "category": "CDB",
+      "category": "LCA",
       "fgcEligible": true,
       "indexer": "CDI",
       "invested": 20100.0,
@@ -3112,7 +3112,7 @@
       {
         "balance": 24000.0,
         "broker": "Nubank",
-        "category": "CDB",
+        "category": "LCA",
         "maturity": "2028-06-15",
         "name": "CDB Banco Alfa 2028",
         "type": "POS"

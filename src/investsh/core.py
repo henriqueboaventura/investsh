@@ -421,6 +421,43 @@ def rename_asset(data, inv, name, broker):
     return None
 
 
+FLOW_KINDS = [('aporte', 'Aporte'), ('saque', 'Saque'), ('provento', 'Provento')]
+
+
+def flow_kind(flow):
+    """'aporte' (+), 'saque' (-) ou 'provento' (-, kind='provento')."""
+    if flow.get('kind') == 'provento':
+        return 'provento'
+    return 'aporte' if flow.get('amount', 0) >= 0 else 'saque'
+
+
+def set_flow_kind(flow, kind):
+    """Muda o tipo do lançamento: o sinal acompanha (aporte +, saque e provento -)."""
+    sign = 1 if kind == 'aporte' else -1
+    flow['amount'] = round(sign * abs(flow.get('amount', 0)), 2)
+    if 'usd' in flow:
+        flow['usd'] = round(sign * abs(flow['usd']), 4)
+    if kind == 'provento':
+        flow['kind'] = 'provento'
+    else:
+        flow.pop('kind', None)
+
+
+def set_flow_value(flow, value):
+    """Novo valor (positivo) na moeda do lançamento; o sinal fica o do tipo.
+
+    Lançamento em dólar é editado em USD, e o valor em R$ acompanha pela mesma cotação
+    da época (amount/usd).
+    """
+    sign = 1 if flow_kind(flow) == 'aporte' else -1
+    if flow.get('usd'):
+        rate = abs(flow['amount'] / flow['usd'])
+        flow['usd'] = round(sign * value, 4)
+        flow['amount'] = round(sign * value * rate, 2)
+    else:
+        flow['amount'] = round(sign * value, 2)
+
+
 def start_flow_log(data):
     """No save: a partir desta data os aportes/saques registrados estão completos."""
     data.setdefault('flows', [])

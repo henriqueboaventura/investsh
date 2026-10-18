@@ -197,7 +197,7 @@ def test_edit_asset(demo, tui_factory):
     t.press('v').fill('31/02/2028').snap('data inválida: erro no título')
     t.press('v').fill('15/06/2028')
     t.press('r', '0').fill('112,5')
-    t.press('e', 'l', '3').snap('vencimento, taxa, isenção e liquidez')
+    t.press('e', 'l', '3', 'a', '1').snap('vencimento, taxa, isenção, liquidez e categoria')
     t.press('c').snap('concluído')
     t.press('enter', 'u').fill('24000')                    # saldo novo depois da troca de nome
     t.press('w', 's', until='✓ Salvo')
@@ -208,9 +208,50 @@ def test_edit_asset(demo, tui_factory):
     assert a['broker'] == 'Nubank' and a['maturity'] == '2028-06-15'
     assert a['rate'] == {'kind': 'PERCENT_CDI', 'value': 112.5}
     assert a['taxExempt'] is True and a['liquidity'] == 'AT_MATURITY'
+    assert a['category'] == 'LCA'
     assert a['balance'] == 24000 and a['previousBalance'] == 23110.72   # saldo do início da sessão
     assert [(f['name'], f['broker']) for f in data['flows']] == [('CDB Banco Alfa 2028', 'Nubank')]
     finish(demo, t, 'edit_asset')
+
+
+def test_flows_tab(demo, tui_factory):
+    # Aba Lançamentos: lista por mês, do mais recente; Enter corrige o registro (saldos não mudam)
+    import json
+    def seed(d):
+        d['flowsSince'] = '2026-09-01'
+        d['flows'] = [
+            {'date': '2026-08-20', 'name': 'Tesouro Selic 2029', 'broker': 'XP', 'amount': 500.0},
+            {'date': '2026-09-15', 'name': 'FII Papel Exemplo (PAPL11)', 'broker': 'XP', 'amount': -72.5,
+             'kind': 'provento'},
+            {'date': '2026-10-02', 'name': 'SGOV', 'broker': 'Nomad', 'amount': 271.61, 'usd': 50.0},
+            {'date': '2026-10-03', 'name': 'CDB Banco Alfa 110% CDI', 'broker': 'XP', 'amount': -1000.0},
+        ]
+    demo.edit(seed)
+    # Saldos em reais (dólar e cripto mudam com as cotações ao abrir)
+    brl = lambda d: {i['name']: i['balance'] for i in d['investments']
+                     if 'investedUSD' not in i and i['category'] != 'Crypto'}
+    before = brl(demo.read('investments.json'))
+    t = tui_factory()
+    t.press('l').snap('aba Lançamentos')
+    t.press('enter').snap('popup do lançamento')
+    t.press('v').fill('1200').snap('valor corrigido')
+    t.press('enter', 't', 'a').snap('saque virou aporte')
+    t.press('enter', 'a').type('beta').press('enter', '0').snap('ativo trocado')
+    t.press('enter', 'd').fill('31/09/2026').snap('data inválida')
+    t.press('down', 'enter', 'v').fill('60').snap('lançamento em USD: valor em dólar')
+    t.press('down', 'down', 'enter', 'x', 's').snap('lançamento excluído')
+    t.press('w', 's', until='✓ Salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = demo.read('investments.json')
+    assert data['flows'] == [
+        {'date': '2026-09-15', 'name': 'FII Papel Exemplo (PAPL11)', 'broker': 'XP', 'amount': -72.5,
+         'kind': 'provento'},
+        {'date': '2026-10-02', 'name': 'SGOV', 'broker': 'Nomad', 'amount': 325.93, 'usd': 60.0},
+        {'date': '2026-10-03', 'name': 'LCA Banco Beta 95% CDI', 'broker': 'XP', 'amount': 1200.0},
+    ]
+    assert brl(data) == before
+    finish(demo, t, 'flows_tab')
 
 
 def test_update_all(demo, tui_factory):

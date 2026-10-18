@@ -84,11 +84,11 @@ investsh
 | Tecla | Ação |
 |---|---|
 | `u` | Atualizar o saldo de todos os ativos, um a um (Enter mantém o valor) |
-| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir, liquidar vencimento, editar dados ou excluir o ativo selecionado |
+| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir, liquidar vencimento, editar dados ou excluir o ativo selecionado. Na aba Lançamentos: corrigir o lançamento selecionado |
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
-| `s` `r` `a` `i` `o` `d` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Brokers, Gráficos |
+| `s` `r` `a` `i` `o` `d` `l` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Lançamentos, Brokers, Gráficos |
 | `↑` `↓` / `j` `k` | Navegar |
 | `R` | Recarregar do disco (após editar os arquivos por fora) |
 | `w` | Salvar |
@@ -170,6 +170,11 @@ dinheiro saindo da carteira). A transferência baixa o saldo e o custo da origem
 proporção, sobe os do destino e, se a origem zerar, oferece excluí-la. Cripto fica de fora
 (o saldo vem da quantidade): compra de cripto com dinheiro novo aparece como valorização,
 então registre um aporte em outro ativo antes de transferir.
+
+A aba **Lançamentos** (`l`) lista tudo isso por mês, do mais recente, com os totais de
+aportes, saques e proventos (lançamentos anteriores a `flowsSince` aparecem apagados: não
+entram na rentabilidade). Enter num lançamento corrige valor, data, tipo ou ativo, ou o
+exclui. A correção é só do registro: os saldos dos ativos não mudam.
 
 Antes do primeiro save com essa versão (`flowsSince`), sem os lançamentos, o investsh usa a
 variação do custo total entre as fotos, que é uma aproximação.

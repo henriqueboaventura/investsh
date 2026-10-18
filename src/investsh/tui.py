@@ -8,6 +8,7 @@ from .core import (
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
     can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
+    FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value,
 )
 from .storage import do_save_tui
 from . import perf
@@ -148,6 +149,10 @@ def run_tui(data, crypto_prices=None):
                 pass
             win.refresh()
             ch = win.getch()
+            # Tecla de uma opção vence a navegação: j/k só movem quando não são opções
+            hit = next((k for k, _ in options if 0 <= ch < 256 and chr(ch) == k), None)
+            if hit is not None:
+                result = hit; break
             if ch in (10, 13, curses.KEY_ENTER):
                 result = options[sel][0]; break
             elif ch == 27:
@@ -156,13 +161,6 @@ def run_tui(data, crypto_prices=None):
                 sel = max(0, sel - 1)
             elif ch in (curses.KEY_DOWN, ord('j')):
                 sel = min(len(options) - 1, sel + 1)
-            elif 0 <= ch < 256:
-                for k, _ in options:
-                    if chr(ch) == k:
-                        result = k; break
-                else:
-                    continue
-                break
 
         del win
         stdscr.touchwin()
@@ -249,7 +247,7 @@ def run_tui(data, crypto_prices=None):
         dirty[0] = True
         return True
 
-    def pick_asset(stdscr, title, exclude):
+    def pick_asset(stdscr, title, exclude, allow=can_transfer):
         """Busca um ativo por nome ou corretora e escolhe na lista. None = cancelado."""
         h, _ = stdscr.getmaxyx()
         limit = max(1, min(36, h - 8))   # o popup precisa caber na tela
@@ -259,7 +257,7 @@ def run_tui(data, crypto_prices=None):
             if q is None: return None
             ql = q.lower()
             found = sorted((i for i in data['investments']
-                            if i is not exclude and can_transfer(i)
+                            if i is not exclude and allow(i)
                             and ql in f'{i["name"]} {i.get("broker", "")}'.lower()), key=sort_key)
             if not found:
                 prompt = f'Nada encontrado para "{q[:20]}"; {title.lower()}'
@@ -387,6 +385,52 @@ def run_tui(data, crypto_prices=None):
             status_msg[0] = f'Vencimento: {inv["name"][:40]} ainda com saldo'
         return True
 
+    def act_flow(stdscr, flow):
+        """Corrige o registro de um lançamento. Os saldos dos ativos não mudam."""
+        usd = bool(flow.get('usd'))
+        val = abs(flow['usd']) if usd else abs(flow['amount'])
+        value_s = f'{val:,.2f} USD' if usd else brl_fmt(val)
+        kind = flow_kind(flow)
+        choice = popup_menu(stdscr, f'{flow.get("date")} · {dict(FLOW_KINDS)[kind]} {value_s}', [
+            ('v', f'Valor  {value_s}'),
+            ('d', f'Data  {flow.get("date")}'),
+            ('t', f'Tipo  {dict(FLOW_KINDS)[kind]}'),
+            ('a', f'Ativo  {flow.get("broker", "")} · {flow.get("name", "")[:36]}'),
+            ('x', 'Excluir lançamento'),
+            ('c', 'Cancelar (corrige só o registro: os saldos não mudam)'),
+        ])
+        if choice == 'v':
+            new = curs_input(stdscr, f'Valor ({"USD" if usd else "R$"}, sem sinal)', default=round(val, 2),
+                             numeric=True)
+            if new is None or new <= 0: return False
+            set_flow_value(flow, new)
+        elif choice == 'd':
+            text = curs_input(stdscr, 'Data AAAA-MM-DD ou DD/MM/AAAA', default=flow.get('date', ''))
+            if not text: return False
+            day = parse_maturity(text)
+            if day is None:
+                status_msg[0] = f'✗ Data inválida: {text}'
+                return False
+            flow['date'] = day.isoformat()
+        elif choice == 't':
+            new = popup_menu(stdscr, 'Tipo do lançamento',
+                             [(k[0], label) for k, label in FLOW_KINDS])
+            if new is None: return False
+            set_flow_kind(flow, next(k for k, _ in FLOW_KINDS if k[0] == new))
+        elif choice == 'a':
+            inv = pick_asset(stdscr, 'Ativo', exclude=None, allow=lambda i: True)
+            if inv is None: return False
+            flow['name'], flow['broker'] = inv['name'], inv.get('broker', '')
+        elif choice == 'x':
+            if popup_menu(stdscr, 'Excluir lançamento?', [('s', 'Sim, excluir'), ('n', 'Cancelar')]) != 's':
+                return False
+            data['flows'] = [f for f in data.get('flows', []) if f is not flow]
+        else:
+            return False
+        dirty[0] = True
+        status_msg[0] = '✓ Lançamento corrigido (saldos não mudam)'
+        return True
+
     def act_delete(stdscr, inv):
         if inv.get('balance'):
             # Saldo que sai da carteira é saque; se foi para outro ativo, não
@@ -457,7 +501,7 @@ def run_tui(data, crypto_prices=None):
         while True:
             fields = [
                 ('n', 'Nome', inv['name']), ('b', 'Corretora', inv.get('broker')),
-                ('k', 'Categoria', inv.get('category')), ('y', 'Tipo', inv.get('type')),
+                ('a', 'Categoria', inv.get('category')), ('y', 'Tipo', inv.get('type')),
                 ('v', 'Vencimento', inv.get('maturity')), ('d', 'Data da compra', inv.get('purchaseDate')),
                 ('i', 'Indexador', inv.get('indexer')), ('r', 'Taxa', rate_text()),
                 ('g', 'Grupo de alocação', inv.get('allocationGroup')),
@@ -490,7 +534,7 @@ def run_tui(data, crypto_prices=None):
                     pre_balances[asset_key(inv)] = pre_balances.pop(old_key)
                 changed = True
                 continue
-            if key == 'k':
+            if key == 'a':
                 ok, val = choose(stdscr, 'Categoria', CATEGORIES, other=True)
             elif key == 'y':
                 ok, val = choose(stdscr, 'Tipo', [t for t in TYPES if t != '(nenhum)'], none=True)
@@ -529,7 +573,7 @@ def run_tui(data, crypto_prices=None):
                 changed = True
                 continue
             if not ok: continue
-            field = {'k': 'category', 'y': 'type', 'i': 'indexer', 'g': 'allocationGroup',
+            field = {'a': 'category', 'y': 'type', 'i': 'indexer', 'g': 'allocationGroup',
                      'o': 'purpose', 'l': 'liquidity', 'e': 'taxExempt', 'f': 'fgcEligible'}[key]
             if field == 'allocationGroup' and not val: continue   # grupo é obrigatório
             inv[field] = val
@@ -801,8 +845,10 @@ def run_tui(data, crypto_prices=None):
         REV  = curses.A_REVERSE
 
         TABS     = [('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'),
-                    ('o', 'Objetivo'), ('d', 'Detalhe'), ('b', 'Brokers'), ('g', 'Gráficos')]
+                    ('o', 'Objetivo'), ('d', 'Detalhe'), ('l', 'Lançamentos'), ('b', 'Brokers'),
+                    ('g', 'Gráficos')]
         TAB_KEYS = {k for k, _ in TABS}
+        SEL_TABS = {'d', 'l'}   # abas com cursor de linha (Enter abre as ações)
 
         tab      = ['s']
         scrolls  = {k: 0 for k, _ in TABS}
@@ -1077,6 +1123,44 @@ def run_tui(data, crypto_prices=None):
                 ], inv))
             return out, sel
 
+        def build_flows():
+            """Lançamentos (aportes, saques, proventos), do mais recente, agrupados por mês."""
+            out, sel = [], []
+            flows = data.get('flows', [])
+            since = data.get('flowsSince')
+            out.append(row([]))
+            out.append(row([seg('  Lançamentos', CYN | BOLD),
+                            seg(f'   completos desde {since}' if since else '', DIM)]))
+            if not flows:
+                out.append(row([seg('  Nenhum lançamento. Registre aportes e saques na aba Detalhe.', DIM)]))
+                return out, sel
+            totals = {k: sum(f.get('amount', 0) for f in flows if flow_kind(f) == k) for k, _ in FLOW_KINDS}
+            out.append(row([seg(f"  Aportes {brl_fmt(totals['aporte'])}   Saques {brl_fmt(totals['saque'])}"
+                                f"   Proventos {brl_fmt(totals['provento'])}", DIM)]))
+            _, tw = stdscr.getmaxyx()
+            nw = max(15, min(44, tw - 1 - 62))
+            month = None
+            for f in sorted(flows, key=lambda f: f.get('date', ''), reverse=True):
+                m = (f.get('date') or '')[:7]
+                if m != month:
+                    month = m
+                    out += [row([]),
+                            row([seg(f'  ── {m} ──', MAG | BOLD)]),
+                            row([seg(f'  {"Data":<10}  {"Tipo":<8}  {"Corretora":<9}  {"Ativo":<{nw}}  '
+                                     f'{"Valor":>14}  {"USD":>10}', DIM)])]
+                kind = flow_kind(f)
+                col = {'aporte': CYN, 'saque': YLW, 'provento': YLW}[kind]
+                usd = f'{f["usd"]:+,.2f}' if f.get('usd') else ''
+                if since and f.get('date', '') <= since:
+                    col = DIM   # antes de flowsSince: não entra na rentabilidade
+                sel.append((len(out), f))
+                out.append(row([
+                    seg(f'  {f.get("date", ""):<10}  ', 0), seg(f'{dict(FLOW_KINDS)[kind]:<8}', col),
+                    seg(f'  {f.get("broker", "")[:9]:<9}  {f.get("name", "")[:nw]:<{nw}}', 0),
+                    seg(f'  {brl_fmt(f.get("amount", 0)):>14}', col), seg(f'  {usd:>10}', DIM),
+                ]))
+            return out, sel
+
         def build_brokers():
             out  = []
             invs = data['investments']
@@ -1303,7 +1387,8 @@ def run_tui(data, crypto_prices=None):
 
         builders = {'s': build_summary, 'r': build_perf, 'a': build_allocation, 'i': build_indexer,
                     'o': build_purpose,
-                    'd': lambda: build_detail(search[0]), 'b': build_brokers, 'g': build_charts}
+                    'd': lambda: build_detail(search[0]), 'l': build_flows, 'b': build_brokers,
+                    'g': build_charts}
 
         def refresh():
             t = tab[0]
@@ -1375,7 +1460,7 @@ def run_tui(data, crypto_prices=None):
             for i, r in enumerate(cur_lines[scroll:scroll + content_h]):
                 y    = 2 + i
                 if y >= h - 1: break
-                is_s = (t == 'd' and selectbl[0] and det_sel[0] < len(selectbl[0])
+                is_s = (t in SEL_TABS and selectbl[0] and det_sel[0] < len(selectbl[0])
                         and selectbl[0][det_sel[0]][0] == scroll + i)
                 x = 0
                 for txt, attr in r['segs']:
@@ -1397,6 +1482,8 @@ def run_tui(data, crypto_prices=None):
                 hint = f' Buscar: {search[0]}█  Esc limpar  Enter confirmar'
             elif t == 'd':
                 hint = ' /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair'
+            elif t == 'l':
+                hint = ' ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair'
             else:
                 hint = ' s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair'
             try:
@@ -1481,28 +1568,34 @@ def run_tui(data, crypto_prices=None):
                 if new != t:
                     tab[0] = new; search[0] = ''; srch_act[0] = False; refresh()
             elif key in (ord('j'), curses.KEY_DOWN):
-                if t == 'd' and selectbl[0]:
+                if t in SEL_TABS and selectbl[0]:
                     det_sel[0] = min(det_sel[0] + 1, len(selectbl[0]) - 1)
                     ensure_visible(content_h)
                 else:
                     scrolls[t] = min(scrolls[t] + 1, max(0, n - content_h))
             elif key in (ord('k'), curses.KEY_UP):
-                if t == 'd' and selectbl[0]:
+                if t in SEL_TABS and selectbl[0]:
                     det_sel[0] = max(0, det_sel[0] - 1)
                     ensure_visible(content_h)
                 else:
                     scrolls[t] = max(0, scrolls[t] - 1)
             elif key in (curses.KEY_NPAGE, ord(' ')):
                 scrolls[t] = min(scrolls[t] + content_h, max(0, n - content_h))
-                if t == 'd': det_sel[0] = min(det_sel[0], max(0, len(selectbl[0]) - 1))
+                if t in SEL_TABS: det_sel[0] = min(det_sel[0], max(0, len(selectbl[0]) - 1))
             elif key == curses.KEY_PPAGE:
                 scrolls[t] = max(0, scrolls[t] - content_h)
-                if t == 'd': det_sel[0] = max(0, det_sel[0] - content_h)
+                if t in SEL_TABS: det_sel[0] = max(0, det_sel[0] - content_h)
             elif key == curses.KEY_HOME:  # 'g' é a aba Gráficos
                 scrolls[t] = 0; det_sel[0] = 0
             elif key in (ord('G'), curses.KEY_END):
                 scrolls[t] = max(0, n - content_h)
                 det_sel[0] = max(0, len(selectbl[0]) - 1)
+            elif key in (10, 13, curses.KEY_ENTER) and t == 'l' and selectbl[0]:
+                _, flow = selectbl[0][det_sel[0]]
+                if act_flow(stdscr, flow):
+                    keep = scrolls['l']
+                    refresh()
+                    scrolls['l'] = min(keep, max(0, len(lines[0]) - 1))
             elif key in (10, 13, curses.KEY_ENTER) and t == 'd' and selectbl[0]:
                 _, inv = selectbl[0][det_sel[0]]
                 options = [('u', f'Atualizar saldo  {brl_fmt(inv["balance"])}')]

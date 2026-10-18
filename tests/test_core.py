@@ -251,3 +251,27 @@ def test_rename_asset_keeps_reserve_name_still_in_use(f):
     data = {'investments': [a, b], 'emergencyReserve': {'assetNames': ['Caixa']}}
     f.rename_asset(data, a, 'Caixa XP', 'XP')
     assert data['emergencyReserve']['assetNames'] == ['Caixa', 'Caixa XP']
+
+
+# ── Lançamentos ──────────────────────────────────────────────────────────────
+
+def test_flow_kind_and_change(f):
+    fl = {'amount': -50.0}
+    assert f.flow_kind(fl) == 'saque'
+    f.set_flow_kind(fl, 'aporte')
+    assert fl == {'amount': 50.0} and f.flow_kind(fl) == 'aporte'
+    f.set_flow_kind(fl, 'provento')
+    assert fl == {'amount': -50.0, 'kind': 'provento'} and f.flow_kind(fl) == 'provento'
+    f.set_flow_kind(fl, 'saque')
+    assert fl == {'amount': -50.0}
+
+
+def test_set_flow_value_keeps_sign_and_dollar_rate(f):
+    fl = {'amount': -100.0}
+    f.set_flow_value(fl, 80)
+    assert fl['amount'] == -80.0
+    usd = {'amount': 271.61, 'usd': 50.0}          # cotação da época: 5.4322
+    f.set_flow_value(usd, 60)
+    assert usd == {'amount': 325.93, 'usd': 60.0}
+    f.set_flow_kind(usd, 'saque')
+    assert usd == {'amount': -325.93, 'usd': -60.0}
