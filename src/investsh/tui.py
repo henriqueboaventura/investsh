@@ -7,7 +7,7 @@ from .core import (
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
-    can_transfer, transfer, cash_asset,
+    can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
 )
 from .storage import do_save_tui
 from . import perf
@@ -416,6 +416,128 @@ def run_tui(data, crypto_prices=None):
     INDEXERS = _INDEXERS + ['(nenhum)', 'Outro (digitar)']
     ALLOCATION_GROUPS = _ALLOCATION_GROUPS + ['Outro (digitar)']
     PURPOSES = _PURPOSES + ['Outro (digitar)']
+
+    RATE_KINDS = [('PERCENT_CDI', '% do CDI'), ('ANNUAL_FIXED', 'Prefixado (% a.a.)'),
+                  ('IPCA_PLUS', 'IPCA + (% a.a.)')]
+    LIQUIDITY = [('IMMEDIATE', 'Imediata'), ('DAILY', 'Diária'),
+                 ('DAILY_MARKET_PRICE', 'Diária, a mercado'), ('AT_MATURITY', 'No vencimento')]
+
+    def choose(stdscr, title, values, other=False, none=False):
+        """Escolhe um valor da lista. Devolve (ok, valor); ok=False = cancelado."""
+        keys = '0123456789abcdefghijklmnopqrstuvwxyz'
+        labels = [v if isinstance(v, str) else v[1] for v in values]
+        items = [v if isinstance(v, str) else v[0] for v in values]
+        if none:
+            labels.append('(nenhum)'); items.append(None)
+        if other:
+            labels.append('Outro (digitar)'); items.append(...)
+        choice = popup_menu(stdscr, title, [(keys[i] if i < len(keys) else str(i), l)
+                                            for i, l in enumerate(labels)])
+        if choice is None:
+            return False, None
+        val = items[keys.index(choice) if choice in keys else int(choice)]
+        if val is ...:
+            val = curs_input(stdscr, title)
+            if val is None: return False, None
+            val = val.strip() or None
+        return True, val
+
+    def act_edit(stdscr, inv):
+        """Corrige os dados do ativo (nome, corretora, taxa, vencimento...). Saldo fica igual."""
+        def show(v):
+            return '—' if v in (None, '') else ('sim' if v is True else 'não' if v is False else str(v))
+
+        def rate_text():
+            r = inv.get('rate') or {}
+            label = dict(RATE_KINDS).get(r.get('kind'))
+            return f'{label}: {r.get("value")}' if label else '—'
+
+        changed = False
+        note = None   # erro da última tentativa, mostrado no título da janela
+        while True:
+            fields = [
+                ('n', 'Nome', inv['name']), ('b', 'Corretora', inv.get('broker')),
+                ('k', 'Categoria', inv.get('category')), ('y', 'Tipo', inv.get('type')),
+                ('v', 'Vencimento', inv.get('maturity')), ('d', 'Data da compra', inv.get('purchaseDate')),
+                ('i', 'Indexador', inv.get('indexer')), ('r', 'Taxa', rate_text()),
+                ('g', 'Grupo de alocação', inv.get('allocationGroup')),
+                ('o', 'Objetivo', inv.get('purpose')),
+                ('l', 'Liquidez', dict(LIQUIDITY).get(inv.get('liquidity'), inv.get('liquidity'))),
+                ('e', 'Isento de IR', inv.get('taxExempt')), ('f', 'Garantia do FGC', inv.get('fgcEligible')),
+            ]
+            opts = [(k, f'{label:<18} {show(v)[:44]}') for k, label, v in fields]
+            key = popup_menu(stdscr, note or f'Editar  {inv["name"][:40]}', opts + [('c', 'Concluir')])
+            note = None
+            if key in (None, 'c'):
+                break
+            label = next(l for k, l, _ in fields if k == key)
+            ok, val = False, None
+            if key in ('n', 'b'):
+                if key == 'n':
+                    name = curs_input(stdscr, 'Nome', default=inv['name'])
+                    if name is None: continue
+                    broker = inv.get('broker', '')
+                else:
+                    ok, broker = choose(stdscr, 'Corretora', BROKERS, other=True)
+                    if not ok or not broker: continue
+                    name = inv['name']
+                old_key = asset_key(inv)
+                err = rename_asset(data, inv, name, broker)
+                if err:
+                    note = f'✗ {err}'
+                    continue
+                if old_key in pre_balances:   # o save compara saldos pela chave nome + corretora
+                    pre_balances[asset_key(inv)] = pre_balances.pop(old_key)
+                changed = True
+                continue
+            if key == 'k':
+                ok, val = choose(stdscr, 'Categoria', CATEGORIES, other=True)
+            elif key == 'y':
+                ok, val = choose(stdscr, 'Tipo', [t for t in TYPES if t != '(nenhum)'], none=True)
+            elif key == 'i':
+                ok, val = choose(stdscr, 'Indexador', _INDEXERS, other=True, none=True)
+            elif key == 'g':
+                ok, val = choose(stdscr, 'Grupo de alocação', _ALLOCATION_GROUPS, other=True)
+            elif key == 'o':
+                ok, val = choose(stdscr, 'Objetivo', _PURPOSES, other=True, none=True)
+            elif key == 'l':
+                ok, val = choose(stdscr, 'Liquidez', LIQUIDITY, none=True)
+            elif key in ('e', 'f'):
+                ok, val = True, not inv.get('taxExempt' if key == 'e' else 'fgcEligible')
+            elif key in ('v', 'd'):
+                field = 'maturity' if key == 'v' else 'purchaseDate'
+                text = curs_input(stdscr, f'{label} AAAA-MM-DD ou DD/MM/AAAA (vazio = nenhuma)',
+                                  default=inv.get(field) or '')
+                if text is None: continue
+                day = parse_maturity(text) if text else None
+                if text and day is None:
+                    note = f'✗ Data inválida: {text}'
+                    continue
+                inv[field] = day.isoformat() if day else None
+                changed = True
+                continue
+            elif key == 'r':
+                ok, kind = choose(stdscr, 'Tipo de taxa', RATE_KINDS, none=True)
+                if not ok: continue
+                if kind is None:
+                    inv.pop('rate', None)
+                else:
+                    cur = (inv.get('rate') or {}).get('value', 0.0)
+                    num = curs_input(stdscr, f'Taxa ({dict(RATE_KINDS)[kind]})', default=cur, numeric=True)
+                    if num is None: continue
+                    inv['rate'] = {'kind': kind, 'value': num}
+                changed = True
+                continue
+            if not ok: continue
+            field = {'k': 'category', 'y': 'type', 'i': 'indexer', 'g': 'allocationGroup',
+                     'o': 'purpose', 'l': 'liquidity', 'e': 'taxExempt', 'f': 'fgcEligible'}[key]
+            if field == 'allocationGroup' and not val: continue   # grupo é obrigatório
+            inv[field] = val
+            changed = True
+        if changed:
+            dirty[0] = True
+            status_msg[0] = f'✓ Dados de {inv["name"][:50]} atualizados'
+        return changed
 
     def act_new_asset(stdscr):
         name = curs_input(stdscr, 'Nome do ativo')
@@ -1391,7 +1513,7 @@ def run_tui(data, crypto_prices=None):
                     options.append(('t', 'Transferir para outro ativo'))
                     if inv.get('maturity'):
                         options.append(('v', 'Liquidar vencimento'))
-                options += [('x', 'Excluir'), ('c', 'Cancelar')]
+                options += [('e', 'Editar dados do ativo'), ('x', 'Excluir'), ('c', 'Cancelar')]
                 choice = popup_menu(stdscr, inv['name'][:32], options)
                 if choice == 'u':
                     if act_update_balance(stdscr, inv): refresh()
@@ -1402,6 +1524,8 @@ def run_tui(data, crypto_prices=None):
                 elif choice == 'p':
                     if act_provento(stdscr, inv):
                         status_msg[0] = '✓ Provento registrado (o saldo não muda)'; refresh()
+                elif choice == 'e':
+                    if act_edit(stdscr, inv): refresh()
                 elif choice in ('t', 'v'):
                     n_before = len(data['investments'])
                     if (act_transfer if choice == 't' else act_liquidate)(stdscr, inv):

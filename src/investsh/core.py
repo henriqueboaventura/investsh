@@ -393,6 +393,34 @@ def cash_asset(data, broker, usd=False):
     return inv
 
 
+def rename_asset(data, inv, name, broker):
+    """Troca nome e/ou corretora do ativo. Devolve uma mensagem de erro, ou None.
+
+    Os lançamentos do ativo e a lista de ativos da reserva acompanham o nome novo;
+    as fotos do histórico ficam como estavam (registram o que era na época).
+    """
+    name = (name or '').strip()
+    old = asset_key(inv)
+    if not name:
+        return 'O nome não pode ficar vazio'
+    if (name, broker) == old:
+        return None
+    if any(i is not inv and asset_key(i) == (name, broker) for i in data['investments']):
+        return f'Já existe {name} na {broker}'
+    for f in data.get('flows', []):
+        if (f.get('name'), f.get('broker')) == old:
+            f['name'], f['broker'] = name, broker
+    names = (data.get('emergencyReserve') or {}).get('assetNames')
+    if names and old[0] in names and old[0] != name:
+        # Só se nenhum outro ativo ainda usa o nome antigo (a lista é por nome)
+        if not any(i is not inv and i.get('name') == old[0] for i in data['investments']):
+            names[names.index(old[0])] = name
+        elif name not in names:
+            names.append(name)
+    inv['name'], inv['broker'] = name, broker
+    return None
+
+
 def start_flow_log(data):
     """No save: a partir desta data os aportes/saques registrados estão completos."""
     data.setdefault('flows', [])

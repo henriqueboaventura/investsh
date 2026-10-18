@@ -185,6 +185,34 @@ def test_liquidate_maturity(demo, tui_factory):
     finish(demo, t, 'liquidate')
 
 
+def test_edit_asset(demo, tui_factory):
+    # Editar: nome e corretora levam junto os lançamentos; saldo anterior segue o ativo
+    import json
+    t = tui_factory()
+    t.press('d', '/').type('alfa').press('enter', 'enter', 'a').fill('100')   # lançamento antes
+    t.press('enter', 'e').snap('campos do ativo')
+    t.press('n').clear_field(40).type('CDB Banco Alfa 2028').press('enter').snap('nome trocado')
+    t.press('n').clear_field(40).type('Tesouro Selic 2029').press('enter').snap('nome repetido na XP: erro no título')
+    t.press('b', '1').snap('corretora trocada')
+    t.press('v').fill('31/02/2028').snap('data inválida: erro no título')
+    t.press('v').fill('15/06/2028')
+    t.press('r', '0').fill('112,5')
+    t.press('e', 'l', '3').snap('vencimento, taxa, isenção e liquidez')
+    t.press('c').snap('concluído')
+    t.press('enter', 'u').fill('24000')                    # saldo novo depois da troca de nome
+    t.press('w', 's', until='✓ Salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = json.loads((demo.root / 'data' / 'investments.json').read_text(encoding='utf-8'))
+    a = next(i for i in data['investments'] if i['name'] == 'CDB Banco Alfa 2028')
+    assert a['broker'] == 'Nubank' and a['maturity'] == '2028-06-15'
+    assert a['rate'] == {'kind': 'PERCENT_CDI', 'value': 112.5}
+    assert a['taxExempt'] is True and a['liquidity'] == 'AT_MATURITY'
+    assert a['balance'] == 24000 and a['previousBalance'] == 23110.72   # saldo do início da sessão
+    assert [(f['name'], f['broker']) for f in data['flows']] == [('CDB Banco Alfa 2028', 'Nubank')]
+    finish(demo, t, 'edit_asset')
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

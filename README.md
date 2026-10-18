@@ -84,7 +84,7 @@ investsh
 | Tecla | Ação |
 |---|---|
 | `u` | Atualizar o saldo de todos os ativos, um a um (Enter mantém o valor) |
-| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir, liquidar vencimento ou excluir o ativo selecionado |
+| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir, liquidar vencimento, editar dados ou excluir o ativo selecionado |
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
@@ -158,6 +158,7 @@ O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investmen
 | **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
 | **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
 | **Atualizar saldo** (inclusive quantidade de cripto) | valorização |
+| **Editar dados do ativo** (nome, corretora, taxa, vencimento, liquidez...) | nada: o saldo não muda. Trocar nome ou corretora leva junto os lançamentos do ativo e a lista `assetNames` da reserva; as fotos do histórico ficam com o nome antigo |
 
 Provento que você reinveste (no mesmo ativo ou em outro) é um *Registrar aporte* normal,
 depois do *Registrar provento*. Quando há proventos, o *Histórico mensal* ganha a coluna

@@ -219,3 +219,35 @@ def test_cash_asset_found_or_created(f):
     assert cx['allocationGroup'] == 'CAIXA_TRANSITORIA'
     usd = f.cash_asset(data, 'Nomad', usd=True)
     assert (usd['investedUSD'], usd['balanceUSD']) == (0.0, 0.0) and 'invested' not in usd
+
+
+# ── Editar ativo ─────────────────────────────────────────────────────────────
+
+def test_rename_asset_updates_flows_and_reserve(f):
+    a = inv(name='Caixinha', broker='Nubank', balance=10.0)
+    b = inv(name='CDB', broker='XP', balance=5.0)
+    data = {'investments': [a, b], 'emergencyReserve': {'assetNames': ['Caixinha']},
+            'flows': [{'name': 'Caixinha', 'broker': 'Nubank', 'amount': 1.0},
+                      {'name': 'Caixinha', 'broker': 'XP', 'amount': 2.0}]}
+    assert f.rename_asset(data, a, ' Caixinha Reserva ', 'Nubank') is None
+    assert (a['name'], a['broker']) == ('Caixinha Reserva', 'Nubank')
+    assert [fl['name'] for fl in data['flows']] == ['Caixinha Reserva', 'Caixinha']   # outra corretora fica
+    assert data['emergencyReserve']['assetNames'] == ['Caixinha Reserva']
+    assert f.rename_asset(data, b, 'CDB', 'Nubank') is None
+    assert data['flows'][1]['broker'] == 'XP' and b['broker'] == 'Nubank'
+
+
+def test_rename_asset_refuses_duplicate_and_empty(f):
+    a, b = inv(name='A', broker='XP'), inv(name='B', broker='XP')
+    data = {'investments': [a, b]}
+    assert f.rename_asset(data, a, 'B', 'XP') == 'Já existe B na XP'
+    assert f.rename_asset(data, a, '  ', 'XP') == 'O nome não pode ficar vazio'
+    assert f.rename_asset(data, a, 'B', 'Nubank') is None   # mesmo nome, outra corretora
+    assert (a['name'], a['broker']) == ('B', 'Nubank')
+
+
+def test_rename_asset_keeps_reserve_name_still_in_use(f):
+    a, b = inv(name='Caixa', broker='XP'), inv(name='Caixa', broker='Nubank')
+    data = {'investments': [a, b], 'emergencyReserve': {'assetNames': ['Caixa']}}
+    f.rename_asset(data, a, 'Caixa XP', 'XP')
+    assert data['emergencyReserve']['assetNames'] == ['Caixa', 'Caixa XP']
