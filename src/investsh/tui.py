@@ -170,6 +170,34 @@ def run_tui(data, crypto_prices=None):
 
         return result
 
+    def ask_with_box(stdscr, title, lines, prompt, default):
+        """Campo numérico na barra de baixo, com uma janela explicando o que se pede.
+
+        Sem a janela, depois de um popup o campo passa despercebido na barra e parece
+        que nada aconteceu. A janela fica aberta enquanto se digita.
+        """
+        h, w   = stdscr.getmaxyx()
+        inner  = max(len(title), *(len(l) for l in lines))
+        pw, ph = min(inner + 4, w), len(lines) + 4
+        py, px = max(1, (h - 1 - ph) // 2), max(0, (w - pw) // 2)
+        win = curses.newwin(max(1, min(ph, h - 1 - py)), max(1, pw), py, px)
+        try:
+            win.addstr(0, 0, '┌' + '─' * (pw - 2) + '┐')
+            win.addstr(1, 0, '│' + ' ' * (pw - 2) + '│')
+            win.addstr(1, 1 + (pw - 2 - len(title)) // 2, title[:pw - 2], curses.A_BOLD)
+            win.addstr(2, 0, '├' + '─' * (pw - 2) + '┤')
+            for i, line in enumerate(lines):
+                win.addstr(3 + i, 0, '│ ' + line[:pw - 4].ljust(pw - 4) + ' │')
+            win.addstr(3 + len(lines), 0, '└' + '─' * (pw - 2) + '┘')
+        except curses.error:
+            pass
+        win.refresh()
+        val = curs_input(stdscr, prompt, default=default, numeric=True)
+        del win
+        stdscr.touchwin()
+        stdscr.refresh()
+        return val
+
     # ── actions ───────────────────────────────────────────────────────────────
 
     def act_update_balance(stdscr, inv):
@@ -254,16 +282,23 @@ def run_tui(data, crypto_prices=None):
         dol = data.get('dollarRate', 1)
         src_usd, dst_usd = 'investedUSD' in src, 'investedUSD' in dst
         src_bal = src.get('balanceUSD', src.get('investedUSD', 0)) if src_usd else src['balance']
-        sent = curs_input(stdscr, f'Sai de {src["name"][:28]} ({"USD" if src_usd else "R$"})',
-                          default=round(src_bal, 2), numeric=True)
+        route = [f'De:   {src.get("broker", "")} · {src["name"][:44]}',
+                 f'Para: {dst.get("broker", "")} · {dst["name"][:44]}', '']
+        sent = ask_with_box(stdscr, 'Transferir', route + [
+            'Quanto saiu da origem? Digite na barra abaixo.',
+            'Enter = saldo todo · Esc cancela'],
+            f'Sai de {src["name"][:28]} ({"USD" if src_usd else "R$"})', round(src_bal, 2))
         if sent is None or sent <= 0: return False
         if abs(sent - src_bal) < 0.005:
             sent = src_bal   # valor padrão (arredondado na tela) = saldo todo
         if sent > src_bal: return False
         # Recebido: por padrão o mesmo valor, convertido se as moedas forem diferentes
         same = sent if src_usd == dst_usd else (sent * dol if src_usd else sent / dol)
-        received = curs_input(stdscr, f'Entra em {dst["name"][:26]} ({"USD" if dst_usd else "R$"})',
-                              default=round(same, 2), numeric=True)
+        received = ask_with_box(stdscr, 'Transferir', route + [
+            'Quanto entrou no destino? Digite na barra abaixo.',
+            'Enter = o mesmo valor' + (' (convertido pela cotação)' if src_usd != dst_usd else '')
+            + ' · Esc cancela'],
+            f'Entra em {dst["name"][:26]} ({"USD" if dst_usd else "R$"})', round(same, 2))
         if received is None or received <= 0: return False
         if received == round(same, 2):
             received = same  # padrão aceito: sem diferença de arredondamento na conversão
@@ -313,8 +348,12 @@ def run_tui(data, crypto_prices=None):
         cur = 'USD' if usd else 'R$'
         rest = lambda: inv.get('balanceUSD', 0) if usd else inv['balance']
         # 1) Valor líquido (já sem IR/IOF): a diferença para o saldo é rendimento do título
-        val = curs_input(stdscr, f'Valor líquido creditado ({cur})  {inv["name"][:26]}',
-                         default=round(rest(), 2), numeric=True)
+        bal = f'{rest():,.2f} USD' if usd else brl_fmt(rest())
+        val = ask_with_box(stdscr, 'Liquidar vencimento', [
+            f'{inv.get("broker", "")} · {inv["name"][:50]}', f'Saldo atual: {bal}', '',
+            'Quanto foi creditado, já sem IR/IOF? Digite na barra abaixo.',
+            'Enter = saldo atual · Esc cancela'],
+            f'Valor líquido creditado ({cur})', round(rest(), 2))
         if val is None or val < 0: return False
         if usd:
             inv['balanceUSD'] = val
