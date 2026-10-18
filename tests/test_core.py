@@ -162,3 +162,49 @@ def test_broker_monthly_series(tmp_path):
     assert f.broker_monthly_series(['XP', 'Nubank']) == (
         ['2026-01-01', '2026-02-01', '2026-03-01'], {'XP': [15, 0, 0], 'Nubank': [0, 0, 7]})
     assert f.broker_monthly_series(['XP'], months=1) == (['2026-03-01'], {'XP': [0]})
+
+
+# ── Transferência entre ativos ───────────────────────────────────────────────
+
+def test_transfer_moves_balance_and_cost_without_flows(f):
+    src = inv(name='CDB', invested=900.0, balance=1000.0, previousBalance=990.0)
+    dst = inv(name='LCA', invested=500.0, balance=510.0, previousBalance=505.0)
+    data = {'dollarRate': 5.0, 'investments': [src, dst]}
+    assert f.transfer(data, src, dst, 400.0, 400.0) == (400.0, 400.0)
+    # Origem: custo cai na proporção (40%); destino: custo sobe pelo valor recebido
+    assert (src['balance'], src['invested'], src['previousBalance']) == (600.0, 540.0, 590.0)
+    assert (dst['balance'], dst['invested'], dst['previousBalance']) == (910.0, 900.0, 905.0)
+    assert 'flows' not in data
+
+
+def test_transfer_between_currencies(f):
+    brl = inv(name='Caixa', invested=1000.0, balance=1000.0)
+    usd = inv(name='VT', broker='Nomad', investedUSD=100.0, balanceUSD=120.0, balance=600.0)
+    data = {'dollarRate': 5.0, 'investments': [brl, usd]}
+    assert f.transfer(data, brl, usd, 500.0, 100.0) == (500.0, 500.0)
+    assert (usd['balanceUSD'], usd['investedUSD'], usd['balance']) == (220.0, 200.0, 1100.0)
+    assert f.transfer(data, usd, brl, 22.0, 110.0) == (110.0, 110.0)
+    assert (usd['balanceUSD'], usd['investedUSD'], usd['balance']) == (198.0, 180.0, 990.0)
+    assert brl['balance'] == 610.0
+
+
+def test_transfer_refuses_more_than_balance_and_same_asset(f):
+    src = inv(name='CDB', invested=100.0, balance=100.0)
+    dst = inv(name='LCA', balance=0.0)
+    data = {'investments': [src, dst]}
+    assert f.transfer(data, src, dst, 100.01, 100.01) is None
+    assert f.transfer(data, src, src, 10.0, 10.0) is None
+    assert (src['balance'], dst['balance']) == (100.0, 0.0)
+
+
+def test_transfer_full_balance_zeroes_source(f):
+    src = inv(name='CDB', invested=7000.0, balance=7500.0)
+    dst = inv(name='LCA', balance=0.0)
+    f.transfer({'investments': [src, dst]}, src, dst, 7500.0, 7500.0)
+    assert (src['balance'], src['invested']) == (0.0, 0.0)
+    assert (dst['balance'], dst['invested']) == (7500.0, 7500.0)
+
+
+def test_can_transfer_skips_crypto(f):
+    assert f.can_transfer(inv(category='CDB'))
+    assert not f.can_transfer(inv(category='Crypto'))

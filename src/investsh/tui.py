@@ -6,7 +6,8 @@ from .core import (
     BROKER_ORDER, sort_key, classify, cost_basis, total_invested, alloc_investments,
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
-    maturity_alerts, record_flow, asset_key, balances_by_key,
+    maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
+    can_transfer, transfer,
 )
 from .storage import do_save_tui
 from . import perf
@@ -196,62 +197,97 @@ def run_tui(data, crypto_prices=None):
         return True
 
     def act_aporte(stdscr, inv):
-        cat = inv.get('category', '')
-        if cat == 'Crypto':
+        if not can_transfer(inv):
             return False  # crypto não tem custo base
-        dol = data.get('dollarRate', 1)
-        if 'investedUSD' in inv:
-            cur_usd = inv.get('investedUSD', 0)
-            val = curs_input(stdscr, f'Aporte USD  {inv["name"][:30]}', default=0.0, numeric=True)
-            if val is None or val <= 0: return False
-            inv['investedUSD'] = round(cur_usd + val, 4)
-            inv['balanceUSD']  = round(inv.get('balanceUSD', cur_usd) + val, 4)
-            inv['balance']     = round(inv['balanceUSD'] * dol, 4)
-            if 'previousBalance' in inv:
-                inv['previousBalance'] = round(inv['previousBalance'] + val * dol, 4)
-            record_flow(data, inv, val * dol, usd=val)
-            dirty[0] = True
-        else:
-            cur = inv.get('invested', 0)
-            val = curs_input(stdscr, f'Aporte R$  {inv["name"][:33]}', default=0.0, numeric=True)
-            if val is None or val <= 0: return False
-            inv['invested'] = round(cur + val, 2)
-            inv['balance']  = round(inv['balance'] + val, 2)
-            if 'previousBalance' in inv:
-                inv['previousBalance'] = round(inv['previousBalance'] + val, 2)
-            record_flow(data, inv, val)
-            dirty[0] = True
+        usd = 'investedUSD' in inv
+        prompt = f'Aporte USD  {inv["name"][:30]}' if usd else f'Aporte R$  {inv["name"][:33]}'
+        val = curs_input(stdscr, prompt, default=0.0, numeric=True)
+        if val is None or val <= 0: return False
+        brl = add_to_balance(inv, val, data.get('dollarRate', 1))
+        record_flow(data, inv, brl, usd=val if usd else None)
+        dirty[0] = True
         return True
 
     def act_saque(stdscr, inv):
-        cat = inv.get('category', '')
-        if cat == 'Crypto':
+        if not can_transfer(inv):
             return False  # crypto: ajuste pela quantidade
+        usd = 'investedUSD' in inv
+        prompt = f'Saque USD  {inv["name"][:30]}' if usd else f'Saque R$  {inv["name"][:33]}'
+        val = curs_input(stdscr, prompt, default=0.0, numeric=True)
+        if val is None or val <= 0: return False
+        brl = take_from_balance(inv, val, data.get('dollarRate', 1))
+        if brl is None: return False   # maior que o saldo
+        record_flow(data, inv, -brl, usd=-val if usd else None)
+        dirty[0] = True
+        return True
+
+    def pick_asset(stdscr, title, exclude):
+        """Busca um ativo por nome ou corretora e escolhe na lista. None = cancelado."""
+        h, _ = stdscr.getmaxyx()
+        limit = max(1, min(36, h - 8))   # o popup precisa caber na tela
+        prompt = f'{title} (busca por nome ou corretora)'
+        while True:
+            q = curs_input(stdscr, prompt)
+            if q is None: return None
+            ql = q.lower()
+            found = sorted((i for i in data['investments']
+                            if i is not exclude and can_transfer(i)
+                            and ql in f'{i["name"]} {i.get("broker", "")}'.lower()), key=sort_key)
+            if not found:
+                prompt = f'Nada encontrado para "{q[:20]}"; {title.lower()}'
+            elif len(found) > limit:
+                prompt = f'{len(found)} ativos; refine a busca do {title.lower()}'
+            else:
+                break
+        keys = '0123456789abcdefghijklmnopqrstuvwxyz'
+        opts = [(keys[n], f'{i.get("broker", ""):<8} {i["name"][:40]:<40} {brl_fmt(i["balance"]):>14}')
+                for n, i in enumerate(found)]
+        choice = popup_menu(stdscr, title, opts)
+        return None if choice is None else found[keys.index(choice)]
+
+    def act_transfer(stdscr, src):
+        """Dinheiro de um ativo para outro da carteira: sem lançamento, a soma não muda."""
+        if not can_transfer(src):
+            return False
+        dst = pick_asset(stdscr, 'Destino', exclude=src)
+        if dst is None: return False
         dol = data.get('dollarRate', 1)
-        if 'investedUSD' in inv:
-            cur_bal_usd = inv.get('balanceUSD', inv.get('investedUSD', 0))
-            val = curs_input(stdscr, f'Saque USD  {inv["name"][:30]}', default=0.0, numeric=True)
-            if val is None or val <= 0 or val > cur_bal_usd: return False
-            pct = val / cur_bal_usd
-            inv['balanceUSD']  = round(cur_bal_usd - val, 4)
-            inv['investedUSD'] = round(inv.get('investedUSD', 0) * (1 - pct), 4)
-            inv['balance']     = round(inv['balanceUSD'] * dol, 4)
-            if 'previousBalance' in inv:
-                inv['previousBalance'] = round(inv['previousBalance'] - val * dol, 4)
-            record_flow(data, inv, -val * dol, usd=-val)
-            dirty[0] = True
-        else:
-            cur_bal = inv['balance']
-            val = curs_input(stdscr, f'Saque R$  {inv["name"][:33]}', default=0.0, numeric=True)
-            if val is None or val <= 0 or val > cur_bal: return False
-            pct = val / cur_bal
-            inv['balance']  = round(cur_bal - val, 2)
-            if 'invested' in inv:
-                inv['invested'] = round(inv['invested'] * (1 - pct), 2)
-            if 'previousBalance' in inv:
-                inv['previousBalance'] = round(inv['previousBalance'] - val, 2)
-            record_flow(data, inv, -val)
-            dirty[0] = True
+        src_usd, dst_usd = 'investedUSD' in src, 'investedUSD' in dst
+        src_bal = src.get('balanceUSD', src.get('investedUSD', 0)) if src_usd else src['balance']
+        sent = curs_input(stdscr, f'Sai de {src["name"][:28]} ({"USD" if src_usd else "R$"})',
+                          default=round(src_bal, 2), numeric=True)
+        if sent is None or sent <= 0: return False
+        if abs(sent - src_bal) < 0.005:
+            sent = src_bal   # valor padrão (arredondado na tela) = saldo todo
+        if sent > src_bal: return False
+        # Recebido: por padrão o mesmo valor, convertido se as moedas forem diferentes
+        same = sent if src_usd == dst_usd else (sent * dol if src_usd else sent / dol)
+        received = curs_input(stdscr, f'Entra em {dst["name"][:26]} ({"USD" if dst_usd else "R$"})',
+                              default=round(same, 2), numeric=True)
+        if received is None or received <= 0: return False
+        if received == round(same, 2):
+            received = same  # padrão aceito: sem diferença de arredondamento na conversão
+
+        sent_brl, received_brl = transfer(data, src, dst, sent, received)
+        diff = round(received_brl - sent_brl, 2)
+        if diff > 0:
+            # Entrou mais do que saiu: o resto veio de fora da carteira?
+            if popup_menu(stdscr, f'Entrou {brl_fmt(diff)} a mais', [
+                    ('a', f'Aporte: {brl_fmt(diff)} de dinheiro novo'),
+                    ('n', 'Não registrar (já estava na carteira)')]) == 'a':
+                record_flow(data, dst, diff, usd=diff / dol if dst_usd else None)
+        elif diff < 0:
+            # Saiu mais do que entrou: o resto foi para a conta ou ficou em custos?
+            if popup_menu(stdscr, f'Saiu {brl_fmt(-diff)} a mais', [
+                    ('s', f'Saque: {brl_fmt(-diff)} foi para a conta corrente'),
+                    ('n', 'Não registrar (IR, taxa ou custo: é perda)')]) == 's':
+                record_flow(data, src, diff, usd=diff / dol if src_usd else None)
+        dirty[0] = True
+
+        if round(src['balance'], 2) <= 0 and popup_menu(stdscr, f'{src["name"][:32]} zerado', [
+                ('x', 'Excluir o ativo de origem'), ('m', 'Manter com saldo zero')]) == 'x':
+            data['investments'] = [i for i in data['investments'] if i is not src]
+        status_msg[0] = f'✓ Transferido {brl_fmt(sent_brl)}: {src["name"][:30]} → {dst["name"][:30]}'
         return True
 
     def act_provento(stdscr, inv):
@@ -1269,6 +1305,7 @@ def run_tui(data, crypto_prices=None):
                     options.append(('a', 'Registrar aporte'))
                     options.append(('s', 'Registrar saque'))
                     options.append(('p', 'Registrar provento (dividendo, cupom)'))
+                    options.append(('t', 'Transferir para outro ativo'))
                 options += [('x', 'Excluir'), ('c', 'Cancelar')]
                 choice = popup_menu(stdscr, inv['name'][:32], options)
                 if choice == 'u':
@@ -1280,6 +1317,12 @@ def run_tui(data, crypto_prices=None):
                 elif choice == 'p':
                     if act_provento(stdscr, inv):
                         status_msg[0] = '✓ Provento registrado (o saldo não muda)'; refresh()
+                elif choice == 't':
+                    n_before = len(data['investments'])
+                    if act_transfer(stdscr, inv):
+                        if len(data['investments']) < n_before:   # origem excluída
+                            det_sel[0] = max(0, det_sel[0] - 1)
+                        refresh()
                 elif choice == 'x':
                     if act_delete(stdscr, inv):
                         det_sel[0] = max(0, det_sel[0] - 1); refresh()

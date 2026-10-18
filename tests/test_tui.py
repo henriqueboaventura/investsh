@@ -133,6 +133,34 @@ def test_provento(demo, tui_factory):
     finish(demo, t, 'provento', with_data=False)
 
 
+def test_transfer(demo, tui_factory):
+    # Transferir: sai de um ativo, entra em outro, sem lançamento (só a diferença, se houver)
+    import json
+    t = tui_factory()
+    t.press('d', '/').type('liquidez').press('enter', 'enter').snap('popup com Transferir')
+    t.press('t').snap('busca do destino')
+    t.type('zzz').press('enter').snap('nada encontrado: busca de novo')
+    t.clear_field().type('beta').press('enter').snap('lista de destinos')
+    t.press('0').snap('valor que sai (padrão: saldo todo)')
+    t.fill('5000').snap('valor que entra (padrão: o mesmo)')
+    t.fill('5300').snap('entrou mais do que saiu')
+    t.press('a').snap('transferido, diferença como aporte')
+    # Resto do saldo para um ativo em dólar: valores padrão, convertidos pela cotação
+    t.press('enter', 't').type('sgov').press('enter', '0').snap('sai o restante')
+    t.press('enter').snap('entra em USD')
+    t.press('enter').snap('origem zerada')
+    t.press('x').snap('origem excluída')
+    t.press('w', 's', until='✓ Salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = json.loads((demo.root / 'data' / 'investments.json').read_text(encoding='utf-8'))
+    by_name = {i['name']: i for i in data['investments']}
+    assert 'CDB Liquidez Diária Banco Exemplo' not in by_name
+    assert by_name['LCA Banco Beta 95% CDI']['balance'] == round(16380.09 + 5300, 2)
+    assert [(f['name'], f['amount']) for f in data['flows']] == [('LCA Banco Beta 95% CDI', 300.0)]
+    finish(demo, t, 'transfer')
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

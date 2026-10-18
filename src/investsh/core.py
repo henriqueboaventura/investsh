@@ -305,6 +305,76 @@ def record_flow(data, inv, amount, usd=None, kind=None):
     return flow
 
 
+def add_to_balance(inv, val, dol):
+    """Soma `val` (na moeda do ativo) ao saldo e ao custo. Devolve o valor em R$.
+
+    Base de Registrar aporte e do destino de uma transferência. O previousBalance
+    acompanha, para que a variação na tela continue sendo só rendimento.
+    """
+    if 'investedUSD' in inv:
+        inv['investedUSD'] = round(inv.get('investedUSD', 0) + val, 4)
+        inv['balanceUSD']  = round(inv.get('balanceUSD', inv['investedUSD'] - val) + val, 4)
+        inv['balance']     = round(inv['balanceUSD'] * dol, 4)
+        brl = val * dol
+    else:
+        inv['invested'] = round(inv.get('invested', 0) + val, 2)
+        inv['balance']  = round(inv['balance'] + val, 2)
+        brl = val
+    if 'previousBalance' in inv:
+        inv['previousBalance'] = round(inv['previousBalance'] + brl, 4 if 'investedUSD' in inv else 2)
+    return brl
+
+
+def take_from_balance(inv, val, dol):
+    """Tira `val` (na moeda do ativo) do saldo; o custo cai na mesma proporção.
+
+    Base de Registrar saque e da origem de uma transferência. Devolve o valor em R$,
+    ou None se `val` for maior que o saldo.
+    """
+    if 'investedUSD' in inv:
+        cur = inv.get('balanceUSD', inv.get('investedUSD', 0))
+        if val > cur:
+            return None
+        pct = val / cur if cur else 1.0
+        inv['balanceUSD']  = round(cur - val, 4)
+        inv['investedUSD'] = round(inv.get('investedUSD', 0) * (1 - pct), 4)
+        inv['balance']     = round(inv['balanceUSD'] * dol, 4)
+        brl, nd = val * dol, 4
+    else:
+        cur = inv['balance']
+        if val > cur:
+            return None
+        pct = val / cur if cur else 1.0
+        inv['balance'] = round(cur - val, 2)
+        if 'invested' in inv:
+            inv['invested'] = round(inv['invested'] * (1 - pct), 2)
+        brl, nd = val, 2
+    if 'previousBalance' in inv:
+        inv['previousBalance'] = round(inv['previousBalance'] - brl, nd)
+    return brl
+
+
+def can_transfer(inv):
+    """Cripto fica de fora: o saldo vem de quantidade × cotação, sem custo base."""
+    return inv.get('category') != 'Crypto'
+
+
+def transfer(data, src, dst, sent, received):
+    """Move dinheiro entre ativos da carteira, sem lançamento (não é aporte nem saque).
+
+    `sent` sai de `src` e `received` entra em `dst`, cada um na moeda do seu ativo.
+    Devolve (enviado, recebido) em R$, ou None se `sent` passar do saldo de `src`.
+    A diferença entre os dois (dinheiro novo, IR, taxa) fica para quem chama decidir.
+    """
+    dol = data.get('dollarRate', 1)
+    if sent < 0 or received < 0 or src is dst:
+        return None
+    sent_brl = take_from_balance(src, sent, dol)
+    if sent_brl is None:
+        return None
+    return sent_brl, add_to_balance(dst, received, dol)
+
+
 def start_flow_log(data):
     """No save: a partir desta data os aportes/saques registrados estão completos."""
     data.setdefault('flows', [])

@@ -84,7 +84,7 @@ investsh
 | Tecla | Ação |
 |---|---|
 | `u` | Atualizar o saldo de todos os ativos, um a um (Enter mantém o valor) |
-| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque ou excluir o ativo selecionado |
+| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir ou excluir o ativo selecionado |
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
@@ -153,6 +153,7 @@ O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investmen
 |---|---|
 | **Registrar aporte** / **Registrar saque** | aporte / saque, pelo valor em dinheiro |
 | **Registrar provento** (dividendo, cupom pago na conta) | provento: saiu da carteira, mas é rendimento; o saldo não muda |
+| **Transferir para outro ativo** (resgate reinvestido, caixa → título) | nada: o dinheiro só muda de ativo. Se entrou mais do que saiu, pergunta se a diferença é aporte; se saiu mais, se foi saque ou custo/IR |
 | **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
 | **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
 | **Atualizar saldo** (inclusive quantidade de cripto) | valorização |
@@ -161,9 +162,12 @@ Provento que você reinveste (no mesmo ativo ou em outro) é um *Registrar aport
 depois do *Registrar provento*. Quando há proventos, o *Histórico mensal* ganha a coluna
 **Proventos**.
 
-Ou seja: depósitos e resgates de verdade passam por *Registrar aporte/saque*; mover dinheiro
-entre ativos pode ser só atualizar os saldos (a soma não muda). Compra de cripto com dinheiro
-novo aparece como valorização: registre um aporte em outro ativo antes de transferir.
+Ou seja: depósitos e resgates de verdade passam por *Registrar aporte/saque*; dinheiro que
+muda de ativo passa por *Transferir* (não use *Registrar saque* na origem: isso conta como
+dinheiro saindo da carteira). A transferência baixa o saldo e o custo da origem na mesma
+proporção, sobe os do destino e, se a origem zerar, oferece excluí-la. Cripto fica de fora
+(o saldo vem da quantidade): compra de cripto com dinheiro novo aparece como valorização,
+então registre um aporte em outro ativo antes de transferir.
 
 Antes do primeiro save com essa versão (`flowsSince`), sem os lançamentos, o investsh usa a
 variação do custo total entre as fotos, que é uma aproximação.
