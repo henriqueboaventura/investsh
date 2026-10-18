@@ -973,44 +973,12 @@ def run_tui(data, crypto_prices=None):
                         seg(f'  {maturity_text(a):<18}', col | (BOLD if col else 0)),
                         seg(f'  {brl_fmt(a["balance"]):>14}', 0),
                     ]))
-            # Renda fixa: quanto se resgataria hoje, líquido de IR/IOF, e a taxa líquida
             hist_path = os.path.join(config.ROOT, 'data', 'history.json')
             try:
                 with open(hist_path, encoding='utf-8') as hf:
                     hist_all = json.load(hf)
             except (FileNotFoundError, json.JSONDecodeError):
                 hist_all = []
-            today = _dt.date.today()
-            fixed = [(i, tax.redeem_today(i, hist_all, today), tax.net_rate(i, hist_all, today))
-                     for i in sorted(invs, key=sort_key) if i.get('balance')]
-            fixed = [(i, r, n) for i, r, n in fixed if r]
-            if fixed:
-                out.append(row([]))
-                out.append(row([seg('  Renda fixa: resgate hoje, líquido de IR', CYN | BOLD)]))
-                out.append(row([seg(f"  {'Ativo':<34}  {'Taxa':>12}  {'Líquida':>12}  {'Bruto':>14}"
-                                    f"  {'IR + IOF':>12}  {'Líquido':>14}", DIM)]))
-                out.append(row([seg('  ' + '─' * 108, DIM)]))
-                for i, r, n in fixed:
-                    rt = i.get('rate') or {}
-                    rate_s = tax.rate_label(rt['kind'], rt['value']) if isinstance(rt.get('value'), (int, float)) else '—'
-                    net_s = tax.rate_label(*n) if n else '—'
-                    cut = r['ir'] + r['iof']
-                    mark = '≈' if r['approx'] and cut else ' '
-                    out.append(row([
-                        seg(f'  {i["name"][:34]:<34}', 0), seg(f'  {rate_s:>12}', DIM),
-                        seg(f'  {net_s:>12}', GRN if n else DIM),
-                        seg(f'  {brl_fmt(r["gross"]):>14}', 0),
-                        seg(f'  {("-" + brl_fmt(cut)) if cut else "isento":>12}{mark}', YLW if cut else DIM),
-                        seg(f' {brl_fmt(r["net"]):>14}', BOLD),
-                    ]))
-                tg = sum(r['gross'] for _, r, _ in fixed)
-                tc = sum(r['ir'] + r['iof'] for _, r, _ in fixed)
-                out.append(row([seg('  ' + '─' * 108, DIM)]))
-                out.append(row([seg(f"  {'Total':<34}  {'':>12}  {'':>12}  {brl_fmt(tg):>14}"
-                                    f"  {('-' + brl_fmt(tc)):>12}  {brl_fmt(tg - tc):>14}", BOLD)]))
-                out.append(row([seg('  Líquida: taxa descontado o IR do prazo até o vencimento (compare CDB com '
-                                    'LCA por ela). ≈ sem data da compra: prazo desde a 1ª foto', DIM)]))
-
             # Histórico mensal: variação = aportes + saques (+ proventos) + valorização
             months = perf.monthly(hist_all, *perf.flow_log(data))[-12:] if hist_all else []
             if months:
@@ -1102,6 +1070,38 @@ def run_tui(data, crypto_prices=None):
                     seg(f'  {fmt_hit(hit_com):<18}', col_com),
                     seg(f'  {fmt_hit(hit_sem):<18}', col_sem),
                 ]))
+
+            # Renda fixa: quanto se resgataria hoje, líquido de IR/IOF, e a taxa líquida
+            today = _dt.date.today()
+            fixed = [(i, tax.redeem_today(i, hist_all, today), tax.net_rate(i, hist_all, today))
+                     for i in sorted(invs, key=sort_key) if i.get('balance')]
+            fixed = [(i, r, n) for i, r, n in fixed if r]
+            if fixed:
+                out.append(row([]))
+                out.append(row([seg('  Renda fixa: resgate hoje, líquido de IR', CYN | BOLD)]))
+                out.append(row([seg(f"  {'Ativo':<34}  {'Taxa':>12}  {'Líquida':>12}  {'Bruto':>14}"
+                                    f"  {'IR + IOF':>12}  {'Líquido':>14}", DIM)]))
+                out.append(row([seg('  ' + '─' * 108, DIM)]))
+                for i, r, n in fixed:
+                    rt = i.get('rate') or {}
+                    rate_s = tax.rate_label(rt['kind'], rt['value']) if isinstance(rt.get('value'), (int, float)) else '—'
+                    net_s = tax.rate_label(*n) if n else '—'
+                    cut = r['ir'] + r['iof']
+                    mark = '≈' if r['approx'] and cut else ' '
+                    out.append(row([
+                        seg(f'  {i["name"][:34]:<34}', 0), seg(f'  {rate_s:>12}', DIM),
+                        seg(f'  {net_s:>12}', GRN if n else DIM),
+                        seg(f'  {brl_fmt(r["gross"]):>14}', 0),
+                        seg(f'  {("-" + brl_fmt(cut)) if cut else "isento":>12}{mark}', YLW if cut else DIM),
+                        seg(f' {brl_fmt(r["net"]):>14}', BOLD),
+                    ]))
+                tg = sum(r['gross'] for _, r, _ in fixed)
+                tc = sum(r['ir'] + r['iof'] for _, r, _ in fixed)
+                out.append(row([seg('  ' + '─' * 108, DIM)]))
+                out.append(row([seg(f"  {'Total':<34}  {'':>12}  {'':>12}  {brl_fmt(tg):>14}"
+                                    f"  {('-' + brl_fmt(tc)):>12}  {brl_fmt(tg - tc):>14}", BOLD)]))
+                out.append(row([seg('  Líquida: taxa descontado o IR do prazo até o vencimento (compare CDB com '
+                                    'LCA por ela). ≈ sem data da compra: prazo desde a 1ª foto', DIM)]))
 
             return out, []
 

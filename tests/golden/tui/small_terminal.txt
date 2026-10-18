@@ -14,13 +14,13 @@
   Ativos:  19
   USD/BRL: 5.4321
 
-  Renda fixa: resgate hoje, líquido de IR
-  Ativo                                       Taxa       Líquida           Brut
+  Histórico mensal
+  Mês                Saldo        Variação        Aportes         Saques     Va
   ─────────────────────────────────────────────────────────────────────────────
-  CDB Banco Alfa 110% CDI                 110% CDI     93,5% CDI    R$ 23.110,7
-  CDB Banco Gama Pré 12,5%              12,5% a.a.   10,62% a.a.    R$ 13.640,5
-  LCA Banco Beta 95% CDI                   95% CDI       95% CDI    R$ 16.380,0
-  Tesouro Selic 2029                      100% CDI       85% CDI    R$ 19.850,4
+  2026-10    R$ 205.576,35    +R$ 3.118,55   +R$ 1.500,00        R$ 0,00    +R$
+  2026-09    R$ 202.457,80    +R$ 3.804,61   +R$ 1.500,00        R$ 0,00    +R$
+  2026-08    R$ 198.653,19    +R$ 3.539,93   +R$ 1.500,00        R$ 0,00    +R$
+  2026-07    R$ 195.113,26    +R$ 2.166,81   +R$ 1.500,00        R$ 0,00      +
 
  s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/51
 --- estilos ---
@@ -39,13 +39,13 @@
   .......  ..
   ........ ......
 
-  CCCCC CCCCC CCCCCCC CCCCC CCCCCCC CC CC
-  .....                                       ....       .......           ....
+  CCCCCCCCC CCCCCC
+  ...                .....        ........        .......         ......     ..
   .............................................................................
-  ... ..... .... .... ...                 .... ...     ggggg ggg    .. ........
-  ... ..... .... ... .....              ..... ....   gggggg gggg    .. ........
-  ... ..... .... ... ...                   ... ...       ggg ggg    .. ........
-  ....... ..... ....                      .... ...       ggg ggg    .. ........
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      g
 
 =======================================================================#########
 === Detalhe 80x24 ===
