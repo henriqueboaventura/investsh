@@ -254,6 +254,15 @@ def test_flows_tab(demo, tui_factory):
     finish(demo, t, 'flows_tab')
 
 
+def test_open_warns_about_data_errors(demo, tui_factory):
+    demo.edit(lambda d: d['investments'][0].update(maturity='31-02-2030'))
+    t = tui_factory()
+    t.wait_for('erro(s) nos dados')
+    assert '✗ 1 erro(s) nos dados — rode: investsh check' in t.text()
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

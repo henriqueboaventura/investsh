@@ -114,6 +114,18 @@ investsh sync     # gera a imagem e faz commit/push agora, mostrando o resultado
 Sem terminal interativo, ou para scripts: `investsh --menu` abre um menu
 numerado com as mesmas funções (opção `V` mostra a carteira completa).
 
+### Conferir os dados
+
+```bash
+investsh check    # procura inconsistências; não altera nada
+```
+
+Aponta **erros** (dados que quebram cálculos: nome + corretora repetidos, saldo negativo,
+data inválida, provento positivo) e **avisos** (título vencido com saldo, saldo que variou
+mais de 20% desde o save anterior sem aporte nem saque, renda fixa sem taxa ou vencimento,
+lançamento de um ativo que nunca existiu, nome da reserva que não está na carteira, ativo
+zerado). Sai com código 1 se houver erro. A tela interativa avisa ao abrir quando há erros.
+
 ---
 
 ## Análise com IA
@@ -239,7 +251,7 @@ convertidos pela cotação do dia.
 
 ```
 ├── src/investsh/
-│   ├── cli.py            # Comando `investsh` (--menu, --dir, analyze, sync)
+│   ├── cli.py            # Comando `investsh` (--menu, --dir, analyze, check, sync)
 │   ├── app.py            # Carrega a carteira e abre o menu ou a TUI
 │   ├── core.py           # Regras: classificação, custo base, reserva, histórico, R$
 │   ├── perf.py           # Rentabilidade descontando aportes vs CDI/IPCA
@@ -251,6 +263,7 @@ convertidos pela cotação do dia.
 │   ├── storage.py        # Primeira execução, salvar, histórico
 │   ├── sync.py           # Imagem + commit/push (em segundo plano na TUI; `investsh sync`)
 │   ├── analyze.py        # Prompt de análise para IA
+│   ├── check.py          # `investsh check`: inconsistências nos dados
 │   └── examples/         # Dados fictícios (ponto de partida)
 ├── tests/                # Testes de regressão (ver tests/README.md)
 └── docs/

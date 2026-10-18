@@ -53,6 +53,19 @@ def run_tui(data, crypto_prices=None):
     if urgent:
         warnings.append(f'⚠ {len(urgent)} ativo(s) vencem em até {URGENT_DAYS} dias ou já venceram '
                         f'(veja o Sumário)')
+    # Só erros (dados que quebram cálculos); os avisos ficam para o `investsh check`
+    try:
+        from .check import find_problems
+        try:
+            with open(os.path.join(config.ROOT, 'data', 'history.json'), encoding='utf-8') as hf:
+                history = json.load(hf)
+        except (OSError, ValueError):
+            history = []
+        n_err = sum(p['level'] == 'erro' for p in find_problems(data, history, _dt.date.today()))
+        if n_err:
+            warnings.append(f'✗ {n_err} erro(s) nos dados — rode: investsh check')
+    except Exception:
+        pass   # a verificação nunca impede a TUI de abrir
     if not sync.busy():
         n_unpushed = sync.unpushed()
         if n_unpushed:

@@ -1,4 +1,4 @@
-"""Linha de comando: `investsh`, `investsh --menu`, `investsh analyze`."""
+"""Linha de comando: `investsh`, `investsh --menu`, `investsh analyze`, `investsh check`."""
 import argparse
 import os
 import sys
@@ -13,8 +13,9 @@ def main(argv=None):
         description='Controle de investimentos no terminal. '
                     f'Pasta de dados: {config.default_dir()} (mude com --dir ou $INVESTSH_DIR).',
     )
-    parser.add_argument('command', nargs='?', choices=['analyze', 'sync'],
+    parser.add_argument('command', nargs='?', choices=['analyze', 'check', 'sync'],
                         help='analyze: gera um prompt de análise da carteira para IA; '
+                             'check: procura inconsistências nos dados; '
                              'sync: gera a imagem e faz commit/push agora (ver investsh.toml)')
     parser.add_argument('--job', help=argparse.SUPPRESS)  # uso interno: sync em segundo plano
     parser.add_argument('--menu', action='store_true',
@@ -31,6 +32,10 @@ def main(argv=None):
         from . import analyze
         analyze.main(os.path.abspath(os.path.expanduser(args.dir)))
         return
+
+    if args.command == 'check':
+        from . import check
+        sys.exit(check.main(os.path.abspath(os.path.expanduser(args.dir))))
 
     try:
         config.configure(args.dir)
