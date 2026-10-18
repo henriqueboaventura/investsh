@@ -127,8 +127,9 @@ internet), o investsh avisa na próxima vez que abrir; para reenviar:
 investsh sync     # gera a imagem e faz commit/push agora, mostrando o resultado
 ```
 
-Sem terminal interativo, ou para scripts: `investsh --menu` abre um menu
-numerado com as mesmas funções (opção `V` mostra a carteira completa).
+Para scripts e terminais sem tela interativa: `investsh check` (conferir os dados),
+`investsh sync` (imagem e commit/push) e `investsh analyze` (prompt para IA). O modo texto
+`--menu` foi removido na 1.0.0.
 
 ### Conferir os dados
 
@@ -159,7 +160,7 @@ isso envia os dados da sua carteira para o serviço escolhido.
 
 ## Rentabilidade
 
-A aba **Rentabilidade** (tecla `r`; no `--menu`, opção `V`) responde: *a carteira rendeu mais
+A aba **Rentabilidade** (tecla `r`) responde: *a carteira rendeu mais
 que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/history.json`:
 
 - entre dois saves, o rendimento desconta o dinheiro que entrou e saiu da carteira no
@@ -267,13 +268,12 @@ convertidos pela cotação do dia.
 
 ```
 ├── src/investsh/
-│   ├── cli.py            # Comando `investsh` (--menu, --dir, analyze, check, sync)
-│   ├── app.py            # Carrega a carteira e abre o menu ou a TUI
+│   ├── cli.py            # Comando `investsh` (--dir, analyze, check, sync)
+│   ├── app.py            # Carrega a carteira e abre a TUI
 │   ├── core.py           # Regras: classificação, custo base, reserva, histórico, R$
 │   ├── perf.py           # Rentabilidade descontando aportes vs CDI/IPCA
 │   ├── bench.py          # CDI e IPCA do Banco Central (com cache)
 │   ├── quotes.py         # Cotações (dólar e cripto)
-│   ├── menu.py           # Modo texto (--menu)
 │   ├── tui.py            # Tela interativa (curses)
 │   ├── image.py          # Imagem de resumo (matplotlib)
 │   ├── storage.py        # Primeira execução, salvar, histórico
@@ -303,9 +303,9 @@ Na pasta de dados (`~/.investsh`, ou a escolhida com `--dir` / `$INVESTSH_DIR`):
 ## Problemas comuns
 
 **Caracteres estranhos, sem cores ou tela cortada** — use um terminal UTF‑8 com pelo menos
-100 colunas, ou o modo texto: `investsh --menu`.
+100 colunas.
 
-**`_curses` não encontrado (Windows)** — rode no WSL, ou use `--menu`.
+**`_curses` não encontrado (Windows)** — rode no WSL.
 
 **Cotações não atualizam** — as APIs públicas têm limite de requisições; espere um minuto e
 abra de novo. Sem cotação, os saldos salvos continuam valendo.
@@ -317,7 +317,7 @@ só não gera o PNG.
 
 ## Contribuindo
 
-O projeto tem uma suíte de regressão que cobre o menu, a TUI, a imagem e os cálculos:
+O projeto tem uma suíte de regressão que cobre a TUI, a imagem, os comandos e os cálculos:
 
 ```bash
 git clone https://github.com/henriqueboaventura/investsh.git && cd investsh
