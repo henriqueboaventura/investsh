@@ -3,8 +3,10 @@
 import json
 import subprocess
 import sys
-from datetime import date, datetime
+from datetime import date
 from pathlib import Path
+
+from .core import maturity_alerts
 
 # Diretório de trabalho (contém data/); o comando `investsh analyze --dir` muda.
 BASE = Path.cwd()
@@ -95,22 +97,10 @@ def compute(data):
                 "gain": round(gain, 2), "gain_pct": round(gain / invested * 100, 1),
             })
 
-    alerts = []
-    for inv in invs:
-        mat = inv.get("maturity")
-        if not mat:
-            continue
-        for fmt in ("%Y-%m-%d", "%d/%m/%Y"):
-            try:
-                mat_date = datetime.strptime(mat, fmt).date()
-                days = (mat_date - today).days
-                label = "VENCIDO" if days < 0 else f"vence em {days}d"
-                if days <= 180:
-                    alerts.append({"name": inv["name"], "maturity": mat, "label": label, "days": days})
-                break
-            except ValueError:
-                continue
-    alerts.sort(key=lambda x: x["days"])
+    # Mesmo cálculo dos alertas da TUI (só ativos com saldo), numa janela de 6 meses
+    alerts = [{"name": a["name"], "maturity": a["date"].isoformat(), "days": a["days"],
+               "label": "VENCIDO" if a["days"] < 0 else f"vence em {a['days']}d"}
+              for a in maturity_alerts(invs, today, 180)]
 
     return {
         "portfolio_total": round(ptotal, 2),

@@ -292,10 +292,17 @@ def run_tui(data, crypto_prices=None):
         dirty[0] = True
         return True
 
+    # Teclas das opções em listas longas: sem j/k, que navegam no popup
+    OPTION_KEYS = '0123456789abcdefghilmnopqrstuvwxyz'
+
+    def option_keys(n):
+        """Uma tecla por opção; além de 34 opções, só setas (tecla vazia não casa)."""
+        return [OPTION_KEYS[i] if i < len(OPTION_KEYS) else f' {i}' for i in range(n)]
+
     def pick_asset(stdscr, title, exclude, allow=can_transfer):
         """Busca um ativo por nome ou corretora e escolhe na lista. None = cancelado."""
         h, _ = stdscr.getmaxyx()
-        limit = max(1, min(36, h - 8))   # o popup precisa caber na tela
+        limit = max(1, min(len(OPTION_KEYS), h - 8))   # o popup precisa caber na tela
         prompt = f'{title} (busca por nome ou corretora)'
         while True:
             q = curs_input(stdscr, prompt)
@@ -310,9 +317,9 @@ def run_tui(data, crypto_prices=None):
                 prompt = f'{len(found)} ativos; refine a busca do {title.lower()}'
             else:
                 break
-        keys = '0123456789abcdefghijklmnopqrstuvwxyz'
-        opts = [(keys[n], f'{i.get("broker", ""):<8} {i["name"][:40]:<40} {brl_fmt(i["balance"]):>14}')
-                for n, i in enumerate(found)]
+        keys = option_keys(len(found))
+        opts = [(k, f'{i.get("broker", ""):<8} {i["name"][:40]:<40} {brl_fmt(i["balance"]):>14}')
+                for k, i in zip(keys, found)]
         choice = popup_menu(stdscr, title, opts)
         return None if choice is None else found[keys.index(choice)]
 
@@ -514,9 +521,6 @@ def run_tui(data, crypto_prices=None):
     CATEGORIES = _CATEGORIES
     TYPES = _TYPES
     BROKERS = _BROKERS
-    INDEXERS = _INDEXERS + ['(nenhum)', 'Outro (digitar)']
-    ALLOCATION_GROUPS = _ALLOCATION_GROUPS + ['Outro (digitar)']
-    PURPOSES = _PURPOSES + ['Outro (digitar)']
 
     RATE_KINDS = [('PERCENT_CDI', '% do CDI'), ('ANNUAL_FIXED', 'Prefixado (% a.a.)'),
                   ('IPCA_PLUS', 'IPCA + (% a.a.)')]
@@ -525,18 +529,17 @@ def run_tui(data, crypto_prices=None):
 
     def choose(stdscr, title, values, other=False, none=False):
         """Escolhe um valor da lista. Devolve (ok, valor); ok=False = cancelado."""
-        keys = '0123456789abcdefghijklmnopqrstuvwxyz'
         labels = [v if isinstance(v, str) else v[1] for v in values]
         items = [v if isinstance(v, str) else v[0] for v in values]
         if none:
             labels.append('(nenhum)'); items.append(None)
         if other:
             labels.append('Outro (digitar)'); items.append(...)
-        choice = popup_menu(stdscr, title, [(keys[i] if i < len(keys) else str(i), l)
-                                            for i, l in enumerate(labels)])
+        keys = option_keys(len(labels))
+        choice = popup_menu(stdscr, title, list(zip(keys, labels)))
         if choice is None:
             return False, None
-        val = items[keys.index(choice) if choice in keys else int(choice)]
+        val = items[keys.index(choice)]
         if val is ...:
             val = curs_input(stdscr, title)
             if val is None: return False, None
@@ -644,21 +647,12 @@ def run_tui(data, crypto_prices=None):
         name = curs_input(stdscr, 'Nome do ativo')
         if not name: return False
 
-        cat_choice = popup_menu(stdscr, 'Categoria',
-                                [(str(i), c) for i, c in enumerate(CATEGORIES)])
-        if cat_choice is None: return False
-        category = CATEGORIES[int(cat_choice)]
-
-        typ_choice = popup_menu(stdscr, 'Tipo / Subcategoria',
-                                [(str(i), t) for i, t in enumerate(TYPES)])
-        if typ_choice is None: return False
-        typ_s = TYPES[int(typ_choice)]
-        typ = None if typ_s == '(nenhum)' else typ_s
-
-        broker_choice = popup_menu(stdscr, 'Corretora',
-                                   [(str(i), b) for i, b in enumerate(BROKERS)])
-        if broker_choice is None: return False
-        broker = BROKERS[int(broker_choice)]
+        ok, category = choose(stdscr, 'Categoria', CATEGORIES)
+        if not ok: return False
+        ok, typ = choose(stdscr, 'Tipo / Subcategoria', [t for t in TYPES if t != '(nenhum)'], none=True)
+        if not ok: return False
+        ok, broker = choose(stdscr, 'Corretora', BROKERS)
+        if not ok: return False
         if any(asset_key(i) == (name, broker) for i in data['investments']):
             status_msg[0] = f'✗ Já existe {name} na {broker}'
             return False
@@ -666,34 +660,12 @@ def run_tui(data, crypto_prices=None):
         maturity_s = curs_input(stdscr, 'Vencimento YYYY-MM-DD  (Enter = nenhum)', default='')
         maturity = maturity_s.strip() if maturity_s else None
 
-        idx_choice = popup_menu(stdscr, 'Indexador',
-                                [(str(i), v) for i, v in enumerate(INDEXERS)])
-        if idx_choice is None: return False
-        indexer = INDEXERS[int(idx_choice)]
-        if indexer == 'Outro (digitar)':
-            indexer = curs_input(stdscr, 'Indexador')
-            if indexer is None: return False
-            indexer = indexer.strip() or None
-        elif indexer == '(nenhum)':
-            indexer = None
-
-        grp_choice = popup_menu(stdscr, 'Grupo de Alocação',
-                                [(str(i), v) for i, v in enumerate(ALLOCATION_GROUPS)])
-        if grp_choice is None: return False
-        allocation_group = ALLOCATION_GROUPS[int(grp_choice)]
-        if allocation_group == 'Outro (digitar)':
-            allocation_group = curs_input(stdscr, 'Grupo de Alocação')
-            if not allocation_group: return False
-            allocation_group = allocation_group.strip()
-
-        pur_choice = popup_menu(stdscr, 'Objetivo',
-                                [(str(i), v) for i, v in enumerate(PURPOSES)])
-        if pur_choice is None: return False
-        purpose = PURPOSES[int(pur_choice)]
-        if purpose == 'Outro (digitar)':
-            purpose = curs_input(stdscr, 'Objetivo')
-            if purpose is None: return False
-            purpose = purpose.strip() or None
+        ok, indexer = choose(stdscr, 'Indexador', _INDEXERS, other=True, none=True)
+        if not ok: return False
+        ok, allocation_group = choose(stdscr, 'Grupo de alocação', _ALLOCATION_GROUPS, other=True)
+        if not ok or not allocation_group: return False   # grupo é obrigatório
+        ok, purpose = choose(stdscr, 'Objetivo', _PURPOSES, other=True)
+        if not ok: return False
 
         new_inv = {
             'name': name, 'category': category, 'type': typ, 'broker': broker, 'maturity': maturity,
