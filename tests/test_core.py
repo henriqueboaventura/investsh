@@ -208,3 +208,14 @@ def test_transfer_full_balance_zeroes_source(f):
 def test_can_transfer_skips_crypto(f):
     assert f.can_transfer(inv(category='CDB'))
     assert not f.can_transfer(inv(category='Crypto'))
+
+
+def test_cash_asset_found_or_created(f):
+    data = {'investments': [inv(name='Caixa XP', broker='XP', balance=5.0)]}
+    assert f.cash_asset(data, 'XP') is data['investments'][0]
+    cx = f.cash_asset(data, 'Nubank')
+    assert cx is data['investments'][1]
+    assert (cx['name'], cx['broker'], cx['balance'], cx['invested']) == ('Caixa Nubank', 'Nubank', 0.0, 0.0)
+    assert cx['allocationGroup'] == 'CAIXA_TRANSITORIA'
+    usd = f.cash_asset(data, 'Nomad', usd=True)
+    assert (usd['investedUSD'], usd['balanceUSD']) == (0.0, 0.0) and 'invested' not in usd

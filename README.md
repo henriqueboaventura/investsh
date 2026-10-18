@@ -84,7 +84,7 @@ investsh
 | Tecla | Ação |
 |---|---|
 | `u` | Atualizar o saldo de todos os ativos, um a um (Enter mantém o valor) |
-| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir ou excluir o ativo selecionado |
+| `Enter` | Na aba Detalhe: atualizar saldo, aporte, saque, provento, transferir, liquidar vencimento ou excluir o ativo selecionado |
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
@@ -154,6 +154,7 @@ O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investmen
 | **Registrar aporte** / **Registrar saque** | aporte / saque, pelo valor em dinheiro |
 | **Registrar provento** (dividendo, cupom pago na conta) | provento: saiu da carteira, mas é rendimento; o saldo não muda |
 | **Transferir para outro ativo** (resgate reinvestido, caixa → título) | nada: o dinheiro só muda de ativo. Se entrou mais do que saiu, pergunta se a diferença é aporte; se saiu mais, se foi saque ou custo/IR |
+| **Liquidar vencimento** (título com vencimento) | o valor líquido creditado substitui o saldo (rendimento e IR ficam na valorização); depois, até o saldo acabar: reinvestir (*Transferir*), deixar no **Caixa <corretora>** (criado se preciso, grupo `CAIXA_TRANSITORIA`) ou sacado (saque). O título zerado sai da carteira |
 | **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
 | **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
 | **Atualizar saldo** (inclusive quantidade de cripto) | valorização |

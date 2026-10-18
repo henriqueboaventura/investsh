@@ -375,6 +375,24 @@ def transfer(data, src, dst, sent, received):
     return sent_brl, add_to_balance(dst, received, dol)
 
 
+def cash_asset(data, broker, usd=False):
+    """Caixa da corretora (dinheiro parado esperando reinvestimento); cria se não existir."""
+    name = f'Caixa {broker}'
+    for inv in data['investments']:
+        if asset_key(inv) == (name, broker):
+            return inv
+    inv = {'name': name, 'category': 'Caixa', 'type': None, 'broker': broker, 'maturity': None,
+           'balance': 0.0, 'previousBalance': 0.0, 'indexer': None,
+           'purpose': 'CAIXA_DE_CURTO_PRAZO', 'allocationGroup': 'CAIXA_TRANSITORIA',
+           'liquidity': 'IMMEDIATE'}
+    if usd:
+        inv.update(investedUSD=0.0, balanceUSD=0.0)
+    else:
+        inv['invested'] = 0.0
+    data['investments'].append(inv)
+    return inv
+
+
 def start_flow_log(data):
     """No save: a partir desta data os aportes/saques registrados estão completos."""
     data.setdefault('flows', [])

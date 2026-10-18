@@ -161,6 +161,30 @@ def test_transfer(demo, tui_factory):
     finish(demo, t, 'transfer')
 
 
+def test_liquidate_maturity(demo, tui_factory):
+    # Vencimento: valor líquido, parte reinvestida, resto parado no caixa; o título sai
+    import json
+    t = tui_factory()
+    t.press('d', '/').type('gama').press('enter', 'enter').snap('popup com Liquidar vencimento')
+    t.press('v').snap('valor líquido (padrão: saldo)')
+    t.fill('13700').snap('destino do dinheiro')
+    t.press('t').type('beta').press('enter', '0').fill('8000').press('enter').snap('reinvestido: resta o resto')
+    t.press('c').snap('resto no caixa: liquidado')
+    # Outro título: tudo sacado para a conta
+    t.press('/', 'esc', '/').type('2045').press('enter', 'enter', 'v', 'enter').snap('IPCA+ 2045: destino')
+    t.press('s').snap('sacado: liquidado')
+    t.press('w', 's', until='✓ Salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = json.loads((demo.root / 'data' / 'investments.json').read_text(encoding='utf-8'))
+    by_name = {i['name']: i for i in data['investments']}
+    assert 'CDB Banco Gama Pré 12,5%' not in by_name and 'Tesouro IPCA+ 2045' not in by_name
+    assert by_name['LCA Banco Beta 95% CDI']['balance'] == round(16380.09 + 8000, 2)
+    assert by_name['Caixa XP']['balance'] == 5700.0
+    assert [(f['name'], f['amount']) for f in data['flows']] == [('Tesouro IPCA+ 2045', -10512.8)]
+    finish(demo, t, 'liquidate')
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

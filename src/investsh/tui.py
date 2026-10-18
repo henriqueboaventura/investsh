@@ -7,7 +7,7 @@ from .core import (
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
-    can_transfer, transfer,
+    can_transfer, transfer, cash_asset,
 )
 from .storage import do_save_tui
 from . import perf
@@ -245,7 +245,7 @@ def run_tui(data, crypto_prices=None):
         choice = popup_menu(stdscr, title, opts)
         return None if choice is None else found[keys.index(choice)]
 
-    def act_transfer(stdscr, src):
+    def act_transfer(stdscr, src, ask_delete=True):
         """Dinheiro de um ativo para outro da carteira: sem lançamento, a soma não muda."""
         if not can_transfer(src):
             return False
@@ -284,7 +284,7 @@ def run_tui(data, crypto_prices=None):
                 record_flow(data, src, diff, usd=diff / dol if src_usd else None)
         dirty[0] = True
 
-        if round(src['balance'], 2) <= 0 and popup_menu(stdscr, f'{src["name"][:32]} zerado', [
+        if ask_delete and round(src['balance'], 2) <= 0 and popup_menu(stdscr, f'{src["name"][:32]} zerado', [
                 ('x', 'Excluir o ativo de origem'), ('m', 'Manter com saldo zero')]) == 'x':
             data['investments'] = [i for i in data['investments'] if i is not src]
         status_msg[0] = f'✓ Transferido {brl_fmt(sent_brl)}: {src["name"][:30]} → {dst["name"][:30]}'
@@ -302,6 +302,50 @@ def run_tui(data, crypto_prices=None):
             if val is None or val <= 0: return False
             record_flow(data, inv, -val, kind='provento')
         dirty[0] = True
+        return True
+
+    def act_liquidate(stdscr, inv):
+        """Título que venceu: saldo líquido creditado e destino do dinheiro, de uma vez."""
+        if not can_transfer(inv):
+            return False
+        dol = data.get('dollarRate', 1)
+        usd = 'investedUSD' in inv
+        cur = 'USD' if usd else 'R$'
+        rest = lambda: inv.get('balanceUSD', 0) if usd else inv['balance']
+        # 1) Valor líquido (já sem IR/IOF): a diferença para o saldo é rendimento do título
+        val = curs_input(stdscr, f'Valor líquido creditado ({cur})  {inv["name"][:26]}',
+                         default=round(rest(), 2), numeric=True)
+        if val is None or val < 0: return False
+        if usd:
+            inv['balanceUSD'] = val
+            inv['balance'] = round(val * dol, 4)
+        else:
+            inv['balance'] = val
+        dirty[0] = True
+        # 2) Destino, até o saldo acabar (pode dividir: parte reinvestida, parte sacada...)
+        while rest() >= 0.005:
+            amount = f'{rest():,.2f} USD' if usd else brl_fmt(rest())
+            choice = popup_menu(stdscr, f'Resta {amount}', [
+                ('t', 'Reinvestir em outro ativo'),
+                ('c', f'Deixar parado no Caixa {inv.get("broker", "")}'),
+                ('s', 'Sacado: foi para a conta corrente'),
+                ('m', 'Parar aqui (o resto fica no ativo)'),
+            ])
+            if choice == 't':
+                act_transfer(stdscr, inv, ask_delete=False)
+            elif choice == 'c':
+                cx = cash_asset(data, inv.get('broker', ''), usd=usd)
+                transfer(data, inv, cx, rest(), rest())
+            elif choice == 's':
+                brl = take_from_balance(inv, rest(), dol)
+                record_flow(data, inv, -brl, usd=-(brl / dol) if usd else None)
+            else:
+                break
+        if rest() < 0.005:
+            data['investments'] = [i for i in data['investments'] if i is not inv]
+            status_msg[0] = f'✓ Vencimento liquidado: {inv["name"][:50]}'
+        else:
+            status_msg[0] = f'Vencimento: {inv["name"][:40]} ainda com saldo'
         return True
 
     def act_delete(stdscr, inv):
@@ -1306,6 +1350,8 @@ def run_tui(data, crypto_prices=None):
                     options.append(('s', 'Registrar saque'))
                     options.append(('p', 'Registrar provento (dividendo, cupom)'))
                     options.append(('t', 'Transferir para outro ativo'))
+                    if inv.get('maturity'):
+                        options.append(('v', 'Liquidar vencimento'))
                 options += [('x', 'Excluir'), ('c', 'Cancelar')]
                 choice = popup_menu(stdscr, inv['name'][:32], options)
                 if choice == 'u':
@@ -1317,9 +1363,9 @@ def run_tui(data, crypto_prices=None):
                 elif choice == 'p':
                     if act_provento(stdscr, inv):
                         status_msg[0] = '✓ Provento registrado (o saldo não muda)'; refresh()
-                elif choice == 't':
+                elif choice in ('t', 'v'):
                     n_before = len(data['investments'])
-                    if act_transfer(stdscr, inv):
+                    if (act_transfer if choice == 't' else act_liquidate)(stdscr, inv):
                         if len(data['investments']) < n_before:   # origem excluída
                             det_sel[0] = max(0, det_sel[0] - 1)
                         refresh()
