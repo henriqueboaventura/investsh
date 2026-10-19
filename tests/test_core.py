@@ -125,8 +125,10 @@ def test_history_snapshot(f):
         'date': '2026-10-06', 'total': 170.1235, 'totalWithFGTS': 180.1235, 'totalInvested': 150.0,
         'totalInvestedUSD': 10.0, 'dollarRate': 5.0,
         'assets': [
-            {'name': 'A', 'category': 'CDB', 'type': 'POS', 'broker': 'XP', 'maturity': '2030-01-01', 'balance': 110.1235},
-            {'name': 'B', 'category': 'CDB', 'type': 'POS', 'broker': 'Nomad', 'maturity': None, 'balance': 60.0}]}
+            {'name': 'A', 'category': 'CDB', 'type': 'POS', 'broker': 'XP', 'maturity': '2030-01-01', 'balance': 110.1235,
+             'allocationGroup': None},
+            {'name': 'B', 'category': 'CDB', 'type': 'POS', 'broker': 'Nomad', 'maturity': None, 'balance': 60.0,
+             'allocationGroup': None}]}
 
 
 def test_broker_monthly_series(tmp_path):
@@ -154,6 +156,10 @@ def test_transfer_moves_balance_and_cost_without_flows(f):
     assert (src['balance'], src['invested'], src['previousBalance']) == (600.0, 540.0, 590.0)
     assert (dst['balance'], dst['invested'], dst['previousBalance']) == (910.0, 900.0, 905.0)
     assert 'flows' not in data
+    # Registrada à parte, para a rentabilidade por ativo (não é aporte nem saque)
+    [t] = data['transfers']
+    assert {k: v for k, v in t.items() if k != 'date'} == {
+        'from': 'CDB', 'fromBroker': 'XP', 'to': 'LCA', 'toBroker': 'XP', 'amount': 400.0}
 
 
 def test_transfer_between_currencies(f):
@@ -165,6 +171,16 @@ def test_transfer_between_currencies(f):
     assert f.transfer(data, usd, brl, 22.0, 110.0) == (110.0, 110.0)
     assert (usd['balanceUSD'], usd['investedUSD'], usd['balance']) == (198.0, 180.0, 990.0)
     assert brl['balance'] == 610.0
+    assert [t['amount'] for t in data['transfers']] == [500.0, 110.0]
+
+
+def test_transfer_records_what_moved(f):
+    """Entrou mais ou menos do que saiu: a transferência é o que passou (o menor)."""
+    src, dst = inv(name='CDB', balance=1000.0), inv(name='LCA', balance=0.0)
+    data = {'investments': [src, dst]}
+    f.transfer(data, src, dst, 500.0, 480.0)     # IR na saída
+    f.transfer(data, src, dst, 100.0, 150.0)     # completado com dinheiro novo
+    assert [t['amount'] for t in data['transfers']] == [480.0, 100.0]
 
 
 def test_transfer_refuses_more_than_balance_and_same_asset(f):
@@ -212,8 +228,11 @@ def test_rename_asset_updates_flows_and_reserve(f):
     assert (a['name'], a['broker']) == ('Caixinha Reserva', 'Nubank')
     assert [fl['name'] for fl in data['flows']] == ['Caixinha Reserva', 'Caixinha']   # outra corretora fica
     assert data['emergencyReserve']['assetNames'] == ['Caixinha Reserva']
+    data['transfers'] = [{'from': 'Caixinha Reserva', 'fromBroker': 'Nubank', 'to': 'CDB',
+                          'toBroker': 'XP', 'amount': 1.0}]
     assert f.rename_asset(data, b, 'CDB', 'Nubank') is None
     assert data['flows'][1]['broker'] == 'XP' and b['broker'] == 'Nubank'
+    assert data['transfers'][0]['toBroker'] == 'Nubank'   # transferências acompanham
 
 
 def test_rename_asset_refuses_duplicate_and_empty(f):

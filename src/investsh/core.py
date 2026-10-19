@@ -257,6 +257,8 @@ def investment_snapshot(inv):
         'broker':   inv.get('broker'),
         'maturity': inv.get('maturity'),
         'balance':  round(inv.get('balance', 0), 4),
+        # Classe da rentabilidade por classe (perf.py), mesmo de ativos já excluídos
+        'allocationGroup': inv.get('allocationGroup'),
     }
 
 
@@ -354,14 +356,26 @@ def transfer(data, src, dst, sent, received):
     `sent` sai de `src` e `received` entra em `dst`, cada um na moeda do seu ativo.
     Devolve (enviado, recebido) em R$, ou None se `sent` passar do saldo de `src`.
     A diferença entre os dois (dinheiro novo, IR, taxa) fica para quem chama decidir.
+
+    Fica registrada em data['transfers'] para a rentabilidade por ativo (perf.py) não
+    confundir o dinheiro movido com rendimento. O valor é o que passou de um ativo
+    para o outro (o menor dos dois): a diferença é aporte, saque ou perda, conforme
+    quem chama decidir.
     """
+    from datetime import date as _date
     dol = data.get('dollarRate', 1)
     if sent < 0 or received < 0 or src is dst:
         return None
     sent_brl = take_from_balance(src, sent, dol)
     if sent_brl is None:
         return None
-    return sent_brl, add_to_balance(dst, received, dol)
+    received_brl = add_to_balance(dst, received, dol)
+    data.setdefault('transfers', []).append({
+        'date': _date.today().isoformat(),
+        'from': src.get('name', ''), 'fromBroker': src.get('broker', ''),
+        'to': dst.get('name', ''), 'toBroker': dst.get('broker', ''),
+        'amount': round(min(sent_brl, received_brl), 2)})
+    return sent_brl, received_brl
 
 
 def cash_asset(data, broker, usd=False):
@@ -385,8 +399,8 @@ def cash_asset(data, broker, usd=False):
 def rename_asset(data, inv, name, broker):
     """Troca nome e/ou corretora do ativo. Devolve uma mensagem de erro, ou None.
 
-    Os lançamentos do ativo e a lista de ativos da reserva acompanham o nome novo;
-    as fotos do histórico ficam como estavam (registram o que era na época).
+    Os lançamentos e transferências do ativo e a lista de ativos da reserva acompanham o
+    nome novo; as fotos do histórico ficam como estavam (registram o que era na época).
     """
     name = (name or '').strip()
     old = asset_key(inv)
@@ -399,6 +413,10 @@ def rename_asset(data, inv, name, broker):
     for f in data.get('flows', []):
         if (f.get('name'), f.get('broker')) == old:
             f['name'], f['broker'] = name, broker
+    for t in data.get('transfers', []):
+        for n, b in (('from', 'fromBroker'), ('to', 'toBroker')):
+            if (t.get(n), t.get(b)) == old:
+                t[n], t[b] = name, broker
     names = (data.get('emergencyReserve') or {}).get('assetNames')
     if names and old[0] in names and old[0] != name:
         # Só se nenhum outro ativo ainda usa o nome antigo (a lista é por nome)

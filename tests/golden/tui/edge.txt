@@ -1053,6 +1053,7 @@
   {
     "assets": [
       {
+        "allocationGroup": "RESERVA_EMERGENCIA",
         "balance": 5000.0,
         "broker": "Nubank",
         "category": "CDB",
@@ -1061,6 +1062,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RF_CDI",
         "balance": 12000.0,
         "broker": "XP",
         "category": "CDB",
@@ -1069,6 +1071,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RV_FII",
         "balance": 3000.0,
         "broker": "XP",
         "category": "Fundo Imobiliário",
@@ -1077,6 +1080,7 @@
         "type": null
       },
       {
+        "allocationGroup": "GRUPO_INEXISTENTE",
         "balance": 2500.0,
         "broker": "Corretora Nova",
         "category": "Debênture",
@@ -1085,6 +1089,7 @@
         "type": "IPCA"
       },
       {
+        "allocationGroup": null,
         "balance": 1500.0,
         "broker": "XP",
         "category": "LCI",
@@ -1093,6 +1098,7 @@
         "type": "PRE"
       },
       {
+        "allocationGroup": "RV_ETF_EXTERIOR",
         "balance": 1086.42,
         "broker": "Nomad",
         "category": "ETF",
@@ -1101,6 +1107,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_CRYPTO",
         "balance": 6000.0,
         "broker": "Binance",
         "category": "Crypto",
@@ -1109,6 +1116,7 @@
         "type": null
       },
       {
+        "allocationGroup": "PREVIDENCIA",
         "balance": 0.0,
         "broker": "XP",
         "category": "Previdência Privada",
@@ -1117,6 +1125,7 @@
         "type": null
       },
       {
+        "allocationGroup": null,
         "balance": 800.0,
         "broker": "XP",
         "category": "Fundo Imobiliário",
@@ -1125,6 +1134,7 @@
         "type": null
       },
       {
+        "allocationGroup": null,
         "balance": 600.0,
         "broker": "XP",
         "category": "ETF",

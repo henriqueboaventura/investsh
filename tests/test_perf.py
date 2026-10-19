@@ -309,3 +309,92 @@ def test_record_flow_kind():
     data = {'investments': []}
     core.record_flow(data, {'name': 'KNRI11', 'broker': 'XP'}, -68.2, kind='provento')
     assert data['flows'][0]['kind'] == 'provento' and data['flows'][0]['amount'] == -68.2
+
+
+# ── Por ativo e por classe ───────────────────────────────────────────────────
+
+def asnap(d, **balances):
+    """Foto com ativos: nome=saldo (corretora XP, classe CDI; FII se o nome começar com F)."""
+    return {'date': d, 'total': sum(balances.values()), 'assets': [
+        {'name': n, 'broker': 'XP', 'balance': v,
+         'allocationGroup': 'RV_FII' if n.startswith('F') else 'RF_CDI'}
+        for n, v in balances.items()]}
+
+
+def mv(d, name, amount, **kw):
+    return {'date': d, 'name': name, 'broker': 'XP', 'amount': amount, **kw}
+
+
+def tr(d, src, dst, amount):
+    return {'date': d, 'from': src, 'fromBroker': 'XP', 'to': dst, 'toBroker': 'XP', 'amount': amount}
+
+
+def test_asset_periods_use_flows_and_transfers():
+    hist = [asnap('2026-01-01', CDB=1000, LCA=1000), asnap('2026-02-01', CDB=610, LCA=1500)]
+    # 400 do CDB foram para a LCA, e a LCA recebeu mais 100 de dinheiro novo
+    ap = perf.asset_periods(hist, [mv('2026-01-15', 'LCA', 100)],
+                            [tr('2026-01-15', 'CDB', 'LCA', 400)], since='2026-01-01')
+    [cdb], [lca] = ap[('CDB', 'XP')], ap[('LCA', 'XP')]
+    assert cdb['flow'] == -400 and cdb['r'] == pytest.approx(10 / 800)
+    assert lca['flow'] == 500 and lca['r'] == pytest.approx(0 / 1250)
+
+
+def test_asset_periods_skip_entry_and_exit():
+    """Ativo novo começa na primeira foto; o que saiu para na última."""
+    hist = [asnap('2026-01-01', CDB=1000), asnap('2026-02-01', LCA=1010),
+            asnap('2026-03-01', LCA=1020)]
+    ap = perf.asset_periods(hist, [], [tr('2026-01-20', 'CDB', 'LCA', 1005)], since='2026-01-01')
+    assert ('CDB', 'XP') not in ap
+    assert [p['start'] for p in ap[('LCA', 'XP')]] == [date(2026, 2, 1)]
+
+
+def test_asset_periods_need_flows_since():
+    hist = [asnap('2026-01-01', CDB=1000), asnap('2026-02-01', CDB=1010)]
+    assert perf.asset_periods(hist, [], [], since=None) == {}
+    assert list(perf.asset_periods(hist, [], [], since='2026-01-15')) == []
+
+
+def test_dividend_counts_as_asset_return():
+    hist = [asnap('2026-01-01', FII=1000), asnap('2026-02-01', FII=990)]
+    [p] = perf.asset_periods(hist, [mv('2026-01-10', 'FII', -20, kind='provento')], [],
+                             since='2026-01-01')[('FII', 'XP')]
+    assert p['r'] == pytest.approx(10 / 990)
+
+
+def test_breakdown_by_class_and_asset():
+    hist = [asnap('2026-01-01', CDB=1000, LCA=3000, FII=1000, Velho=1000),
+            asnap('2026-02-01', CDB=1020, LCA=3000, FII=950, Velho=1010)]
+    data = {'flowsSince': '2026-01-01', 'flows': [], 'investments': [
+        {'name': n, 'broker': 'XP', 'allocationGroup': g}
+        for n, g in (('CDB', 'RF_CDI'), ('LCA', 'RF_CDI'), ('FII', 'RV_FII'))]}
+    cdi = {date(2026, 1, d): 0.05 for d in range(2, 32)}
+    out = perf.breakdown(hist, data, cdi, today=date(2026, 2, 2))
+    assert [c['label'] for c in out] == ['CDI', 'FII']        # ordem das classes de alocação
+    rf, fii = out
+    # Classe soma todos que passaram por ela, inclusive o já excluído (Velho)
+    assert rf['row']['portfolio'] == pytest.approx(30 / 5000)
+    assert [a['name'] for a in rf['assets']] == ['CDB', 'LCA']  # do melhor para o pior
+    assert rf['assets'][0]['row']['portfolio'] == pytest.approx(0.02)
+    assert rf['assets'][0]['row']['pct_cdi'] == pytest.approx(0.02 / (1.0005 ** 30 - 1))
+    assert fii['row']['portfolio'] == pytest.approx(-0.05)
+
+
+def test_breakdown_skips_removed_assets_without_class():
+    """Fotos antigas não guardavam o grupo: ativo excluído sem classe fica de fora."""
+    old = {'date': '2026-01-01', 'total': 2000, 'assets': [
+        {'name': 'CDB', 'broker': 'XP', 'balance': 1000}, {'name': 'Velho', 'broker': 'XP', 'balance': 1000}]}
+    new = {'date': '2026-02-01', 'total': 2000, 'assets': [
+        {'name': 'CDB', 'broker': 'XP', 'balance': 1010}, {'name': 'Velho', 'broker': 'XP', 'balance': 1000}]}
+    data = {'flowsSince': '2026-01-01', 'investments': [
+        {'name': 'CDB', 'broker': 'XP', 'allocationGroup': 'RF_CDI'}]}
+    [rf] = perf.breakdown([old, new], data, None, today=date(2026, 2, 2))
+    assert rf['row']['portfolio'] == pytest.approx(0.01) and rf['row']['cdi'] is None
+
+
+def test_breakdown_last_twelve_months():
+    hist = [asnap('2025-01-01', CDB=1000), asnap('2025-02-01', CDB=2000),
+            asnap('2026-01-01', CDB=2000), asnap('2026-02-01', CDB=2020)]
+    [rf] = perf.breakdown(hist, {'flowsSince': '2025-01-01', 'investments': [
+        {'name': 'CDB', 'broker': 'XP', 'allocationGroup': 'RF_CDI'}]}, None, today=date(2026, 2, 2))
+    # Como na carteira: conta o período que termina nos últimos 12 meses
+    assert rf['row']['start'] == date(2025, 2, 1) and rf['row']['portfolio'] == pytest.approx(0.01)

@@ -170,6 +170,129 @@ def summary(history, cdi, ipca, today, flows=None, since=None):
     }
 
 
+# ── Por ativo e por classe ───────────────────────────────────────────────────
+
+def _moves(flows, transfers):
+    """[(data, (nome, corretora), valor)]: dinheiro que entrou (+) ou saiu (−) de cada ativo.
+
+    Lançamentos (aporte, saque, provento) e transferências entre ativos: a transferência
+    sai da origem e entra no destino.
+    """
+    out = []
+    for f in flows or []:
+        d = _day(f.get('date'))
+        if d and isinstance(f.get('amount'), (int, float)):
+            out.append((d, (f.get('name'), f.get('broker')), f['amount']))
+    for t in transfers or []:
+        d = _day(t.get('date'))
+        if d and isinstance(t.get('amount'), (int, float)):
+            out.append((d, (t.get('from'), t.get('fromBroker')), -t['amount']))
+            out.append((d, (t.get('to'), t.get('toBroker')), t['amount']))
+    return out
+
+
+def asset_periods(history, flows=None, transfers=None, since=None):
+    """{(nome, corretora): [períodos]} entre fotos consecutivas, a partir de `since`.
+
+    Cada período tem start, end, begin (saldo na primeira foto), final (saldo na
+    segunda), flow (dinheiro que entrou ou saiu do ativo no meio) e r (Dietz). Só conta
+    o período em que o ativo tem saldo nas duas fotos: o ativo novo começa na primeira
+    foto em que aparece, e o que saiu da carteira para na última (com o saldo inteiro
+    entrando ou saindo, o Dietz distorce).
+    """
+    since = _day(since) if since else None
+    if since is None:
+        return {}
+    by_date = {}
+    for s in history:
+        d = _day(s.get('date'))
+        if d and d >= since:
+            by_date[d] = s
+    moves = _moves(flows, transfers)
+    dates = sorted(by_date)
+    out = {}
+    for a, b in zip(dates, dates[1:]):
+        begin, final = _balances(by_date[a]), _balances(by_date[b])
+        moved = {}
+        for d, key, v in moves:
+            if a < d <= b:
+                moved[key] = moved.get(key, 0.0) + v
+        for key, start in begin.items():
+            end = final.get(key)
+            if not start or not end or start <= 0 or end <= 0:
+                continue
+            p = {'start': a, 'end': b, 'begin': start, 'final': end, 'flow': moved.get(key, 0.0)}
+            if _dietz(p) is not None:
+                out.setdefault(key, []).append(p)
+    return out
+
+
+def _balances(snap):
+    out = {}
+    for a in snap.get('assets') or []:
+        if isinstance(a.get('balance'), (int, float)):
+            key = (a.get('name'), a.get('broker'))
+            out[key] = out.get(key, 0.0) + a['balance']
+    return out
+
+
+def _dietz(p):
+    base = p['begin'] + p['flow'] / 2
+    if base <= 0:
+        return None
+    p['r'] = (p['final'] - p['begin'] - p['flow']) / base
+    return p['r']
+
+
+def breakdown(history, data, cdi, today):
+    """Rentabilidade nos últimos 12 meses por classe (grupo de alocação) e por ativo.
+
+    Lista de classes na ordem de GROUP_META: {'label', 'row', 'assets'}, em que `row`
+    é como as linhas de summary (portfolio, cdi, pct_cdi, start, end) e `assets` são os
+    ativos atuais da classe, do melhor para o pior. A classe soma todos os ativos que
+    passaram por ela, inclusive os já excluídos (se a foto guardou o grupo).
+    """
+    from .core import GROUP_META, asset_key, classify
+    data = data or {}
+    by_asset = asset_periods(history, data.get('flows'), data.get('transfers'),
+                             data.get('flowsSince'))
+    cutoff = today - timedelta(days=365)
+    meta = {}
+    for s in history:
+        for a in s.get('assets') or []:
+            meta[(a.get('name'), a.get('broker'))] = a
+    current = {asset_key(i): i for i in data.get('investments') or []}
+    meta.update(current)
+    order = {m['label']: n for n, m in enumerate(GROUP_META.values())}
+    classes = {}
+    for key, ps in by_asset.items():
+        ps = [p for p in ps if p['end'] > cutoff]
+        if not ps:
+            continue
+        if key not in current and not (meta.get(key) or {}).get('allocationGroup'):
+            continue   # excluído antes de a foto guardar o grupo: classe desconhecida
+        label = classify(meta.get(key) or {})[1]
+        c = classes.setdefault(label, {'label': label, 'periods': {}, 'assets': []})
+        for p in ps:
+            agg = c['periods'].setdefault((p['start'], p['end']), {
+                'start': p['start'], 'end': p['end'], 'begin': 0.0, 'final': 0.0, 'flow': 0.0})
+            for k in ('begin', 'final', 'flow'):
+                agg[k] += p[k]
+        if key in current:
+            row = _row(ps, cdi, None)
+            c['assets'].append({'name': key[0], 'broker': key[1], 'row': row})
+    out = []
+    for label, c in classes.items():
+        ps = [p for p in sorted(c['periods'].values(), key=lambda p: p['start'])
+              if _dietz(p) is not None]
+        if not ps:
+            continue
+        c['assets'].sort(key=lambda a: (-a['row']['portfolio'], a['name']))
+        out.append({'label': label, 'row': _row(ps, cdi, None), 'assets': c['assets']})
+    out.sort(key=lambda c: (order.get(c['label'], len(order)), c['label']))
+    return out
+
+
 def monthly(history, flows=None, since=None):
     """Histórico mês a mês (último save de cada mês), com a variação decomposta.
 
@@ -249,7 +372,12 @@ def load(today, offline=False, loading=False):
             history = json.load(f)
     except (FileNotFoundError, ValueError):
         history = []
-    flows, since = flow_log()
+    try:
+        with open(config.DATA, encoding='utf-8') as f:
+            data = json.load(f)
+    except (FileNotFoundError, ValueError):
+        data = {}
+    flows, since = flow_log(data if isinstance(data, dict) else {})
     ps = periods(history, flows, since)
     if not ps:
         return None, None
@@ -263,7 +391,9 @@ def load(today, offline=False, loading=False):
     else:
         note = f'{"/".join(missing)} indisponíve{"is" if len(missing) > 1 else "l"} ' \
                f'(sem conexão com o Banco Central e sem cache)'
-    return summary(history, cdi, ipca, today, flows, since), note
+    s = summary(history, cdi, ipca, today, flows, since)
+    s['breakdown'] = breakdown(history, data if isinstance(data, dict) else {}, cdi, today)
+    return s, note
 
 
 def _pct(v, plus=True):
@@ -305,6 +435,22 @@ def table(s, note=None):
               cells(f'Desde {st["start"]:%d/%m/%Y} ({days} dias)', st)]
     if s['last_12m'] and s['last_12m']['start'] != st['start']:
         lines.append(cells('Últimos 12 meses', s['last_12m']))
+    groups = s.get('breakdown') or []
+    if groups:
+        # Sem IPCA (a comparação é com o CDI); no lugar, desde quando o ativo é medido
+        cols = ('Últimos 12 meses, por classe'.ljust(WIDTHS[0]), 'Rent.'.rjust(WIDTHS[1]),
+                'CDI'.rjust(WIDTHS[2]), 'Desde'.rjust(WIDTHS[3]), '% do CDI'.rjust(WIDTHS[4]))
+        lines += [[], [(''.join(cols), 'header')], sep]
+        for g in groups:
+            line = cells(g['label'], g['row'])
+            line[0], line[3] = (line[0][0], 'title'), (' ' * WIDTHS[3], 'dim')
+            lines.append(line)
+            for a in g['assets']:
+                room = WIDTHS[0] - 5 - len(a['broker'])     # recuo, parênteses e espaço
+                name = a['name'] if len(a['name']) <= room else a['name'][:room - 1] + '…'
+                line = cells(f'  {name} ({a["broker"]})', a['row'])
+                line[3] = (f'{a["row"]["start"]:%d/%m/%y}'.rjust(WIDTHS[3]), 'dim')
+                lines.append(line)
     lines += [[], header('Mês'), sep]
     for m in reversed(s['months'][-12:]):
         lines.append(cells(f'{MESES[m["month"]]}/{m["year"]}', m))
@@ -317,6 +463,9 @@ def table(s, note=None):
                        '(em poucos dias a comparação não tem significado).', 'dim')])
     lines.append([('Rendimento entre saves pelo método de Dietz modificado; CDI e IPCA '
                    'no mesmo período (Banco Central).', 'dim')])
+    if groups:
+        lines.append([('Por ativo: desde a primeira foto com o ativo nos últimos 12 meses. '
+                       'Transferências feitas pela tela não contam como rendimento.', 'dim')])
     if note:
         lines.append([(note, 'dim' if note.endswith('…') else 'neg')])
     return lines

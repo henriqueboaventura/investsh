@@ -117,6 +117,16 @@ def find_problems(data, history, today, stale_days=None):
             add('aviso', where, f'ativo {f.get("name")} ({f.get("broker")}) não existe nem existiu '
                                 'no histórico: corrija na aba Lançamentos')
 
+    for t in data.get('transfers', []):
+        where = f'Transferência {t.get("date", "?")} {t.get("from", "?")} → {t.get("to", "?")}'
+        if (parse_maturity(t.get('date')) if t.get('date') else None) is None:
+            add('erro', where, f'data inválida: "{t.get("date")}"')
+        if not isinstance(t.get('amount'), (int, float)) or t['amount'] < 0:
+            add('erro', where, f'valor inválido: {t.get("amount")!r}')
+        for n, b in (('from', 'fromBroker'), ('to', 'toBroker')):
+            if (t.get(n), t.get(b)) not in known:
+                add('aviso', where, f'ativo {t.get(n)} ({t.get(b)}) não existe nem existiu no histórico')
+
     # ── Histórico ─────────────────────────────────────────────────────────────
     dates = [s.get('date') for s in history]
     for d in sorted({d for d in dates if dates.count(d) > 1}):

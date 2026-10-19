@@ -99,6 +99,19 @@ def test_flow_problems():
     ]
 
 
+def test_transfer_problems():
+    transfers = [
+        {'date': '2026-10-01', 'from': 'CDB', 'fromBroker': 'XP', 'to': 'Velho', 'toBroker': 'XP', 'amount': 5.0},
+        {'date': 'ontem', 'from': 'CDB', 'fromBroker': 'XP', 'to': 'Typo', 'toBroker': 'XP', 'amount': -1},
+    ]
+    history = [{'date': '2026-09-01', 'assets': [{'name': 'Velho', 'broker': 'XP'}]}]
+    assert [p[1:] for p in problems([asset()], history=history, transfers=transfers)] == [
+        ('Transferência ontem CDB → Typo', 'data inválida: "ontem"'),
+        ('Transferência ontem CDB → Typo', 'valor inválido: -1'),
+        ('Transferência ontem CDB → Typo', 'ativo Typo (XP) não existe nem existiu no histórico'),
+    ]
+
+
 def test_history_dates():
     found = problems(history=[{'date': '2026-10-01'}, {'date': '2026-09-01'}, {'date': '2026-09-01'}])
     assert found == [('aviso', 'Histórico', 'mais de uma foto na data 2026-09-01'),

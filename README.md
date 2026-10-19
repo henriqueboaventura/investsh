@@ -8,7 +8,7 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
   por indexador e por objetivo, visão por corretora e gráficos de evolução no terminal
 - **Rentabilidade vs CDI e IPCA** — quanto a carteira rendeu descontando os aportes, por mês,
   nos últimos 12 meses e desde o início, lado a lado com o CDI e o IPCA do mesmo período
-  (dados do Banco Central)
+  (dados do Banco Central); também por classe e por ativo, para ver quem puxou para baixo
 - **Alertas de vencimento** — títulos que vencem nos próximos 90 dias (ou já venceram) aparecem
   no Sumário, com aviso ao abrir quando faltam 30 dias ou menos
 - **Rotina mensal** — atualize saldos, registre aportes e saques, cadastre ativos; cada save
@@ -172,6 +172,23 @@ que o CDI?* Para isso o investsh usa as fotos que cada save grava em `data/histo
   busca roda em segundo plano: a tela não trava se o Banco Central demorar;
 - o IPCA de um mês só sai no mês seguinte: meses ainda não divulgados aparecem com `*`.
 
+Abaixo do período, **Últimos 12 meses, por classe** mostra cada classe de alocação (CDI,
+Pré-Fixado, FII...) e, dentro dela, cada ativo do melhor para o pior, com o CDI do mesmo
+período e o **% do CDI**. A conta é a mesma da carteira, ativo a ativo: o saldo de cada
+foto, descontando o que entrou e saiu do ativo (aportes, saques, proventos e
+transferências). Detalhes:
+
+- precisa dos lançamentos (`flowsSince`): antes deles não dá para separar aporte de
+  rendimento por ativo;
+- o ativo é medido a partir da primeira foto em que aparece (coluna **Desde**); o período
+  em que ele entra ou sai da carteira fica de fora, porque com o saldo inteiro entrando ou
+  saindo o método distorce;
+- a classe soma todos os ativos que passaram por ela, inclusive os já excluídos (a partir
+  da versão 1.2.0, a foto guarda a classe; ativos excluídos antes disso ficam de fora);
+- dinheiro que mudou de ativo sem passar por *Transferir* (saldo baixado num, aumentado
+  no outro) aparece como perda num e ganho no outro. O `investsh check` avisa de saltos
+  de saldo sem lançamento.
+
 Salvar uma vez por mês já basta para a visão mensal. No **Sumário**, o *Histórico mensal*
 decompõe a variação do saldo de cada mês: **Variação = Aportes + Saques + Valorização**, com
 a rentabilidade do mês ao lado.
@@ -184,12 +201,12 @@ O investsh registra cada entrada e saída de dinheiro (em `flows`, no `investmen
 |---|---|
 | **Registrar aporte** / **Registrar saque** | aporte / saque, pelo valor em dinheiro |
 | **Registrar provento** (dividendo, cupom pago na conta) | provento: saiu da carteira, mas é rendimento; o saldo não muda |
-| **Transferir para outro ativo** (resgate reinvestido, caixa → título) | nada: o dinheiro só muda de ativo. Se entrou mais do que saiu, pergunta se a diferença é aporte; se saiu mais, se foi saque ou custo/IR |
+| **Transferir para outro ativo** (resgate reinvestido, caixa → título) | nada para a carteira: o dinheiro só muda de ativo (fica em `transfers`, para a rentabilidade por ativo). Se entrou mais do que saiu, pergunta se a diferença é aporte; se saiu mais, se foi saque ou custo/IR |
 | **Liquidar vencimento** (título com vencimento) | o valor líquido creditado substitui o saldo (rendimento e IR ficam na valorização); depois, até o saldo acabar: reinvestir (*Transferir*), deixar no **Caixa <corretora>** (criado se preciso, grupo `CAIXA_TRANSITORIA`) ou sacado (saque). O título zerado sai da carteira |
 | **Novo ativo** com saldo | pergunta: dinheiro novo (aporte) ou veio de outro ativo |
 | **Excluir ativo** com saldo | pergunta: foi sacado (saque) ou foi para outro ativo |
 | **Atualizar saldo** (inclusive quantidade de cripto) | valorização |
-| **Editar dados do ativo** (nome, corretora, taxa, vencimento, liquidez...) | nada: o saldo não muda. Trocar nome ou corretora leva junto os lançamentos do ativo e a lista `assetNames` da reserva; as fotos do histórico ficam com o nome antigo |
+| **Editar dados do ativo** (nome, corretora, taxa, vencimento, liquidez...) | nada: o saldo não muda. Trocar nome ou corretora leva junto os lançamentos e transferências do ativo e a lista `assetNames` da reserva; as fotos do histórico ficam com o nome antigo |
 
 Provento que você reinveste (no mesmo ativo ou em outro) é um *Registrar aporte* normal,
 depois do *Registrar provento*. Quando há proventos, o *Histórico mensal* ganha a coluna

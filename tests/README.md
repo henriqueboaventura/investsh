@@ -19,8 +19,8 @@ marcado como `slow` automaticamente e só roda com `--all`.
 
 | Arquivo | O quê | Como |
 |---|---|---|
-| `test_perf.py` | Rentabilidade descontando aportes, câmbio, CDI/IPCA proporcionais, vencimentos | Unitário, valores calculados à mão |
-| `test_benchmarks.py` | Tabela de rentabilidade vs CDI/IPCA, cache, sem internet, janela de vencimentos no `investsh.toml` | Banco Central falso no `sitecustomize` |
+| `test_perf.py` | Rentabilidade descontando aportes, câmbio, CDI/IPCA proporcionais, por classe e por ativo, vencimentos | Unitário, valores calculados à mão |
+| `test_benchmarks.py` | Tabela de rentabilidade vs CDI/IPCA (inclusive por classe e por ativo), cache, sem internet, janela de vencimentos no `investsh.toml` | Banco Central falso no `sitecustomize` |
 | `test_core.py` | Cálculos: formatação, classificação, custo base, reserva, histórico, transferência, lançamentos | Unitário, valores calculados à mão |
 | `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, primeira execução, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
 | `test_status_image.py` | Imagem `assets/status.png` (gerada pelo `investsh sync`) | Chamadas de desenho do matplotlib (pixels variam por máquina) |

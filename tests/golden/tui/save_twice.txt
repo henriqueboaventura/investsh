@@ -2627,6 +2627,7 @@
   {
     "assets": [
       {
+        "allocationGroup": "RESERVA_EMERGENCIA",
         "balance": 19850.4,
         "broker": "XP",
         "category": "Tesouro Direto",
@@ -2635,6 +2636,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RESERVA_EMERGENCIA",
         "balance": 8420.15,
         "broker": "Nubank",
         "category": "CDB",
@@ -2643,6 +2645,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RF_CDI",
         "balance": 1.0,
         "broker": "XP",
         "category": "CDB",
@@ -2651,6 +2654,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RF_CDI",
         "balance": 16380.09,
         "broker": "XP",
         "category": "LCA",
@@ -2659,6 +2663,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "RF_PRE",
         "balance": 13640.55,
         "broker": "XP",
         "category": "CDB",
@@ -2667,6 +2672,7 @@
         "type": "PRE"
       },
       {
+        "allocationGroup": "RF_IPCA",
         "balance": 24985.3,
         "broker": "XP",
         "category": "Tesouro Direto",
@@ -2675,6 +2681,7 @@
         "type": "IPCA"
       },
       {
+        "allocationGroup": "RF_IPCA",
         "balance": 10512.8,
         "broker": "Nubank",
         "category": "Tesouro Direto",
@@ -2683,6 +2690,7 @@
         "type": "IPCA"
       },
       {
+        "allocationGroup": "RV_ETF_BRASIL",
         "balance": 9780.0,
         "broker": "XP",
         "category": "ETF",
@@ -2691,6 +2699,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_ETF_EXTERIOR",
         "balance": 13420.5,
         "broker": "XP",
         "category": "ETF",
@@ -2699,6 +2708,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_OURO",
         "balance": 4610.2,
         "broker": "XP",
         "category": "ETF",
@@ -2707,6 +2717,7 @@
         "type": "Ouro"
       },
       {
+        "allocationGroup": "RV_FII",
         "balance": 7820.4,
         "broker": "XP",
         "category": "Fundo Imobiliário",
@@ -2715,6 +2726,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_FII",
         "balance": 7255.1,
         "broker": "XP",
         "category": "Fundo Imobiliário",
@@ -2723,6 +2735,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_FUNDOS_ACOES",
         "balance": 11240.66,
         "broker": "XP",
         "category": "Fundos de Investimento",
@@ -2731,6 +2744,7 @@
         "type": null
       },
       {
+        "allocationGroup": "PREVIDENCIA",
         "balance": 13105.9,
         "broker": "XP",
         "category": "Previdência Privada",
@@ -2739,6 +2753,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_ETF_EXTERIOR",
         "balance": 9399.7058,
         "broker": "Nomad",
         "category": "ETF",
@@ -2747,6 +2762,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RF_EXTERIOR",
         "balance": 4487.4578,
         "broker": "Nomad",
         "category": "ETF",
@@ -2755,6 +2771,7 @@
         "type": "POS"
       },
       {
+        "allocationGroup": "MULTIATIVO_GLOBAL",
         "balance": 2342.3215,
         "broker": "Nomad",
         "category": "ETF",
@@ -2763,6 +2780,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_CRYPTO",
         "balance": 2700.0,
         "broker": "Binance",
         "category": "Crypto",
@@ -2771,6 +2789,7 @@
         "type": null
       },
       {
+        "allocationGroup": "RV_CRYPTO",
         "balance": 2400.0,
         "broker": "Binance",
         "category": "Crypto",

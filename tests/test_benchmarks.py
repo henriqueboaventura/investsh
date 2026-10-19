@@ -36,6 +36,26 @@ def test_rentabilidade(demo):
     assert 'indisponíveis' not in section
 
 
+def test_breakdown_by_class_and_asset(demo):
+    def since_september(d):
+        d['flowsSince'] = '2026-09-01'
+        d['flows'] = []
+    demo.edit(since_september)
+    lines = view(demo).splitlines()
+    start = lines.index(next(l for l in lines if l.startswith('Últimos 12 meses, por classe')))
+    assert lines[start].split() == ['Últimos', '12', 'meses,', 'por', 'classe', 'Rent.', 'CDI', 'Desde',
+                                    '%', 'do', 'CDI']
+    assert lines[start + 2].startswith('CDI ')     # ordem das classes de alocação
+    # 22.760,14 → 23.110,72 sem aporte
+    [alfa] = [l for l in lines if l.startswith('  CDB Banco Alfa 110% CDI (XP)')]
+    assert alfa.split()[-4:-1] == ['+1.54%', '+1.11%', '01/09/26']
+    assert any(l.startswith('Por ativo: desde a primeira foto') for l in lines)
+
+
+def test_breakdown_needs_flows_since(demo):
+    assert 'por classe' not in view(demo)
+
+
 def test_cache_is_outside_data_folder(demo):
     view(demo)
     cache = demo.home / '.cache' / 'investsh'
