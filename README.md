@@ -9,6 +9,9 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
 - **Rentabilidade vs CDI e IPCA** — quanto a carteira rendeu descontando os aportes, por mês,
   nos últimos 12 meses e desde o início, lado a lado com o CDI e o IPCA do mesmo período
   (dados do Banco Central); também por classe e por ativo, para ver quem puxou para baixo
+- **Projeção** — quando a carteira chega a R$ 700 mil, 1 milhão, 2 milhões... com o aporte
+  mensal, lado a lado pela taxa fixa dos parâmetros e pela rentabilidade real dos últimos
+  12 meses (a partir de 90 dias de histórico)
 - **Alertas de vencimento** — títulos que vencem nos próximos 90 dias (ou já venceram) aparecem
   no Sumário, com aviso ao abrir quando faltam 30 dias ou menos
 - **Rotina mensal** — atualize saldos, registre aportes e saques, cadastre ativos; cada save

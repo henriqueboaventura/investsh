@@ -170,6 +170,26 @@ def summary(history, cdi, ipca, today, flows=None, since=None):
     }
 
 
+# Rentabilidade real só vira taxa de projeção com pelo menos tantos dias de histórico
+MIN_DAYS_REAL_RATE = 90
+
+
+def real_monthly_rate(history, flows, since, today):
+    """(taxa ao mês, dias) da carteira nos últimos 12 meses, ou None se o histórico for curto.
+
+    Rentabilidade descontando aportes (summary) convertida para taxa mensal equivalente:
+    (1 + r) ** (30,44 / dias) − 1. Base da projeção pelo rendimento real.
+    """
+    s = summary(history, None, None, today, flows, since)
+    row = s and s['last_12m']
+    if not row:
+        return None
+    days = (row['end'] - row['start']).days
+    if days < MIN_DAYS_REAL_RATE or row['portfolio'] <= -1:
+        return None
+    return (1 + row['portfolio']) ** (30.44 / days) - 1, days
+
+
 # ── Por ativo e por classe ───────────────────────────────────────────────────
 
 def _moves(flows, transfers):

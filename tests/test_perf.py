@@ -398,3 +398,17 @@ def test_breakdown_last_twelve_months():
         {'name': 'CDB', 'broker': 'XP', 'allocationGroup': 'RF_CDI'}]}, None, today=date(2026, 2, 2))
     # Como na carteira: conta o período que termina nos últimos 12 meses
     assert rf['row']['start'] == date(2025, 2, 1) and rf['row']['portfolio'] == pytest.approx(0.01)
+
+
+# ── Taxa real para a projeção ────────────────────────────────────────────────
+
+def test_real_monthly_rate():
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-04-01', 1030, 1000)]   # 90 dias, +3%
+    rate, days = perf.real_monthly_rate(hist, None, None, today=date(2026, 4, 2))
+    assert days == 90 and rate == pytest.approx(1.03 ** (30.44 / 90) - 1)
+
+
+def test_real_monthly_rate_needs_history():
+    hist = [snap('2026-01-01', 1000, 1000), snap('2026-03-01', 1030, 1000)]   # 59 dias
+    assert perf.real_monthly_rate(hist, None, None, today=date(2026, 3, 2)) is None
+    assert perf.real_monthly_rate([], None, None, today=date(2026, 3, 2)) is None

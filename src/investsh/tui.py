@@ -1073,52 +1073,65 @@ def run_tui(data, crypto_prices=None):
                     out.append(row([seg('  Proventos: dividendos e cupons pagos na conta corrente '
                                         '(saíram da carteira; o rendimento está na valorização)', DIM)]))
 
-            # Projection milestones
+            # Projeção: taxa fixa dos parâmetros e rentabilidade real dos últimos 12 meses
             p      = data.get('projectionParams', {})
             mr     = p.get('monthlyReturn', 0)
             mc     = p.get('monthlyContribution', 0)
             fa     = p.get('fgtsAnnualReturn', 0.0605)
             fgts_r = (1 + fa) ** (1 / 12) - 1
             milestones = [700_000, 800_000, 1_000_000, 1_500_000, 2_000_000]
-            hits_com  = {}   # com FGTS
-            hits_sem  = {}   # sem FGTS
             import datetime as _dt
             start  = _dt.date.today()
-            inv_v  = total + mc
-            fgts_v = fgts
-            for mo in range(1, 241):
-                year  = start.year + (start.month - 1 + mo) // 12
-                month = (start.month - 1 + mo) % 12 + 1
-                dt    = f'{year}-{month:02d}'
-                com   = inv_v + fgts_v
-                sem   = inv_v
-                for m in milestones:
-                    if m not in hits_com and com >= m:
-                        hits_com[m] = (dt, mo)
-                    if m not in hits_sem and sem >= m:
-                        hits_sem[m] = (dt, mo)
-                inv_v  = inv_v  * (1 + mr) + mc
-                fgts_v = fgts_v * (1 + fgts_r)
+
+            def project(rate):
+                """{meta: (AAAA-MM, meses)} com e sem FGTS, até 20 anos."""
+                hits_com, hits_sem = {}, {}
+                inv_v  = total + mc
+                fgts_v = fgts
+                for mo in range(1, 241):
+                    year  = start.year + (start.month - 1 + mo) // 12
+                    month = (start.month - 1 + mo) % 12 + 1
+                    dt    = f'{year}-{month:02d}'
+                    for m in milestones:
+                        if m not in hits_com and inv_v + fgts_v >= m:
+                            hits_com[m] = (dt, mo)
+                        if m not in hits_sem and inv_v >= m:
+                            hits_sem[m] = (dt, mo)
+                    inv_v  = inv_v  * (1 + rate) + mc
+                    fgts_v = fgts_v * (1 + fgts_r)
+                return hits_com, hits_sem
+
+            real = perf.real_monthly_rate(hist_all, *perf.flow_log(data), start) if hist_all else None
+            runs = [project(mr)] + ([project(real[0])] if real else [])
 
             def fmt_hit(hit):
-                if hit[1] is None: return '—'
-                return f'{hit[0]} ({hit[1]}m)'
+                return f'{hit[0]} ({hit[1]}m)' if hit else '—'
+
+            def pct_m(v):
+                return f'{v * 100:.2f}'.replace('.', ',') + '% a.m.'
 
             out.append(row([]))
-            out.append(row([seg('  Projeção', CYN | BOLD)]))
-            out.append(row([seg(f"  {'Meta':>10}  {'c/ FGTS':<18}  {'s/ FGTS':<18}", DIM)]))
-            out.append(row([seg('  ' + '─' * 50, DIM)]))
+            out.append(row([seg('  Projeção', CYN | BOLD),
+                            seg(f'  aporte de {brl_fmt(mc)}/mês', DIM)]))
+            groups = f"  {'':>10}  {'Taxa fixa ' + pct_m(mr):<30}"
+            if real:
+                groups += f"  {'Real ' + pct_m(real[0]) + ' (12 meses)':<30}"
+            out.append(row([seg(groups, DIM)]))
+            out.append(row([seg(f"  {'Meta':>10}" + f"  {'c/ FGTS':<14}  {'s/ FGTS':<14}" * len(runs), DIM)]))
+            out.append(row([seg('  ' + '─' * (12 + 32 * len(runs)), DIM)]))
             for m in milestones:
-                label   = f'R$ {m/1e6:.1f}M' if m >= 1_000_000 else f'R$ {m/1e3:.0f}K'
-                hit_com = hits_com.get(m, ('—', None))
-                hit_sem = hits_sem.get(m, ('—', None))
-                col_com = 0   if hit_com[1] else DIM
-                col_sem = 0   if hit_sem[1] else DIM
-                out.append(row([
-                    seg(f'  {label:>10}', 0),
-                    seg(f'  {fmt_hit(hit_com):<18}', col_com),
-                    seg(f'  {fmt_hit(hit_sem):<18}', col_sem),
-                ]))
+                label = f'R$ {m/1e6:.1f}M' if m >= 1_000_000 else f'R$ {m/1e3:.0f}K'
+                segs  = [seg(f'  {label:>10}', 0)]
+                for hits_com, hits_sem in runs:
+                    for hit in (hits_com.get(m), hits_sem.get(m)):
+                        segs.append(seg(f'  {fmt_hit(hit):<14}', 0 if hit else DIM))
+                out.append(row(segs))
+            if real:
+                out.append(row([seg(f'  Real: rentabilidade da carteira descontando aportes nos últimos '
+                                    f'{real[1]} dias (aba Rentabilidade), em taxa mensal', DIM)]))
+            else:
+                out.append(row([seg(f'  Real: precisa de {perf.MIN_DAYS_REAL_RATE} dias de histórico '
+                                    'com aportes conhecidos', DIM)]))
 
             # Renda fixa: quanto se resgataria hoje, líquido de IR/IOF, e a taxa líquida
             today = _dt.date.today()
