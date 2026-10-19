@@ -1,6 +1,6 @@
 === campos do ativo ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -92,7 +92,7 @@
 =====================================================================================================================================#######
 === nome trocado ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -138,7 +138,7 @@
  Nome: CDB Banco Alfa 2028
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -184,7 +184,7 @@
 ===========================================================================================================================================#
 === nome repetido na XP: erro no título ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -230,7 +230,7 @@
  Nome: Tesouro Selic 2029
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -276,7 +276,7 @@
 ===========================================================================================================================================#
 === corretora trocada ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -322,7 +322,7 @@
  Nome: Tesouro Selic 2029
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -368,7 +368,7 @@
 ===========================================================================================================================================#
 === data inválida: erro no título ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -414,7 +414,7 @@
  Vencimento AAAA-MM-DD ou DD/MM/AAAA (vazio = nenhuma): 31/02/2028
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -460,7 +460,7 @@
 ===========================================================================================================================================#
 === vencimento, taxa, isenção, liquidez e categoria ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.299,82 (80.4%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -506,7 +506,7 @@
  Taxa (% do CDI): 112,5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -552,7 +552,7 @@
 ===========================================================================================================================================#
 === concluído ===
  investsh   R$ 205.562,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 42.143,67 (20.5%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -598,7 +598,7 @@
  ✓ Dados de CDB Banco Alfa 2028 atualizados                                                                                           1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...

@@ -940,10 +940,14 @@ def run_tui(data, crypto_prices=None):
         DIM  = curses.A_DIM
         REV  = curses.A_REVERSE
 
-        TABS     = [('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('i', 'Indexador'),
-                    ('o', 'Objetivo'), ('d', 'Detalhe'), ('l', 'Lançamentos'), ('b', 'Brokers'),
-                    ('g', 'Gráficos')]
-        TAB_KEYS = {k for k, _ in TABS}
+        TABS     = [('s', 'Sumário'), ('r', 'Rentabilidade'), ('a', 'Alocação'), ('d', 'Detalhe'),
+                    ('l', 'Lançamentos'), ('g', 'Gráficos')]
+        # Atalhos das abas que viraram visões de outras (1.3.0): i/o = Alocação por
+        # indexador/objetivo (a = por classe); b = Gráficos, na seção das corretoras
+        ALLOC_VIEWS = {'a': 'Classe', 'i': 'Indexador', 'o': 'Objetivo'}
+        TAB_KEYS = {k for k, _ in TABS} | set(ALLOC_VIEWS) | {'b'}
+        alloc_view = ['a']
+        broker_line = [0]    # linha da seção Corretoras na aba Gráficos (atalho b)
         SEL_TABS = {'d', 'l'}   # abas com cursor de linha (Enter abre as ações)
 
         tab      = ['s']
@@ -1162,7 +1166,16 @@ def run_tui(data, crypto_prices=None):
             return out, []
 
         def build_allocation():
-            out   = []
+            # Seletor: a mesma tecla da visão troca o agrupamento
+            sel = [seg('  Agrupar por: ', DIM)]
+            for k, label in ALLOC_VIEWS.items():
+                sel += [seg(f' [{k}] {label} ', (TABA | BOLD) if k == alloc_view[0] else DIM), seg(' ')]
+            head = [row([]), row(sel)]
+            if alloc_view[0] == 'i':
+                return head + build_indexer()[0], []
+            if alloc_view[0] == 'o':
+                return head + build_purpose()[0], []
+            out   = head
             invs  = data['investments']
             ideal = data.get('idealAllocation', {})
             alloc_invs  = alloc_investments(data)
@@ -1430,6 +1443,14 @@ def run_tui(data, crypto_prices=None):
             out.append(row([seg('  ' + '─' * 55, DIM)]))
             out.append(row([]))
 
+            # ── Saldo por corretora (era a aba Brokers) ────────────────
+            broker_line[0] = len(out)
+            out.append(row([seg('  Por Corretora', CYN | BOLD)]))
+            out += build_brokers()[0]
+            out.append(row([]))
+            out.append(row([seg('  ' + '─' * 55, DIM)]))
+            out.append(row([]))
+
             # ── Broker evolution multi-line chart ──────────────────────
             BROKER_COLORS = [CYN, MAG, YLW, GRN]
             broker_order2 = sorted({(i.get('broker') or '?') for i in invs},
@@ -1527,10 +1548,8 @@ def run_tui(data, crypto_prices=None):
                 ]))
             return out, []
 
-        builders = {'s': build_summary, 'r': build_perf, 'a': build_allocation, 'i': build_indexer,
-                    'o': build_purpose,
-                    'd': lambda: build_detail(search[0]), 'l': build_flows, 'b': build_brokers,
-                    'g': build_charts}
+        builders = {'s': build_summary, 'r': build_perf, 'a': build_allocation,
+                    'd': lambda: build_detail(search[0]), 'l': build_flows, 'g': build_charts}
 
         def refresh():
             t = tab[0]
@@ -1626,8 +1645,10 @@ def run_tui(data, crypto_prices=None):
                 hint = ' /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair'
             elif t == 'l':
                 hint = ' ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair'
+            elif t == 'a':
+                hint = ' a/i/o agrupar por classe/indexador/objetivo   j/↓ k/↑ scroll   w salvar   q sair'
             else:
-                hint = ' s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair'
+                hint = ' s/r/a/d/l/g abas   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair'
             try:
                 stdscr.addstr(h - 1, 0, ' ' * (w - 1), REV)
                 stdscr.addstr(h - 1, 0, hint[:w - len(pos)], REV)
@@ -1707,7 +1728,14 @@ def run_tui(data, crypto_prices=None):
                 srch_act[0] = True
             elif 0 <= key < 256 and chr(key) in TAB_KEYS:
                 new = chr(key)
-                if new != t:
+                if new in ALLOC_VIEWS:
+                    if new != alloc_view[0] or t != 'a':
+                        alloc_view[0] = new
+                        tab[0] = 'a'; search[0] = ''; srch_act[0] = False; refresh()
+                elif new == 'b':
+                    tab[0] = 'g'; search[0] = ''; srch_act[0] = False; refresh()
+                    scrolls['g'] = min(broker_line[0], max(0, len(lines[0]) - content_h))
+                elif new != t:
                     tab[0] = new; search[0] = ''; srch_act[0] = False; refresh()
             elif key in (ord('j'), curses.KEY_DOWN):
                 if t in SEL_TABS and selectbl[0]:

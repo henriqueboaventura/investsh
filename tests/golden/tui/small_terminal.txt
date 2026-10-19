@@ -1,6 +1,6 @@
 === Sumário 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Patrimônio
   R$ 205.462,26
@@ -22,10 +22,10 @@
   2026-08    R$ 198.653,19    +R$ 3.539,93   +R$ 1.500,00        R$ 0,00    +R$
   2026-07    R$ 195.113,26    +R$ 2.166,81   +R$ 1.500,00        R$ 0,00      +
 
- s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/51
+ s/r/a/d/l/g abas   j/↓ k/↑ scroll   u atualizar todos   n novo   p par 1-20/51
 --- estilos ---
 ####################################################===========================
- #########  .............   ........   .........   ........   .......
+ #########  .............   ........   .......   ...........   ........
 
   CCCCCCCCCC
   ** **********
@@ -50,7 +50,7 @@
 =======================================================================#########
 === Detalhe 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 165.199,82 (80.4%) ──
   Nome             Categoria                        Saldo       G%           Δ
@@ -75,7 +75,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params   1-20/35
 --- estilos ---
 ####################################################===========================
-  .......   .............   ........   .........   ........  #########
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....             .........                        .....       ..           .
@@ -100,7 +100,9 @@
 =======================================================================#########
 === Alocação 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
+
+  Agrupar por:  [a] Classe   [i] Indexador   [o] Objetivo
 
   Categoria/Sub                            Saldo   Atual   Ideal    Diff
   ─────────────────────────────────────────────────────────────────
@@ -119,13 +121,13 @@
     Crypto                           R$ 5.100,00    2.9%    1.0%   +1.9%
     Ouro                             R$ 4.610,20    2.6%    2.0%   +0.6%
 
-  Multiativo Global                  R$ 2.342,32    1.3%    2.0%   -0.7%
-    Multiativo Global                R$ 2.342,32    1.3%       —       —
 
- s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/28
+ a/i/o agrupar por classe/indexador/objetivo   j/↓ k/↑ scroll   w salva 1-20/30
 --- estilos ---
 ####################################################===========================
-  .......   .............  ##########  .........   ........   .......
+  .......   .............  ##########  .......   ...........   ........
+
+  ....... .... ############  ... .........   ... ........
 
   .............                            .....   .....   .....    ....
   .................................................................
@@ -144,13 +146,11 @@
     ......                           .. ........    ....    ....   ggggg
     ....                             .. ........    ....    ....   ggggg
 
-  YYYYYYYYYY YYYYYY                  ** ********    ....    ....   ggggg
-    .......... ......                .. ........    ....       .       g
 
 =======================================================================#########
 === Gráficos 80x24 ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Evolução Patrimonial
 
@@ -169,13 +169,13 @@
 
   ───────────────────────────────────────────────────────
 
-  Evolução por Corretora
+  Por Corretora
 
 
- s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params  1-20/50
+ s/r/a/d/l/g abas   j/↓ k/↑ scroll   u atualizar todos   n novo   p par 1-20/63
 --- estilos ---
 ####################################################===========================
-  .......   .............   ........   .........   ........   .......
+  .......   .............   ........   .......   ...........  ##########
 
   CCCCCCCC CCCCCCCCCCC
 
@@ -194,7 +194,7 @@
 
   .......................................................
 
-  CCCCCCCC CCC CCCCCCCCC
+  CCC CCCCCCCCC
 
 
 =======================================================================#########

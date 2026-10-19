@@ -1,6 +1,6 @@
 === popup alterações não salvas ===
  investsh   R$ 182.352,54   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── XP  R$ 142.090,10 (77.9%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  ⚠ CDB Banco Alfa 110% CDI: R$ 1,00 difere -100.0% do estimado (R$ 23.148,87): confira                                              1-35/35
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MM  MM MMMMMMMMMM MMMMMMM MM
   ....                                      .........                        .....       ..           . ...

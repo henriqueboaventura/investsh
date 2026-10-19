@@ -88,7 +88,9 @@ investsh
 | `n` | Cadastrar novo ativo |
 | `p` | Parâmetros |
 | `/` | Buscar (aba Detalhe) |
-| `s` `r` `a` `i` `o` `d` `l` `b` `g` | Abas: Sumário, Rentabilidade, Alocação, Indexador, Objetivo, Detalhe, Lançamentos, Brokers, Gráficos |
+| `s` `r` `a` `d` `l` `g` | Abas: Sumário, Rentabilidade, Alocação, Detalhe, Lançamentos, Gráficos |
+| `a` `i` `o` | Alocação agrupada por classe (com a meta), por indexador ou por objetivo |
+| `b` | Gráficos, na seção Por Corretora (saldo e evolução por corretora) |
 | `↑` `↓` / `j` `k` | Navegar |
 | `R` | Recarregar do disco (após editar os arquivos por fora) |
 | `w` | Salvar |

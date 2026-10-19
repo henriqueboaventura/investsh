@@ -1,6 +1,6 @@
 === popup com Transferir ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -46,7 +46,7 @@
  /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                               1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -92,7 +92,7 @@
 =====================================================================================================================================#######
 === busca do destino ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -138,7 +138,7 @@
  Destino (busca por nome ou corretora):
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -184,7 +184,7 @@
 ===========================================================================================================================================#
 === nada encontrado: busca de novo ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -230,7 +230,7 @@
  Nada encontrado para "zzz"; destino:
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -276,7 +276,7 @@
 ===========================================================================================================================================#
 === lista de destinos ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -322,7 +322,7 @@
  Nada encontrado para "zzz"; destino: beta
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -368,7 +368,7 @@
 ===========================================================================================================================================#
 === valor que sai (padrão: saldo todo) ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -414,7 +414,7 @@
  Sai de CDB Liquidez Diária Banco Ex (R$): 8420.15
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -460,7 +460,7 @@
 ===========================================================================================================================================#
 === valor que entra (padrão: o mesmo) ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -506,7 +506,7 @@
  Entra em LCA Banco Beta 95% CDI (R$): 5000.0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -552,7 +552,7 @@
 ===========================================================================================================================================#
 === entrou mais do que saiu ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 18.932,95 (9.2%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -598,7 +598,7 @@
  Entra em LCA Banco Beta 95% CDI (R$): 5300
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -644,7 +644,7 @@
 ===========================================================================================================================================#
 === transferido, diferença como aporte ===
  investsh   R$ 205.762,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 13.932,95 (6.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -690,7 +690,7 @@
  ✓ Transferido R$ 5.000,00: CDB Liquidez Diária Banco Exem → LCA Banco Beta 95% CDI                                                   1-5/5
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -736,7 +736,7 @@
 =====================================================================================================================================#######
 === sai o restante ===
  investsh   R$ 205.762,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 13.932,95 (6.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -782,7 +782,7 @@
  Sai de CDB Liquidez Diária Banco Ex (R$): 3420.15
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -828,7 +828,7 @@
 ===========================================================================================================================================#
 === entra em USD ===
  investsh   R$ 205.762,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 13.932,95 (6.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -874,7 +874,7 @@
  Entra em SGOV (USD): 629.62
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -920,7 +920,7 @@
 ===========================================================================================================================================#
 === origem zerada ===
  investsh   R$ 205.762,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   ── Nubank  R$ 13.932,95 (6.8%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
@@ -966,7 +966,7 @@
  Entra em SGOV (USD): 629.62
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
   MM MMMMMM  MM MMMMMMMMM MMMMMM MM
   ....                                      .........                        .....       ..           . ...
@@ -1012,7 +1012,7 @@
 ===========================================================================================================================================#
 === origem excluída ===
  investsh   R$ 205.762,26   2026-10-01   USD 5.4321
-  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+  Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
 
 
@@ -1058,7 +1058,7 @@
  ✓ Transferido R$ 3.420,15: CDB Liquidez Diária Banco Exem → SGOV                                                                     1-0/0
 --- estilos ---
 ####################################################=======================================================================================
-  .......   .............   ........   .........   ........  #########  ...........   .......   ........
+  .......   .............   ........  #########  ...........   ........
 
 
 
