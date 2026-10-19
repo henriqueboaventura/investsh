@@ -243,7 +243,7 @@ Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligad
 Para ligar ou desligar temporariamente, por cima do arquivo: `FINANCES_AUTO_GIT=1` ou `0`.
 
 O mesmo arquivo ajusta a janela dos alertas de vencimento (padrão: 90 dias) e de saldo
-desatualizado (padrão: 30 dias sem atualizar o saldo do ativo):
+desatualizado (padrão: 35 dias sem atualizar o saldo do ativo, para quem atualiza todo mês):
 
 ```toml
 [alerts]

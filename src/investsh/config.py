@@ -35,8 +35,10 @@ GIT_PUSH = True
 # Alertas de vencimento: ativos que vencem em até N dias ([alerts] maturity_days)
 MATURITY_DAYS = 90
 
-# Saldo desatualizado: sem atualização há mais de N dias ([alerts] stale_days)
-STALE_DAYS = 30
+# Saldo desatualizado: sem atualização há mais de N dias ([alerts] stale_days).
+# Padrão para quem atualiza todo mês: 31 dias + alguns de folga
+DEFAULT_STALE_DAYS = 35
+STALE_DAYS = DEFAULT_STALE_DAYS
 
 # Chaves aceitas em investsh.toml: seção → {chave: tipo}
 SCHEMA = {
@@ -60,7 +62,7 @@ def configure(base_dir):
     AUTO_GIT = git.get('auto_commit', False)
     GIT_PUSH = git.get('push', True)
     MATURITY_DAYS = settings.get('alerts', {}).get('maturity_days', 90)
-    STALE_DAYS = settings.get('alerts', {}).get('stale_days', 30)
+    STALE_DAYS = settings.get('alerts', {}).get('stale_days', DEFAULT_STALE_DAYS)
     env = os.environ.get('FINANCES_AUTO_GIT', '').strip().lower()
     if env in ('1', 'true', 'yes'):
         AUTO_GIT = True

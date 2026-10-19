@@ -478,7 +478,7 @@ def balance_since(inv, history, today):
         return today
 
 
-def stale_assets(investments, history, today, days=30):
+def stale_assets(investments, history, today, days):
     """Ativos com saldo sem atualização há mais de `days` dias, do mais antigo.
 
     Cripto fica de fora: o saldo vem da cotação, atualizada sozinha.

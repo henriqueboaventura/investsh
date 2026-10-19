@@ -21,8 +21,10 @@ def _label(inv):
     return f'{inv.get("name", "?")} ({inv.get("broker", "?")})'
 
 
-def find_problems(data, history, today, stale_days=30):
+def find_problems(data, history, today, stale_days=None):
     """Lista de {'level': 'erro'|'aviso', 'where': str, 'message': str}."""
+    from .config import DEFAULT_STALE_DAYS
+    stale_days = DEFAULT_STALE_DAYS if stale_days is None else stale_days
     out = []
 
     def add(level, where, message):
@@ -160,7 +162,7 @@ def main(root, today=None):
     except config.ConfigError as e:
         print(f'{R}✗ {e}{RST}')
         return 2
-    stale_days = settings.get('alerts', {}).get('stale_days', 30)
+    stale_days = settings.get('alerts', {}).get('stale_days', config.DEFAULT_STALE_DAYS)
     problems = find_problems(data, history, today or date.today(), stale_days)
     errors = [p for p in problems if p['level'] == 'erro']
     warnings = [p for p in problems if p['level'] == 'aviso']
