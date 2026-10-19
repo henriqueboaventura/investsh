@@ -158,8 +158,12 @@ data em que cada saldo foi registrado. Sai com código 1 se houver erro. A tela 
 investsh analyze
 ```
 
-Gera um prompt com toda a carteira (alocação vs. ideal, desempenho, vencimentos, parâmetros)
-e copia para o clipboard (macOS). Sem clipboard, salva em `analise_prompt.txt`. Cole numa
+Gera um prompt com toda a carteira, com os mesmos números das telas: alocação vs. ideal,
+reserva, rentabilidade vs CDI e IPCA (carteira, por classe e por ativo), aportes, saques e
+proventos por mês, vencimentos por ano, renda fixa líquida de IR, avisos do `investsh check`
+e a projeção pela taxa fixa e pela real. CDI e IPCA vêm do Banco Central (com o mesmo cache
+da aba Rentabilidade); o cenário de mercado atual fica a cargo do assistente. O prompt vai
+para o clipboard (macOS). Sem clipboard, salva em `analise_prompt.txt`. Cole numa
 conversa nova no [claude.ai](https://claude.ai) ou no assistente que preferir. Lembre que
 isso envia os dados da sua carteira para o serviço escolhido.
 

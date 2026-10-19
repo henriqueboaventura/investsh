@@ -24,7 +24,7 @@ marcado como `slow` automaticamente e só roda com `--all`.
 | `test_core.py` | Cálculos: formatação, classificação, custo base, reserva, histórico, transferência, lançamentos | Unitário, valores calculados à mão |
 | `test_tui.py` | Todas as abas, navegação, busca, ações, cadastro, primeira execução, parâmetros, save | Telas capturadas num terminal emulado (texto + mapa de estilos) |
 | `test_status_image.py` | Imagem `assets/status.png` (gerada pelo `investsh sync`) | Chamadas de desenho do matplotlib (pixels variam por máquina) |
-| `test_analyze.py` | Prompt de análise, clipboard e fallback para arquivo | Prompt completo |
+| `test_analyze.py` | Prompt de análise (inclusive rentabilidade por classe), clipboard e fallback para arquivo | Prompt completo |
 | `test_config_file.py` | `investsh.toml`: commit/push automático (via `investsh sync`), validação, variável de ambiente por cima | Repositório git real com remoto |
 | `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
 | `test_estimate.py` | Saldo estimado: data do saldo, CDI e prefixado por dia útil, o que fica de fora, tolerância | Unitário, valores calculados à mão |

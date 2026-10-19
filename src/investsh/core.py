@@ -542,3 +542,34 @@ def maturity_alerts(investments, today, days=90):
             out.append({'name': inv.get('name', ''), 'date': due, 'days': left,
                         'balance': inv['balance'], 'broker': inv.get('broker', '')})
     return sorted(out, key=lambda a: (a['days'], a['name']))
+
+
+MILESTONES = [700_000, 800_000, 1_000_000, 1_500_000, 2_000_000]
+
+
+def projection(total, fgts, params, rate, start, milestones=MILESTONES, months=240):
+    """Quando o patrimônio chega a cada meta: ({meta: (AAAA-MM, meses)} com FGTS, sem FGTS).
+
+    `rate` = rendimento mensal (fração); aporte mensal e rendimento do FGTS vêm de
+    `params` (projectionParams). Metas não alcançadas em `months` meses ficam de fora.
+    """
+    mc = params.get('monthlyContribution', 0)
+    fgts_r = (1 + params.get('fgtsAnnualReturn', 0.0605)) ** (1 / 12) - 1
+    hits_com, hits_sem = {}, {}
+    inv_v, fgts_v = total + mc, fgts
+    for mo in range(1, months + 1):
+        year = start.year + (start.month - 1 + mo) // 12
+        month = (start.month - 1 + mo) % 12 + 1
+        dt = f'{year}-{month:02d}'
+        for m in milestones:
+            if m not in hits_com and inv_v + fgts_v >= m:
+                hits_com[m] = (dt, mo)
+            if m not in hits_sem and inv_v >= m:
+                hits_sem[m] = (dt, mo)
+        inv_v = inv_v * (1 + rate) + mc
+        fgts_v = fgts_v * (1 + fgts_r)
+    return hits_com, hits_sem
+
+
+def milestone_label(m):
+    return f'R$ {m/1e6:.1f}M' if m >= 1_000_000 else f'R$ {m/1e3:.0f}K'

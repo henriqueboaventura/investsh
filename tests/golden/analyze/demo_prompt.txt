@@ -1,383 +1,376 @@
 Você é um analista sênior de investimentos brasileiro com 20 anos de experiência em gestão de patrimônio pessoal. Faça uma análise profunda e honesta da carteira abaixo. Seja direto — se algo está errado, diga com números concretos.
 
-CONTEXTO DE MERCADO (mai/2026):
-- SELIC: ~14,75% a.a. | CDI: ~14,65% a.a. | IPCA 12m: ~5,5% a.a.
-- USD/BRL: R$ 5.4
+Data da análise: 06/10/2026. Use o cenário de mercado atual que você conhecer (Selic, CDI, IPCA, câmbio); o CDI e o IPCA históricos abaixo são do Banco Central.
 
 PATRIMÔNIO (atualizado: 2026-10-01)
-- Investimentos líquidos: R$ 205,576.35
-- FGTS:                   R$ 18,500.00
-- Total com FGTS:         R$ 224,076.35
-- Número de ativos:       19
+- Investimentos:   R$ 205.576,35
+- FGTS:            R$ 18.500,00
+- Total com FGTS:  R$ 224.076,35
+- Ativos:          19
+- USD/BRL:         5.4
+- Reserva de emergência: R$ 28.270,55 (mín R$ 20.000,00, meta R$ 30.000,00, máx R$ 40.000,00): dentro da faixa ideal
 
-VALORES POR CLASSE
-- RF CDI (pós-fixado):   R$ 67,761.36
-- RF Pré-fixado:         R$ 13,640.55
-- RF IPCA+:              R$ 35,498.10
-- FII:                   R$ 15,075.50
-- ETF:                   R$ 32,544.66
-- Ouro:                  R$ 4,610.20
-- Fundos de Ações:       R$ 11,240.66
-- Crypto:                R$ 5,310.00
-- Previdência Privada:   R$ 13,105.90
+ALOCAÇÃO ATUAL vs IDEAL (sem a reserva de emergência; base R$ 177.305,80)
+Classe                          | Saldo            | Atual  | Ideal  | Desvio
+--------------------------------|------------------|--------|--------|-------
+Renda Fixa                      |     R$ 93.090,40 |  52.5% |  55.0% | -2.5pp
+  CDI                           |     R$ 39.490,81 |  22.3% |  18.0% | +4.3pp
+  IPCA                          |     R$ 35.498,10 |  20.0% |  22.0% | -2.0pp
+  Pré-Fixado                    |     R$ 13.640,55 |   7.7% |  10.0% | -2.3pp
+  RF Exterior (USD)             |      R$ 4.460,94 |   2.5% |   5.0% | -2.5pp
+Renda Variável                  |     R$ 68.781,02 |  38.8% |  38.0% | +0.8pp
+  ETF Exterior                  |     R$ 22.764,66 |  12.8% |  12.0% | +0.8pp
+  FII                           |     R$ 15.075,50 |   8.5% |  10.0% | -1.5pp
+  Fundos de Ações               |     R$ 11.240,66 |   6.3% |   8.0% | -1.7pp
+  ETF Brasil                    |      R$ 9.780,00 |   5.5% |   5.0% | +0.5pp
+  Crypto                        |      R$ 5.310,00 |   3.0% |   1.0% | +2.0pp
+  Ouro                          |      R$ 4.610,20 |   2.6% |   2.0% | +0.6pp
+Multiativo Global               |      R$ 2.328,48 |   1.3% |   2.0% | -0.7pp
+  Multiativo Global             |      R$ 2.328,48 |   1.3% |     —  | —
+Previdência                     |     R$ 13.105,90 |   7.4% |   5.0% | +2.4pp
+  Previdência                   |     R$ 13.105,90 |   7.4% |     —  | —
 
-ALOCAÇÃO ATUAL vs IDEAL
-Categoria            | Atual  | Ideal  | Desvio
----------------------|--------|--------|--------
-Renda Fixa Total     |  56.9% |  55.0% | +1.9%
-  CDI/Pós-fixado    |  33.0% |  18.0% | +15.0%
-  Pré-Fixado        |   6.6% |  10.0% | -3.4%
-  IPCA+             |  17.3% |  22.0% | -4.7%
-Renda Variável Total |  33.5% |  38.0% | -4.5%
-  FII               |   7.3% |  10.0% | -2.7%
-  ETF               |  15.8% |  17.0% | -1.2%
-  Ouro              |   2.2% |   2.0% | +0.2%
-  Fundos de Ações   |   5.5% |   8.0% | -2.5%
-  Crypto            |   2.6% |   1.0% | +1.6%
-Previdência          |   6.4% |   5.0% | +1.4%
+RENTABILIDADE DA CARTEIRA (descontando aportes, método de Dietz modificado)
+Período                       | Carteira | CDI      | IPCA     | % do CDI
+------------------------------|----------|----------|----------|---------
+Desde 01/10/2025 (365 dias)   |  +10.36% |  +13.94% |  +4.48%* |     74%
+set/2026                      |   +0.80% |   +1.11% |       —* |     72%
+ago/2026                      |   +1.16% |   +1.11% |  +0.39%* |    105%
+jul/2026                      |   +1.04% |   +1.11% |   +0.40% |     94%
+jun/2026                      |   +0.34% |   +1.11% |   +0.40% |     31%
+mai/2026                      |   +1.23% |   +1.06% |   +0.40% |    117%
+abr/2026                      |   -0.13% |   +1.11% |   +0.40% |    -12%
+mar/2026                      |   +1.11% |   +1.16% |   +0.40% |     96%
+fev/2026                      |   +0.78% |   +1.00% |   +0.40% |     78%
+jan/2026                      |   +1.48% |   +1.06% |   +0.40% |    140%
+dez/2025                      |   +0.80% |   +1.16% |   +0.40% |     69%
+nov/2025                      |   +1.17% |   +1.06% |   +0.40% |    111%
+out/2025                      |   +0.14% |   +1.11% |   +0.40% |     12%
+(* IPCA de meses ainda não divulgados fica de fora; — = indisponível ou período curto)
 
-ALERTAS DE VENCIMENTO (vencidos + próximos 6 meses)
+RENTABILIDADE POR CLASSE E POR ATIVO (últimos 12 meses)
+  Sem dados por ativo (precisa dos lançamentos registrados: flowsSince).
+
+APORTES, SAQUES E PROVENTOS (por mês)
+Mês     | Saldo final      | Aportes      | Saques       | Proventos    | Valorização
+--------|------------------|--------------|--------------|--------------|-------------
+2025-11 |    R$ 170.845,33 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |    R$ 232,79
+2025-12 |    R$ 174.359,32 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.013,99
+2026-01 |    R$ 177.259,23 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 1.399,91
+2026-02 |    R$ 181.394,03 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.634,80
+2026-03 |    R$ 184.313,79 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 1.419,76
+2026-04 |    R$ 187.859,14 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.045,35
+2026-05 |    R$ 189.105,01 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |   R$ -254,13
+2026-06 |    R$ 192.946,45 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.341,44
+2026-07 |    R$ 195.113,26 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |    R$ 666,81
+2026-08 |    R$ 198.653,19 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.039,93
+2026-09 |    R$ 202.457,80 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 2.304,61
+2026-10 |    R$ 205.576,35 |  R$ 1.500,00 |      R$ 0,00 |      R$ 0,00 |  R$ 1.618,55
+
+VENCIMENTOS
+Saldo que vence por ano:
+- 2027: R$ 16.380,09
+- 2028: R$ 36.751,27
+- 2029: R$ 19.850,40
+- 2035: R$ 24.985,30
+- 2045: R$ 10.512,80
+
+Vencidos e próximos 6 meses:
   Nenhum.
 
-PERFORMANCE POR ATIVO (ordenado por ganho %)
-  - IVVB11 [RV_ETF]: +22.0%  (investido R$11,000 → atual R$13,420, ganho R$2,420)
-  - CDB Banco Alfa 110% CDI [RF_CDI]: +15.6%  (investido R$20,000 → atual R$23,111, ganho R$3,111)
-  - GOLD11 [RV_OURO]: +15.3%  (investido R$4,000 → atual R$4,610, ganho R$610)
-  - CDB Banco Gama Pré 12,5% [RF_PRE]: +13.7%  (investido R$12,000 → atual R$13,641, ganho R$1,641)
-  - Tesouro IPCA+ 2035 [RF_IPCA]: +13.6%  (investido R$22,000 → atual R$24,985, ganho R$2,985)
-  - Fundo de Ações Exemplo FIA [RV_FUNDOS]: +12.4%  (investido R$10,000 → atual R$11,241, ganho R$1,241)
-  - Tesouro Selic 2029 [RF_CDI]: +10.3%  (investido R$18,000 → atual R$19,850, ganho R$1,850)
-  - LCA Banco Beta 95% CDI [RF_CDI]: +9.2%  (investido R$15,000 → atual R$16,380, ganho R$1,380)
-  - Previdência PGBL Exemplo [PREVIDENCIA]: +9.2%  (investido R$12,000 → atual R$13,106, ganho R$1,106)
-  - BOVA11 [RV_ETF]: +8.7%  (investido R$9,000 → atual R$9,780, ganho R$780)
-  - CDB Liquidez Diária Banco Exemplo [RF_CDI]: +5.3%  (investido R$8,000 → atual R$8,420, ganho R$420)
-  - Tesouro IPCA+ 2045 [RF_IPCA]: +5.1%  (investido R$10,000 → atual R$10,513, ganho R$513)
-  - FII Papel Exemplo (PAPL11) [RV_FII]: +3.6%  (investido R$7,000 → atual R$7,255, ganho R$255)
-  - FII Logístico Exemplo (LOGX11) [RV_FII]: -2.2%  (investido R$8,000 → atual R$7,820, ganho R$-180)
+RENDA FIXA: RESGATE HOJE, LÍQUIDO DE IR E IOF
+- Tesouro Selic 2029 (XP) | taxa 100% CDI (líquida de IR no vencimento: 85% CDI): bruto R$ 19.850,40, IR+IOF R$ 323,82, líquido R$ 19.526,58
+- CDB Liquidez Diária Banco Exemplo (Nubank) | taxa 100% CDI (líquida de IR no vencimento: 82,5% CDI): bruto R$ 8.420,15, IR+IOF R$ 73,53, líquido R$ 8.346,62
+- CDB Banco Alfa 110% CDI (XP) | taxa 110% CDI (líquida de IR no vencimento: 93,5% CDI): bruto R$ 23.110,72, IR+IOF R$ 544,38, líquido R$ 22.566,34
+- LCA Banco Beta 95% CDI (XP) | taxa 95% CDI (líquida de IR no vencimento: 95% CDI): bruto R$ 16.380,09, IR+IOF R$ 0,00, líquido R$ 16.380,09
+- CDB Banco Gama Pré 12,5% (XP) | taxa 12,5% a.a. (líquida de IR no vencimento: 10,62% a.a.): bruto R$ 13.640,55, IR+IOF R$ 287,10, líquido R$ 13.353,45
+- Tesouro IPCA+ 2035 (XP) | taxa IPCA+6,4%: bruto R$ 24.985,30, IR+IOF R$ 522,43, líquido R$ 24.462,87
+- Tesouro IPCA+ 2045 (Nubank) | taxa IPCA+6,7%: bruto R$ 10.512,80, IR+IOF R$ 89,74, líquido R$ 10.423,06
 
-PARÂMETROS DE PROJEÇÃO
-- Retorno mensal estimado: 0.80% (9.6% a.a.)
-- Aporte mensal: R$ 1,500
+QUALIDADE DOS DADOS (avisos do investsh)
+  Nenhum problema encontrado.
 
-LISTA COMPLETA DE ATIVOS (JSON)
+PROJEÇÃO PATRIMONIAL
+Aporte mensal: R$ 1.500,00
+- Taxa fixa: 0.80% a.m. (10.0% a.a.)
+- Real 12m: 0.83% a.m. (10.4% a.a.)
+
+Meta        | Taxa fixa c/ FGTS | Taxa fixa s/ FGTS | Real 12m c/ FGTS | Real 12m s/ FGTS
+R$ 700K     | 2035-01 (99m) | 2035-05 (103m) | 2034-11 (97m) | 2035-03 (101m)
+R$ 800K     | 2036-03 (113m) | 2036-07 (117m) | 2035-12 (110m) | 2036-04 (114m)
+R$ 1.0M     | 2038-02 (136m) | 2038-06 (140m) | 2037-11 (133m) | 2038-03 (137m)
+R$ 1.5M     | 2041-11 (181m) | 2042-02 (184m) | 2041-06 (176m) | 2041-10 (180m)
+R$ 2.0M     | 2044-07 (213m) | 2044-10 (216m) | 2044-02 (208m) | 2044-05 (211m)
+
+LISTA COMPLETA DE ATIVOS (JSON; invested = custo base em R$, gain_pct = ganho sobre o custo)
 [
   {
     "name": "Tesouro Selic 2029",
-    "category": "Tesouro Direto",
-    "type": "POS",
     "broker": "XP",
-    "maturity": "2029-03-01",
+    "class": "Reserva de Emergência",
+    "category": "Tesouro Direto",
     "balance": 19850.4,
     "invested": 18000.0,
-    "previousBalance": 19671.75,
-    "indexer": "SELIC",
-    "purpose": "RESERVA_EMERGENCIA",
-    "allocationGroup": "RESERVA_EMERGENCIA",
+    "gain_pct": 10.3,
+    "maturity": "2029-03-01",
     "rate": {
       "kind": "PERCENT_CDI",
       "value": 100.0
     },
     "liquidity": "DAILY",
-    "taxExempt": false,
-    "fgcEligible": false
+    "usd": false
   },
   {
     "name": "CDB Liquidez Diária Banco Exemplo",
-    "category": "CDB",
-    "type": "POS",
     "broker": "Nubank",
-    "maturity": null,
+    "class": "Reserva de Emergência",
+    "category": "CDB",
     "balance": 8420.15,
     "invested": 8000.0,
-    "previousBalance": 8344.37,
-    "indexer": "CDI",
-    "purpose": "RESERVA_EMERGENCIA_REMUNERADA",
-    "allocationGroup": "RESERVA_EMERGENCIA",
+    "gain_pct": 5.3,
+    "maturity": null,
     "rate": {
       "kind": "PERCENT_CDI",
       "value": 100.0
     },
     "liquidity": "IMMEDIATE",
-    "taxExempt": false,
-    "fgcEligible": true
+    "usd": false
   },
   {
     "name": "CDB Banco Alfa 110% CDI",
-    "category": "CDB",
-    "type": "POS",
     "broker": "XP",
-    "maturity": "2028-06-15",
+    "class": "CDI",
+    "category": "CDB",
     "balance": 23110.72,
     "invested": 20000.0,
-    "previousBalance": 22902.72,
-    "indexer": "CDI",
-    "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
-    "allocationGroup": "RF_CDI",
+    "gain_pct": 15.6,
+    "maturity": "2028-06-15",
     "rate": {
       "kind": "PERCENT_CDI",
       "value": 110.0
     },
     "liquidity": "AT_MATURITY",
-    "taxExempt": false,
-    "fgcEligible": true
+    "usd": false
   },
   {
     "name": "LCA Banco Beta 95% CDI",
-    "category": "LCA",
-    "type": "POS",
     "broker": "XP",
-    "maturity": "2027-11-20",
+    "class": "CDI",
+    "category": "LCA",
     "balance": 16380.09,
     "invested": 15000.0,
-    "previousBalance": 16232.67,
-    "indexer": "CDI",
-    "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
-    "allocationGroup": "RF_CDI",
+    "gain_pct": 9.2,
+    "maturity": "2027-11-20",
     "rate": {
       "kind": "PERCENT_CDI",
       "value": 95.0
     },
     "liquidity": "AT_MATURITY",
-    "taxExempt": true,
-    "fgcEligible": true
+    "usd": false
   },
   {
     "name": "CDB Banco Gama Pré 12,5%",
-    "category": "CDB",
-    "type": "PRE",
     "broker": "XP",
-    "maturity": "2028-01-10",
+    "class": "Pré-Fixado",
+    "category": "CDB",
     "balance": 13640.55,
     "invested": 12000.0,
-    "previousBalance": 13517.79,
-    "indexer": "FIXED_RATE",
-    "purpose": "TRAVAR_TAXA_ATE_O_VENCIMENTO",
-    "allocationGroup": "RF_PRE",
+    "gain_pct": 13.7,
+    "maturity": "2028-01-10",
     "rate": {
       "kind": "ANNUAL_FIXED",
       "value": 12.5
     },
     "liquidity": "AT_MATURITY",
-    "taxExempt": false,
-    "fgcEligible": true
+    "usd": false
   },
   {
     "name": "Tesouro IPCA+ 2035",
-    "category": "Tesouro Direto",
-    "type": "IPCA",
     "broker": "XP",
-    "maturity": "2035-05-15",
+    "class": "IPCA",
+    "category": "Tesouro Direto",
     "balance": 24985.3,
     "invested": 22000.0,
-    "previousBalance": 24760.43,
-    "indexer": "IPCA",
-    "purpose": "PROTECAO_INFLACAO_LONGO_PRAZO",
-    "allocationGroup": "RF_IPCA",
+    "gain_pct": 13.6,
+    "maturity": "2035-05-15",
     "rate": {
       "kind": "IPCA_PLUS",
       "value": 6.4
     },
     "liquidity": "AT_MATURITY",
-    "taxExempt": false,
-    "fgcEligible": false
+    "usd": false
   },
   {
     "name": "Tesouro IPCA+ 2045",
-    "category": "Tesouro Direto",
-    "type": "IPCA",
     "broker": "Nubank",
-    "maturity": "2045-05-15",
+    "class": "IPCA",
+    "category": "Tesouro Direto",
     "balance": 10512.8,
     "invested": 10000.0,
-    "previousBalance": 10418.18,
-    "indexer": "IPCA",
-    "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
-    "allocationGroup": "RF_IPCA",
+    "gain_pct": 5.1,
+    "maturity": "2045-05-15",
     "rate": {
       "kind": "IPCA_PLUS",
       "value": 6.7
     },
     "liquidity": "AT_MATURITY",
-    "taxExempt": false,
-    "fgcEligible": false
+    "usd": false
   },
   {
     "name": "BOVA11",
-    "category": "ETF",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "ETF Brasil",
+    "category": "ETF",
     "balance": 9780.0,
     "invested": 9000.0,
-    "previousBalance": 9633.3,
-    "indexer": null,
-    "purpose": "CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS",
-    "allocationGroup": "RV_ETF_BRASIL",
-    "quantity": 75,
-    "averagePrice": 120.0
+    "gain_pct": 8.7,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "IVVB11",
-    "category": "ETF",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "ETF Exterior",
+    "category": "ETF",
     "balance": 13420.5,
     "invested": 11000.0,
-    "previousBalance": 13219.19,
-    "indexer": "SP_500",
-    "purpose": "CRESCIMENTO_ACOES_EUA_EM_REAIS",
-    "allocationGroup": "RV_ETF_EXTERIOR",
-    "quantity": 35,
-    "averagePrice": 314.29
+    "gain_pct": 22.0,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "GOLD11",
-    "category": "ETF",
-    "type": "Ouro",
     "broker": "XP",
-    "maturity": null,
+    "class": "Ouro",
+    "category": "ETF",
     "balance": 4610.2,
     "invested": 4000.0,
-    "previousBalance": 4541.05,
-    "indexer": "LBMA_GOLD_PRICE",
-    "purpose": "PROTECAO_OURO_E_CAMBIO",
-    "allocationGroup": "RV_OURO",
-    "quantity": 260,
-    "averagePrice": 15.38
+    "gain_pct": 15.3,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "FII Logístico Exemplo (LOGX11)",
-    "category": "Fundo Imobiliário",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "FII",
+    "category": "Fundo Imobiliário",
     "balance": 7820.4,
     "invested": 8000.0,
-    "previousBalance": 7703.09,
-    "indexer": null,
-    "purpose": "RENDA_IMOBILIARIA_LOGISTICA",
-    "allocationGroup": "RV_FII",
-    "quantity": 85,
-    "averagePrice": 94.12
+    "gain_pct": -2.2,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "FII Papel Exemplo (PAPL11)",
-    "category": "Fundo Imobiliário",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "FII",
+    "category": "Fundo Imobiliário",
     "balance": 7255.1,
     "invested": 7000.0,
-    "previousBalance": 7146.27,
-    "indexer": null,
-    "purpose": "RENDA_IMOBILIARIA_SECURITIES_E_FOF",
-    "allocationGroup": "RV_FII",
-    "quantity": 720,
-    "averagePrice": 9.72
+    "gain_pct": 3.6,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "Fundo de Ações Exemplo FIA",
-    "category": "Fundos de Investimento",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "Fundos de Ações",
+    "category": "Fundos de Investimento",
     "balance": 11240.66,
     "invested": 10000.0,
-    "previousBalance": 11072.05,
-    "indexer": null,
-    "purpose": "CRESCIMENTO_ACOES_BRASIL_GESTAO_ATIVA",
-    "allocationGroup": "RV_FUNDOS_ACOES",
-    "administrationFeeAnnual": 1.9,
-    "performanceFee": 20.0
+    "gain_pct": 12.4,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "Previdência PGBL Exemplo",
-    "category": "Previdência Privada",
-    "type": null,
     "broker": "XP",
-    "maturity": null,
+    "class": "Previdência",
+    "category": "Previdência Privada",
     "balance": 13105.9,
     "invested": 12000.0,
-    "previousBalance": 12909.31,
-    "indexer": null,
-    "purpose": "APOSENTADORIA_E_LONGO_PRAZO",
-    "allocationGroup": "PREVIDENCIA",
-    "administrationFeeAnnual": 0.8,
-    "performanceFee": 0.0
+    "gain_pct": 9.2,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "VT",
-    "category": "ETF",
-    "type": null,
     "broker": "Nomad",
-    "maturity": null,
-    "investedUSD": 1500.0,
-    "balanceUSD": 1730.4,
+    "class": "ETF Exterior",
+    "category": "ETF",
     "balance": 9344.16,
-    "previousBalance": 9157.28,
-    "indexer": "FTSE_GLOBAL_ALL_CAP",
-    "purpose": "CRESCIMENTO_ACOES_GLOBAIS",
-    "allocationGroup": "RV_ETF_EXTERIOR",
-    "ticker": "VT"
+    "invested": 8100.0,
+    "gain_pct": 15.4,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": true
   },
   {
     "name": "SGOV",
-    "category": "ETF",
-    "type": "POS",
     "broker": "Nomad",
-    "maturity": null,
-    "investedUSD": 800.0,
-    "balanceUSD": 826.1,
+    "class": "RF Exterior (USD)",
+    "category": "ETF",
     "balance": 4460.94,
-    "previousBalance": 4371.72,
-    "indexer": "ICE_0_3_MONTH_US_TREASURY_SECURITIES_INDEX",
-    "purpose": "PRESERVACAO_CAPITAL_E_LIQUIDEZ_EM_DOLAR",
-    "allocationGroup": "RF_EXTERIOR",
-    "ticker": "SGOV"
+    "invested": 4320.0,
+    "gain_pct": 3.3,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": true
   },
   {
     "name": "AOK",
-    "category": "ETF",
-    "type": null,
     "broker": "Nomad",
-    "maturity": null,
-    "investedUSD": 400.0,
-    "balanceUSD": 431.2,
+    "class": "Multiativo Global",
+    "category": "ETF",
     "balance": 2328.48,
-    "previousBalance": 2281.91,
-    "indexer": null,
-    "purpose": "DIVERSIFICACAO_GLOBAL_CONSERVADORA",
-    "allocationGroup": "MULTIATIVO_GLOBAL",
-    "ticker": "AOK"
+    "invested": 2160.0,
+    "gain_pct": 7.8,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": true
   },
   {
     "name": "Bitcoin",
-    "category": "Crypto",
-    "type": null,
     "broker": "Binance",
-    "maturity": null,
-    "quantity": 0.0045,
-    "averagePrice": 480000.0,
+    "class": "Crypto",
+    "category": "Crypto",
     "balance": 2790.0,
-    "previousBalance": 2650.5,
-    "indexer": null,
-    "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
-    "allocationGroup": "RV_CRYPTO"
+    "invested": 2160.0,
+    "gain_pct": 29.2,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   },
   {
     "name": "Ethereum",
-    "category": "Crypto",
-    "type": null,
     "broker": "Binance",
-    "maturity": null,
-    "quantity": 0.12,
-    "averagePrice": 17500.0,
+    "class": "Crypto",
+    "category": "Crypto",
     "balance": 2520.0,
-    "previousBalance": 2394.0,
-    "indexer": null,
-    "purpose": "ASSIMETRIA_E_EXPOSICAO_A_CRIPTO",
-    "allocationGroup": "RV_CRYPTO"
+    "invested": 2100.0,
+    "gain_pct": 20.0,
+    "maturity": null,
+    "rate": null,
+    "liquidity": null,
+    "usd": false
   }
 ]
 
@@ -392,19 +385,18 @@ Saúde geral da carteira: pontos fortes e problemas críticos. Seja direto.
 Para cada desvio significativo (>3pp): o que significa em R$, impacto no risco/retorno, se é justificável.
 
 ## 3. Alertas e Urgências
-Ativos vencidos, em prejuízo, concentrações de risco. O que precisa de atenção imediata.
+Ativos vencidos ou vencendo, em prejuízo, concentrações de risco (inclusive por emissor e limite do FGC), dados que parecem errados. O que precisa de atenção imediata.
 
 ## 4. Análise de Performance
-Quais ativos performam bem ou mal e por quê. Comparativo com benchmarks (CDI, IPCA+, IBOV, S&P 500).
+Carteira vs CDI e IPCA. Quais classes e ativos puxam para cima ou para baixo e por quê; compare com benchmarks (CDI, IPCA+, IBOV, S&P 500).
 
-## 5. Sugestão de Aporte (R$ 1,500/mês)
+## 5. Sugestão de Aporte (R$ 1.500,00/mês)
 Onde concentrar o próximo aporte para rebalancear. Seja específico com percentuais e valores.
 
 ## 6. Estratégia de Crescimento (próximos 12 meses)
-3 a 5 ações concretas considerando vencimentos, rebalanceamento e cenário atual.
+3 a 5 ações concretas considerando vencimentos (reinvestimento e IR), rebalanceamento e cenário atual.
 
 ## 7. Projeção Patrimonial
-Com R$ 1,500/mês e 9.6% a.a., quando atinge R$ 1.000.000?
-Mostre 3 cenários: pessimista (-2pp), base, otimista (+2pp).
+Comente a projeção pela taxa fixa e pela rentabilidade real. A taxa fixa é realista? Mostre 3 cenários para chegar a R$ 1.000.000: pessimista, base e otimista.
 
 Use linguagem técnica mas acessível. Números concretos em todo lugar.

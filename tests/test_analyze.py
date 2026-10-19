@@ -48,3 +48,17 @@ def test_prompt_edge_dataset(app, tmp_path):
     assert proc.returncode == 0
     assert_golden('analyze/edge_stdout.txt', app.normalize(proc.stdout))
     assert_golden('analyze/edge_prompt.txt', clip.read_text(encoding='utf-8'))
+
+
+def test_prompt_has_returns_by_class_with_flows(demo, tmp_path):
+    def since_september(d):
+        d['flowsSince'] = '2026-09-01'
+        d['flows'] = []
+    demo.edit(since_september)
+    bindir, clip = fake_pbcopy(tmp_path)
+    assert run_analyze(demo, f'{bindir}{os.pathsep}/usr/bin:/bin').returncode == 0
+    prompt = clip.read_text(encoding='utf-8')
+    section = prompt.split('RENTABILIDADE POR CLASSE E POR ATIVO (últimos 12 meses)\n')[1].split('\n\n')[0]
+    # Mesmos números da aba Rentabilidade (test_benchmarks)
+    assert section.startswith('- CDI: +1.54% (CDI +1.11%, 139% do CDI)')
+    assert '    - CDB Banco Alfa 110% CDI (XP), desde 01/09/2026: +1.54% (CDI +1.11%, 139% do CDI)' in section

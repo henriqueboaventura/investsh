@@ -9,6 +9,7 @@ from .core import (
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
     can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
     FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value, stale_assets, balance_since,
+    MILESTONES, projection, milestone_label,
 )
 from .storage import do_save_tui
 from . import perf, estimate, tax
@@ -1077,29 +1078,12 @@ def run_tui(data, crypto_prices=None):
             p      = data.get('projectionParams', {})
             mr     = p.get('monthlyReturn', 0)
             mc     = p.get('monthlyContribution', 0)
-            fa     = p.get('fgtsAnnualReturn', 0.0605)
-            fgts_r = (1 + fa) ** (1 / 12) - 1
-            milestones = [700_000, 800_000, 1_000_000, 1_500_000, 2_000_000]
+            milestones = MILESTONES
             import datetime as _dt
             start  = _dt.date.today()
 
             def project(rate):
-                """{meta: (AAAA-MM, meses)} com e sem FGTS, até 20 anos."""
-                hits_com, hits_sem = {}, {}
-                inv_v  = total + mc
-                fgts_v = fgts
-                for mo in range(1, 241):
-                    year  = start.year + (start.month - 1 + mo) // 12
-                    month = (start.month - 1 + mo) % 12 + 1
-                    dt    = f'{year}-{month:02d}'
-                    for m in milestones:
-                        if m not in hits_com and inv_v + fgts_v >= m:
-                            hits_com[m] = (dt, mo)
-                        if m not in hits_sem and inv_v >= m:
-                            hits_sem[m] = (dt, mo)
-                    inv_v  = inv_v  * (1 + rate) + mc
-                    fgts_v = fgts_v * (1 + fgts_r)
-                return hits_com, hits_sem
+                return projection(total, fgts, p, rate, start)
 
             real = perf.real_monthly_rate(hist_all, *perf.flow_log(data), start) if hist_all else None
             runs = [project(mr)] + ([project(real[0])] if real else [])
@@ -1120,8 +1104,7 @@ def run_tui(data, crypto_prices=None):
             out.append(row([seg(f"  {'Meta':>10}" + f"  {'c/ FGTS':<14}  {'s/ FGTS':<14}" * len(runs), DIM)]))
             out.append(row([seg('  ' + '─' * (12 + 32 * len(runs)), DIM)]))
             for m in milestones:
-                label = f'R$ {m/1e6:.1f}M' if m >= 1_000_000 else f'R$ {m/1e3:.0f}K'
-                segs  = [seg(f'  {label:>10}', 0)]
+                segs  = [seg(f'  {milestone_label(m):>10}', 0)]
                 for hits_com, hits_sem in runs:
                     for hit in (hits_com.get(m), hits_sem.get(m)):
                         segs.append(seg(f'  {fmt_hit(hit):<14}', 0 if hit else DIM))
