@@ -8,7 +8,7 @@ from .core import (
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
     can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
-    FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value, stale_assets,
+    FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value, stale_assets, balance_since,
 )
 from .storage import do_save_tui
 from . import perf, estimate, tax
@@ -774,6 +774,13 @@ def run_tui(data, crypto_prices=None):
         invs  = sorted(data['investments'], key=sort_key)
         est_of = estimator()   # antes de mudar saldos: a estimativa parte do saldo registrado
         alerts = []
+        today = _dt.date.today()
+        try:
+            with open(os.path.join(config.ROOT, 'data', 'history.json'), encoding='utf-8') as hf:
+                hist_all = json.load(hf)
+        except (OSError, ValueError):
+            hist_all = []
+        since_of = {id(i): balance_since(i, hist_all, today) for i in invs}   # antes de editar
         dolar = data.get('dollarRate', 1)
         total = len(invs)
         BOLD  = curses.A_BOLD
@@ -811,6 +818,11 @@ def run_tui(data, crypto_prices=None):
 
             put(f'{broker}  ·  {sub}', DIM)
             put(name, BOLD)
+            since = since_of[id(inv)]
+            if since < today and cat != 'Crypto':
+                age = (today - since).days
+                put(f'Saldo registrado em {since:%d/%m/%Y} ({age} dias)',
+                    curses.color_pair(5) if age > config.STALE_DAYS else curses.A_DIM)
             y += 1
             if qty is not None:
                 put(f'Quantidade atual:   {qty}')
@@ -988,6 +1000,19 @@ def run_tui(data, crypto_prices=None):
                     hist_all = json.load(hf)
             except (FileNotFoundError, json.JSONDecodeError):
                 hist_all = []
+
+            # Saldos desatualizados: sem atualização há mais de [alerts] stale_days dias
+            stale = stale_assets(invs, hist_all, _dt.date.today(), config.STALE_DAYS)
+            if stale:
+                out.append(row([]))
+                out.append(row([seg(f'  Saldos desatualizados (mais de {config.STALE_DAYS} dias)', CYN | BOLD)]))
+                for a in stale:
+                    out.append(row([
+                        seg(f'  {a["name"][:38]:<38}', 0), seg(f'  {a["broker"][:8]:<8}', DIM),
+                        seg(f'  desde {a["since"]:%d/%m/%Y}', DIM),
+                        seg(f'  há {a["days"]} dias', YLW),
+                    ]))
+
             # Histórico mensal: variação = aportes + saques (+ proventos) + valorização
             months = perf.monthly(hist_all, *perf.flow_log(data))[-12:] if hist_all else []
             if months:

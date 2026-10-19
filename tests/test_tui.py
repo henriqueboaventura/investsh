@@ -283,6 +283,12 @@ def test_open_warns_about_stale_balances(demo, tui_factory):
     t = tui_factory()
     t.wait_for('sem atualizar o saldo')
     assert 'ativo(s) sem atualizar o saldo há mais de 1 dias (veja investsh check)' in t.text()
+    for _ in range(40):                        # rola o Sumário até a seção
+        if 'Saldos desatualizados (mais de 1 dias)' in t.text():
+            break
+        t.press('j', quiet=0.05)
+    assert 'Saldos desatualizados (mais de 1 dias)' in t.text()
+    assert 'desde 01/10/2026  há 5 dias' in t.text()
     t.press('q')
     assert t.wait_exit() == 0
 

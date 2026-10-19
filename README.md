@@ -141,8 +141,9 @@ Aponta **erros** (dados que quebram cálculos: nome + corretora repetidos, saldo
 data inválida, provento positivo) e **avisos** (título vencido com saldo, saldo que variou
 mais de 20% desde o save anterior sem aporte nem saque, renda fixa sem taxa ou vencimento,
 lançamento de um ativo que nunca existiu, nome da reserva que não está na carteira, ativo
-zerado, saldo sem atualização há mais de `stale_days` dias). A tela interativa também avisa,
-ao abrir, quantos ativos estão com o saldo desatualizado. Sai com código 1 se houver erro. A tela interativa avisa ao abrir quando há erros.
+zerado, saldo sem atualização há mais de `stale_days` dias). A tela interativa avisa ao abrir,
+lista os ativos em **Saldos desatualizados** no Sumário e mostra, em *Atualizar todos*, a
+data em que cada saldo foi registrado. Sai com código 1 se houver erro. A tela interativa avisa ao abrir quando há erros.
 
 ---
 
