@@ -77,7 +77,7 @@ def run_tui(data, crypto_prices=None):
                             f'rode: investsh sync')
     status_msg[0] = '   '.join(warnings)
 
-    # Migrate Nomad assets: add balanceUSD if missing
+    # Ativos em dólar antigos: cria balanceUSD se faltar
     dol = data.get('dollarRate', 1)
     for inv in data['investments']:
         if inv.get('investedUSD') is not None and 'balanceUSD' not in inv:
@@ -676,12 +676,23 @@ def run_tui(data, crypto_prices=None):
             'indexer': indexer, 'purpose': purpose, 'allocationGroup': allocation_group,
         }
 
+        usd = False
+        if category != 'Crypto':
+            # Moeda do ativo (não da corretora): ETF americano em corretora brasileira é USD,
+            # caixa em real numa corretora americana é R$. A sugestão (Enter) segue a corretora.
+            currencies = [('r', 'Real (R$)'), ('d', 'Dólar (USD)')]
+            if broker == 'Nomad':
+                currencies.reverse()
+            cur = popup_menu(stdscr, 'Moeda do ativo', currencies)
+            if cur is None: return False
+            usd = cur == 'd'
+
         if category == 'Crypto':
             qty = curs_input(stdscr, 'Quantidade', default=0.0, numeric=True)
             if qty is None: return False
             new_inv['quantity'] = qty
             new_inv['balance']  = 0.0
-        elif broker == 'Nomad':
+        elif usd:
             invested_usd = curs_input(stdscr, 'Custo base USD', default=0.0, numeric=True)
             if invested_usd is None: return False
             cur_usd = curs_input(stdscr, 'Valor atual USD', default=invested_usd, numeric=True)

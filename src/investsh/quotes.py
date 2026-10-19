@@ -19,7 +19,7 @@ def fetch_rates(data):
             fx = json.loads(resp.read())
         dolar = float(fx['USDBRL']['bid'])
         data['dollarRate'] = dolar
-        # Recalcula Nomad em BRL imediatamente
+        # Recalcula em BRL os ativos em dólar
         for inv in data['investments']:
             if inv.get('investedUSD') is not None:
                 usd_val = inv.get('balanceUSD', inv['investedUSD'])

@@ -334,7 +334,8 @@ def test_new_assets(demo, tui_factory):
     t.type('2027-01-01').press('enter').snap('popup indexador')
     t.press('0').snap('popup grupo de alocação')
     t.press('0').snap('popup objetivo')
-    t.press('0').snap('custo base')
+    t.press('0').snap('popup moeda (XP: Real primeiro)')
+    t.press('r').snap('custo base')
     t.fill('5000').snap('saldo atual')
     t.fill('5100').snap('origem do saldo inicial')
     t.press('a').snap('CDB Novo cadastrado (aporte)')
@@ -343,7 +344,8 @@ def test_new_assets(demo, tui_factory):
     t.press('n').type('ETF EUA').press('enter', '4', '4', '2', 'enter', '4')
     t.press(*(['down'] * 7), 'enter')          # RV_ETF_EXTERIOR
     t.press(*(['j'] * 9), 'enter')             # CRESCIMENTO_ACOES_EUA_EM_DOLAR
-    t.snap('Nomad: custo base USD')
+    t.snap('popup moeda (Nomad: Dólar primeiro)')
+    t.press('enter').snap('Nomad: custo base USD')
     t.fill('300').snap('Nomad: valor atual USD (padrão = custo)')
     t.fill('320').press('j').snap('ETF EUA cadastrado (já existia, sem lançamento)')
 
@@ -360,11 +362,15 @@ def test_new_assets(demo, tui_factory):
     t.type('IPCA+DEB').press('enter')
     t.press(*(['down'] * 14), 'enter').type('GRUPO_X').press('enter')
     t.press(*(['down'] * 23), 'enter').type('MEU_OBJETIVO').press('enter')
-    t.fill('1000').fill('1000').press('a').snap('Debênture cadastrada')
+    t.press('r').fill('1000').fill('1000').press('a').snap('Debênture cadastrada')
+
+    # Moeda é do ativo, não da corretora: ETF americano custodiado na XP, em dólar
+    t.press('n').type('ETF XP USD').press('enter', '4', '4', '0', 'enter', '0', '0', '0')
+    t.press('d').fill('100').fill('110').press('j').snap('ETF em dólar na XP')
 
     # Saldo vindo de outro ativo: transfere agora (a origem cai, sem lançamento)
     t.press('n').type('LCA Nova').press('enter', '1', '0', '0').type('2028-01-01').press('enter')
-    t.press('0', '0', '0').fill('3000').fill('3000').press('t').snap('origem: busca')
+    t.press('0', '0', '0', 'r').fill('3000').fill('3000').press('t').snap('origem: busca')
     t.type('liquidez').press('enter', '0').snap('transferência: sai o valor do ativo novo')
     t.press('enter').snap('entra o mesmo valor')
     t.press('enter').snap('LCA Nova cadastrada com saldo da origem')
@@ -378,6 +384,9 @@ def test_new_assets(demo, tui_factory):
     data = demo.read('investments.json')
     by_name = {i['name']: i for i in data['investments']}
     assert by_name['LCA Nova']['balance'] == 3000.0 and by_name['LCA Nova']['invested'] == 3000.0
+    etf = by_name['ETF XP USD']
+    assert etf['broker'] == 'XP' and (etf['investedUSD'], etf['balanceUSD']) == (100.0, 110.0)
+    assert 'invested' not in etf
     assert by_name['CDB Liquidez Diária Banco Exemplo']['balance'] == round(8420.15 - 3000, 2)
     assert [f['name'] for f in data['flows']] == ['CDB Novo', 'Debênture X']   # aportes; nada da LCA Nova
     finish(demo, t, 'new_assets')

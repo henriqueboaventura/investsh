@@ -263,8 +263,9 @@ stale_days = 45
 | Corretoras e ordem | `_BROKERS` e `BROKER_ORDER` em `src/investsh/core.py`; cores em `BR_C` (`image.py`) |
 | Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `src/investsh/core.py` |
 
-Ativos com `investedUSD` (ex.: corretora Nomad) são tratados como investimentos em dólar e
-convertidos pela cotação do dia.
+Ativos com `investedUSD` são tratados como investimentos em dólar e convertidos pela cotação
+do dia. A moeda é do ativo, não da corretora: o cadastro pergunta (Real ou Dólar), sugerindo
+Dólar na Nomad e Real nas demais.
 
 ---
 

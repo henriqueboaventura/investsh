@@ -734,6 +734,98 @@
   ............................................................................................................
 
 ===========================================================================================================================================#
+=== popup moeda (XP: Real primeiro) ===
+ investsh   R$ 205.462,26   2026-10-01   USD 5.4321
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+
+  Patrimônio
+  R$ 205.462,26
+  R$ 223.962,26 com FGTS
+
+  Total aportado R$ 184.926,67
+  Valorização    R$ 20.535,59  (+11.1%)
+  Variação mês   R$ 2.534,68  (+1.2%)
+
+  FGTS:    R$ 18.500,00
+  Ativos:  19
+  USD/BRL: 5.4321
+
+  Histórico mensal
+  Mês                Saldo        Variação        Aportes         Saques     Valorização  Rentab.
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  2026-10    R$ 205.576,35    +R$ 3.118,55   +R$ 1.500,00        R$ 0,00    +R$ 1.618,55    +0.8%
+  2026-09    R$ 202.457,80    +R$ 3.804,61   +R$ 1.500,00  ┌───────────────────┐2.304,61    +1.2%
+  2026-08    R$ 198.653,19    +R$ 3.539,93   +R$ 1.500,00  │  Moeda do ativo   │2.039,93    +1.0%
+  2026-07    R$ 195.113,26    +R$ 2.166,81   +R$ 1.500,00  ├───────────────────┤$ 666,81    +0.3%
+  2026-06    R$ 192.946,45    +R$ 3.841,44   +R$ 1.500,00  │ [r] Real (R$)     │2.341,44    +1.2%
+  2026-05    R$ 189.105,01    +R$ 1.245,87   +R$ 1.500,00  │ [d] Dólar (USD)   │ -254,13    -0.1%
+  2026-04    R$ 187.859,14    +R$ 3.545,35   +R$ 1.500,00  └───────────────────┘2.045,35    +1.1%
+  2026-03    R$ 184.313,79    +R$ 2.919,76   +R$ 1.500,00        R$ 0,00    +R$ 1.419,76    +0.8%
+  2026-02    R$ 181.394,03    +R$ 4.134,80   +R$ 1.500,00        R$ 0,00    +R$ 2.634,80    +1.5%
+  2026-01    R$ 177.259,23    +R$ 2.899,91   +R$ 1.500,00        R$ 0,00    +R$ 1.399,91    +0.8%
+  2025-12    R$ 174.359,32    +R$ 3.513,99   +R$ 1.500,00        R$ 0,00    +R$ 2.013,99    +1.2%
+  2025-11    R$ 170.845,33    +R$ 1.732,79   +R$ 1.500,00        R$ 0,00      +R$ 232,79    +0.1%
+
+  Projeção
+        Meta  c/ FGTS             s/ FGTS
+  ──────────────────────────────────────────────────
+     R$ 700K  2035-01 (99m)       2035-05 (103m)
+     R$ 800K  2036-03 (113m)      2036-07 (117m)
+     R$ 1.0M  2038-02 (136m)      2038-06 (140m)
+     R$ 1.5M  2041-11 (181m)      2042-02 (184m)
+     R$ 2.0M  2044-07 (213m)      2044-10 (216m)
+
+  Renda fixa: resgate hoje, líquido de IR
+  Ativo                                       Taxa       Líquida           Bruto      IR + IOF         Líquido
+  ────────────────────────────────────────────────────────────────────────────────────────────────────────────
+
+ Vencimento YYYY-MM-DD  (Enter = nenhum): 2027-01-01
+--- estilos ---
+####################################################=======================================================================================
+ #########  .............   ........   .........   ........   .......   ...........   .......   ........
+
+  CCCCCCCCCC
+  ** **********
+  .. .......... ... ....
+
+  ccccc cccccccc .. ..........
+  ccccccccccc    GG GGGGGGGGG  gggggggg
+  cccccccc ccc   GG GGGGGGGG  ggggggg
+
+  .....    .. .........
+  .......  ..
+  ........ ......
+
+  CCCCCCCCC CCCCCC
+  ...                .....        ........        .......         ......     ...........  .......
+  .....................................................................................................
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .....................gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .  ***** ** *****   .gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .....................g gggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .###############    .gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  . ... ..... .....   . rrrrrrr    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .....................gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      ggg gggggg    ggggg
+
+  CCCCCCCC
+        ....  .. ....             .. ....
+  ..................................................
+     .. ....  ....... .....       ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+
+  CCCCC CCCCC CCCCCCC CCCCC CCCCCCC CC CC
+  .....                                       ....       .......           .....      .. . ...         .......
+  ............................................................................................................
+
+===========================================================================================================================================#
 === custo base ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
@@ -1102,6 +1194,98 @@
 
 
 ===================================================================================================================================#########
+=== popup moeda (Nomad: Dólar primeiro) ===
+ investsh   R$ 210.562,26   2026-10-01   USD 5.4321
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+
+  Patrimônio
+  R$ 210.562,26
+  R$ 229.062,26 com FGTS
+
+  Total aportado R$ 189.926,67
+  Valorização    R$ 20.635,59  (+10.9%)
+  Variação mês   R$ 2.534,68  (+1.2%)
+
+  FGTS:    R$ 18.500,00
+  Ativos:  20
+  USD/BRL: 5.4321
+
+  Vencimentos (próximos 90 dias)
+  CDB Novo                                01/01/2027  vence em 87 dia(s)     R$ 5.100,00
+
+  Histórico mensal
+  Mês                Saldo        Variação        Aportes  ┌───────────────────┐orização  Rentab.
+  ─────────────────────────────────────────────────────────│  Moeda do ativo   │───────────────────────
+  2026-10    R$ 205.576,35    +R$ 3.118,55   +R$ 1.500,00  ├───────────────────┤1.618,55    +0.8%
+  2026-09    R$ 202.457,80    +R$ 3.804,61   +R$ 1.500,00  │ [d] Dólar (USD)   │2.304,61    +1.2%
+  2026-08    R$ 198.653,19    +R$ 3.539,93   +R$ 1.500,00  │ [r] Real (R$)     │2.039,93    +1.0%
+  2026-07    R$ 195.113,26    +R$ 2.166,81   +R$ 1.500,00  └───────────────────┘$ 666,81    +0.3%
+  2026-06    R$ 192.946,45    +R$ 3.841,44   +R$ 1.500,00        R$ 0,00    +R$ 2.341,44    +1.2%
+  2026-05    R$ 189.105,01    +R$ 1.245,87   +R$ 1.500,00        R$ 0,00      R$ -254,13    -0.1%
+  2026-04    R$ 187.859,14    +R$ 3.545,35   +R$ 1.500,00        R$ 0,00    +R$ 2.045,35    +1.1%
+  2026-03    R$ 184.313,79    +R$ 2.919,76   +R$ 1.500,00        R$ 0,00    +R$ 1.419,76    +0.8%
+  2026-02    R$ 181.394,03    +R$ 4.134,80   +R$ 1.500,00        R$ 0,00    +R$ 2.634,80    +1.5%
+  2026-01    R$ 177.259,23    +R$ 2.899,91   +R$ 1.500,00        R$ 0,00    +R$ 1.399,91    +0.8%
+  2025-12    R$ 174.359,32    +R$ 3.513,99   +R$ 1.500,00        R$ 0,00    +R$ 2.013,99    +1.2%
+  2025-11    R$ 170.845,33    +R$ 1.732,79   +R$ 1.500,00        R$ 0,00      +R$ 232,79    +0.1%
+
+  Projeção
+        Meta  c/ FGTS             s/ FGTS
+  ──────────────────────────────────────────────────
+     R$ 700K  2034-11 (97m)       2035-04 (102m)
+     R$ 800K  2036-01 (111m)      2036-05 (115m)
+     R$ 1.0M  2037-12 (134m)      2038-04 (138m)
+     R$ 1.5M  2041-09 (179m)      2041-12 (182m)
+     R$ 2.0M  2044-06 (212m)      2044-09 (215m)
+
+
+ Vencimento YYYY-MM-DD  (Enter = nenhum):
+--- estilos ---
+####################################################=======================================================================================
+ #########  .............   ........   .........   ........   .......   ...........   .......   ........
+
+  CCCCCCCCCC
+  ** **********
+  .. .......... ... ....
+
+  ccccc cccccccc .. ..........
+  ccccccccccc    GG GGGGGGGGG  gggggggg
+  cccccccc ccc   GG GGGGGGGG  ggggggg
+
+  .....    .. .........
+  .......  ..
+  ........ ......
+
+  CCCCCCCCCCC CCCCCCCCC CC CCCCC
+  ... ....                                ..........  ..... .. .. ......     .. ........
+
+  CCCCCCCCC CCCCCC
+  ...                .....        ........        .......  .............................  .......
+  ..........................................................  ***** ** *****   ........................
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .....................gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .#################  .gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  . ... .... ....     .gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc  .....................g gggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      rr rrrrrrr    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      ggg gggggg    ggggg
+
+  CCCCCCCC
+        ....  .. ....             .. ....
+  ..................................................
+     .. ....  ....... .....       ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+
+
+===========================================================================================================================================#
 === Nomad: custo base USD ===
  investsh   R$ 210.562,26   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
@@ -1746,20 +1930,20 @@
 
 
 ===================================================================================================================================#########
-=== origem: busca ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+=== ETF em dólar na XP ===
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.556,30
-  Valorização    R$ 20.744,23  (+10.8%)
+  Total aportado R$ 193.099,51
+  Valorização    R$ 20.798,55  (+10.8%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  23
+  Ativos:  24
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -1784,9 +1968,101 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
+     R$ 1.5M  2041-08 (178m)      2041-11 (181m)
+     R$ 2.0M  2044-05 (211m)      2044-08 (214m)
+
+
+ s/a/d/b tabs   j/↓ k/↑ scroll   u atualizar todos   n novo   p params   w salvar   q sair                                          1-41/56
+--- estilos ---
+####################################################=======================================================================================
+ #########  .............   ........   .........   ........   .......   ...........   .......   ........
+
+  CCCCCCCCCC
+  ** **********
+  .. .......... ... ....
+
+  ccccc cccccccc .. ..........
+  ccccccccccc    GG GGGGGGGGG  gggggggg
+  cccccccc ccc   GG GGGGGGGG  ggggggg
+
+  .....    .. .........
+  .......  ..
+  ........ ......
+
+  CCCCCCCCCCC CCCCCCCCC CC CCCCC
+  ... ....                                ..........  ..... .. .. ......     .. ........
+
+  CCCCCCCCC CCCCCC
+  ...                .....        ........        .......         ......     ...........  .......
+  .....................................................................................................
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      ggg gggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      rr rrrrrrr    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....    ggg gggggggg    ggggg
+  .......    .. ..........    ggg gggggggg   ccc cccccccc        .. ....      ggg gggggg    ggggg
+
+  CCCCCCCC
+        ....  .. ....             .. ....
+  ..................................................
+     .. ....  ....... .....       ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+     .. ....  ....... ......      ....... ......
+
+
+===================================================================================================================================#########
+=== origem: busca ===
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
+  Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
+
+  Patrimônio
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
+
+  Total aportado R$ 193.099,51
+  Valorização    R$ 20.798,55  (+10.8%)
+  Variação mês   R$ 2.534,68  (+1.2%)
+
+  FGTS:    R$ 18.500,00
+  Ativos:  24
+  USD/BRL: 5.4321
+
+  Vencimentos (próximos 90 dias)
+  CDB Novo                                01/01/2027  vence em 87 dia(s)     R$ 5.100,00
+
+  Histórico mensal
+  Mês                Saldo        Variação        Aportes         Saques     Valorização  Rentab.
+  ─────────────────────────────────────────────────────────────────────────────────────────────────────
+  2026-10    R$ 205.576,35    +R$ 3.118,55   +R$ 1.500,00        R$ 0,00    +R$ 1.618,55    +0.8%
+  2026-09    R$ 202.457,80    +R$ 3.804,61   +R$ 1.500,00        R$ 0,00    +R$ 2.304,61    +1.2%
+  2026-08    R$ 198.653,19    +R$ 3.539,93   +R$ 1.500,00        R$ 0,00    +R$ 2.039,93    +1.0%
+  2026-07    R$ 195.113,26    +R$ 2.166,81   +R$ 1.500,00        R$ 0,00      +R$ 666,81    +0.3%
+  2026-06    R$ 192.946,45    +R$ 3.841,44   +R$ 1.500,00        R$ 0,00    +R$ 2.341,44    +1.2%
+  2026-05    R$ 189.105,01    +R$ 1.245,87   +R$ 1.500,00        R$ 0,00      R$ -254,13    -0.1%
+  2026-04    R$ 187.859,14    +R$ 3.545,35   +R$ 1.500,00        R$ 0,00    +R$ 2.045,35    +1.1%
+  2026-03    R$ 184.313,79    +R$ 2.919,76   +R$ 1.500,00        R$ 0,00    +R$ 1.419,76    +0.8%
+  2026-02    R$ 181.394,03    +R$ 4.134,80   +R$ 1.500,00        R$ 0,00    +R$ 2.634,80    +1.5%
+  2026-01    R$ 177.259,23    +R$ 2.899,91   +R$ 1.500,00        R$ 0,00    +R$ 1.399,91    +0.8%
+  2025-12    R$ 174.359,32    +R$ 3.513,99   +R$ 1.500,00        R$ 0,00    +R$ 2.013,99    +1.2%
+  2025-11    R$ 170.845,33    +R$ 1.732,79   +R$ 1.500,00        R$ 0,00      +R$ 232,79    +0.1%
+
+  Projeção
+        Meta  c/ FGTS             s/ FGTS
+  ──────────────────────────────────────────────────
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
+     R$ 800K  2035-12 (110m)      2036-04 (114m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -1839,19 +2115,19 @@
 
 ===========================================================================================================================================#
 === transferência: sai o valor do ativo novo ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.556,30
-  Valorização    R$ 20.744,23  (+10.8%)
+  Total aportado R$ 193.099,51
+  Valorização    R$ 20.798,55  (+10.8%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  23
+  Ativos:  24
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -1876,9 +2152,9 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -1931,19 +2207,19 @@
 
 ===========================================================================================================================================#
 === entra o mesmo valor ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.556,30
-  Valorização    R$ 20.744,23  (+10.8%)
+  Total aportado R$ 193.099,51
+  Valorização    R$ 20.798,55  (+10.8%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  23
+  Ativos:  24
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -1968,9 +2244,9 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -2023,19 +2299,19 @@
 
 ===========================================================================================================================================#
 === LCA Nova cadastrada com saldo da origem ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.705,99
-  Valorização    R$ 20.594,54  (+10.9%)
+  Total aportado R$ 193.249,20
+  Valorização    R$ 20.648,86  (+10.9%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  24
+  Ativos:  25
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -2060,9 +2336,9 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -2115,19 +2391,19 @@
 
 ===================================================================================================================================#########
 === nome vazio cancela ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.705,99
-  Valorização    R$ 20.594,54  (+10.9%)
+  Total aportado R$ 193.249,20
+  Valorização    R$ 20.648,86  (+10.9%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  24
+  Ativos:  25
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -2152,9 +2428,9 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -2207,19 +2483,19 @@
 
 ===================================================================================================================================#########
 === Esc no popup cancela ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
   Patrimônio
-  R$ 213.300,53
-  R$ 231.800,53 com FGTS
+  R$ 213.898,06
+  R$ 232.398,06 com FGTS
 
-  Total aportado R$ 192.705,99
-  Valorização    R$ 20.594,54  (+10.9%)
+  Total aportado R$ 193.249,20
+  Valorização    R$ 20.648,86  (+10.9%)
   Variação mês   R$ 2.534,68  (+1.2%)
 
   FGTS:    R$ 18.500,00
-  Ativos:  24
+  Ativos:  25
   USD/BRL: 5.4321
 
   Vencimentos (próximos 90 dias)
@@ -2244,9 +2520,9 @@
   Projeção
         Meta  c/ FGTS             s/ FGTS
   ──────────────────────────────────────────────────
-     R$ 700K  2034-11 (97m)       2035-03 (101m)
+     R$ 700K  2034-10 (96m)       2035-03 (101m)
      R$ 800K  2035-12 (110m)      2036-04 (114m)
-     R$ 1.0M  2037-12 (134m)      2038-03 (137m)
+     R$ 1.0M  2037-11 (133m)      2038-03 (137m)
      R$ 1.5M  2041-08 (178m)      2041-11 (181m)
      R$ 2.0M  2044-05 (211m)      2044-08 (214m)
 
@@ -2299,10 +2575,10 @@
 
 ===================================================================================================================================#########
 === Detalhe com novos ativos ===
- investsh   R$ 213.300,53   2026-10-01   USD 5.4321
+ investsh   R$ 213.898,06   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Indexador   Objetivo   Detalhe   Lançamentos   Brokers   Gráficos
 
-  ── XP  R$ 168.199,82 (78.9%) ──
+  ── XP  R$ 168.797,35 (78.9%) ──
   Nome                                      Categoria                        Saldo       G%           Δ Mês
   ──────────────────────────────────────────────────────────────────────────────────────────
   CDB Banco Alfa 110% CDI                   CDB                       R$ 23.110,72   +15.6%      +R$ 208,00
@@ -2314,6 +2590,7 @@
   Previdência PGBL Exemplo                  Previdência Privada       R$ 13.105,90    +9.2%      +R$ 196,59
   GOLD11                                    ETF                        R$ 4.610,20   +15.3%       +R$ 69,15
   BOVA11                                    ETF                        R$ 9.780,00    +8.7%      +R$ 146,70
+  ETF XP USD                                ETF                          R$ 597,53   +10.0%               —
   IVVB11                                    ETF                       R$ 13.420,50   +22.0%      +R$ 201,31
   FII Logístico Exemplo (LOGX11)            Fundo Imobiliário          R$ 7.820,40    -2.2%      +R$ 117,31
   FII Papel Exemplo (PAPL11)                Fundo Imobiliário          R$ 7.255,10    +3.6%      +R$ 108,83
@@ -2342,8 +2619,7 @@
   Ethereum                                  Crypto                     R$ 2.400,00   +14.3%        +R$ 6,00
   Solana                                    Crypto                         R$ 0,00        —               —
 
-
- /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-40/40
+ /buscar  ↑↓ navegar  Enter ação  u atualizar todos  n novo  p params  w salvar  q sair                                             1-41/41
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .........   ........  #########  ...........   .......   ........
@@ -2360,6 +2636,7 @@
   ........... .... .......                  ........... .......       .. .........    ggggg      ggg gggggg
   ......                                    ...                        .. ........   gggggg       ggg ggggg
   ......                                    ...                        .. ........    ggggg      ggg gggggg
+  ... .. ...                                ...                          .. ......   gggggg               .
   ......                                    ...                       .. .........   gggggg      ggg gggggg
   ... ......... ....... ........            ..... ...........          .. ........    rrrrr      ggg gggggg
   ... ..... ....... ........                ..... ...........          .. ........    ggggg      ggg gggggg
@@ -2387,7 +2664,6 @@
   .......                                   ......                     .. ........   gggggg       ggg ggggg
   ........                                  ......                     .. ........   gggggg        ggg gggg
   ......                                    ......                         .. ....        .               .
-
 
 ===================================================================================================================================#########
 
@@ -2803,6 +3079,19 @@
       "name": "Debênture X",
       "purpose": "MEU_OBJETIVO",
       "type": "IPCA"
+    },
+    {
+      "allocationGroup": "RF_CDI",
+      "balance": 597.531,
+      "balanceUSD": 110.0,
+      "broker": "XP",
+      "category": "ETF",
+      "indexer": "CDI",
+      "investedUSD": 100.0,
+      "maturity": null,
+      "name": "ETF XP USD",
+      "purpose": "RENDA_POS_FIXADA_E_ESTABILIDADE",
+      "type": null
     },
     {
       "allocationGroup": "RF_CDI",
@@ -5093,6 +5382,14 @@
         "type": "IPCA"
       },
       {
+        "balance": 597.531,
+        "broker": "XP",
+        "category": "ETF",
+        "maturity": null,
+        "name": "ETF XP USD",
+        "type": null
+      },
+      {
         "balance": 3000.0,
         "broker": "XP",
         "category": "LCA",
@@ -5103,10 +5400,10 @@
     ],
     "date": "2026-10-06",
     "dollarRate": 5.4321,
-    "total": 213300.5271,
-    "totalInvested": 192705.99,
-    "totalInvestedUSD": 3000.0,
-    "totalWithFGTS": 231800.5271
+    "total": 213898.0581,
+    "totalInvested": 193249.2,
+    "totalInvestedUSD": 3100.0,
+    "totalWithFGTS": 232398.0581
   }
 ]
 ### assets/status.png: PNG
