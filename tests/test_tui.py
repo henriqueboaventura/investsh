@@ -278,6 +278,15 @@ def test_escape_responds_fast(demo, tui_factory):
     assert t.wait_exit() == 0
 
 
+def test_open_warns_about_stale_balances(demo, tui_factory):
+    (demo.root / 'investsh.toml').write_text('[alerts]\nstale_days = 1\n', encoding='utf-8')
+    t = tui_factory()
+    t.wait_for('sem atualizar o saldo')
+    assert 'ativo(s) sem atualizar o saldo há mais de 1 dias (veja investsh check)' in t.text()
+    t.press('q')
+    assert t.wait_exit() == 0
+
+
 def test_update_all(demo, tui_factory):
     t = tui_factory()
     t.press('u').snap('1º ativo')

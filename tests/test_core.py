@@ -254,3 +254,35 @@ def test_set_flow_value_keeps_sign_and_dollar_rate(f):
     assert usd == {'amount': 325.93, 'usd': 60.0}
     f.set_flow_kind(usd, 'saque')
     assert usd == {'amount': -325.93, 'usd': -60.0}
+
+
+# ── Saldo desatualizado ──────────────────────────────────────────────────────
+
+def _snap(d, bal, rate=5.0, name='X', broker='XP'):
+    return {'date': d, 'dollarRate': rate, 'assets': [{'name': name, 'broker': broker, 'balance': bal}]}
+
+
+def test_balance_since(f):
+    from datetime import date
+    today = date(2026, 10, 19)
+    hist = [_snap('2026-08-01', 90.0), _snap('2026-09-01', 100.0), _snap('2026-10-01', 100.0)]
+    assert f.balance_since(inv(balance=100.0), hist, today) == date(2026, 9, 1)
+    assert f.balance_since(inv(balance=101.0), hist, today) == today        # editado agora
+    assert f.balance_since(inv(name='Novo', balance=5.0), hist, today) == today
+    # Dólar: o saldo em R$ muda com a cotação, o em USD não
+    usd = inv(investedUSD=10.0, balanceUSD=20.0, balance=110.0)
+    hist = [_snap('2026-09-01', 100.0, 5.0), _snap('2026-10-01', 110.0, 5.5)]
+    assert f.balance_since(usd, hist, today) == date(2026, 9, 1)
+
+
+def test_stale_assets(f):
+    from datetime import date
+    today = date(2026, 10, 19)
+    hist = [{'date': '2026-09-01', 'assets': [{'name': 'Velho', 'broker': 'XP', 'balance': 10.0},
+                                              {'name': 'BTC', 'broker': 'XP', 'balance': 5.0},
+                                              {'name': 'Zerado', 'broker': 'XP', 'balance': 0.0}]}]
+    invs = [inv(name='Velho', balance=10.0), inv(name='BTC', category='Crypto', balance=5.0),
+            inv(name='Zerado', balance=0.0), inv(name='Novo', balance=3.0)]
+    assert f.stale_assets(invs, hist, today, days=30) == [
+        {'name': 'Velho', 'broker': 'XP', 'since': date(2026, 9, 1), 'days': 48}]
+    assert f.stale_assets(invs, hist, today, days=60) == []

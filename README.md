@@ -141,7 +141,8 @@ Aponta **erros** (dados que quebram cálculos: nome + corretora repetidos, saldo
 data inválida, provento positivo) e **avisos** (título vencido com saldo, saldo que variou
 mais de 20% desde o save anterior sem aporte nem saque, renda fixa sem taxa ou vencimento,
 lançamento de um ativo que nunca existiu, nome da reserva que não está na carteira, ativo
-zerado). Sai com código 1 se houver erro. A tela interativa avisa ao abrir quando há erros.
+zerado, saldo sem atualização há mais de `stale_days` dias). A tela interativa também avisa,
+ao abrir, quantos ativos estão com o saldo desatualizado. Sai com código 1 se houver erro. A tela interativa avisa ao abrir quando há erros.
 
 ---
 
@@ -240,11 +241,13 @@ reenviados no próximo save ou com `investsh sync`.
 Sem o arquivo (ou com `auto_commit = false`), o commit automático fica desligado.
 Para ligar ou desligar temporariamente, por cima do arquivo: `FINANCES_AUTO_GIT=1` ou `0`.
 
-O mesmo arquivo ajusta a janela dos alertas de vencimento (padrão: 90 dias):
+O mesmo arquivo ajusta a janela dos alertas de vencimento (padrão: 90 dias) e de saldo
+desatualizado (padrão: 30 dias sem atualizar o saldo do ativo):
 
 ```toml
 [alerts]
 maturity_days = 180
+stale_days = 45
 ```
 
 ---

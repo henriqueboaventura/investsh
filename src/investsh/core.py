@@ -447,6 +447,54 @@ def set_flow_value(flow, value):
         flow['amount'] = round(sign * value, 2)
 
 
+def balance_since(inv, history, today):
+    """Data em que o saldo atual foi registrado: a foto mais antiga da sequência final
+    (até a última foto) com esse mesmo saldo. Saldo diferente da última foto (editado
+    nesta sessão) é de hoje; ativo fora do histórico também.
+
+    Ativo em dólar compara em USD (saldo da foto ÷ cotação da foto): a variação do
+    câmbio muda o saldo em R$ a cada save sem que ninguém tenha atualizado o ativo.
+    """
+    from datetime import date as _date
+    key = asset_key(inv)
+    usd = 'investedUSD' in inv
+    current = round(inv.get('balanceUSD', 0) if usd else (inv.get('balance') or 0), 2)
+    found = None
+    for snap in sorted(history, key=lambda s: s.get('date') or '', reverse=True):
+        a = next((a for a in snap.get('assets') or [] if (a.get('name'), a.get('broker')) == key), None)
+        if a is None or not snap.get('date'):
+            break
+        bal = a.get('balance') or 0
+        if usd:
+            if not snap.get('dollarRate'):
+                break
+            bal = bal / snap['dollarRate']
+        if round(bal, 2) != current:
+            break
+        found = snap['date']
+    try:
+        return _date.fromisoformat(found) if found else today
+    except ValueError:
+        return today
+
+
+def stale_assets(investments, history, today, days=30):
+    """Ativos com saldo sem atualização há mais de `days` dias, do mais antigo.
+
+    Cripto fica de fora: o saldo vem da cotação, atualizada sozinha.
+    """
+    out = []
+    for inv in investments:
+        if not inv.get('balance') or inv.get('category') == 'Crypto':
+            continue
+        since = balance_since(inv, history, today)
+        age = (today - since).days
+        if age > days:
+            out.append({'name': inv.get('name', ''), 'broker': inv.get('broker', ''),
+                        'since': since, 'days': age})
+    return sorted(out, key=lambda a: (-a['days'], a['name']))
+
+
 def start_flow_log(data):
     """No save: a partir desta data os aportes/saques registrados estão completos."""
     data.setdefault('flows', [])

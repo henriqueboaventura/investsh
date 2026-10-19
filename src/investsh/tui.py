@@ -8,7 +8,7 @@ from .core import (
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
     can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
-    FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value,
+    FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value, stale_assets,
 )
 from .storage import do_save_tui
 from . import perf, estimate, tax
@@ -64,6 +64,10 @@ def run_tui(data, crypto_prices=None):
         n_err = sum(p['level'] == 'erro' for p in find_problems(data, history, _dt.date.today()))
         if n_err:
             warnings.append(f'✗ {n_err} erro(s) nos dados — rode: investsh check')
+        stale = stale_assets(data['investments'], history, _dt.date.today(), config.STALE_DAYS)
+        if stale:
+            warnings.append(f'⚠ {len(stale)} ativo(s) sem atualizar o saldo há mais de '
+                            f'{config.STALE_DAYS} dias (veja investsh check)')
     except Exception:
         pass   # a verificação nunca impede a TUI de abrir
     if not sync.busy():

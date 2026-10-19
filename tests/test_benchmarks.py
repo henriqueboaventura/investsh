@@ -74,16 +74,17 @@ def test_maturity_window_from_config(demo, days, expected):
     assert ('LCA Banco Beta 95% CDI' in out.split('--- vencimentos')[1]) is expected
 
 
+@pytest.mark.parametrize('key', ['maturity_days', 'stale_days'])
 @pytest.mark.parametrize('value, message', [
     ('"90"', 'alerts.maturity_days deve ser um número inteiro'),
     ('true', 'alerts.maturity_days deve ser um número inteiro'),
     ('-1', 'alerts.maturity_days não pode ser negativo'),
 ])
-def test_invalid_maturity_days(demo, value, message):
-    (demo.root / 'investsh.toml').write_text(f'[alerts]\nmaturity_days = {value}\n', encoding='utf-8')
+def test_invalid_alert_days(demo, key, value, message):
+    (demo.root / 'investsh.toml').write_text(f'[alerts]\n{key} = {value}\n', encoding='utf-8')
     proc = demo.run(FINANCES_CMD, ['sync'])
     assert proc.returncode == 2
-    assert message in proc.stderr
+    assert message.replace('maturity_days', key) in proc.stderr
 
 
 @pytest.mark.parametrize('status', ['404', '200'])

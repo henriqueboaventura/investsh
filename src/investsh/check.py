@@ -8,7 +8,7 @@ import json
 import os
 from datetime import date
 
-from .core import GROUP_META, asset_key, can_transfer, parse_maturity, brl_fmt
+from .core import GROUP_META, asset_key, can_transfer, parse_maturity, brl_fmt, stale_assets
 
 # Variação de saldo desde o save anterior, sem aporte/saque, que merece conferência
 JUMP = 0.20
@@ -21,7 +21,7 @@ def _label(inv):
     return f'{inv.get("name", "?")} ({inv.get("broker", "?")})'
 
 
-def find_problems(data, history, today):
+def find_problems(data, history, today, stale_days=30):
     """Lista de {'level': 'erro'|'aviso', 'where': str, 'message': str}."""
     out = []
 
@@ -83,6 +83,10 @@ def find_problems(data, history, today):
                 and abs(bal - prev) / prev > JUMP):
             add('aviso', where, f'saldo variou {(bal - prev) / prev * 100:+.0f}% desde o save anterior '
                                 f'({brl_fmt(prev)} → {brl_fmt(bal)}) sem aporte nem saque: confira')
+
+    for s in stale_assets(invs, history, today, stale_days):
+        add('aviso', f'{s["name"]} ({s["broker"]})',
+            f'saldo sem atualização há {s["days"]} dias (desde {s["since"].strftime("%d/%m/%Y")})')
 
     names = (data.get('emergencyReserve') or {}).get('assetNames') or []
     for n in names:
@@ -150,7 +154,14 @@ def main(root, today=None):
         print(f'{R}✗ {hist_path} não é um JSON válido: {e}{RST}')
         return 1
 
-    problems = find_problems(data, history, today or date.today())
+    from . import config
+    try:
+        settings = config.load_file(os.path.join(root, config.CONFIG_FILE))
+    except config.ConfigError as e:
+        print(f'{R}✗ {e}{RST}')
+        return 2
+    stale_days = settings.get('alerts', {}).get('stale_days', 30)
+    problems = find_problems(data, history, today or date.today(), stale_days)
     errors = [p for p in problems if p['level'] == 'erro']
     warnings = [p for p in problems if p['level'] == 'aviso']
     if not problems:

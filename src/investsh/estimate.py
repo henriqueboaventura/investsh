@@ -10,7 +10,7 @@ a última taxa divulgada pelo Banco Central.
 """
 from datetime import date, timedelta
 
-from .core import asset_key
+from .core import balance_since
 
 # Diferença entre o valor digitado e o estimado que merece aviso
 TOLERANCE = 0.01
@@ -26,24 +26,8 @@ def supported(inv):
 
 
 def as_of(inv, history, today):
-    """Data em que o saldo atual foi registrado: a foto mais antiga de uma sequência
-    final (até a última foto) com esse mesmo saldo. Saldo diferente da última foto
-    (editado nesta sessão) vale como de hoje."""
-    key, bal = asset_key(inv), round(inv.get('balance') or 0, 2)
-    found = None
-    for snap in sorted(history, key=lambda s: s.get('date') or '', reverse=True):
-        a = next((a for a in snap.get('assets') or [] if (a.get('name'), a.get('broker')) == key), None)
-        if a is None or round(a.get('balance') or 0, 2) != bal:
-            break
-        found = snap.get('date')
-        if found is None:
-            break
-    if found is None:
-        return today
-    try:
-        return date.fromisoformat(found)
-    except ValueError:
-        return today
+    """Data em que o saldo atual foi registrado (ver core.balance_since)."""
+    return balance_since(inv, history, today)
 
 
 def _business_days(start, end):

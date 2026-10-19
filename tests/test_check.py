@@ -121,3 +121,16 @@ def test_cli_without_data(app):
     proc = app.run(FINANCES_CMD, ['check'])
     assert proc.returncode == 1
     assert 'não existe' in proc.stdout
+
+
+def test_stale_balance_warning():
+    history = [{'date': '2026-08-01', 'assets': [{'name': 'CDB', 'broker': 'XP', 'balance': 100.0}]}]
+    assert problems([asset()], history=history) == [
+        ('aviso', 'CDB (XP)', 'saldo sem atualização há 78 dias (desde 01/08/2026)')]
+
+
+def test_cli_reads_stale_days_from_config(app):
+    app.seed('examples')
+    (app.root / 'investsh.toml').write_text('[alerts]\nstale_days = 1\n', encoding='utf-8')
+    proc = app.run(FINANCES_CMD, ['check'])
+    assert 'saldo sem atualização há' in strip_ansi(proc.stdout)

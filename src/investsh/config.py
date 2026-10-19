@@ -35,10 +35,13 @@ GIT_PUSH = True
 # Alertas de vencimento: ativos que vencem em até N dias ([alerts] maturity_days)
 MATURITY_DAYS = 90
 
+# Saldo desatualizado: sem atualização há mais de N dias ([alerts] stale_days)
+STALE_DAYS = 30
+
 # Chaves aceitas em investsh.toml: seção → {chave: tipo}
 SCHEMA = {
     'git': {'auto_commit': bool, 'push': bool},
-    'alerts': {'maturity_days': int},
+    'alerts': {'maturity_days': int, 'stale_days': int},
 }
 TYPE_NAMES = {bool: 'true ou false', int: 'um número inteiro'}
 
@@ -49,7 +52,7 @@ class ConfigError(Exception):
 
 def configure(base_dir):
     """Define o diretório de trabalho e carrega a configuração dele."""
-    global ROOT, DATA, AUTO_GIT, GIT_PUSH, MATURITY_DAYS
+    global ROOT, DATA, AUTO_GIT, GIT_PUSH, MATURITY_DAYS, STALE_DAYS
     ROOT = os.path.abspath(os.path.expanduser(base_dir))
     DATA = os.path.join(ROOT, 'data', 'investments.json')
     settings = load_file(os.path.join(ROOT, CONFIG_FILE))
@@ -57,6 +60,7 @@ def configure(base_dir):
     AUTO_GIT = git.get('auto_commit', False)
     GIT_PUSH = git.get('push', True)
     MATURITY_DAYS = settings.get('alerts', {}).get('maturity_days', 90)
+    STALE_DAYS = settings.get('alerts', {}).get('stale_days', 30)
     env = os.environ.get('FINANCES_AUTO_GIT', '').strip().lower()
     if env in ('1', 'true', 'yes'):
         AUTO_GIT = True
