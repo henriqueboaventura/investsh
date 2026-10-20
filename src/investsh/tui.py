@@ -1275,40 +1275,55 @@ def run_tui(data, crypto_prices=None):
             return out, sel
 
         def build_flows():
-            """Lançamentos (aportes, saques, proventos), do mais recente, agrupados por mês."""
+            """Lançamentos (aportes, saques, proventos) e transferências entre ativos, do mais
+            recente, agrupados por mês. A transferência aparece em duas linhas: saída da origem
+            e entrada no destino."""
             out, sel = [], []
             flows = data.get('flows', [])
+            transfers = data.get('transfers', [])
             since = data.get('flowsSince')
             out.append(row([]))
             out.append(row([seg('  Lançamentos', CYN | BOLD),
                             seg(f'   completos desde {since}' if since else '', DIM)]))
-            if not flows:
+            if not flows and not transfers:
                 out.append(row([seg('  Nenhum lançamento. Registre aportes e saques na aba Detalhe.', DIM)]))
                 return out, sel
             totals = {k: sum(f.get('amount', 0) for f in flows if flow_kind(f) == k) for k, _ in FLOW_KINDS}
+            moved = sum(t.get('amount', 0) for t in transfers)
             out.append(row([seg(f"  Aportes {brl_fmt(totals['aporte'])}   Saques {brl_fmt(totals['saque'])}"
-                                f"   Proventos {brl_fmt(totals['provento'])}", DIM)]))
+                                f"   Proventos {brl_fmt(totals['provento'])}"
+                                + (f"   Transferências {brl_fmt(moved)}" if transfers else ''), DIM)]))
             _, tw = stdscr.getmaxyx()
             nw = max(15, min(44, tw - 1 - 62))
+            # (data, ordem, lançamento ou None, tipo, corretora, ativo, valor, usd)
+            items = [(f.get('date', ''), 0, f, flow_kind(f), f.get('broker', ''), f.get('name', ''),
+                      f.get('amount', 0), f.get('usd')) for f in flows]
+            for t in transfers:
+                items.append((t.get('date', ''), 1, None, 'transf', t.get('toBroker', ''),
+                              f'{t.get("to", "")} ← {t.get("from", "")}', t.get('amount', 0), None))
+                items.append((t.get('date', ''), 2, None, 'transf', t.get('fromBroker', ''),
+                              f'{t.get("from", "")} → {t.get("to", "")}', -t.get('amount', 0), None))
             month = None
-            for f in sorted(flows, key=lambda f: f.get('date', ''), reverse=True):
-                m = (f.get('date') or '')[:7]
+            for date, _, f, kind, broker, name, amount, usd in sorted(
+                    items, key=lambda it: (it[0], -it[1]), reverse=True):
+                m = (date or '')[:7]
                 if m != month:
                     month = m
                     out += [row([]),
                             row([seg(f'  ── {m} ──', MAG | BOLD)]),
                             row([seg(f'  {"Data":<10}  {"Tipo":<8}  {"Corretora":<9}  {"Ativo":<{nw}}  '
                                      f'{"Valor":>14}  {"USD":>10}', DIM)])]
-                kind = flow_kind(f)
-                col = {'aporte': CYN, 'saque': YLW, 'provento': YLW}[kind]
-                usd = f'{f["usd"]:+,.2f}' if f.get('usd') else ''
-                if since and f.get('date', '') <= since:
+                col = {'aporte': CYN, 'saque': YLW, 'provento': YLW, 'transf': MAG}[kind]
+                usd = f'{usd:+,.2f}' if usd else ''
+                if since and date <= since:
                     col = DIM   # antes de flowsSince: não entra na rentabilidade
-                sel.append((len(out), f))
+                if f is not None:
+                    sel.append((len(out), f))
+                label = 'Transf.' if kind == 'transf' else dict(FLOW_KINDS)[kind]
                 out.append(row([
-                    seg(f'  {f.get("date", ""):<10}  ', 0), seg(f'{dict(FLOW_KINDS)[kind]:<8}', col),
-                    seg(f'  {f.get("broker", "")[:9]:<9}  {f.get("name", "")[:nw]:<{nw}}', 0),
-                    seg(f'  {brl_fmt(f.get("amount", 0)):>14}', col), seg(f'  {usd:>10}', DIM),
+                    seg(f'  {date:<10}  ', 0), seg(f'{label:<8}', col),
+                    seg(f'  {broker[:9]:<9}  {name[:nw]:<{nw}}', 0),
+                    seg(f'  {brl_fmt(amount):>14}', col), seg(f'  {usd:>10}', DIM),
                 ]))
             return out, sel
 

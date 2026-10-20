@@ -230,8 +230,10 @@ então registre um aporte em outro ativo antes de transferir.
 
 A aba **Lançamentos** (`l`) lista tudo isso por mês, do mais recente, com os totais de
 aportes, saques e proventos (lançamentos anteriores a `flowsSince` aparecem apagados: não
-entram na rentabilidade). Enter num lançamento corrige valor, data, tipo ou ativo, ou o
-exclui. A correção é só do registro: os saldos dos ativos não mudam.
+entram na rentabilidade). As transferências aparecem em duas linhas, a saída da origem e a
+entrada no destino, então um ativo comprado com o dinheiro de outro mostra o valor inteiro.
+Enter num lançamento corrige valor, data, tipo ou ativo, ou o exclui. A correção é só do
+registro: os saldos dos ativos não mudam.
 
 Antes do primeiro save com essa versão (`flowsSince`), sem os lançamentos, o investsh usa a
 variação do custo total entre as fotos, que é uma aproximação.

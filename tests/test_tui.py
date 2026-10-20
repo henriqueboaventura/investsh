@@ -215,9 +215,12 @@ def test_edit_asset(demo, tui_factory):
 
 
 def test_flows_tab(demo, tui_factory):
-    # Aba Lançamentos: lista por mês, do mais recente; Enter corrige o registro (saldos não mudam)
+    # Aba Lançamentos: lista por mês, do mais recente, com as transferências (origem e destino);
+    # Enter corrige o registro (saldos não mudam) e o cursor pula as transferências
     import json
     def seed(d):
+        d['transfers'] = [{'date': '2026-10-02', 'from': 'Tesouro Selic 2029', 'fromBroker': 'XP',
+                           'to': 'CDB Banco Alfa 110% CDI', 'toBroker': 'XP', 'amount': 2000.0}]
         d['flowsSince'] = '2026-09-01'
         d['flows'] = [
             {'date': '2026-08-20', 'name': 'Tesouro Selic 2029', 'broker': 'XP', 'amount': 500.0},

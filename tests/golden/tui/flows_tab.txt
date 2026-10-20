@@ -3,12 +3,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 771,61   Saques R$ -1.000,00   Proventos R$ -72,50
+  Aportes R$ 771,61   Saques R$ -1.000,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Saque     XP         CDB Banco Alfa 110% CDI                         R$ -1.000,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -41,20 +43,20 @@
 
 
 
-
-
- ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair                                                                            1-16/16
+ ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair                                                                            1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ......   ...... .. .........   ......... .. ......
+  ....... .. ......   ...... .. .........   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -63,8 +65,6 @@
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  ......    ..         ....... ..... ....                                 .. ......
-
-
 
 
 
@@ -95,22 +95,22 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 771,61   Saques R$ -1.000,00   Proventos R$ -72,50
+  Aportes R$ 771,61   Saques R$ -1.000,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Saque     XP         CDB Banco Alfa 110% CDI                         R$ -1.000,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-09-15  Provento  XP         FII Papel Exemplo (PAPL11)                         R$ -72,50
 
-  ── 2026-08 ──
-  Data        Tipo      Corretora  Ativo                                                  Valor         USD
-  2026-08-20  Aporte    XP         Tes┌─────────────────────────────────────────────────────────────┐
-                                      │               2026-10-03 · Saque R$ 1.000,00                │
-                                      ├─────────────────────────────────────────────────────────────┤
+  ── 2026-08 ──                       ┌─────────────────────────────────────────────────────────────┐
+  Data        Tipo      Corretora  Ati│               2026-10-03 · Saque R$ 1.000,00                │   USD
+  2026-08-20  Aporte    XP         Tes├─────────────────────────────────────────────────────────────┤
                                       │ [v] Valor  R$ 1.000,00                                      │
                                       │ [d] Data  2026-10-03                                        │
                                       │ [t] Tipo  Saque                                             │
@@ -135,28 +135,28 @@
 
 
 
- ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair                                                                            1-16/16
+ ↑↓ navegar  Enter corrigir lançamento  w salvar  q sair                                                                            1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ......   ...... .. .........   ......... .. ......
+  ....... .. ......   ...... .. .........   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  yyyyyyyy  ..         ... ..... ....... ........                         yy yyyyyy
 
-  MM MMMMMMM MM
-  ....        ....      .........  .....                                                  .....         ...
+  MM MMMMMMM MM                       ...............................................................
+  ....        ....      .........  ....               ********** * ***** ** ********                .   ...
   ..........  ......    ..         ..................................................................
-                                      .               ********** * ***** ** ********                .
-                                      ...............................................................
                                       .########################                                     .
                                       . ... ....  ..........                                        .
                                       . ... ....  .....                                             .
@@ -187,12 +187,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 771,61   Saques R$ -1.200,00   Proventos R$ -72,50
+  Aportes R$ 771,61   Saques R$ -1.200,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Saque     XP         CDB Banco Alfa 110% CDI                         R$ -1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -225,20 +227,20 @@
 
 
 
-
-
- ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-16/16
+ ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ......   ...... .. .........   ......... .. ......
+  ....... .. ......   ...... .. .........   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -247,8 +249,6 @@
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  ......    ..         ....... ..... ....                                 .. ......
-
-
 
 
 
@@ -279,12 +279,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50
+  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Aporte    XP         CDB Banco Alfa 110% CDI                          R$ 1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -317,20 +319,20 @@
 
 
 
-
-
- ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-16/16
+ ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ........   ...... .. ....   ......... .. ......
+  ....... .. ........   ...... .. ....   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -339,8 +341,6 @@
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  ......    ..         ....... ..... ....                                 .. ......
-
-
 
 
 
@@ -371,12 +371,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50
+  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Aporte    XP         LCA Banco Beta 95% CDI                           R$ 1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -409,20 +411,20 @@
 
 
 
-
-
- ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-16/16
+ ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ........   ...... .. ....   ......... .. ......
+  ....... .. ........   ...... .. ....   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -431,8 +433,6 @@
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  ......    ..         ....... ..... ....                                 .. ......
-
-
 
 
 
@@ -463,12 +463,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50
+  Aportes R$ 1.971,61   Saques R$ 0,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Aporte    XP         LCA Banco Beta 95% CDI                           R$ 1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 271,61      +50.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -501,20 +503,20 @@
 
 
 
-
-
- ✗ Data inválida: 31/09/2026                                                                                                        1-16/16
+ ✗ Data inválida: 31/09/2026                                                                                                        1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ........   ...... .. ....   ......... .. ......
+  ....... .. ........   ...... .. ....   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -523,8 +525,6 @@
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  ......    ..         ....... ..... ....                                 .. ......
-
-
 
 
 
@@ -555,12 +555,14 @@
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 2.025,93   Saques R$ 0,00   Proventos R$ -72,50
+  Aportes R$ 2.025,93   Saques R$ 0,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Aporte    XP         LCA Banco Beta 95% CDI                           R$ 1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 325,93      +60.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -593,20 +595,20 @@
 
 
 
-
-
- ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-16/16
+ ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-18/18
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ........   ...... .. ....   ......... .. ......
+  ....... .. ........   ...... .. ....   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  cccccc    ..         ... ..... .... ... ...                           cc cccccccc
 ===========================================================================================================================================
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
@@ -639,20 +641,20 @@
 
 
 
-
-
 ===================================================================================================================================#########
 === lançamento excluído ===
  investsh   R$ 205.462,26   2026-10-01   USD 5.4321
   Sumário   Rentabilidade   Alocação   Detalhe   Lançamentos   Gráficos
 
   Lançamentos   completos desde 2026-09-01
-  Aportes R$ 1.525,93   Saques R$ 0,00   Proventos R$ -72,50
+  Aportes R$ 1.525,93   Saques R$ 0,00   Proventos R$ -72,50   Transferências R$ 2.000,00
 
   ── 2026-10 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
   2026-10-03  Aporte    XP         LCA Banco Beta 95% CDI                           R$ 1.200,00
   2026-10-02  Aporte    Nomad      SGOV                                               R$ 325,93      +60.00
+  2026-10-02  Transf.   XP         CDB Banco Alfa 110% CDI ← Tesouro Selic 2029     R$ 2.000,00
+  2026-10-02  Transf.   XP         Tesouro Selic 2029 → CDB Banco Alfa 110% CDI    R$ -2.000,00
 
   ── 2026-09 ──
   Data        Tipo      Corretora  Ativo                                                  Valor         USD
@@ -685,26 +687,24 @@
 
 
 
-
-
- ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-12/12
+ ✓ Lançamento corrigido (saldos não mudam)                                                                                          1-14/14
 --- estilos ---
 ####################################################=======================================================================================
   .......   .............   ........   .......  #############  ........
 
   CCCCCCCCCCC   ......... ..... ..........
-  ....... .. ........   ...... .. ....   ......... .. ......
+  ....... .. ........   ...... .. ....   ......... .. ......   .............. .. ........
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
   ..........  cccccc    ..         ... ..... .... ... ...                           cc cccccccc
   ..........  cccccc    .....      ....                                               cc cccccc      ......
+  ..........  mmmmmmm   ..         ... ..... .... .... ... . ....... ..... ....     mm mmmmmmmm
+  ..........  mmmmmmm   ..         ....... ..... .... . ... ..... .... .... ...    mm mmmmmmmmm
 
   MM MMMMMMM MM
   ....        ....      .........  .....                                                  .....         ...
 ===========================================================================================================================================
-
-
 
 
 
@@ -1113,7 +1113,17 @@
     "fgtsAnnualReturn": 0.06,
     "monthlyContribution": 1500.0,
     "monthlyReturn": 0.008
-  }
+  },
+  "transfers": [
+    {
+      "amount": 2000.0,
+      "date": "2026-10-02",
+      "from": "Tesouro Selic 2029",
+      "fromBroker": "XP",
+      "to": "CDB Banco Alfa 110% CDI",
+      "toBroker": "XP"
+    }
+  ]
 }
 ### data/history.json
 [
