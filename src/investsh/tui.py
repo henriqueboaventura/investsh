@@ -1180,7 +1180,7 @@ def run_tui(data, crypto_prices=None):
                       'Multiativo Global': 'multiAtivoGlobal', 'Previdência': 'previdencia'}
             sub_ik = {
                 'CDI': 'rfCDI', 'Pré-Fixado': 'rfPre', 'IPCA': 'rfIPCA', 'RF Exterior (USD)': 'rfExterior',
-                'FII': 'rvFII', 'Fundos de Ações': 'rvFundosAcoes',
+                'FII': 'rvFII', 'Fundos de Ações': 'rvFundosAcoes', 'Ações': 'rvAcoes',
                 'ETF Brasil': 'rvETFBrasil', 'ETF Exterior': 'rvETFExterior', 'Ouro': 'rvOuro', 'Crypto': 'rvCrypto',
             }
             cls_col = {'Renda Fixa': CYN, 'Renda Variável': GRN, 'Multiativo Global': YLW,
@@ -1532,7 +1532,7 @@ def run_tui(data, crypto_prices=None):
             out.append(row([]))
             sub_ik  = {
                 'CDI': 'rfCDI', 'Pré-Fixado': 'rfPre', 'IPCA': 'rfIPCA', 'RF Exterior (USD)': 'rfExterior',
-                'FII': 'rvFII', 'Fundos de Ações': 'rvFundosAcoes',
+                'FII': 'rvFII', 'Fundos de Ações': 'rvFundosAcoes', 'Ações': 'rvAcoes',
                 'ETF Brasil': 'rvETFBrasil', 'ETF Exterior': 'rvETFExterior', 'Ouro': 'rvOuro', 'Crypto': 'rvCrypto',
             }
             groups  = {}

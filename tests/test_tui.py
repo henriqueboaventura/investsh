@@ -354,7 +354,7 @@ def test_new_assets(demo, tui_factory):
 
     # Cripto
     t.press('n').type('Solana').press('enter', '8', '4', '3', 'enter', '9')
-    t.press(*(['down'] * 11), 'enter')          # RV_CRYPTO
+    t.press(*(['down'] * 12), 'enter')          # RV_CRYPTO
     t.press(*(['down'] * 13), 'enter')          # ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
     t.snap('cripto: quantidade')
     t.fill('2,5').snap('Solana cadastrada')
@@ -363,7 +363,7 @@ def test_new_assets(demo, tui_factory):
     t.press('n').type('Debênture X').press('enter', '0', '2', '1').type('2031-05-15').press('enter')
     t.press(*(['down'] * 10), 'enter').snap('indexador texto livre')
     t.type('IPCA+DEB').press('enter')
-    t.press(*(['down'] * 14), 'enter').type('GRUPO_X').press('enter')
+    t.press(*(['down'] * 15), 'enter').type('GRUPO_X').press('enter')
     t.press(*(['down'] * 23), 'enter').type('MEU_OBJETIVO').press('enter')
     t.press('r').fill('1000').fill('1000').press('a').snap('Debênture cadastrada')
 
@@ -403,7 +403,7 @@ def test_params(demo, tui_factory):
     t.press('enter')                               # aporte: mantém
     t.clear_field().type('7').press('enter').snap('1ª meta de alocação')
     t.clear_field().type('50').press('enter')
-    for _ in range(13):
+    for _ in range(14):
         t.press('enter')
     t.snap('reserva mínima')
     t.clear_field().type('25000').press('enter', 'enter', 'enter').snap('parâmetros aplicados')

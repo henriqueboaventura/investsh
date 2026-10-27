@@ -576,6 +576,7 @@
     "rfExterior": 5.0,
     "rfIPCA": 22.0,
     "rfPre": 10.0,
+    "rvAcoes": 0.0,
     "rvCrypto": 1.0,
     "rvETFBrasil": 5.0,
     "rvETFExterior": 12.0,

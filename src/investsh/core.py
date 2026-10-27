@@ -12,7 +12,7 @@ BROKER_ORDER = {'XP':0,'Nubank':1,'Nomad':2,'Binance':3}
 
 CAT_ORDER    = {
     'CDB':0,'LCA':1,'LCI':2,'Tesouro Direto':3,'Previdência Privada':4,
-    'ETF':5,'Fundo Imobiliário':6,'Fundos de Investimento':7,'Crypto':8,
+    'ETF':5,'Fundo Imobiliário':6,'Fundos de Investimento':7,'Crypto':8,'Ação':9,
 }
 
 
@@ -40,6 +40,7 @@ GROUP_META = {
     'RV_ETF_EXTERIOR':     {'main': 'Renda Variável',    'label': 'ETF Exterior',         'ideal': 'rvETFExterior'},
     'RV_OURO':             {'main': 'Renda Variável',    'label': 'Ouro',                 'ideal': 'rvOuro'},
     'RV_FUNDOS_ACOES':     {'main': 'Renda Variável',    'label': 'Fundos de Ações',      'ideal': 'rvFundosAcoes'},
+    'RV_ACOES':            {'main': 'Renda Variável',    'label': 'Ações',                'ideal': 'rvAcoes'},
     'RV_FII':              {'main': 'Renda Variável',    'label': 'FII',                  'ideal': 'rvFII'},
     'RV_CRYPTO':           {'main': 'Renda Variável',    'label': 'Crypto',               'ideal': 'rvCrypto'},
     'MULTIATIVO_GLOBAL':   {'main': 'Multiativo Global', 'label': 'Multiativo Global',    'ideal': None},
@@ -163,7 +164,7 @@ PURPOSE_LABEL = {
 }
 
 
-_CATEGORIES = ['CDB','LCA','LCI','Tesouro Direto','ETF','Fundo Imobiliário','Fundos de Investimento','Previdência Privada','Crypto']
+_CATEGORIES = ['CDB','LCA','LCI','Tesouro Direto','ETF','Fundo Imobiliário','Fundos de Investimento','Previdência Privada','Crypto','Ação']
 
 
 _TYPES      = ['POS','PRE','IPCA','Ouro','(nenhum)']
@@ -177,7 +178,7 @@ _INDEXERS   = ['CDI','SELIC','FIXED_RATE','IPCA','SP_500','FTSE_GLOBAL_ALL_CAP',
 
 
 _ALLOCATION_GROUPS = ['RF_CDI','RF_PRE','RF_IPCA','RF_EXTERIOR','RESERVA_EMERGENCIA','CAIXA_TRANSITORIA',
-                      'RV_ETF_BRASIL','RV_ETF_EXTERIOR','RV_OURO','RV_FUNDOS_ACOES','RV_FII','RV_CRYPTO',
+                      'RV_ETF_BRASIL','RV_ETF_EXTERIOR','RV_OURO','RV_FUNDOS_ACOES','RV_ACOES','RV_FII','RV_CRYPTO',
                       'MULTIATIVO_GLOBAL','PREVIDENCIA']
 
 
@@ -203,6 +204,7 @@ IDEAL_FIELDS = [
     ('rvETFExterior',   '  ETF Exterior'),
     ('rvOuro',          '  Ouro'),
     ('rvFundosAcoes',   '  Fundos de Ações'),
+    ('rvAcoes',         '  Ações'),
     ('rvCrypto',        '  Crypto'),
     ('multiAtivoGlobal','Multiativo Global'),
     ('previdencia',     'Previdência'),

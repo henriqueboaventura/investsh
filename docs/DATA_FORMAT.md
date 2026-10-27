@@ -53,7 +53,7 @@ os demais são as subclasses, também em % da carteira total.
 |---|---|
 | `rendaFixa`, `rendaVariavel`, `multiAtivoGlobal`, `previdencia` | Classes principais |
 | `rfCDI`, `rfPre`, `rfIPCA`, `rfExterior` | Subclasses de renda fixa |
-| `rvETFBrasil`, `rvETFExterior`, `rvFundosAcoes`, `rvFII`, `rvOuro`, `rvCrypto` | Subclasses de renda variável |
+| `rvETFBrasil`, `rvETFExterior`, `rvFundosAcoes`, `rvAcoes`, `rvFII`, `rvOuro`, `rvCrypto` | Subclasses de renda variável |
 
 ### `emergencyReserve`
 
@@ -73,7 +73,7 @@ Campos comuns:
 | Campo | Obrigatório | Descrição |
 |---|---|---|
 | `name` | sim | Nome do ativo; único por corretora (nome + `broker` identifica o ativo) |
-| `category` | sim | `CDB`, `LCA`, `LCI`, `RDB`, `Tesouro Direto`, `ETF`, `Fundo Imobiliário`, `Fundos de Investimento`, `Previdência Privada`, `Crypto` (ou outro texto) |
+| `category` | sim | `CDB`, `LCA`, `LCI`, `RDB`, `Tesouro Direto`, `ETF`, `Fundo Imobiliário`, `Fundos de Investimento`, `Previdência Privada`, `Crypto`, `Ação` (ou outro texto) |
 | `type` | não | `POS`, `PRE`, `IPCA`, `Ouro` ou `null` |
 | `broker` | sim | Corretora/banco (`XP`, `Nubank`, `Nomad`, `Binance` têm cores próprias; outros funcionam) |
 | `maturity` | não | Vencimento, ou `null` |
@@ -100,6 +100,7 @@ Valores de `allocationGroup`:
 | `RV_ETF_BRASIL` | Renda Variável | `rvETFBrasil` |
 | `RV_ETF_EXTERIOR` | Renda Variável | `rvETFExterior` |
 | `RV_FUNDOS_ACOES` | Renda Variável | `rvFundosAcoes` |
+| `RV_ACOES` | Renda Variável | `rvAcoes` |
 | `RV_FII` | Renda Variável | `rvFII` |
 | `RV_OURO` | Renda Variável | `rvOuro` |
 | `RV_CRYPTO` | Renda Variável | `rvCrypto` |
