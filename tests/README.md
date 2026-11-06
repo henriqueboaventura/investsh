@@ -28,6 +28,7 @@ marcado como `slow` automaticamente e só roda com `--all`.
 | `test_config_file.py` | `investsh.toml`: commit/push automático (via `investsh sync`), validação, variável de ambiente por cima | Repositório git real com remoto |
 | `test_background_sync.py` | Save da TUI não espera o push (remoto lento de verdade), fila de saves, falha + aviso + `investsh sync` | Repositório git real com hook que atrasa ou recusa o push |
 | `test_estimate.py` | Saldo estimado: data do saldo, CDI e prefixado por dia útil, o que fica de fora, tolerância | Unitário, valores calculados à mão |
+| `test_stocks.py` | Ações: preço médio na compra, lucro na venda, cotação do Yahoo, grade do gráfico | Unitário, valores calculados à mão |
 | `test_tax.py` | IR e IOF regressivos, isenção, prazo sem data da compra, taxa líquida no vencimento | Unitário, valores calculados à mão |
 | `test_check.py` | `investsh check`: cada erro e aviso, códigos de saída | Unitário, dados montados à mão |
 | `test_cli.py` | Pasta de dados (`--dir`, `$INVESTSH_DIR`, padrão `~/.investsh`, `~`), `--version`, subcomandos | Asserções |
@@ -40,7 +41,7 @@ Cada teste roda numa pasta temporária `/tmp/ish-XXXXXXXX/app` (via `INVESTSH_DI
 processo iniciado pelos testes (inclusive os de segundo plano do investsh) e:
 
 - congela data/hora em `2026-10-06 12:00` (`INVESTSH_TEST_NOW`);
-- troca as APIs de cotação por valores fixos (USD 5,4321, BTC R$ 600.000…) e a do Banco
+- troca as APIs de cotação por valores fixos (USD 5,4321, BTC R$ 600.000, PETR4 R$ 39,90…) e a do Banco
   Central por CDI 0,05% ao dia útil e IPCA 0,40% ao mês (divulgado até ago/2026);
   `INVESTSH_TEST_RATES=fail` simula rede fora;
 - fixa `PYTHONHASHSEED` e remove avisos de fontes do matplotlib da saída.

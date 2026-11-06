@@ -4,8 +4,8 @@ Os testes põem tests/site no PYTHONPATH, então o Python carrega este
 sitecustomize ao iniciar qualquer processo, inclusive os que o investsh abre
 em segundo plano. Antes do código do investsh rodar, ele:
 - congela data/hora em INVESTSH_TEST_NOW (ISO 8601);
-- substitui urllib.request.urlopen por respostas fixas de cotação
-  (INVESTSH_TEST_RATES=ok | fail) e do Banco Central (INVESTSH_TEST_BCB_DELAY
+- substitui urllib.request.urlopen por respostas fixas de cotação (dólar, cripto e
+  ações no Yahoo Finance; INVESTSH_TEST_RATES=ok | fail) e do Banco Central (INVESTSH_TEST_BCB_DELAY
   simula a API lenta);
 - opcionalmente grava as chamadas de desenho do matplotlib em
   INVESTSH_TEST_PLOTLOG (JSON), em vez de depender dos pixels do PNG;
@@ -84,6 +84,34 @@ def _install():
             d += timedelta(days=1)
         return rows
 
+    # Ações no Yahoo Finance: preço-base por símbolo; outros símbolos dão 404
+    FAKE_STOCKS = {'PETR4.SA': 38.0, 'VALE3.SA': 60.0, 'BBAS3.SA': 20.0}
+
+    def fake_yahoo(url):
+        """Fechamentos dos dias úteis do último mês, terminando hoje: sobe e desce em
+        torno do preço-base e fecha em base × 1,05 (variação positiva no período)."""
+        import re
+        from datetime import timedelta
+        sym = re.search(r'/chart/([^?]+)', url).group(1)
+        base = FAKE_STOCKS.get(sym)
+        if base is None:
+            body = b'{"chart":{"result":null,"error":{"code":"Not Found"}}}'
+            raise urllib.error.HTTPError(url, 404, 'Not Found', None, io.BytesIO(body))
+        days, d = [], NOW.date()
+        while len(days) < 22:
+            if d.weekday() < 5:
+                days.append(d)
+            d -= timedelta(days=1)
+        days.reverse()
+        off = -10800
+        stamps = [(dd - _dt.date(1970, 1, 1)).days * 86400 + 13 * 3600 for dd in days]   # 10h em Brasília
+        closes = [round(base * (1 + 0.01 * (((i * 7) % 9) - 4)), 2) for i in range(len(days))]
+        closes[-1] = round(base * 1.05, 2)
+        closes[3] = None   # o Yahoo às vezes devolve dia sem fechamento
+        return {'chart': {'result': [{'meta': {'regularMarketPrice': closes[-1], 'gmtoffset': off},
+                                       'timestamp': stamps,
+                                       'indicators': {'quote': [{'close': closes}]}}], 'error': None}}
+
     def fake_urlopen(url, *args, **kwargs):
         url = getattr(url, 'full_url', url)
         if os.environ.get('INVESTSH_TEST_RATES', 'ok') == 'fail':
@@ -101,6 +129,8 @@ def _install():
                     return _FakeResponse(body)
                 raise urllib.error.HTTPError(url, 404, 'Not Found', None, io.BytesIO(body))
             return _FakeResponse(json.dumps(rows).encode())
+        if 'query1.finance.yahoo.com' in url:
+            return _FakeResponse(json.dumps(fake_yahoo(url)).encode())
         for host, payload in FAKE_RESPONSES.items():
             if host in url:
                 return _FakeResponse(json.dumps(payload).encode())

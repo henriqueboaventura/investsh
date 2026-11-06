@@ -23,9 +23,27 @@ sufixo `USD`.
   },
   "investments": [ ... ],
   "flowsSince": "2026-10-01",    // a partir desta data, `flows` está completo
-  "flows": [ ... ]               // aportes e saques (ver abaixo)
+  "flows": [ ... ],              // aportes e saques (ver abaixo)
+  "transfers": [ ... ],          // dinheiro movido entre ativos da carteira
+  "trades": [ ... ]              // compras e vendas de ações (ver abaixo)
 }
 ```
+
+### `trades`
+
+Compras e vendas de ações, gravadas por *Registrar compra/venda* e no cadastro de uma ação
+com saldo. Base para o lucro realizado (e, no futuro, o IR de ações).
+
+```json
+{ "date": "2026-10-06", "name": "PETR4", "broker": "Nubank", "ticker": "PETR4", "side": "venda",
+  "quantity": 7, "price": 45.0, "fees": 0.0, "profit": 34.87 }
+```
+
+- `side` — `"compra"` ou `"venda"`; `price` é o preço por ação, `fees` as taxas em R$.
+- `profit` — só na venda: valor recebido (já sem as taxas) menos o custo das ações vendidas
+  pelo preço médio.
+- O dinheiro da operação também aparece em `flows` (aporte ou saque) ou em `transfers`
+  (pago com o caixa, ou venda que ficou na carteira).
 
 ### `flows`
 
@@ -115,6 +133,18 @@ O `balance` em BRL é recalculado com a cotação do dia.
 ```json
 { "name": "VT", "category": "ETF", "broker": "Nomad", "investedUSD": 1500.0,
   "balanceUSD": 1730.40, "balance": 9344.16, "allocationGroup": "RV_ETF_EXTERIOR" }
+```
+
+**Ações (e FII/ETF da B3)** — use `ticker` (código na B3, sem `.SA`), `quantity` e `invested`
+(custo total, com as taxas). `averagePrice` é `invested ÷ quantity`, gravado para consulta. Ao
+abrir, o investsh busca a cotação no Yahoo Finance e grava `lastPrice`, `lastPriceDate` e o
+`balance` (= `quantity × lastPrice`). `ticker` sem `quantity`, ou em ativo em dólar, é só
+informativo (sem cotação automática).
+
+```json
+{ "name": "PETR4", "category": "Ação", "broker": "Nubank", "ticker": "PETR4", "quantity": 10,
+  "invested": 400.0, "averagePrice": 40.0, "lastPrice": 39.9, "lastPriceDate": "2026-10-06",
+  "balance": 399.0, "allocationGroup": "RV_ACOES" }
 ```
 
 **Cripto** — use `quantity` (em unidades da moeda) e, opcionalmente, `averagePrice` (preço médio

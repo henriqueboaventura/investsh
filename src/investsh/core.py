@@ -347,9 +347,19 @@ def take_from_balance(inv, val, dol):
     return brl
 
 
+def is_stock(inv):
+    """Ativo da B3 com cotação automática (stocks.py): ticker e quantidade, em reais.
+
+    Ticker sem quantidade, ou em ativo em dólar, é só informativo.
+    """
+    return (bool(inv.get('ticker')) and inv.get('quantity') is not None
+            and 'investedUSD' not in inv and inv.get('category') != 'Crypto')
+
+
 def can_transfer(inv):
-    """Cripto fica de fora: o saldo vem de quantidade × cotação, sem custo base."""
-    return inv.get('category') != 'Crypto'
+    """Cripto e ações ficam de fora: o saldo vem de quantidade × cotação (ações mudam
+    por compra e venda, em stocks.py)."""
+    return inv.get('category') != 'Crypto' and not is_stock(inv)
 
 
 def transfer(data, src, dst, sent, received):
@@ -419,6 +429,9 @@ def rename_asset(data, inv, name, broker):
         for n, b in (('from', 'fromBroker'), ('to', 'toBroker')):
             if (t.get(n), t.get(b)) == old:
                 t[n], t[b] = name, broker
+    for t in data.get('trades', []):
+        if (t.get('name'), t.get('broker')) == old:
+            t['name'], t['broker'] = name, broker
     names = (data.get('emergencyReserve') or {}).get('assetNames')
     if names and old[0] in names and old[0] != name:
         # Só se nenhum outro ativo ainda usa o nome antigo (a lista é por nome)
@@ -501,11 +514,11 @@ def balance_since(inv, history, today):
 def stale_assets(investments, history, today, days):
     """Ativos com saldo sem atualização há mais de `days` dias, do mais antigo.
 
-    Cripto fica de fora: o saldo vem da cotação, atualizada sozinha.
+    Cripto e ações ficam de fora: o saldo vem da cotação, atualizada sozinha.
     """
     out = []
     for inv in investments:
-        if not inv.get('balance') or inv.get('category') == 'Crypto':
+        if not inv.get('balance') or inv.get('category') == 'Crypto' or is_stock(inv):
             continue
         since = balance_since(inv, history, today)
         age = (today - since).days

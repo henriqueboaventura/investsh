@@ -613,3 +613,73 @@ def test_no_startup_warning_without_urgent_maturities(demo, tui_factory):
     assert '⚠' not in t.text()
     t.press('q')
     assert t.wait_exit() == 0
+
+
+# ── Ações (ativos com ticker) ────────────────────────────────────────────────
+
+def test_stocks(demo, tui_factory):
+    # PETR4 com cotação (fake do Yahoo: R$ 39,90 hoje); XXXX3 sem cotação (ticker inexistente)
+    def add(d):
+        d['investments'] += [
+            {'name': 'PETR4', 'category': 'Ação', 'type': None, 'broker': 'Nubank', 'maturity': None,
+             'balance': 380.0, 'invested': 400.0, 'previousBalance': 380.0, 'ticker': 'PETR4',
+             'quantity': 10, 'averagePrice': 40.0, 'allocationGroup': 'RV_ACOES'},
+            {'name': 'XXXX3', 'category': 'Ação', 'type': None, 'broker': 'Nubank', 'maturity': None,
+             'balance': 100.0, 'invested': 100.0, 'previousBalance': 100.0, 'ticker': 'XXXX3',
+             'quantity': 5, 'averagePrice': 20.0, 'allocationGroup': 'RV_ACOES'},
+            {'name': 'Caixa Nubank', 'category': 'Caixa', 'type': None, 'broker': 'Nubank',
+             'maturity': None, 'balance': 1000.0, 'invested': 1000.0, 'previousBalance': 1000.0,
+             'allocationGroup': 'CAIXA_TRANSITORIA'},
+        ]
+    demo.edit(add)
+    t = tui_factory()
+    t.snap('aviso de cotação indisponível')
+    t.press('d', '/').type('petr4').press('enter', 'enter').snap('popup da ação')
+    t.press('g').snap('gráfico dos últimos 30 dias')
+    t.press('x').snap('qualquer tecla volta')
+    # Compra com dinheiro novo: preço padrão = cotação, com taxa
+    t.press('enter', 'a').snap('compra: quantidade')
+    t.fill('5').snap('compra: preço (cotação)')
+    t.press('enter').snap('compra: taxas')
+    t.fill('1').snap('compra: origem do dinheiro')
+    t.press('a').snap('compra registrada (aporte)')
+    # Compra paga com o caixa da corretora
+    t.press('enter', 'a').fill('2').press('enter', 'enter', 't').type('caixa').press('enter')
+    t.snap('compra: escolhe o caixa')
+    t.press('0').snap('compra paga com o caixa')
+    # Venda parcial para o caixa
+    t.press('enter', 's').snap('venda: quantidade (padrão: todas)')
+    t.fill('7').fill('45').press('enter').snap('venda: destino')
+    t.press('c').snap('venda registrada (caixa)')
+    t.press('enter', 's').fill('99').snap('venda maior que a posição: recusada já na quantidade')
+    # Cotação digitada e correção da quantidade (desdobramento)
+    t.press('enter', 'u').fill('41').snap('cotação digitada')
+    t.press('enter', 'e').snap('editar: ticker, quantidade e preço médio')
+    t.press('q').fill('20').snap('quantidade corrigida: preço médio cai, custo igual')
+    t.press('c')
+    # Vende tudo e exclui
+    t.press('enter', 's', 'enter', 'enter', 'enter').press('s').snap('vendeu tudo: excluir?')
+    t.press('x').snap('PETR4 excluída')
+    # Cadastro com ticker: sugere o nome, busca a cotação, preço médio padrão = cotação
+    t.press('n').type('VALE3').press('enter', '9', '4', '1', 'enter', '9', 'a', '0', 'r')
+    t.snap('cadastro: ticker sugerido')
+    t.press('enter').snap('cadastro: quantidade')
+    t.fill('3').snap('cadastro: preço médio (cotação)')
+    t.press('enter').snap('cadastro: origem')
+    t.press('a').snap('VALE3 cadastrada')
+    t.press('w', 's', until='✓ Salvo')
+    t.press('q')
+    assert t.wait_exit() == 0
+    data = demo.read('investments.json')
+    by_name = {i['name']: i for i in data['investments']}
+    assert 'PETR4' not in by_name
+    vale = by_name['VALE3']
+    assert (vale['quantity'], vale['invested'], vale['lastPrice'], vale['balance']) == (3, 189.0, 63.0, 189.0)
+    # Caixa: 1000 − 79,80 (compra) + 315,00 (venda de 7 a 45, sem taxa)
+    assert by_name['Caixa Nubank']['balance'] == round(1000 - 79.8 + 315.0, 2)
+    assert [(t['side'], t['quantity'], t['price']) for t in data['trades']] == [
+        ('compra', 5, 39.9), ('compra', 2, 39.9), ('venda', 7, 45.0), ('venda', 20, 41.0),
+        ('compra', 3, 63.0)]
+    assert [(f['name'], f['amount']) for f in data['flows']] == [
+        ('PETR4', 200.5), ('PETR4', -820.0), ('VALE3', 189.0)]
+    finish(demo, t, 'stocks')

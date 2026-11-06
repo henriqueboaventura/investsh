@@ -16,8 +16,11 @@ obrigatórias. Seus dados ficam em arquivos JSON no seu computador.
   no Sumário, com aviso ao abrir quando faltam 30 dias ou menos
 - **Rotina mensal** — atualize saldos, registre aportes e saques, cadastre ativos; cada save
   guarda um snapshot no histórico
-- **Cotações automáticas** — dólar ([AwesomeAPI](https://docs.awesomeapi.com.br/)) e cripto
-  ([CoinGecko](https://www.coingecko.com/en/api)) recalculam esses ativos ao abrir
+- **Cotações automáticas** — dólar ([AwesomeAPI](https://docs.awesomeapi.com.br/)), cripto
+  ([CoinGecko](https://www.coingecko.com/en/api)) e ações da B3 (Yahoo Finance) recalculam
+  esses ativos ao abrir
+- **Ações** — compra e venda com preço médio e lucro realizado, saldo pela cotação do dia e
+  gráfico dos últimos 30 dias de cada ação
 - **Resumo em imagem** — com `matplotlib`, gera um PNG da carteira a cada save
 - **Análise com IA** — gera um prompt completo da carteira para colar no Claude ou outro assistente
 
@@ -98,6 +101,16 @@ investsh
 | `R` | Recarregar do disco (após editar os arquivos por fora) |
 | `w` | Salvar |
 | `q` | Sair |
+
+**Ações.** Cadastre com o ticker (`PETR4`), a quantidade e o preço médio: ao abrir, o
+investsh busca a cotação e o saldo vira quantidade × cotação. No Enter da aba Detalhe, a ação
+tem **Registrar compra** (recalcula o preço médio, com as taxas; o dinheiro é aporte ou sai
+de outro ativo, como o caixa da corretora), **Registrar venda** (o preço médio não muda; o
+lucro realizado fica em `trades`, e o dinheiro vai para a conta, para o caixa ou para outro
+ativo), **Gráfico dos últimos 30 dias** (fechamentos, variação, preço médio e resultado da
+posição) e **Atualizar cotação** (sem internet, digite a cotação). Desdobramento: corrija a
+quantidade em *Editar dados*, que mantém o custo e ajusta o preço médio. FII e ETF da B3
+também aceitam ticker.
 
 **Saldo estimado.** Para renda fixa em reais com taxa cadastrada (`rate` em % do CDI ou
 prefixada), a atualização de saldo mostra o **estimado hoje**: o último saldo registrado
@@ -241,7 +254,8 @@ variação do custo total entre as fotos, que é uma aproximação.
 ## Privacidade
 
 - O investsh só lê e escreve arquivos locais. As únicas chamadas de rede são as cotações
-  (AwesomeAPI e CoinGecko), que não recebem nenhum dado seu.
+  (AwesomeAPI, CoinGecko e Yahoo Finance), que recebem só o ticker ou a moeda pedida, nenhum
+  dado seu.
 - Seus dados ficam em `~/.investsh/` (ou na pasta que você escolher), separados do código.
   Nada vai para o git a menos que você ligue o commit automático (abaixo).
 
@@ -307,6 +321,7 @@ Dólar na Nomad e Real nas demais.
 │   ├── perf.py           # Rentabilidade descontando aportes vs CDI/IPCA
 │   ├── bench.py          # CDI e IPCA do Banco Central (com cache)
 │   ├── quotes.py         # Cotações (dólar e cripto)
+│   ├── stocks.py         # Ações: cotação (Yahoo Finance), compra/venda, preço médio, gráfico
 │   ├── tui.py            # Tela interativa (curses)
 │   ├── image.py          # Imagem de resumo (matplotlib)
 │   ├── storage.py        # Primeira execução, salvar, histórico

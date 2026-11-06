@@ -1,7 +1,8 @@
 """Orquestração: carrega a carteira e abre a TUI."""
 import json, os, io, contextlib
+from datetime import date
 
-from . import config
+from . import config, stocks
 from .quotes import fetch_rates
 from .tui import run_tui
 from .storage import first_run
@@ -21,4 +22,7 @@ def run():
             price = crypto_prices.get(inv['name'])
             if price and inv.get('quantity') is not None:
                 inv['balance'] = round(inv['quantity'] * price, 4)
-    run_tui(data, crypto_prices)
+    tickers = [i['ticker'] for i in data['investments'] if stocks.is_stock(i)]
+    quotes = stocks.fetch_quotes(tickers)
+    missing = stocks.apply_quotes(data['investments'], quotes, date.today())
+    run_tui(data, crypto_prices, quotes, missing)

@@ -1,5 +1,5 @@
 """Tela interativa (curses)."""
-import json, os
+import json, os, re
 
 from . import config, sync
 from .core import (
@@ -12,7 +12,7 @@ from .core import (
     MILESTONES, projection, milestone_label,
 )
 from .storage import do_save_tui
-from . import perf, estimate, tax
+from . import perf, estimate, tax, stocks
 
 # Vencimentos a até tantos dias geram aviso ao abrir (a lista completa fica no Sumário)
 URGENT_DAYS = 30
@@ -25,10 +25,15 @@ def maturity_text(a):
     return 'vence hoje' if a['days'] == 0 else f'vence em {a["days"]} dia(s)'
 
 
-def run_tui(data, crypto_prices=None):
-    """Full-screen TUI: browse, search, and edit investments."""
+def run_tui(data, crypto_prices=None, stock_quotes=None, missing_quotes=()):
+    """Full-screen TUI: browse, search, and edit investments.
+
+    `stock_quotes`: {ticker: cotação e fechamentos do mês} buscados ao abrir (stocks.py);
+    `missing_quotes`: tickers que ficaram sem cotação.
+    """
     import curses
     crypto_prices = crypto_prices or {}
+    stock_quotes = dict(stock_quotes or {})
 
     pre_balances = balances_by_key(data['investments'])
     total_before = [sum(pre_balances.values())]
@@ -71,6 +76,8 @@ def run_tui(data, crypto_prices=None):
                             f'{config.STALE_DAYS} dias (veja investsh check)')
     except Exception:
         pass   # a verificação nunca impede a TUI de abrir
+    if missing_quotes:
+        warnings.append(f'⚠ Cotação indisponível: {", ".join(missing_quotes)} (saldo da última cotação)')
     if not sync.busy():
         n_unpushed = sync.unpushed()
         if n_unpushed:
@@ -246,6 +253,14 @@ def run_tui(data, crypto_prices=None):
 
     def act_update_balance(stdscr, inv):
         cat = inv.get('category', '')
+        if stocks.is_stock(inv):
+            # Cotação digitada (sem internet, ou para conferir): saldo = quantidade × cotação
+            cur = inv.get('lastPrice') or round(stocks.average_price(inv), 2)
+            val = curs_input(stdscr, f'Cotação R$  {inv["ticker"]}', default=cur, numeric=True)
+            if val is None or val <= 0 or val == cur: return False   # Enter mantém a cotação
+            stocks.set_price(inv, val, _dt.date.today())
+            dirty[0] = True
+            return True
         if cat == 'Crypto':
             val = curs_input(stdscr, f'Qtd  {inv["name"]}', default=inv.get('quantity', 0), numeric=True)
             if val is None: return False
@@ -402,6 +417,211 @@ def run_tui(data, crypto_prices=None):
             record_flow(data, inv, -val, kind='provento')
         dirty[0] = True
         return True
+
+    # ── ações (ativos com ticker) ─────────────────────────────────────────────
+
+    def brl_cash(i):
+        """Ativo em reais que pode pagar uma compra ou receber uma venda (ex.: caixa)."""
+        return can_transfer(i) and 'investedUSD' not in i
+
+    def position_lines(inv):
+        q = inv.get('quantity') or 0
+        quote = f' · cotação {brl_fmt(inv["lastPrice"])}' if inv.get('lastPrice') else ''
+        return [f'{inv.get("broker", "")} · {inv["name"][:50]}',
+                f'Posição: {stocks.qty_text(q)} ações · preço médio {brl_fmt(stocks.average_price(inv))}{quote}',
+                '']
+
+    def ask_trade(stdscr, inv, title, verb, qty_default, qty_hint, max_qty=None):
+        """Quantidade, preço e taxas de uma compra ou venda. None = cancelado."""
+        head = position_lines(inv)
+        qty = ask_with_box(stdscr, title, head + [f'Quantas ações foram {verb}? Digite na barra abaixo.',
+                                                  qty_hint + 'Esc cancela'], 'Quantidade', qty_default)
+        if not qty or qty <= 0: return None
+        if max_qty is not None and qty > max_qty + 1e-9:
+            status_msg[0] = f'✗ A posição em {inv["ticker"]} é de {stocks.qty_text(max_qty)} ações'
+            return None
+        q = stocks.qty_text(qty)
+        price = ask_with_box(stdscr, title, head + [f'Preço de cada uma das {q} ações?',
+                                                    'Enter = cotação atual · Esc cancela'],
+                             'Preço R$', round(inv.get('lastPrice') or stocks.average_price(inv), 2))
+        if not price or price <= 0: return None
+        fees = ask_with_box(stdscr, title, head + ['Taxas da operação (corretagem, emolumentos)?',
+                                                   'Enter = sem taxas · Esc cancela'], 'Taxas R$', 0.0)
+        if fees is None or fees < 0: return None
+        return qty, price, fees
+
+    def act_buy(stdscr, inv):
+        """Compra: soma ao preço médio; o dinheiro é aporte ou sai de outro ativo (caixa)."""
+        trade = ask_trade(stdscr, inv, 'Registrar compra', 'compradas', '', '')
+        if trade is None: return False
+        qty, price, fees = trade
+        cost = round(qty * price + fees, 2)
+        origin = popup_menu(stdscr, f'Compra de {brl_fmt(cost)}', [
+            ('a', 'Aporte: dinheiro novo na carteira'),
+            ('t', 'Saiu de outro ativo (ex.: caixa da corretora)')])
+        if origin is None: return False
+        src = None
+        if origin == 't':
+            src = pick_asset(stdscr, 'Origem do dinheiro', exclude=inv, allow=brl_cash)
+            if src is None: return False
+            if cost > src['balance'] + 0.005:
+                status_msg[0] = (f'✗ {src["name"][:30]} tem {brl_fmt(src["balance"])}: '
+                                 f'menos que a compra ({brl_fmt(cost)})')
+                return False
+        stocks.buy(inv, qty, price, fees)
+        if src is None:
+            record_flow(data, inv, cost)
+        else:
+            stocks.pay_from(data, src, inv, min(cost, src['balance']))
+        stocks.record_trade(data, inv, 'compra', qty, price, fees)
+        dirty[0] = True
+        status_msg[0] = (f'✓ Compra: {stocks.qty_text(qty)} {inv["ticker"]} a {brl_fmt(price)} · '
+                         f'preço médio {brl_fmt(stocks.average_price(inv))}')
+        return True
+
+    def act_sell(stdscr, inv):
+        """Venda: o preço médio não muda; o lucro realizado vai para data['trades']."""
+        q0 = inv.get('quantity') or 0
+        if not q0:
+            status_msg[0] = f'✗ {inv["name"][:30]}: sem ações para vender'
+            return False
+        trade = ask_trade(stdscr, inv, 'Registrar venda', 'vendidas', stocks.num(q0),
+                          'Enter = todas · ', max_qty=q0)
+        if trade is None: return False
+        qty, price, fees = trade
+        proceeds = round(qty * price - fees, 2)
+        broker = inv.get('broker', '')
+        dest = popup_menu(stdscr, f'Venda de {brl_fmt(proceeds)}', [
+            ('s', 'Saque: foi para a conta corrente'),
+            ('c', f'Caixa {broker}: ficou na corretora'),
+            ('t', 'Outro ativo da carteira')])
+        if dest is None: return False
+        dst = None
+        if dest == 't':
+            dst = pick_asset(stdscr, 'Destino do dinheiro', exclude=inv, allow=brl_cash)
+            if dst is None: return False
+        elif dest == 'c':
+            dst = cash_asset(data, broker)
+        proceeds, profit = stocks.sell(inv, qty, price, fees)
+        if dst is None:
+            record_flow(data, inv, -proceeds)
+        else:
+            stocks.receive_into(data, inv, dst, proceeds)
+        stocks.record_trade(data, inv, 'venda', qty, price, fees, profit)
+        dirty[0] = True
+        msg = (f'✓ Venda: {stocks.qty_text(qty)} {inv["ticker"]} a {brl_fmt(price)} · '
+               f'{"lucro" if profit >= 0 else "prejuízo"} {brl_fmt(abs(profit))}')
+        if not inv['quantity'] and popup_menu(stdscr, f'{inv["name"][:32]} zerado', [
+                ('x', 'Excluir o ativo'), ('m', 'Manter com saldo zero')]) == 'x':
+            data['investments'] = [i for i in data['investments'] if i is not inv]
+        status_msg[0] = msg
+        return True
+
+    def stock_quote(stdscr, inv):
+        """Cotação e fechamentos do mês: os buscados ao abrir ou, sem eles, busca agora."""
+        t = inv['ticker'].strip().upper()
+        if t not in stock_quotes:
+            h, w = stdscr.getmaxyx()
+            try:
+                stdscr.addstr(h - 1, 0, ' ' * (w - 1), curses.A_REVERSE)
+                stdscr.addstr(h - 1, 0, f' Buscando a cotação de {t}…'[:w - 1], curses.A_REVERSE)
+            except curses.error:
+                pass
+            stdscr.refresh()
+            try:
+                stock_quotes[t] = stocks.fetch_quote(t)
+            except Exception:
+                return None
+            stocks.set_price(inv, stock_quotes[t]['price'], _dt.date.today())
+        return stock_quotes[t]
+
+    def show_stock_chart(stdscr, inv):
+        """Tela com o gráfico dos fechamentos dos últimos 30 dias. Qualquer tecla volta."""
+        q = stock_quote(stdscr, inv)
+        if not q or len(q['history']) < 2:
+            status_msg[0] = f'⚠ Cotação de {inv["ticker"]} indisponível: sem o gráfico'
+            return False
+        hist, price = q['history'], q['price']
+        GRN, RED, CYN, YLW = (curses.color_pair(i) for i in (1, 2, 3, 5))
+        BOLD, DIM, REV = curses.A_BOLD, curses.A_DIM, curses.A_REVERSE
+        qty = inv.get('quantity') or 0
+        avg = stocks.average_price(inv) if qty else None
+        var = stocks.variation(hist, price)
+        vc = GRN if (var or 0) >= 0 else RED
+        lo, hi = min(c for _, c in hist), max(c for _, c in hist)
+        LABEL_W = 14
+        while True:
+            h, w = stdscr.getmaxyx()
+            stdscr.erase()
+            y = [0]
+
+            def put(segs, x=2):
+                for text, attr in segs:
+                    if x >= w - 1: break
+                    try: stdscr.addstr(y[0], x, text[:w - 1 - x], attr)
+                    except curses.error: pass
+                    x += len(text)
+                y[0] += 1
+
+            try:
+                stdscr.addstr(0, 0, ' ' * (w - 1), REV)
+                stdscr.addstr(0, 0, f' {inv["ticker"]} · {inv.get("broker", "")} · últimos 30 dias '[:w - 1],
+                              REV | BOLD)
+            except curses.error:
+                pass
+            y[0] = 2
+            put([('Cotação ', CYN), (brl_fmt(price), BOLD),
+                 ('   30 dias ', CYN), ('—' if var is None else f'{var * 100:+.1f}%', vc | BOLD),
+                 ('   mín ', CYN), (brl_fmt(lo), 0), ('   máx ', CYN), (brl_fmt(hi), 0)])
+            if qty:
+                pos = qty * price
+                cost = inv.get('invested') or 0
+                res = pos - cost
+                put([('Posição ', CYN), (f'{stocks.qty_text(qty)} × {brl_fmt(price)} = {brl_fmt(pos)}', 0),
+                     ('   preço médio ', CYN), (brl_fmt(avg), YLW),
+                     ('   resultado ', CYN),
+                     (f'{brl_fmt(res)}' + (f' ({res / cost * 100:+.1f}%)' if cost else ''),
+                      GRN if res >= 0 else RED)])
+            y[0] += 1
+            col_w = 3 if LABEL_W + 4 + len(hist) * 3 <= w - 2 else 2
+            shown = hist[-max(2, (w - 6 - LABEL_W) // col_w):]
+            height = max(4, min(14, h - y[0] - 5))
+            grid, vals = stocks.chart(shown, height, ref=avg)
+            cell = {'P': ('●', CYN | BOLD), 'L': ('●', vc | BOLD), '|': ('│', DIM)}
+            for r, cells in enumerate(grid):
+                lbl = brl_fmt(vals[r]) if r in (0, height // 2, height - 1) else ''
+                segs = [(f'{lbl:>{LABEL_W}} │', DIM)]
+                for c in cells:
+                    if c == '-':
+                        segs.append(('┄' * col_w, YLW))
+                    elif c in cell:
+                        segs.append((cell[c][0] + ' ' * (col_w - 1), cell[c][1]))
+                    else:
+                        segs.append((' ' * col_w, 0))
+                put(segs)
+            put([(' ' * (LABEL_W + 1) + '└' + '─' * (len(shown) * col_w), DIM)])
+            # Datas no eixo: a primeira, a última e, no meio, uma a cada ~8 colunas
+            n = len(shown)
+            step = -(-8 // col_w)
+            axis = [' '] * (n * col_w + 4)
+            for i, (d, _) in enumerate(shown):
+                if i in (0, n - 1) or (i % step == 0 and (n - 1 - i) * col_w >= 8):
+                    axis[i * col_w:i * col_w + 5] = d.strftime('%d/%m')
+            put([(' ' * (LABEL_W + 2) + ''.join(axis).rstrip(), DIM)])
+            y[0] += 1
+            legend = [('●', vc | BOLD), (' cotação de hoje', DIM)]
+            if any('-' in r for r in grid):
+                legend += [('   ┄┄', YLW), (' preço médio', DIM)]
+            put(legend)
+            try:
+                stdscr.addstr(h - 1, 0, ' ' * (w - 1), REV)
+                stdscr.addstr(h - 1, 0, ' Qualquer tecla volta '[:w - 1], REV)
+            except curses.error:
+                pass
+            stdscr.refresh()
+            ch, _ = read_key(stdscr)
+            if ch != curses.KEY_RESIZE:
+                return True
 
     def act_liquidate(stdscr, inv):
         """Título que venceu: saldo líquido creditado e destino do dinheiro, de uma vez."""
@@ -574,6 +794,12 @@ def run_tui(data, crypto_prices=None):
                 ('l', 'Liquidez', dict(LIQUIDITY).get(inv.get('liquidity'), inv.get('liquidity'))),
                 ('e', 'Isento de IR', inv.get('taxExempt')), ('f', 'Garantia do FGC', inv.get('fgcEligible')),
             ]
+            if stocks.is_stock(inv) or (inv.get('category') in stocks.TICKER_CATEGORIES
+                                        and 'investedUSD' not in inv):
+                fields.append(('t', 'Ticker', inv.get('ticker')))
+            if stocks.is_stock(inv):
+                fields += [('q', 'Quantidade', stocks.qty_text(inv.get('quantity'))),
+                           ('m', 'Preço médio', brl_fmt(stocks.average_price(inv)))]
             opts = [(k, f'{label:<18} {show(v)[:44]}') for k, label, v in fields]
             key = popup_menu(stdscr, note or f'Editar  {inv["name"][:40]}', opts + [('c', 'Concluir')])
             note = None
@@ -597,6 +823,44 @@ def run_tui(data, crypto_prices=None):
                     continue
                 if old_key in pre_balances:   # o save compara saldos pela chave nome + corretora
                     pre_balances[asset_key(inv)] = pre_balances.pop(old_key)
+                changed = True
+                continue
+            if key == 't':
+                text = curs_input(stdscr, 'Ticker na B3 (vazio = sem cotação automática)',
+                                  default=inv.get('ticker') or '')
+                if text is None: continue
+                text = text.strip().upper()
+                if not text:
+                    for k in ('ticker', 'lastPrice', 'lastPriceDate'):
+                        inv.pop(k, None)
+                    changed = True
+                    continue
+                if not inv.get('quantity'):
+                    # Ativo que vira ação: o custo atual passa a ser quantidade × preço médio
+                    qty = curs_input(stdscr, f'Quantidade de {text}', default='', numeric=True)
+                    if not qty or qty <= 0: continue
+                    inv['quantity'] = stocks.num(qty)
+                    inv.setdefault('invested', inv['balance'])
+                    inv['averagePrice'] = round(inv['invested'] / qty, 4)
+                inv['ticker'] = text
+                if stock_quote(stdscr, inv) is None:
+                    note = f'⚠ Sem cotação de {text} agora: confira o ticker'
+                changed = True
+                continue
+            if key in ('q', 'm'):
+                # Correção (ex.: desdobramento): quantidade nova mantém o custo e muda o preço
+                # médio; preço médio novo muda o custo. Sem lançamento.
+                cur = inv.get('quantity') if key == 'q' else round(stocks.average_price(inv), 4)
+                val = curs_input(stdscr, label, default=cur, numeric=True)
+                if val is None or val <= 0: continue
+                if key == 'q':
+                    inv['quantity'] = stocks.num(val)
+                    inv.setdefault('invested', 0.0)
+                else:
+                    inv['invested'] = round(inv['quantity'] * val, 2)
+                inv['averagePrice'] = round(inv['invested'] / inv['quantity'], 4)
+                if inv.get('lastPrice'):
+                    inv['balance'] = round(inv['quantity'] * inv['lastPrice'], 2)
                 changed = True
                 continue
             if key == 'a':
@@ -688,7 +952,29 @@ def run_tui(data, crypto_prices=None):
             if cur is None: return False
             usd = cur == 'd'
 
-        if category == 'Crypto':
+        ticker = ''
+        if not usd and category in stocks.TICKER_CATEGORIES:
+            # Com ticker, o saldo vem da cotação: PETR4 já sugere o próprio nome
+            guess = name.strip().upper() if re.fullmatch(r'[A-Za-z]{4}\d{1,2}', name.strip()) else ''
+            ticker = curs_input(stdscr, 'Ticker na B3 (vazio = sem cotação automática)', default=guess)
+            if ticker is None: return False
+            ticker = ticker.strip().upper()
+
+        if ticker:
+            new_inv['ticker'] = ticker
+            quote = stock_quote(stdscr, new_inv)
+            if quote is None:
+                status_msg[0] = f'⚠ Sem cotação de {ticker} agora: confira o ticker'
+            qty = curs_input(stdscr, f'Quantidade de {ticker}', default='', numeric=True)
+            if not qty or qty <= 0: return False
+            avg = curs_input(stdscr, 'Preço médio R$ (com as taxas)',
+                             default=quote['price'] if quote else '', numeric=True)
+            if not avg or avg <= 0: return False
+            new_inv['quantity'] = stocks.num(qty)
+            new_inv['invested'] = round(qty * avg, 2)
+            new_inv['averagePrice'] = round(avg, 4)
+            stocks.set_price(new_inv, new_inv.get('lastPrice') or avg, _dt.date.today())
+        elif category == 'Crypto':
             qty = curs_input(stdscr, 'Quantidade', default=0.0, numeric=True)
             if qty is None: return False
             new_inv['quantity'] = qty
@@ -718,6 +1004,26 @@ def run_tui(data, crypto_prices=None):
                 ('j', 'Já existia: ativo que eu tinha e não estava cadastrado'),
             ])
             if origin is None: return False
+            if ticker and origin in ('a', 't'):
+                # Ação: entra o custo da compra; a diferença para o saldo é rendimento
+                cost = new_inv['invested']
+                if origin == 't':
+                    src = pick_asset(stdscr, 'Origem do dinheiro', exclude=None, allow=brl_cash)
+                    if src is None: return False
+                    if cost > src['balance'] + 0.005:
+                        status_msg[0] = (f'✗ {src["name"][:30]} tem {brl_fmt(src["balance"])}: '
+                                         f'menos que a compra ({brl_fmt(cost)})')
+                        return False
+                data['investments'].append(new_inv)
+                if origin == 'a':
+                    record_flow(data, new_inv, cost)
+                else:
+                    stocks.pay_from(data, src, new_inv, min(cost, src['balance']))
+                stocks.record_trade(data, new_inv, 'compra', new_inv['quantity'],
+                                    new_inv['averagePrice'])
+                pre_balances[asset_key(new_inv)] = new_inv['balance']
+                dirty[0] = True
+                return True
             if origin == 'a':
                 usd = new_inv.get('balanceUSD')
                 record_flow(data, new_inv, new_inv['balance'], usd=usd)
@@ -783,10 +1089,13 @@ def run_tui(data, crypto_prices=None):
         return True
 
     def act_update_all(stdscr):
-        invs  = sorted(data['investments'], key=sort_key)
+        today = _dt.date.today()
+        # Ações com a cotação de hoje (buscada ao abrir) não precisam de nada
+        invs  = sorted((i for i in data['investments']
+                        if not (stocks.is_stock(i) and i.get('lastPriceDate') == today.isoformat())),
+                       key=sort_key)
         est_of = estimator()   # antes de mudar saldos: a estimativa parte do saldo registrado
         alerts = []
-        today = _dt.date.today()
         try:
             with open(os.path.join(config.ROOT, 'data', 'history.json'), encoding='utf-8') as hf:
                 hist_all = json.load(hf)
@@ -831,12 +1140,18 @@ def run_tui(data, crypto_prices=None):
             put(f'{broker}  ·  {sub}', DIM)
             put(name, BOLD)
             since = since_of[id(inv)]
-            if since < today and cat != 'Crypto':
+            stock = stocks.is_stock(inv)
+            if since < today and cat != 'Crypto' and not stock:
                 age = (today - since).days
                 put(f'Saldo registrado em {since:%d/%m/%Y} ({age} dias)',
                     curses.color_pair(5) if age > config.STALE_DAYS else curses.A_DIM)
             y += 1
-            if qty is not None:
+            if stock:
+                put(f'{stocks.qty_text(qty)} ações   Saldo: {brl_fmt(bal)}')
+                quoted = parse_maturity(inv.get('lastPriceDate') or '')
+                if inv.get('lastPrice') and quoted:
+                    put(f'Última cotação: {brl_fmt(inv["lastPrice"])} em {quoted:%d/%m/%Y}', DIM)
+            elif qty is not None:
                 put(f'Quantidade atual:   {qty}')
             elif inv_usd is not None:
                 cur_usd = inv.get('balanceUSD', inv_usd)
@@ -874,7 +1189,10 @@ def run_tui(data, crypto_prices=None):
             stdscr.refresh()
 
             # prompt
-            if cat == 'Crypto':
+            if stock:
+                prompt  = f'Cotação R$  {inv["ticker"]}'
+                default = inv.get('lastPrice') or round(stocks.average_price(inv), 2)
+            elif cat == 'Crypto':
                 prompt  = f'Qtd  {name[:37]}'
                 default = qty if qty is not None else 0.0
             elif inv_usd is not None:
@@ -887,7 +1205,10 @@ def run_tui(data, crypto_prices=None):
             val = curs_input(stdscr, prompt, default=default, numeric=True)
             if val is None: break   # Esc = stop early
 
-            if cat == 'Crypto':
+            if stock:
+                if val > 0 and val != default:   # Enter mantém a última cotação
+                    stocks.set_price(inv, val, today)
+            elif cat == 'Crypto':
                 inv['quantity'] = val
                 price = crypto_prices.get(inv['name'])
                 if price:
@@ -1779,8 +2100,16 @@ def run_tui(data, crypto_prices=None):
                     scrolls['l'] = min(keep, max(0, len(lines[0]) - 1))
             elif key in (10, 13, curses.KEY_ENTER) and t == 'd' and selectbl[0]:
                 _, inv = selectbl[0][det_sel[0]]
-                options = [('u', f'Atualizar saldo  {brl_fmt(inv["balance"])}')]
-                if inv.get('category') != 'Crypto':
+                if stocks.is_stock(inv):
+                    price = f'  {brl_fmt(inv["lastPrice"])}' if inv.get('lastPrice') else ''
+                    options = [('u', f'Atualizar cotação{price}'),
+                               ('g', 'Gráfico dos últimos 30 dias'),
+                               ('a', 'Registrar compra'),
+                               ('s', 'Registrar venda'),
+                               ('p', 'Registrar provento (dividendo, JCP)')]
+                else:
+                    options = [('u', f'Atualizar saldo  {brl_fmt(inv["balance"])}')]
+                if not stocks.is_stock(inv) and inv.get('category') != 'Crypto':
                     options.append(('a', 'Registrar aporte'))
                     options.append(('s', 'Registrar saque'))
                     options.append(('p', 'Registrar provento (dividendo, cupom)'))
@@ -1789,8 +2118,18 @@ def run_tui(data, crypto_prices=None):
                         options.append(('v', 'Liquidar vencimento'))
                 options += [('e', 'Editar dados do ativo'), ('x', 'Excluir'), ('c', 'Cancelar')]
                 choice = popup_menu(stdscr, inv['name'][:32], options)
+                stock = stocks.is_stock(inv)
                 if choice == 'u':
                     if act_update_balance(stdscr, inv): refresh()
+                elif choice == 'g':
+                    show_stock_chart(stdscr, inv)
+                    refresh()
+                elif choice in ('a', 's') and stock:
+                    n_before = len(data['investments'])
+                    if (act_buy if choice == 'a' else act_sell)(stdscr, inv):
+                        if len(data['investments']) < n_before:   # vendeu tudo e excluiu
+                            det_sel[0] = max(0, det_sel[0] - 1)
+                    refresh()
                 elif choice == 'a':
                     if act_aporte(stdscr, inv): refresh()
                 elif choice == 's':
