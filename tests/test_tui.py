@@ -329,22 +329,47 @@ def test_quit_without_saving(demo, tui_factory):
 
 def test_new_assets(demo, tui_factory):
     t = tui_factory()
-    t.press('n').snap('nome do ativo')
-    t.type('CDB Novo').press('enter').snap('popup categoria')
-    t.press('0').snap('popup tipo')
-    t.press('0').snap('popup corretora')
-    t.press('1').snap('vencimento')
-    t.type('2027-01-01').press('enter').snap('popup indexador')
-    t.press('0').snap('popup grupo de alocação')
-    t.press('0').snap('popup objetivo')
-    t.press('0').snap('popup moeda (XP: Real primeiro)')
-    t.press('r').snap('custo base')
-    t.fill('5000').snap('saldo atual')
+    t.press('n').snap('popup tipo de ativo')
+
+    # Renda fixa: a taxa sugere tipo, indexador, grupo e objetivo (Enter aceita)
+    t.press('r').snap('renda fixa: categoria')
+    t.press('0').snap('renda fixa: nome')
+    t.type('CDB Novo').press('enter').snap('popup corretora')
+    t.press('1').snap('popup rentabilidade')
+    t.press('0').snap('taxa')
+    t.fill('110').snap('grupo sugerido pela taxa')
+    t.press('enter').snap('objetivo sugerido pela taxa')
+    t.press('enter').snap('vencimento')
+    t.type('31/02/2027').press('enter').snap('data inválida: pergunta de novo')
+    t.type('01/01/2027').press('enter').snap('data da aplicação (Enter = hoje)')
+    t.press('enter').snap('valor aplicado')
+    t.fill('5000').snap('saldo atual (Enter = o aplicado)')
     t.fill('5100').snap('origem do saldo inicial')
     t.press('a').snap('CDB Novo cadastrado (aporte)')
 
-    # Nomad (USD), opções ≥ 10 escolhidas com setas
-    t.press('n').type('ETF EUA').press('enter', '4', '4', '2', 'enter', '4')
+    # Sem taxa: grupo e objetivo sem sugestão, "Outro (digitar)" nos dois
+    t.press('n', 'r', '4').type('Debênture X').press('enter', '1', '3')
+    t.press(*(['down'] * 15), 'enter').type('GRUPO_X').press('enter')
+    t.press(*(['down'] * 24), 'enter').type('MEU_OBJETIVO').press('enter')
+    t.type('2031-05-15').press('enter', 'enter').fill('1000').press('enter', 'a')
+    t.snap('Debênture cadastrada')
+
+    # Saldo vindo de outro ativo: transfere agora (a origem cai, sem lançamento)
+    t.press('n', 'r', '1').type('LCA Nova').press('enter', '0', '0').fill('95')
+    t.press('enter', 'enter').type('2028-01-01').press('enter', 'enter').fill('3000')
+    t.press('enter', 't').snap('origem: busca')
+    t.type('liquidez').press('enter', '0').snap('transferência: sai o valor do ativo novo')
+    t.press('enter').snap('entra o mesmo valor')
+    t.press('enter').snap('LCA Nova cadastrada com saldo da origem')
+
+    # Cripto: lista das que têm cotação; a corretora sugerida é a Binance
+    t.press('n', 'c').snap('cripto: lista com cotação automática')
+    t.press('2').snap('cripto: Binance sugerida')
+    t.press('enter', 'enter').snap('cripto: quantidade')
+    t.fill('100').snap('Dogecoin cadastrada (saldo pela cotação)')
+
+    # Outro: todos os campos. Nomad (USD), opções ≥ 10 escolhidas com setas
+    t.press('n', 'o').type('ETF EUA').press('enter', '4', '4', '2', 'enter', '4')
     t.press(*(['down'] * 7), 'enter')          # RV_ETF_EXTERIOR
     t.press(*(['j'] * 9), 'enter')             # CRESCIMENTO_ACOES_EUA_EM_DOLAR
     t.snap('popup moeda (Nomad: Dólar primeiro)')
@@ -352,40 +377,33 @@ def test_new_assets(demo, tui_factory):
     t.fill('300').snap('Nomad: valor atual USD (padrão = custo)')
     t.fill('320').press('j').snap('ETF EUA cadastrado (já existia, sem lançamento)')
 
-    # Cripto
-    t.press('n').type('Solana').press('enter', '8', '4', '3', 'enter', '9')
-    t.press(*(['down'] * 12), 'enter')          # RV_CRYPTO
-    t.press(*(['down'] * 13), 'enter')          # ASSIMETRIA_E_EXPOSICAO_A_CRIPTO
-    t.snap('cripto: quantidade')
-    t.fill('2,5').snap('Solana cadastrada')
-
-    # "Outro (digitar)" em indexador, grupo e objetivo
-    t.press('n').type('Debênture X').press('enter', '0', '2', '1').type('2031-05-15').press('enter')
-    t.press(*(['down'] * 10), 'enter').snap('indexador texto livre')
-    t.type('IPCA+DEB').press('enter')
-    t.press(*(['down'] * 15), 'enter').type('GRUPO_X').press('enter')
-    t.press(*(['down'] * 23), 'enter').type('MEU_OBJETIVO').press('enter')
-    t.press('r').fill('1000').fill('1000').press('a').snap('Debênture cadastrada')
-
     # Moeda é do ativo, não da corretora: ETF americano custodiado na XP, em dólar
-    t.press('n').type('ETF XP USD').press('enter', '4', '4', '0', 'enter', '0', '0', '0')
+    t.press('n', 'o').type('ETF XP USD').press('enter', '4', '4', '0', 'enter', '0', '0', '0')
     t.press('d').fill('100').fill('110').press('j').snap('ETF em dólar na XP')
 
-    # Saldo vindo de outro ativo: transfere agora (a origem cai, sem lançamento)
-    t.press('n').type('LCA Nova').press('enter', '1', '0', '0').type('2028-01-01').press('enter')
-    t.press('0', '0', '0', 'r').fill('3000').fill('3000').press('t').snap('origem: busca')
-    t.type('liquidez').press('enter', '0').snap('transferência: sai o valor do ativo novo')
-    t.press('enter').snap('entra o mesmo valor')
-    t.press('enter').snap('LCA Nova cadastrada com saldo da origem')
-
     # cancelamentos
-    t.press('n', 'enter').snap('nome vazio cancela')
-    t.press('n').type('Cancelado').press('enter', 'esc').snap('Esc no popup cancela')
+    t.press('n', 'esc').snap('Esc no tipo cancela')
+    t.press('n', 'o', 'enter').snap('nome vazio cancela')
+    t.press('n', 'o').type('Cancelado').press('enter', 'esc').snap('Esc no popup cancela')
+    t.press('n', 'r', '0').type('CDB Banco Alfa 110% CDI').press('enter', '0')
+    t.snap('nome repetido na corretora: erro')
     t.press('d').snap('Detalhe com novos ativos')
     t.press('q', 's')
     assert t.wait_exit() == 0
     data = demo.read('investments.json')
     by_name = {i['name']: i for i in data['investments']}
+    cdb = by_name['CDB Novo']
+    assert (cdb['type'], cdb['indexer'], cdb['allocationGroup'], cdb['purpose']) == (
+        'POS', 'CDI', 'RF_CDI', 'RENDA_POS_FIXADA_E_ESTABILIDADE')
+    assert cdb['rate'] == {'kind': 'PERCENT_CDI', 'value': 110.0}
+    assert (cdb['maturity'], cdb['purchaseDate'], cdb['liquidity']) == ('2027-01-01', '2026-10-06', 'AT_MATURITY')
+    assert cdb['fgcEligible'] is True
+    deb = by_name['Debênture X']
+    assert (deb['allocationGroup'], deb['purpose'], deb['balance']) == ('GRUPO_X', 'MEU_OBJETIVO', 1000.0)
+    assert 'rate' not in deb and 'fgcEligible' not in deb
+    doge = by_name['Dogecoin']
+    assert (doge['broker'], doge['quantity'], doge['balance'], doge['allocationGroup']) == (
+        'Binance', 100.0, 110.0, 'RV_CRYPTO')
     assert by_name['LCA Nova']['balance'] == 3000.0 and by_name['LCA Nova']['invested'] == 3000.0
     etf = by_name['ETF XP USD']
     assert etf['broker'] == 'XP' and (etf['investedUSD'], etf['balanceUSD']) == (100.0, 110.0)
@@ -584,7 +602,7 @@ def test_accented_input(demo, tui_factory):
     t.press('d', '/').type('previdência').snap('busca com acento')
     t.press('bs').snap('backspace apaga o caractere inteiro')
     t.press('a', 'enter').snap('busca confirmada')
-    t.press('n').type('Ação Ê ç').snap('nome com acentos')
+    t.press('n', 'o').type('Ação Ê ç').snap('nome com acentos')
     t.press('left', 'bs').type('Ç').snap('edição no meio do texto acentuado')
     t.press('esc')
     t.press('q')
@@ -661,12 +679,25 @@ def test_stocks(demo, tui_factory):
     t.press('enter', 's', 'enter', 'enter', 'enter').press('s').snap('vendeu tudo: excluir?')
     t.press('x').snap('PETR4 excluída')
     # Cadastro com ticker: sugere o nome, busca a cotação, preço médio padrão = cotação
-    t.press('n').type('VALE3').press('enter', '9', '4', '1', 'enter', '9', 'a', '0', 'r')
-    t.snap('cadastro: ticker sugerido')
-    t.press('enter').snap('cadastro: quantidade')
-    t.fill('3').snap('cadastro: preço médio (cotação)')
-    t.press('enter').snap('cadastro: origem')
-    t.press('a').snap('VALE3 cadastrada')
+    # Cadastro pelo ticker: o nome sugerido é o ticker, a compra entra como no Registrar compra
+    t.press('n', 'a').snap('cadastro: ticker')
+    t.type('VALE3').press('enter').snap('cadastro: Ação primeiro')
+    t.press('a').snap('cadastro: nome = ticker')
+    t.press('enter', '1').snap('cadastro: objetivo sugerido')
+    t.press('enter').snap('cadastro: como entra na carteira')
+    t.press('a').snap('cadastro: quantidade')
+    t.fill('3').snap('cadastro: preço (cotação)')
+    t.press('enter').snap('cadastro: taxas')
+    t.press('enter').snap('VALE3 cadastrada')
+    # Posição antiga: quantidade e preço médio, sem lançamento nem operação
+    t.press('n', 'a').type('BBAS3').press('enter', 'a', 'enter', '0', 'enter', 'j')
+    t.snap('posição antiga: quantidade')
+    t.fill('10').snap('posição antiga: preço médio (cotação)')
+    t.fill('18,5').snap('BBAS3 cadastrada')
+    # Final 11: FII primeiro; ETF pergunta o grupo
+    t.press('n', 'a').type('XPTO11').press('enter').snap('final 11: FII primeiro')
+    t.press('e', 'enter', '0').snap('ETF: grupo de alocação')
+    t.press('esc')
     t.press('w', 's', until='✓ Salvo')
     t.press('q')
     assert t.wait_exit() == 0
@@ -675,6 +706,9 @@ def test_stocks(demo, tui_factory):
     assert 'PETR4' not in by_name
     vale = by_name['VALE3']
     assert (vale['quantity'], vale['invested'], vale['lastPrice'], vale['balance']) == (3, 189.0, 63.0, 189.0)
+    assert (vale['category'], vale['allocationGroup'], vale['liquidity']) == ('Ação', 'RV_ACOES', 'DAILY_MARKET_PRICE')
+    bbas = by_name['BBAS3']
+    assert (bbas['quantity'], bbas['invested'], bbas['averagePrice'], bbas['balance']) == (10, 185.0, 18.5, 210.0)
     # Caixa: 1000 − 79,80 (compra) + 315,00 (venda de 7 a 45, sem taxa)
     assert by_name['Caixa Nubank']['balance'] == round(1000 - 79.8 + 315.0, 2)
     assert [(t['side'], t['quantity'], t['price']) for t in data['trades']] == [

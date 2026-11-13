@@ -66,7 +66,16 @@ Depois:
 
 1. Tecle `p` (**Parâmetros**) e ajuste FGTS, aporte mensal, premissas de projeção,
    alocação ideal e faixa da reserva de emergência.
-2. Tecle `n` (**Novo ativo**) para cadastrar cada investimento.
+2. Tecle `n` (**Novo ativo**) para cadastrar cada investimento. Primeiro escolha o tipo,
+   e o cadastro pergunta só o que ele usa:
+   - **Ação, FII ou ETF da B3**: ticker, corretora e a compra (quantidade, preço e taxas)
+     ou a posição que você já tinha (quantidade e preço médio); o saldo vem da cotação;
+   - **Renda fixa**: categoria, taxa (que define tipo, indexador e sugere grupo e
+     objetivo), vencimento, data da aplicação, valor aplicado e saldo atual;
+   - **Cripto**: uma das criptos com cotação automática e a quantidade;
+   - **Outro** (fundos, previdência, ativos em dólar): todos os campos.
+
+   Liquidez, garantia do FGC, grupo e objetivo vêm com padrões; corrija em *Editar dados*.
 3. Tecle `w` para salvar.
 
 > Prefere editar JSON à mão? Use [`src/investsh/examples/investments.json`](src/investsh/examples/investments.json)
@@ -102,7 +111,7 @@ investsh
 | `w` | Salvar |
 | `q` | Sair |
 
-**Ações.** Cadastre com o ticker (`PETR4`), a quantidade e o preço médio: ao abrir, o
+**Ações.** Cadastre em *Novo ativo → Ação, FII ou ETF da B3* com o ticker (`PETR4`): ao abrir, o
 investsh busca a cotação e o saldo vira quantidade × cotação. No Enter da aba Detalhe, a ação
 tem **Registrar compra** (recalcula o preço médio, com as taxas; o dinheiro é aporte ou sai
 de outro ativo, como o caixa da corretora), **Registrar venda** (o preço médio não muda; o
@@ -306,7 +315,7 @@ stale_days = 45
 | Criptos com cotação automática | `CRYPTO_IDS` (IDs do CoinGecko) em `src/investsh/core.py` |
 
 Ativos com `investedUSD` são tratados como investimentos em dólar e convertidos pela cotação
-do dia. A moeda é do ativo, não da corretora: o cadastro pergunta (Real ou Dólar), sugerindo
+do dia. A moeda é do ativo, não da corretora: o cadastro (*Novo ativo → Outro*) pergunta (Real ou Dólar), sugerindo
 Dólar na Nomad e Real nas demais.
 
 ---

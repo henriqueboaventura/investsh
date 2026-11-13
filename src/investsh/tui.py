@@ -1,5 +1,5 @@
 """Tela interativa (curses)."""
-import json, os, re
+import json, os
 
 from . import config, sync
 from .core import (
@@ -7,7 +7,7 @@ from .core import (
     reserva_status, IX_LABEL, PURPOSE_LABEL, _CATEGORIES, _TYPES, _BROKERS, _INDEXERS,
     _ALLOCATION_GROUPS, _PURPOSES, IDEAL_FIELDS, monthly_summary, broker_monthly_series, brl_fmt,
     maturity_alerts, record_flow, asset_key, balances_by_key, add_to_balance, take_from_balance,
-    can_transfer, transfer, cash_asset, rename_asset, parse_maturity,
+    can_transfer, transfer, cash_asset, rename_asset, parse_maturity, CRYPTO_IDS,
     FLOW_KINDS, flow_kind, set_flow_kind, set_flow_value, stale_assets, balance_since,
     MILESTONES, projection, milestone_label,
 )
@@ -431,9 +431,9 @@ def run_tui(data, crypto_prices=None, stock_quotes=None, missing_quotes=()):
                 f'Posição: {stocks.qty_text(q)} ações · preço médio {brl_fmt(stocks.average_price(inv))}{quote}',
                 '']
 
-    def ask_trade(stdscr, inv, title, verb, qty_default, qty_hint, max_qty=None):
+    def ask_trade(stdscr, inv, title, verb, qty_default, qty_hint, max_qty=None, head=None):
         """Quantidade, preço e taxas de uma compra ou venda. None = cancelado."""
-        head = position_lines(inv)
+        head = head or position_lines(inv)
         qty = ask_with_box(stdscr, title, head + [f'Quantas ações foram {verb}? Digite na barra abaixo.',
                                                   qty_hint + 'Esc cancela'], 'Quantidade', qty_default)
         if not qty or qty <= 0: return None
@@ -443,12 +443,22 @@ def run_tui(data, crypto_prices=None, stock_quotes=None, missing_quotes=()):
         q = stocks.qty_text(qty)
         price = ask_with_box(stdscr, title, head + [f'Preço de cada uma das {q} ações?',
                                                     'Enter = cotação atual · Esc cancela'],
-                             'Preço R$', round(inv.get('lastPrice') or stocks.average_price(inv), 2))
+                             'Preço R$', round(inv.get('lastPrice') or stocks.average_price(inv), 2) or '')
         if not price or price <= 0: return None
         fees = ask_with_box(stdscr, title, head + ['Taxas da operação (corretagem, emolumentos)?',
                                                    'Enter = sem taxas · Esc cancela'], 'Taxas R$', 0.0)
         if fees is None or fees < 0: return None
         return qty, price, fees
+
+    def ask_payer(stdscr, inv, cost):
+        """Ativo em reais que paga uma compra de `cost`. None = cancelado ou sem saldo."""
+        src = pick_asset(stdscr, 'Origem do dinheiro', exclude=inv, allow=brl_cash)
+        if src is None: return None
+        if cost > src['balance'] + 0.005:
+            status_msg[0] = (f'✗ {src["name"][:30]} tem {brl_fmt(src["balance"])}: '
+                             f'menos que a compra ({brl_fmt(cost)})')
+            return None
+        return src
 
     def act_buy(stdscr, inv):
         """Compra: soma ao preço médio; o dinheiro é aporte ou sai de outro ativo (caixa)."""
@@ -462,12 +472,8 @@ def run_tui(data, crypto_prices=None, stock_quotes=None, missing_quotes=()):
         if origin is None: return False
         src = None
         if origin == 't':
-            src = pick_asset(stdscr, 'Origem do dinheiro', exclude=inv, allow=brl_cash)
+            src = ask_payer(stdscr, inv, cost)
             if src is None: return False
-            if cost > src['balance'] + 0.005:
-                status_msg[0] = (f'✗ {src["name"][:30]} tem {brl_fmt(src["balance"])}: '
-                                 f'menos que a compra ({brl_fmt(cost)})')
-                return False
         stocks.buy(inv, qty, price, fees)
         if src is None:
             record_flow(data, inv, cost)
@@ -912,145 +918,310 @@ def run_tui(data, crypto_prices=None, stock_quotes=None, missing_quotes=()):
             status_msg[0] = f'✓ Dados de {inv["name"][:50]} atualizados'
         return changed
 
-    def act_new_asset(stdscr):
-        name = curs_input(stdscr, 'Nome do ativo')
-        if not name: return False
+    # ── cadastro de ativo novo: um roteiro por tipo ───────────────────────────
+    # Cada roteiro pergunta só o que o tipo usa; o resto vem de padrões que se
+    # corrigem em Editar dados (grupo, objetivo, liquidez...).
 
-        ok, category = choose(stdscr, 'Categoria', CATEGORIES)
-        if not ok: return False
-        ok, typ = choose(stdscr, 'Tipo / Subcategoria', [t for t in TYPES if t != '(nenhum)'], none=True)
-        if not ok: return False
-        ok, broker = choose(stdscr, 'Corretora', BROKERS)
-        if not ok: return False
+    NEW_KINDS = [('a', 'Ação, FII ou ETF da B3 (cotação automática)'),
+                 ('r', 'Renda fixa: CDB, LCA, LCI, Tesouro, debênture'),
+                 ('c', 'Cripto'),
+                 ('o', 'Outro: fundo, previdência, ativo em dólar...')]
+
+    # Taxa da renda fixa → (tipo, indexador, grupo de alocação, objetivo sugeridos)
+    RF_BY_RATE = {
+        'PERCENT_CDI':  ('POS',  'CDI',        'RF_CDI',  'RENDA_POS_FIXADA_E_ESTABILIDADE'),
+        'ANNUAL_FIXED': ('PRE',  'FIXED_RATE', 'RF_PRE',  'TRAVAR_TAXA_ATE_O_VENCIMENTO'),
+        'IPCA_PLUS':    ('IPCA', 'IPCA',       'RF_IPCA', 'PROTECAO_INFLACAO_LONGO_PRAZO'),
+    }
+    FGC_CATEGORIES = ('CDB', 'LCA', 'LCI', 'LC', 'RDB')
+
+    def act_new_asset(stdscr):
+        kind = popup_menu(stdscr, 'Novo ativo: que tipo?', NEW_KINDS)
+        flow = {'a': new_stock, 'r': new_fixed_income, 'c': new_crypto, 'o': new_other}.get(kind)
+        return bool(flow and flow(stdscr))
+
+    def suggested(values, first):
+        """Lista com a sugestão no topo, marcada: Enter no popup aceita."""
+        if first is None:
+            return values
+        rest = [v for v in values if (v if isinstance(v, str) else v[0]) != first]
+        return [(first, f'{first} (sugerido)')] + rest
+
+    def ask_purpose(stdscr, first=None):
+        """Objetivo, opcional. (ok, valor)."""
+        values = [(p, PURPOSE_LABEL.get(p, p)) for p in _PURPOSES]
+        if first:
+            values = [(first, f'{PURPOSE_LABEL.get(first, first)} (sugerido)')] + \
+                     [v for v in values if v[0] != first]
+        return choose(stdscr, 'Objetivo', values, other=True, none=True)
+
+    def ask_group(stdscr, first=None):
+        """Grupo de alocação, obrigatório. None = cancelado."""
+        ok, group = choose(stdscr, 'Grupo de alocação', suggested(_ALLOCATION_GROUPS, first), other=True)
+        return group if ok and group else None
+
+    def ask_new_broker(stdscr, name, first=None):
+        """Corretora do ativo novo; None = cancelado ou o nome já existe nela."""
+        ok, broker = choose(stdscr, 'Corretora', suggested(BROKERS, first))
+        if not ok: return None
         if any(asset_key(i) == (name, broker) for i in data['investments']):
             status_msg[0] = f'✗ Já existe {name} na {broker}'
-            return False
+            return None
+        return broker
 
-        maturity_s = curs_input(stdscr, 'Vencimento YYYY-MM-DD  (Enter = nenhum)', default='')
-        maturity = maturity_s.strip() if maturity_s else None
+    def ask_date(stdscr, prompt, default=''):
+        """Data AAAA-MM-DD ou DD/MM/AAAA; '' = nenhuma, None = cancelado. Inválida pergunta de novo."""
+        label = prompt
+        while True:
+            text = curs_input(stdscr, label, default=default)
+            if text is None: return None
+            text = text.strip()
+            if not text: return ''
+            day = parse_maturity(text)
+            if day: return day.isoformat()
+            label, default = f'✗ Data inválida ({text[:12]}); {prompt}', ''
+
+    def add_new(inv, note=''):
+        data['investments'].append(inv)
+        pre_balances[asset_key(inv)] = inv['balance']
+        dirty[0] = True
+        status_msg[0] = note or f'✓ {inv["name"][:40]} cadastrado na {inv.get("broker", "")}'
+        return True
+
+    def new_stock(stdscr):
+        """Ação, FII ou ETF da B3: ticker, quantidade e preço; o saldo vem da cotação."""
+        ticker = curs_input(stdscr, 'Ticker na B3 (ex.: PETR4, HGLG11, BOVA11)')
+        if not ticker or not ticker.strip(): return False
+        ticker = ticker.strip().upper()
+        cats = [('a', 'Ação'), ('f', 'Fundo Imobiliário'), ('e', 'ETF')]
+        if ticker.endswith('11'):   # final 11: FII, ETF ou unit; o FII é o mais comum
+            cats = [cats[1], cats[2], cats[0]]
+        cat = popup_menu(stdscr, f'{ticker} é', cats)
+        if cat is None: return False
+        category = dict(cats)[cat]
+        name = curs_input(stdscr, 'Nome do ativo (Enter = o ticker)', default=ticker)
+        if not name or not name.strip(): return False
+        name = name.strip()
+        broker = ask_new_broker(stdscr, name)
+        if broker is None: return False
+        if category == 'ETF':
+            ok, group = choose(stdscr, 'Grupo de alocação', [
+                ('RV_ETF_BRASIL', 'ETF Brasil (ex.: BOVA11)'),
+                ('RV_ETF_EXTERIOR', 'ETF Exterior em reais (ex.: IVVB11)'),
+                ('RV_OURO', 'Ouro (ex.: GOLD11)'),
+                ('RF_IPCA', 'Renda fixa IPCA (ex.: IMAB11)')], other=True)
+            if not ok or not group: return False
+        else:
+            group = 'RV_ACOES' if category == 'Ação' else 'RV_FII'
+        ok, purpose = ask_purpose(stdscr, 'CRESCIMENTO_ACOES_BRASIL_FUNDAMENTOS'
+                                  if category == 'Ação' else None)
+        if not ok: return False
+        inv = {'name': name, 'category': category, 'type': 'Ouro' if group == 'RV_OURO' else None,
+               'broker': broker, 'maturity': None, 'indexer': None, 'purpose': purpose,
+               'allocationGroup': group, 'liquidity': 'DAILY_MARKET_PRICE', 'ticker': ticker,
+               'quantity': 0, 'invested': 0.0, 'balance': 0.0}
+
+        quote = stock_quote(stdscr, inv)
+        price_now = quote['price'] if quote else None
+        warn = '' if quote else f'⚠ Sem cotação de {ticker} agora: confira o ticker'
+        origin = popup_menu(stdscr, f'{ticker}: como entra na carteira?', [
+            ('a', 'Compra agora, com dinheiro novo (aporte)'),
+            ('t', 'Compra agora, paga com outro ativo (ex.: caixa)'),
+            ('j', 'Posição que eu já tinha (quantidade e preço médio)')])
+        if origin is None: return False
+        head = [f'{broker} · {name[:50]}',
+                f'Cotação agora: {brl_fmt(price_now)}' if price_now
+                else f'Sem cotação de {ticker} agora: confira o ticker', '']
+
+        if origin == 'j':
+            qty = ask_with_box(stdscr, 'Posição atual', head + [
+                f'Quantas {ticker} você tem? Digite na barra abaixo.', 'Esc cancela'], 'Quantidade', '')
+            if not qty or qty <= 0: return False
+            avg = ask_with_box(stdscr, 'Posição atual', head + [
+                'Preço médio de cada uma, com as taxas?',
+                ('Enter = cotação atual · ' if price_now else '') + 'Esc cancela'],
+                'Preço médio R$', price_now or '')
+            if not avg or avg <= 0: return False
+            inv.update(quantity=stocks.num(qty), invested=round(qty * avg, 2), averagePrice=round(avg, 4))
+            stocks.set_price(inv, price_now or avg, _dt.date.today())
+            return add_new(inv, warn)
+
+        trade = ask_trade(stdscr, inv, 'Registrar compra', 'compradas', '', '', head=head)
+        if trade is None: return False
+        qty, price, fees = trade
+        cost = round(qty * price + fees, 2)
+        src = None
+        if origin == 't':
+            src = ask_payer(stdscr, inv, cost)
+            if src is None: return False
+        stocks.buy(inv, qty, price, fees)
+        if src is None:
+            record_flow(data, inv, cost)
+        else:
+            stocks.pay_from(data, src, inv, min(cost, src['balance']))
+        stocks.record_trade(data, inv, 'compra', qty, price, fees)
+        return add_new(inv, warn or f'✓ {name[:30]} cadastrado: {stocks.qty_text(qty)} a '
+                                    f'{brl_fmt(price)} · preço médio {brl_fmt(stocks.average_price(inv))}')
+
+    def new_fixed_income(stdscr):
+        """Renda fixa em reais: a taxa define tipo, indexador e grupo; vencimento e data da aplicação."""
+        ok, category = choose(stdscr, 'Renda fixa: categoria',
+                              ['CDB', 'LCA', 'LCI', 'Tesouro Direto', 'Debênture', 'CRI', 'CRA'], other=True)
+        if not ok or not category: return False
+        name = curs_input(stdscr, f'Nome do ativo (ex.: {category} Banco X 2028)')
+        if not name or not name.strip(): return False
+        name = name.strip()
+        broker = ask_new_broker(stdscr, name)
+        if broker is None: return False
+
+        ok, kind = choose(stdscr, 'Rentabilidade', RATE_KINDS, none=True)
+        if not ok: return False
+        rate = None
+        if kind:
+            value = curs_input(stdscr, f'Taxa ({dict(RATE_KINDS)[kind]})', default='', numeric=True)
+            if value is None or value == '': return False
+            rate = {'kind': kind, 'value': value}
+        typ, indexer, group, purpose = RF_BY_RATE.get(kind, (None, None, None, None))
+        group = ask_group(stdscr, group)
+        if group is None: return False
+        ok, purpose = ask_purpose(stdscr, purpose)
+        if not ok: return False
+
+        maturity = ask_date(stdscr, 'Vencimento AAAA-MM-DD ou DD/MM/AAAA (vazio = liquidez diária)')
+        if maturity is None: return False
+        bought = ask_date(stdscr, 'Data da aplicação (Enter = hoje; usada no IR)',
+                          default=_dt.date.today().isoformat())
+        if bought is None: return False
+
+        inv = {'name': name, 'category': category, 'type': typ, 'broker': broker,
+               'maturity': maturity or None, 'indexer': indexer, 'purpose': purpose,
+               'allocationGroup': group,
+               'liquidity': ('DAILY_MARKET_PRICE' if category == 'Tesouro Direto'
+                             else 'AT_MATURITY' if maturity else 'DAILY')}
+        if rate: inv['rate'] = rate
+        if bought: inv['purchaseDate'] = bought
+        if category in FGC_CATEGORIES: inv['fgcEligible'] = True
+
+        invested = curs_input(stdscr, 'Valor aplicado R$', default='', numeric=True)
+        if not invested or invested <= 0: return False
+        balance = curs_input(stdscr, 'Saldo atual R$ (Enter = o aplicado)', default=invested, numeric=True)
+        if balance is None: return False
+        inv['invested'], inv['balance'] = invested, balance
+        return settle_new(stdscr, inv)
+
+    def new_crypto(stdscr):
+        """Cripto: nome com cotação automática (CoinGecko) e quantidade; o saldo vem da cotação."""
+        ok, name = choose(stdscr, 'Cripto (com cotação automática)', list(CRYPTO_IDS), other=True)
+        if not ok or not name: return False
+        broker = ask_new_broker(stdscr, name, first='Binance' if 'Binance' in BROKERS else None)
+        if broker is None: return False
+        ok, purpose = ask_purpose(stdscr, 'ASSIMETRIA_E_EXPOSICAO_A_CRIPTO')
+        if not ok: return False
+        qty = curs_input(stdscr, f'Quantidade de {name}', default='', numeric=True)
+        if not qty or qty <= 0: return False
+        price = crypto_prices.get(name)
+        inv = {'name': name, 'category': 'Crypto', 'type': None, 'broker': broker, 'maturity': None,
+               'indexer': None, 'purpose': purpose, 'allocationGroup': 'RV_CRYPTO',
+               'quantity': qty, 'balance': round(qty * price, 4) if price else 0.0}
+        return add_new(inv, '' if price or name in CRYPTO_IDS else
+                       f'⚠ {name} sem cotação automática: o saldo fica zerado (ver CRYPTO_IDS)')
+
+    def new_other(stdscr):
+        """Qualquer ativo, com todos os campos: fundos, previdência, ativos em dólar..."""
+        name = curs_input(stdscr, 'Nome do ativo')
+        if not name or not name.strip(): return False
+        name = name.strip()
+
+        ok, category = choose(stdscr, 'Categoria', CATEGORIES, other=True)
+        if not ok or not category: return False
+        ok, typ = choose(stdscr, 'Tipo / Subcategoria', [t for t in TYPES if t != '(nenhum)'], none=True)
+        if not ok: return False
+        broker = ask_new_broker(stdscr, name)
+        if broker is None: return False
+
+        maturity = ask_date(stdscr, 'Vencimento AAAA-MM-DD ou DD/MM/AAAA (vazio = nenhum)')
+        if maturity is None: return False
 
         ok, indexer = choose(stdscr, 'Indexador', _INDEXERS, other=True, none=True)
         if not ok: return False
-        ok, allocation_group = choose(stdscr, 'Grupo de alocação', _ALLOCATION_GROUPS, other=True)
-        if not ok or not allocation_group: return False   # grupo é obrigatório
-        ok, purpose = choose(stdscr, 'Objetivo', _PURPOSES, other=True)
+        allocation_group = ask_group(stdscr)
+        if allocation_group is None: return False
+        ok, purpose = ask_purpose(stdscr)
         if not ok: return False
 
-        new_inv = {
-            'name': name, 'category': category, 'type': typ, 'broker': broker, 'maturity': maturity,
-            'indexer': indexer, 'purpose': purpose, 'allocationGroup': allocation_group,
+        inv = {
+            'name': name, 'category': category, 'type': typ, 'broker': broker,
+            'maturity': maturity or None, 'indexer': indexer, 'purpose': purpose,
+            'allocationGroup': allocation_group,
         }
-
-        usd = False
-        if category != 'Crypto':
-            # Moeda do ativo (não da corretora): ETF americano em corretora brasileira é USD,
-            # caixa em real numa corretora americana é R$. A sugestão (Enter) segue a corretora.
-            currencies = [('r', 'Real (R$)'), ('d', 'Dólar (USD)')]
-            if broker == 'Nomad':
-                currencies.reverse()
-            cur = popup_menu(stdscr, 'Moeda do ativo', currencies)
-            if cur is None: return False
-            usd = cur == 'd'
-
-        ticker = ''
-        if not usd and category in stocks.TICKER_CATEGORIES:
-            # Com ticker, o saldo vem da cotação: PETR4 já sugere o próprio nome
-            guess = name.strip().upper() if re.fullmatch(r'[A-Za-z]{4}\d{1,2}', name.strip()) else ''
-            ticker = curs_input(stdscr, 'Ticker na B3 (vazio = sem cotação automática)', default=guess)
-            if ticker is None: return False
-            ticker = ticker.strip().upper()
-
-        if ticker:
-            new_inv['ticker'] = ticker
-            quote = stock_quote(stdscr, new_inv)
-            if quote is None:
-                status_msg[0] = f'⚠ Sem cotação de {ticker} agora: confira o ticker'
-            qty = curs_input(stdscr, f'Quantidade de {ticker}', default='', numeric=True)
-            if not qty or qty <= 0: return False
-            avg = curs_input(stdscr, 'Preço médio R$ (com as taxas)',
-                             default=quote['price'] if quote else '', numeric=True)
-            if not avg or avg <= 0: return False
-            new_inv['quantity'] = stocks.num(qty)
-            new_inv['invested'] = round(qty * avg, 2)
-            new_inv['averagePrice'] = round(avg, 4)
-            stocks.set_price(new_inv, new_inv.get('lastPrice') or avg, _dt.date.today())
-        elif category == 'Crypto':
+        if category == 'Crypto':
             qty = curs_input(stdscr, 'Quantidade', default=0.0, numeric=True)
             if qty is None: return False
-            new_inv['quantity'] = qty
-            new_inv['balance']  = 0.0
-        elif usd:
+            price = crypto_prices.get(name)
+            inv['quantity'] = qty
+            inv['balance'] = round(qty * price, 4) if price else 0.0
+            return add_new(inv)
+
+        # Moeda do ativo (não da corretora): ETF americano em corretora brasileira é USD,
+        # caixa em real numa corretora americana é R$. A sugestão (Enter) segue a corretora.
+        currencies = [('r', 'Real (R$)'), ('d', 'Dólar (USD)')]
+        if broker == 'Nomad':
+            currencies.reverse()
+        cur = popup_menu(stdscr, 'Moeda do ativo', currencies)
+        if cur is None: return False
+        if cur == 'd':
             invested_usd = curs_input(stdscr, 'Custo base USD', default=0.0, numeric=True)
             if invested_usd is None: return False
             cur_usd = curs_input(stdscr, 'Valor atual USD', default=invested_usd, numeric=True)
             if cur_usd is None: return False
-            new_inv['investedUSD'] = invested_usd
-            new_inv['balanceUSD']  = cur_usd
-            new_inv['balance']     = round(cur_usd * data.get('dollarRate', 1), 4)
+            inv['investedUSD'] = invested_usd
+            inv['balanceUSD']  = cur_usd
+            inv['balance']     = round(cur_usd * data.get('dollarRate', 1), 4)
         else:
             invested = curs_input(stdscr, 'Custo base', default=0.0, numeric=True)
             if invested is None: return False
             balance = curs_input(stdscr, 'Saldo atual', default=0.0, numeric=True)
             if balance is None: return False
-            new_inv['invested'] = invested
-            new_inv['balance']  = balance
+            inv['invested'] = invested
+            inv['balance']  = balance
+        return settle_new(stdscr, inv)
 
-        if new_inv['balance'] > 0:
-            # De onde veio o saldo: dinheiro novo (aporte), outro ativo (transferência
-            # agora, que baixa a origem) ou um ativo que já existia fora do cadastro
-            origin = popup_menu(stdscr, f'Saldo inicial {brl_fmt(new_inv["balance"])}', [
-                ('a', 'Aporte: dinheiro novo na carteira'),
-                ('t', 'Veio de outro ativo: transferir agora'),
-                ('j', 'Já existia: ativo que eu tinha e não estava cadastrado'),
-            ])
-            if origin is None: return False
-            if ticker and origin in ('a', 't'):
-                # Ação: entra o custo da compra; a diferença para o saldo é rendimento
-                cost = new_inv['invested']
-                if origin == 't':
-                    src = pick_asset(stdscr, 'Origem do dinheiro', exclude=None, allow=brl_cash)
-                    if src is None: return False
-                    if cost > src['balance'] + 0.005:
-                        status_msg[0] = (f'✗ {src["name"][:30]} tem {brl_fmt(src["balance"])}: '
-                                         f'menos que a compra ({brl_fmt(cost)})')
-                        return False
-                data['investments'].append(new_inv)
-                if origin == 'a':
-                    record_flow(data, new_inv, cost)
-                else:
-                    stocks.pay_from(data, src, new_inv, min(cost, src['balance']))
-                stocks.record_trade(data, new_inv, 'compra', new_inv['quantity'],
-                                    new_inv['averagePrice'])
-                pre_balances[asset_key(new_inv)] = new_inv['balance']
-                dirty[0] = True
-                return True
-            if origin == 'a':
-                usd = new_inv.get('balanceUSD')
-                record_flow(data, new_inv, new_inv['balance'], usd=usd)
-            elif origin == 't':
-                src = pick_asset(stdscr, 'Origem do dinheiro', exclude=None)
-                if src is None: return False
-                usd = 'investedUSD' in new_inv
-                cost_key = 'investedUSD' if usd else 'invested'
-                target, cost = (new_inv['balanceUSD'] if usd else new_inv['balance']), new_inv[cost_key]
-                # Começa zerado: a transferência leva o saldo da origem para o ativo novo
-                new_inv.update({'balance': 0.0, cost_key: 0.0, **({'balanceUSD': 0.0} if usd else {})})
-                data['investments'].append(new_inv)
-                dol = data.get('dollarRate', 1)
-                same = ('investedUSD' in src) == usd
-                amount = target if same else (target * dol if usd else target / dol)
-                if not act_transfer(stdscr, src, dst=new_inv, amount=amount):
-                    data['investments'] = [i for i in data['investments'] if i is not new_inv]
-                    return False
-                new_inv[cost_key] = cost   # custo informado no cadastro
-                pre_balances[asset_key(new_inv)] = new_inv['balance']
-                dirty[0] = True
-                return True
+    def settle_new(stdscr, new_inv):
+        """Cadastra um ativo com custo e saldo: de onde veio o saldo inicial.
 
-        data['investments'].append(new_inv)
-        pre_balances[asset_key(new_inv)] = new_inv['balance']
-        dirty[0] = True
-        return True
+        Dinheiro novo (aporte), outro ativo (transferência agora, que baixa a origem) ou
+        um ativo que já existia fora do cadastro (sem lançamento).
+        """
+        if new_inv['balance'] <= 0:
+            return add_new(new_inv)
+        origin = popup_menu(stdscr, f'Saldo inicial {brl_fmt(new_inv["balance"])}', [
+            ('a', 'Aporte: dinheiro novo na carteira'),
+            ('t', 'Veio de outro ativo: transferir agora'),
+            ('j', 'Já existia: ativo que eu tinha e não estava cadastrado'),
+        ])
+        if origin is None: return False
+        if origin == 'a':
+            record_flow(data, new_inv, new_inv['balance'], usd=new_inv.get('balanceUSD'))
+        elif origin == 't':
+            src = pick_asset(stdscr, 'Origem do dinheiro', exclude=None)
+            if src is None: return False
+            usd = 'investedUSD' in new_inv
+            cost_key = 'investedUSD' if usd else 'invested'
+            target, cost = (new_inv['balanceUSD'] if usd else new_inv['balance']), new_inv[cost_key]
+            # Começa zerado: a transferência leva o saldo da origem para o ativo novo
+            new_inv.update({'balance': 0.0, cost_key: 0.0, **({'balanceUSD': 0.0} if usd else {})})
+            data['investments'].append(new_inv)
+            dol = data.get('dollarRate', 1)
+            same = ('investedUSD' in src) == usd
+            amount = target if same else (target * dol if usd else target / dol)
+            if not act_transfer(stdscr, src, dst=new_inv, amount=amount):
+                data['investments'] = [i for i in data['investments'] if i is not new_inv]
+                return False
+            data['investments'].remove(new_inv)   # add_new devolve ao fim da lista
+            new_inv[cost_key] = cost   # custo informado no cadastro
+            msg = status_msg[0]
+            return add_new(new_inv, msg)
+        return add_new(new_inv)
 
     def act_params(stdscr):
         fgts = curs_input(stdscr, 'FGTS', default=data.get('fgts', 0), numeric=True)
